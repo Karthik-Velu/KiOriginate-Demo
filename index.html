@@ -3,906 +3,331 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ki Originate - Interactive Demo</title>
+    <title>Kaleidofin - Wholesale Lending Demo</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f0f2f5;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #f0f9ff 100%);
+            min-height: 100vh;
         }
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        .step {
-            transition: all 0.3s ease-in-out;
-            cursor: pointer;
-        }
-        .step-active {
-            background-color: #4f46e5;
-            color: white;
-            border-color: #4f46e5;
-        }
-        .step-inactive {
-            background-color: white;
-            color: #4b5563;
-            border-color: #d1d5db;
-        }
-        .step-completed {
-            background-color: #16a34a;
-            color: white;
-            border-color: #16a34a;
-        }
-        .screen {
-            display: none;
-        }
-        .screen.active {
-            display: block;
-            animation: fadeIn 0.5s;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .card {
-            background-color: white;
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            transition: all 0.2s ease-in-out;
-        }
-        .card-interactive:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.1);
-            border-color: #4f46e5;
-        }
-        .btn-primary {
-            background-color: #4f46e5;
-            color: white;
-            font-weight: 600;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            transition: background-color 0.2s;
-        }
-        .btn-primary:hover {
-            background-color: #4338ca;
-        }
-        .btn-secondary {
-            background-color: #e5e7eb;
-            color: #374151;
-            font-weight: 600;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            transition: background-color 0.2s;
-        }
-         .btn-secondary:hover {
-            background-color: #d1d5db;
-        }
-        .loader {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #4f46e5;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        /* Decision Tree Styles */
-        .tree {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            padding: 20px 0;
-            width: 100%;
-        }
-        .tree-node {
-            background-color: #eef2ff;
-            border: 2px solid #818cf8;
-            padding: 12px 18px;
-            border-radius: 8px;
-            min-width: 240px;
-            text-align: center;
-            position: relative;
-            animation: popIn 0.5s ease-out;
-        }
-        .node-condition {
-            font-weight: 700;
-            color: #3730a3;
-            font-size: 1.1rem;
-            margin-bottom: 8px;
-        }
-        .node-metrics {
-            display: flex;
-            justify-content: space-around;
-            font-size: 0.8rem;
-            color: #4338ca;
-        }
-        .node-metrics div {
-            display: flex;
-            align-items: center;
-        }
-        .node-metrics .fa-check-circle { color: #16a34a; }
-        .node-metrics .fa-exclamation-triangle { color: #d97706; }
-
-        @keyframes popIn {
-            0% { transform: scale(0.5); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-        .tree-branch {
-            display: flex;
-            justify-content: space-around;
-            width: 100%;
-            margin-top: 60px;
-            position: relative;
-        }
-        .tree-branch::before {
-            content: '';
-            position: absolute;
-            top: -30px;
-            left: 50%;
-            width: 2px;
-            height: 30px;
-            background-color: #9ca3af;
-        }
-        .tree-leaf-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            flex-grow: 1;
-        }
-        .tree-leaf-container::before {
-            content: '';
-            position: absolute;
-            top: -30px;
-            height: 30px;
-            width: 50%;
-            border-top: 2px solid #9ca3af;
-        }
-        .tree-leaf-container:first-child::before {
-            border-left: 2px solid #9ca3af;
-            left: 50%;
-            border-top-left-radius: 10px;
-        }
-        .tree-leaf-container:last-child::before {
-            border-right: 2px solid #9ca3af;
-            right: 50%;
-            border-top-right-radius: 10px;
-        }
-        .leaf-label {
-            position: absolute;
-            top: -55px;
-            font-size: 14px;
-            font-weight: 600;
-            color: #4b5563;
-            background-color: #f0f2f5;
-            padding: 2px 8px;
-            border-radius: 12px;
-            border: 1px solid #e5e7eb;
-        }
-        .tree-leaf {
-            padding: 10px 15px;
-            border-radius: 8px;
-            text-align: center;
-            min-width: 150px;
-            animation: popIn 0.5s ease-out 0.2s;
-            animation-fill-mode: backwards;
-        }
-        .leaf-good {
-            background-color: #dcfce7;
-            border: 2px solid #4ade80;
-            color: #15803d;
-        }
-        .leaf-bad {
-            background-color: #fee2e2;
-            border: 2px solid #f87171;
-            color: #b91c1c;
-        }
-        /* Multi-select dropdown */
-        .multiselect-container { position: relative; }
-        .multiselect-dropdown {
-            display: none;
-            position: absolute;
-            background-color: white;
-            border: 1px solid #d1d5db;
-            border-radius: 0.5rem;
-            width: 100%;
-            max-height: 200px;
-            overflow-y: auto;
-            z-index: 10;
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
-        }
-        .multiselect-dropdown label {
-            display: block;
-            padding: 8px 12px;
-            cursor: pointer;
-        }
-        .multiselect-dropdown label:hover { background-color: #f3f4f6; }
         
-        /* AutoML & Integration Tabs */
-        .tab-btn {
-            padding: 10px 20px;
+        .market-card {
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 10px 10px -5px rgb(0 0 0 / 0.04);
+            transition: all 0.4s ease-in-out;
             cursor: pointer;
-            border-bottom: 3px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .market-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.6s;
+        }
+        
+        .market-card:hover::before {
+            left: 100%;
+        }
+        
+        .market-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+        }
+        
+        .india-gradient {
+            background: linear-gradient(135deg, #ff9933 0%, #138808 50%, #000080 100%);
+        }
+        
+        .africa-gradient {
+            background: linear-gradient(135deg, #000000 0%, #ff0000 50%, #00ff00 100%);
+        }
+        
+        .flag-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+        
+        .kaleidofin-logo {
+            background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 1rem;
+            display: inline-block;
+            margin-bottom: 2rem;
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: -0.025em;
+        }
+        
+        .subtitle {
+            color: #64748b;
+            font-size: 1.125rem;
+            margin-bottom: 3rem;
+        }
+        
+        .market-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+        
+        .market-desc {
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+        
+        .feature-list {
+            text-align: left;
+            margin-bottom: 2rem;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            color: #475569;
+        }
+        
+        .feature-icon {
+            color: #0891b2;
+            margin-right: 0.75rem;
+            width: 1.25rem;
+        }
+        
+        .explore-btn {
+            background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
             font-weight: 600;
-            color: #6b7280;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            font-size: 1.1rem;
         }
-        .tab-btn.active {
-            color: #4f46e5;
-            border-bottom-color: #4f46e5;
+        
+        .explore-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(8, 145, 178, 0.3);
         }
-        .tab-content {
-            display: none;
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
         }
-        .tab-content.active {
-            display: block;
+        
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 0.75rem;
         }
-
-        .evaluation-step {
-            opacity: 0.5;
-            transition: opacity 0.5s ease-in-out;
+        
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0891b2;
         }
-        .evaluation-step.active {
-            opacity: 1;
+        
+        .stat-label {
+            font-size: 0.875rem;
+            color: #64748b;
+            margin-top: 0.25rem;
         }
     </style>
 </head>
-<body class="p-4 md:p-8">
-    <div class="max-w-7xl mx-auto">
-        <!-- Header -->
-        <div id="header" class="flex items-center justify-between mb-8">
-            <div class="flex items-center space-x-3">
-                <div class="bg-indigo-600 text-white p-3 rounded-lg">
-                    <i class="fas fa-cogs fa-2x"></i>
+<body>
+    <div class="min-h-screen flex items-center justify-center p-4">
+        <div class="max-w-6xl w-full">
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <div class="kaleidofin-logo">
+                    <i class="fas fa-chart-network mr-3"></i>kaleidofin
                 </div>
-                <div>
-                    <h1 class="text-3xl font-bold text-gray-800">Kaleidofin Demo</h1>
-                    <p class="text-gray-500">Interactive Credit Decisioning Platform</p>
-                </div>
-            </div>
-            <button id="home-btn" class="btn-secondary" onclick="window.location.href='home.html'"><i class="fas fa-home mr-2"></i>Home</button>
-        </div>
-
-        <!-- Main Content Area -->
-        <div id="main-content" class="bg-white p-6 md:p-8 rounded-xl shadow-lg min-h-[600px]">
-            
-            <!-- Screen 0: Strategy Choice -->
-            <div id="screen-0" class="screen active">
-                <h2 class="text-2xl font-bold text-gray-800 mb-2 text-center">Choose Your Strategy Path</h2>
-                <p class="text-gray-600 mb-8 text-center max-w-2xl mx-auto">Start by selecting a battle-tested universal model for immediate deployment, or walk through the process of building a completely new model tailored to your data.</p>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                    <div id="path-universal" class="card card-interactive p-8 text-center cursor-pointer border-2 border-transparent">
-                        <i class="fas fa-globe-americas text-5xl text-indigo-500 mb-4"></i>
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">Use a Pre-Built Model</h3>
-                        <p class="text-gray-500">Select from our library of high-performance, asset-class specific models. Get started in minutes.</p>
-                    </div>
-                    <div id="path-custom" class="card card-interactive p-8 text-center cursor-pointer border-2 border-transparent">
-                        <i class="fas fa-tools text-5xl text-green-500 mb-4"></i>
-                        <h3 class="text-xl font-bold text-gray-800 mb-2">Build a Custom Model</h3>
-                        <p class="text-gray-500">A step-by-step journey to ingest your data, train a new AI model, and define custom fail-safe rules.</p>
-                    </div>
-                </div>
+                <h1 class="text-5xl font-bold text-gray-800 mb-4">Wholesale Lending Demo</h1>
+                <p class="subtitle">Choose your market to explore our platform</p>
             </div>
 
-            <!-- Stepper (for custom path) -->
-            <div id="stepper-container" class="hidden grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                <div id="step-1-indicator" class="step step-active flex items-center p-4 rounded-lg border-2">
-                    <div class="text-xl mr-4"><i class="fas fa-database"></i></div>
-                    <div><p class="font-bold">Step 1</p><p class="text-sm">Data Ingestion</p></div>
-                </div>
-                <div id="step-2-indicator" class="step step-inactive flex items-center p-4 rounded-lg border-2">
-                    <div class="text-xl mr-4"><i class="fas fa-magic"></i></div>
-                    <div><p class="font-bold">Step 2</p><p class="text-sm">Model Building</p></div>
-                </div>
-                <div id="step-3-indicator" class="step step-inactive flex items-center p-4 rounded-lg border-2">
-                    <div class="text-xl mr-4"><i class="fas fa-shield-alt"></i></div>
-                    <div><p class="font-bold">Step 3</p><p class="text-sm">Fail-Safe Rules</p></div>
-                </div>
-                 <div id="step-4-indicator" class="step step-inactive flex items-center p-4 rounded-lg border-2">
-                    <div class="text-xl mr-4"><i class="fas fa-flag-checkered"></i></div>
-                    <div><p class="font-bold">Step 4</p><p class="text-sm">Finish</p></div>
-                </div>
-            </div>
-            
-            <!-- Screen 1 (Universal Model) -->
-            <div id="screen-1" class="screen">
-                <h2 class="text-2xl font-bold text-gray-800 mb-2">Engine Setup: Universal Model</h2>
-                <p class="text-gray-600 mb-6">Select a pre-built model and see the immediate performance lift against a legacy strategy.</p>
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <div>
-                        <div class="card p-6">
-                            <h3 class="font-bold text-lg mb-4 text-gray-700">1. Select Your Base Model</h3>
-                            <select id="model-selector" class="w-full p-3 border rounded-lg bg-gray-50 mb-6">
-                                <option value="msme_unsecured">MSME Unsecured Loan</option>
-                                <option value="digital_loan">Digital Personal Loan</option>
-                                <option value="agriculture">Agriculture Loan</option>
-                            </select>
-                            <h3 class="font-bold text-lg mb-4 text-gray-700">2. Included Data Sources</h3>
-                            <p class="text-gray-500">Our universal models are pre-trained on a diverse mix of Credit Bureau, Bank Statement, and Alternative Data for maximum predictive power out-of-the-box.</p>
+            <!-- Market Selection Cards -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
+                
+                <!-- India Demo Card -->
+                <div class="market-card p-8 text-center" onclick="selectMarket('india')">
+                    <div class="relative z-10">
+                        <div class="flag-icon india-gradient">
+                            🇮🇳
                         </div>
-                    </div>
-                    <div>
-                        <div class="card p-6">
-                            <h3 class="font-bold text-lg mb-4 text-gray-700">Predicted Performance Lift</h3>
-                            <div id="performance-chart"></div>
-                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6 text-center">
-                                <div><p class="text-gray-500 text-sm">Approval Rate</p><p id="approval-rate" class="text-2xl font-bold text-green-600">58%</p><p class="text-xs text-gray-400">vs 45% Legacy</p></div>
-                                <div><p class="text-gray-500 text-sm">Default Rate</p><p id="default-rate" class="text-2xl font-bold text-red-600">3.2%</p><p class="text-xs text-gray-400">vs 4.5% Legacy</p></div>
-                                <div><p class="text-gray-500 text-sm">Gini Coefficient</p><p id="gini-coef" class="text-2xl font-bold text-indigo-600">0.78</p><p class="text-xs text-gray-400">vs 0.55 Legacy</p></div>
+                        <h2 class="market-title">India Demo</h2>
+                        <p class="market-desc">
+                            Explore our comprehensive lending platform tailored for the Indian market with INR currency, 
+                            local regulations, and India-specific loan products.
+                        </p>
+                        
+                        <div class="feature-list">
+                            <div class="feature-item">
+                                <i class="fas fa-rupee-sign feature-icon"></i>
+                                <span>INR Currency (₹ Lakhs, Crores)</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-building feature-icon"></i>
+                                <span>MSME, MFI, Agriculture Loans</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-chart-line feature-icon"></i>
+                                <span>RBI Compliance & Regulations</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-users feature-icon"></i>
+                                <span>10M+ Borrowers Analyzed</span>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="mt-8 text-center">
-                    <button id="back-to-options-1" class="btn-secondary"><i class="fas fa-arrow-left mr-2"></i> Back to Options</button>
-                </div>
-            </div>
 
-            <!-- Screen 2 (Custom Path - Step 1) -->
-            <div id="screen-2" class="screen">
-                 <h2 class="text-2xl font-bold text-gray-800 mb-2">Step 1: Data Ingestion & Mapping</h2>
-                <p class="text-gray-600 mb-6">Upload your historical data files. We'll guide you through mapping the columns to our system for analysis.</p>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div id="upload-bureau" class="card p-6"><div class="flex items-center mb-4"><i class="fas fa-university text-indigo-600 text-2xl mr-4"></i><h3 class="font-bold text-lg text-gray-700">Credit Bureau Data</h3></div><p class="text-sm text-gray-500 mb-4">Upload your historical credit bureau reports.</p><button class="w-full btn-secondary"><i class="fas fa-upload mr-2"></i> Upload File</button></div>
-                    <div id="upload-bank" class="card p-6"><div class="flex items-center mb-4"><i class="fas fa-file-invoice-dollar text-green-600 text-2xl mr-4"></i><h3 class="font-bold text-lg text-gray-700">Bank Statements</h3></div><p class="text-sm text-gray-500 mb-4">Upload parsed bank statement data.</p><button class="w-full btn-secondary"><i class="fas fa-upload mr-2"></i> Upload File</button></div>
-                    <div id="upload-alt" class="card p-6"><div class="flex items-center mb-4"><i class="fas fa-satellite-dish text-purple-600 text-2xl mr-4"></i><h3 class="font-bold text-lg text-gray-700">Alternative Data</h3></div><p class="text-sm text-gray-500 mb-4">Upload telco or mobile money statements.</p><button class="w-full btn-secondary"><i class="fas fa-upload mr-2"></i> Upload File</button></div>
-                </div>
-                <div class="mt-8 text-right flex justify-between items-center">
-                    <button id="back-to-options-2" class="btn-secondary"><i class="fas fa-arrow-left mr-2"></i> Back to Options</button>
-                    <button id="ingestion-next-btn" class="btn-primary opacity-50" disabled>Build Model <i class="fas fa-arrow-right ml-2"></i></button>
-                </div>
-            </div>
-            
-            <!-- Screen 3 (Custom Path - Step 2) -->
-            <div id="screen-3" class="screen">
-                <h2 class="text-2xl font-bold text-gray-800 mb-2">Step 2: Automated Model Building</h2>
-                <div id="automl-setup">
-                    <p class="text-gray-600 mb-6">Configure your modeling experiment. Select the target variable you want to predict from your dataset.</p>
-                    <div class="card p-6">
-                        <h3 class="font-bold text-lg mb-4 text-gray-700">Experiment Configuration</h3>
-                        <label for="target-variable" class="block font-semibold text-gray-600 mb-2">Select Target Variable (What to predict):</label>
-                        <select id="target-variable" class="w-full p-3 border rounded-lg bg-gray-50 mb-6">
-                            <option>default_status</option>
-                            <option>paid_on_time</option>
-                            <option>par_90</option>
-                        </select>
-                        <button id="start-automl-btn" class="btn-primary w-full"><i class="fas fa-play-circle mr-2"></i>Start AutoML Experiment</button>
-                    </div>
-                </div>
-                <div id="automl-inprogress" class="hidden">
-                    <div class="border-b border-gray-200 mb-4">
-                        <nav class="flex -mb-px" id="automl-tabs">
-                            <button class="tab-btn active" data-tab="progress">Live Progress</button>
-                            <button class="tab-btn" data-tab="features">Generated Features</button>
-                            <button class="tab-btn" data-tab="models">Model Trials</button>
-                        </nav>
-                    </div>
-                    <div id="progress-tab" class="tab-content active">
-                        <div class="card p-8 text-center"><div id="model-building-progress"><div class="loader mx-auto mb-4"></div><p class="text-lg font-semibold text-gray-700 mb-2">Running Experiment...</p><p id="progress-text" class="text-gray-500">Initializing...</p></div></div>
-                    </div>
-                    <div id="features-tab" class="tab-content">
-                        <div class="card p-6"><h3 class="font-bold text-lg mb-4">Automatically Generated Features</h3><div class="max-h-96 overflow-y-auto"><table class="w-full text-sm"><thead><tr class="text-left bg-gray-50"><th class="p-2">Feature Name</th><th class="p-2">Type</th><th class="p-2">Source</th></tr></thead><tbody id="features-table"></tbody></table></div></div>
-                    </div>
-                    <div id="models-tab" class="tab-content">
-                        <div class="card p-6"><h3 class="font-bold text-lg mb-4">Model Trials Leaderboard</h3><div class="max-h-96 overflow-y-auto"><table class="w-full text-sm"><thead><tr class="text-left bg-gray-50"><th class="p-2">Rank</th><th class="p-2">Algorithm</th><th class="p-2">Gini</th><th class="p-2">Status</th></tr></thead><tbody id="models-table"></tbody></table></div></div>
-                    </div>
-                    <div id="automl-finalize-cta" class="text-center mt-6 hidden">
-                        <button id="finalize-model-btn" class="btn-primary bg-green-600 hover:bg-green-700">
-                            <i class="fas fa-trophy mr-2"></i> View Champion Model & Finalize
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-number">₹2.8B</div>
+                                <div class="stat-label">Portfolio Size</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">80%</div>
+                                <div class="stat-label">Approval Rate</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">10,900</div>
+                                <div class="stat-label">Applications</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">0.78</div>
+                                <div class="stat-label">Model Gini</div>
+                            </div>
+                        </div>
+                        
+                        <button class="explore-btn mt-6">
+                            <i class="fas fa-arrow-right mr-2"></i>Explore India Demo
                         </button>
                     </div>
                 </div>
-                <div id="automl-complete" class="hidden card p-8 text-center mt-6">
-                    <i class="fas fa-check-circle text-green-500 text-6xl mx-auto mb-4"></i><h3 class="text-2xl font-bold text-gray-800 mb-2">Champion Model Selected!</h3><p class="text-gray-600 mb-6">The AutoML run is complete. We've selected the best performing model based on the Gini coefficient.</p><div class="card bg-gray-50 p-6 mt-6 text-left"><h4 class="font-bold text-lg mb-4">Champion Model: XGBoost Classifier</h4><div class="grid grid-cols-2 md:grid-cols-4 gap-4"><div><p class="text-sm text-gray-500">AUC-ROC</p><p class="text-2xl font-bold">0.89</p></div><div><p class="text-sm text-gray-500">Gini</p><p class="text-2xl font-bold">0.78</p></div><div><p class="text-sm text-gray-500">Precision</p><p class="text-2xl font-bold">0.82</p></div><div><p class="text-sm text-gray-500">Recall</p><p class="text-2xl font-bold">0.75</p></div></div></div>
-                </div>
-                <div class="mt-8 text-right flex justify-between items-center">
-                    <button class="btn-secondary back-btn"><i class="fas fa-arrow-left mr-2"></i> Back to Data Ingestion</button>
-                    <button id="rules-next-btn" class="btn-primary hidden">Configure Fail-Safe Rules <i class="fas fa-arrow-right ml-2"></i></button>
+
+                <!-- Africa Demo Card -->
+                <div class="market-card p-8 text-center" onclick="selectMarket('africa')">
+                    <div class="relative z-10">
+                        <div class="flag-icon africa-gradient">
+                            🇰🇪
+                        </div>
+                        <h2 class="market-title">Africa Demo</h2>
+                        <p class="market-desc">
+                            Discover our platform optimized for African markets, featuring Kenya-focused products, 
+                            KES currency, and short-term lending solutions.
+                        </p>
+                        
+                        <div class="feature-list">
+                            <div class="feature-item">
+                                <i class="fas fa-coins feature-icon"></i>
+                                <span>KES Currency (Millions, Billions)</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-mobile-alt feature-icon"></i>
+                                <span>Digital Loans, Mobile Money</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-clock feature-icon"></i>
+                                <span>Short-term Loans (<3 months)</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-seedling feature-icon"></i>
+                                <span>Agriculture & Microfinance</span>
+                            </div>
+                        </div>
+
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-number">KES 380M</div>
+                                <div class="stat-label">Portfolio Size</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">85%</div>
+                                <div class="stat-label">Approval Rate</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">15,200</div>
+                                <div class="stat-label">Applications</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">0.82</div>
+                                <div class="stat-label">Model Gini</div>
+                            </div>
+                        </div>
+                        
+                        <button class="explore-btn mt-6">
+                            <i class="fas fa-arrow-right mr-2"></i>Explore Africa Demo
+                        </button>
+                    </div>
                 </div>
             </div>
 
-            <!-- Screen 4 (Custom Path - Step 3) -->
-            <div id="screen-4" class="screen">
-                <h2 class="text-2xl font-bold text-gray-800 mb-2">Step 3: Configure Fail-Safe Rules</h2>
-                <p class="text-gray-600 mb-6">Visually build your fail-safe rules. Our Decision Tree engine will find the optimal cutoffs for your most critical guardrail variables.</p>
-                <div class="card p-6 mb-8">
-                    <h3 class="font-bold text-lg mb-4 text-gray-700">1. Decision Tree Builder</h3>
-                    <div class="bg-gray-50 p-4 rounded-lg border">
-                        <p class="font-semibold mb-3">Select features for your fail-safe rules:</p>
-                        <div class="multiselect-container"><div id="multiselect-input" class="w-full p-3 border rounded-lg bg-white cursor-pointer flex justify-between items-center"><span id="multiselect-text">Select variables...</span><i class="fas fa-chevron-down"></i></div><div id="multiselect-dropdown" class="multiselect-dropdown"></div></div>
-                        <button id="build-tree-btn" class="w-full btn-primary mt-4"><i class="fas fa-sitemap mr-2"></i>Build & Visualize Rules</button>
-                    </div>
-                </div>
-                <div id="tree-section" class="hidden">
-                    <div class="card p-6 mb-8"><h3 class="font-bold text-lg mb-4 text-gray-700">Visualized Decision Tree</h3><div id="tree-container" class="min-h-[300px] flex items-center justify-center overflow-x-auto"></div></div>
-                    <div id="rule-workbench-container" class="card p-6"><h3 class="font-bold text-lg mb-4 text-gray-700">2. Rule Workbench</h3><div id="workbench-rules" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div><div class="mt-6 text-right"><button id="simulate-rules-btn" class="btn-primary bg-green-600 hover:bg-green-700"><i class="fas fa-sync-alt mr-2"></i>Simulate & Rebuild Tree</button></div></div>
-                </div>
-                <div class="mt-8 text-right flex justify-between items-center">
-                    <button class="btn-secondary back-btn"><i class="fas fa-arrow-left mr-2"></i> Back to Model</button>
-                    <button class="btn-primary next-btn">Finish & View Summary <i class="fas fa-flag-checkered ml-2"></i></button>
+            <!-- Footer -->
+            <div class="text-center mt-16">
+                <p class="text-gray-500 text-sm">
+                    © 2024 Kaleidofin. Empowering financial inclusion across emerging markets.
+                </p>
+                <div class="flex justify-center space-x-6 mt-4">
+                    <span class="text-gray-400 text-sm flex items-center">
+                        <i class="fas fa-shield-alt mr-2"></i>Enterprise Grade Security
+                    </span>
+                    <span class="text-gray-400 text-sm flex items-center">
+                        <i class="fas fa-globe mr-2"></i>Multi-Market Support
+                    </span>
+                    <span class="text-gray-400 text-sm flex items-center">
+                        <i class="fas fa-rocket mr-2"></i>Real-time Decisioning
+                    </span>
                 </div>
             </div>
-            
-            <!-- Screen 5 (Custom Path - Step 4) -->
-            <div id="screen-5" class="screen">
-                 <div class="card p-8 text-center">
-                    <i class="fas fa-rocket text-green-500 text-6xl mx-auto mb-4"></i>
-                    <h2 class="text-3xl font-bold text-gray-800 mb-2">Strategy Configured & Ready!</h2>
-                    <p class="text-gray-600 mb-6 max-w-2xl mx-auto">You have successfully built a powerful, two-layer credit decisioning strategy. The combination of your AI-driven Ki-Score and your custom fail-safe rules is now ready for deployment.</p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto mt-8 text-left">
-                        <div class="bg-gray-50 p-6 rounded-lg border"><h4 class="font-bold text-lg mb-3 flex items-center"><i class="fas fa-brain text-indigo-500 mr-3"></i>Primary Model</h4><p><strong>Type:</strong> XGBoost Classifier</p><p><strong>Gini:</strong> 0.78</p><p><strong>Top Feature:</strong> cash_inflow_volatility</p></div>
-                        <div class="bg-gray-50 p-6 rounded-lg border"><h4 class="font-bold text-lg mb-3 flex items-center"><i class="fas fa-shield-alt text-red-500 mr-3"></i>Fail-Safe Rules</h4><div id="summary-rules-list"></div></div>
-                    </div>
-                    <button id="start-over-btn" class="btn-primary mt-10"><i class="fas fa-redo mr-2"></i> Start Over</button>
-                </div>
-            </div>
-
         </div>
     </div>
 
-    <!-- Upload Modal -->
-    <div id="upload-modal" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center p-4 hidden">
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl transform transition-all"><div class="p-6"><div class="flex justify-between items-center mb-4"><h3 class="text-xl font-bold text-gray-800" id="modal-title">Upload File</h3><button id="close-modal-btn" class="text-gray-400 hover:text-gray-600">&times;</button></div><div id="upload-view"></div><div id="mapping-view" class="hidden"><p class="text-gray-600 mb-4">Please map the columns from your file to our required fields.</p><div class="max-h-96 overflow-y-auto pr-2"><table class="w-full text-sm text-left"><thead class="bg-gray-100"><tr><th class="p-3 font-semibold">Your File Column</th><th class="p-3 font-semibold">Required System Field</th></tr></thead><tbody id="mapping-table-body"></tbody></table></div><div class="mt-6 text-right"><button id="confirm-mapping-btn" class="btn-primary">Confirm Mapping</button></div></div></div></div>
-    </div>
-
-<script>
-    let currentPath = '';
-    let currentStep = 1;
-    let uploadedFiles = {};
-    let currentUploadType = '';
-    let originalUploadViewHTML = '';
-    let perfChart;
-
-    const allRuleVariables = [
-        'DTI / FOIR', 'LTV Ratio', 'Bureau Score', 'Applicant Age', 'Loan Amount', 'Loan Tenure',
-        'DPD 90+ Count (Ever)', 'DPD 60+ Count (Last 12M)', 'DPD 30+ Count (Last 6M)',
-        'Number of Inquiries (Last 3M)', 'Time Since First Loan', 'Avg. Monthly Inflow',
-        'Avg. Monthly Surplus', 'Cashflow Volatility', 'Salary Credit Count', 'SIM Tenure',
-        'Device Age', 'Business Vintage', 'Number of Employees', 'Collateral Coverage Ratio'
-    ];
-    const variableData = {
-        'DTI / FOIR': { op: '>', value: 55, unit: '%' },
-        'LTV Ratio': { op: '>', value: 85, unit: '%' },
-        'Bureau Score': { op: '<', value: 680, unit: '' },
-        'Applicant Age': { op: '<', value: 21, unit: 'yrs' },
-        'Loan Amount': { op: '>', value: 2500000, unit: '₹' },
-        'DPD 90+ Count (Ever)': { op: '>', value: 0, unit: '' },
-        'Number of Inquiries (Last 3M)': { op: '>', value: 5, unit: '' },
-    };
-
-    const mockData = {
-        bureau: { headers: ['customer_id', 'cibil_score', 'dpd_90_plus', 'active_loans', 'default_status'] },
-        bank: { headers: ['cust_id', 'avg_monthly_inflow', 'avg_monthly_outflow', 'salary_credits'] },
-        alt: { headers: ['phone_number', 'sim_tenure', 'avg_upi_txn_amt'] }
-    };
-    const systemFields = {
-        bureau: ['Customer ID', 'Bureau Score', '90+ DPD Count', 'Active Loan Count', 'Default Status'],
-        bank: ['Customer ID', 'Avg Monthly Inflow', 'Avg Monthly Outflow', 'Salary Credit Count'],
-        alt: ['Phone Number', 'SIM Tenure (Months)', 'Avg UPI Txn Amount']
-    };
-
-    function showScreen(screenId) {
-        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-        const screenToShow = document.getElementById(`screen-${screenId}`);
-        if(screenToShow) screenToShow.classList.add('active');
-
-        const stepper = document.getElementById('stepper-container');
-        if (screenId === '0' || screenId === '1' ) {
-             stepper.style.display = 'none';
-        } else {
-             stepper.style.display = 'grid';
-        }
-
-        const homeBtn = document.getElementById('home-btn');
-        // Always show home button now
-        homeBtn.style.display = 'block';
-    }
-
-    function selectPath(path) {
-        currentPath = path;
-        if (path === 'universal') {
-            showScreen('1');
-        } else if (path === 'custom') {
-            goToStep(1);
-        } else {
-             showScreen('0');
-        }
-    }
-
-    function goToStep(step) {
-        if(step > 0 && step <= 5){
-            for (let i = 1; i <= 4; i++) {
-                const indicator = document.getElementById(`step-${i}-indicator`);
-                indicator.classList.remove('step-active', 'step-completed', 'step-inactive');
-                if (i < step) indicator.classList.add('step-completed');
-                else if (i === step) indicator.classList.add('step-active');
-                else indicator.classList.add('step-inactive');
+    <script>
+        function selectMarket(market) {
+            if (market === 'india') {
+                window.location.href = 'india-home.html';
+            } else if (market === 'africa') {
+                window.location.href = 'africa-home.html';
             }
-             if(step === 4) { // Finish step
-                 finishDemo();
-                 showScreen(5);
-             } else {
-                 const screenId = step + 1; // screen-2 is step 1, etc.
-                 showScreen(screenId);
-             }
-            currentStep = step;
         }
-    }
 
-    function openUploadModal(type) {
-        currentUploadType = type;
-        const modal = document.getElementById('upload-modal');
-        modal.classList.remove('hidden');
-        const uploadView = document.getElementById('upload-view');
-        uploadView.innerHTML = `<div class="text-center p-12"><div class="loader mx-auto mb-4"></div><p class="font-semibold text-gray-700">Simulating file upload...</p></div>`;
-        document.getElementById('modal-title').innerText = `Upload ${type.charAt(0).toUpperCase() + type.slice(1)} Data`;
-        setTimeout(() => {
-            populateMappingTable(mockData[type].headers);
-            document.getElementById('upload-view').style.display = 'none';
-            document.getElementById('mapping-view').style.display = 'block';
-        }, 1500);
-    }
-
-    function closeUploadModal() {
-        document.getElementById('upload-modal').classList.add('hidden');
-        document.getElementById('mapping-view').style.display = 'none';
-        document.getElementById('upload-view').style.display = 'block';
-    }
-
-    function populateMappingTable(headers) {
-        const tableBody = document.getElementById('mapping-table-body');
-        tableBody.innerHTML = '';
-        const required = systemFields[currentUploadType];
-        headers.forEach((header, index) => {
-            tableBody.innerHTML += `<tr class="border-b"><td class="p-3 bg-indigo-50">${header}</td><td class="p-3"><select class="w-full p-2 border rounded-md">${required.map((field, i) => `<option value="${field}" ${i === index ? 'selected' : ''}>${field}</option>`).join('')}<option>-- Ignore --</option></select></td></tr>`;
-        });
-    }
-
-    function confirmMapping() {
-        uploadedFiles[currentUploadType] = true;
-        const card = document.getElementById(`upload-${currentUploadType}`);
-        card.classList.add('border-2', 'border-green-500');
-        card.querySelector('button').innerHTML = `<i class="fas fa-check-circle mr-2"></i> File Uploaded`;
-        card.querySelector('button').classList.remove('btn-secondary');
-        card.querySelector('button').classList.add('bg-green-100', 'text-green-800');
-        card.querySelector('button').disabled = true;
-        closeUploadModal();
-        checkAllFilesUploaded();
-    }
-
-    function checkAllFilesUploaded() {
-        if (uploadedFiles.bureau && uploadedFiles.bank && uploadedFiles.alt) {
-            const nextBtn = document.getElementById('ingestion-next-btn');
-            nextBtn.disabled = false;
-            nextBtn.classList.remove('opacity-50');
-        }
-    }
-    
-    function startModelBuilding() {
-        document.getElementById('automl-setup').style.display = 'none';
-        document.getElementById('automl-inprogress').style.display = 'block';
-        document.getElementById('features-table').innerHTML = '';
-        document.getElementById('models-table').innerHTML = '';
-
-        const progressText = document.getElementById('progress-text');
-        const features = [
-            { name: 'bureau_score_x_loan_amt', type: 'Interaction', source: 'Bureau, Input' },
-            { name: 'avg_inflow_last_3m', type: 'Aggregation', source: 'Bank' },
-            { name: 'inflow_volatility', type: 'Aggregation', source: 'Bank' },
-            { name: 'sim_tenure_months', type: 'Temporal', source: 'Telco' },
-            { name: 'inquiry_to_loan_ratio', type: 'Ratio', source: 'Bureau' },
-            { name: 'upi_txn_frequency', type: 'Temporal', source: 'Bank' },
-            { name: 'salary_credit_stability', type: 'Aggregation', source: 'Bank' },
-        ];
-        const models = [
-            { name: 'LightGBM Classifier', gini: 0.76 },
-            { name: 'Logistic Regression', gini: 0.65 },
-            { name: 'Random Forest', gini: 0.72 },
-            { name: 'XGBoost Classifier', gini: 0.78 }
-        ];
-
-        setTimeout(() => {
-            progressText.innerText = 'Generating Features...';
-            const featuresTable = document.getElementById('features-table');
-            features.forEach(f => {
-                featuresTable.innerHTML += `<tr><td class="p-2">${f.name}</td><td class="p-2">${f.type}</td><td class="p-2">${f.source}</td></tr>`;
-            });
-
-            setTimeout(() => {
-                progressText.innerText = 'Running Model Trials...';
-                const modelsTable = document.getElementById('models-table');
-                let modelIndex = 0;
-                const modelInterval = setInterval(() => {
-                    if(modelIndex < models.length) {
-                        const m = models[modelIndex];
-                        modelsTable.innerHTML += `<tr><td class="p-2 font-bold">#${modelIndex+1}</td><td class="p-2">${m.name}</td><td class="p-2 font-semibold">${m.gini}</td><td class="p-2 text-blue-600">Running...</td></tr>`;
-                        modelIndex++;
-                    } else {
-                        clearInterval(modelInterval);
-                        progressText.innerText = 'Finalizing Champion Model...';
-                        models.sort((a,b) => b.gini - a.gini);
-                        modelsTable.innerHTML = '';
-                        models.forEach((m, i) => {
-                            modelsTable.innerHTML += `<tr><td class="p-2 font-bold">${i+1}</td><td class="p-2">${m.name} ${i===0 ? '<span class="text-xs bg-green-200 text-green-800 font-bold p-1 rounded">CHAMPION</span>' : ''}</td><td class="p-2 font-semibold">${m.gini}</td><td class="p-2 text-green-600">Completed</td></tr>`;
-                        });
-                        document.getElementById('model-building-progress').innerHTML = `<i class="fas fa-check-circle text-green-500 text-5xl mb-4"></i><p class="text-lg font-semibold text-gray-700">Experiment Complete!</p>`;
-                        document.getElementById('automl-finalize-cta').style.display = 'block';
-                    }
-                }, 800);
-            }, 1500);
-        }, 1500);
-    }
-    
-    function finalizeModelBuilding() {
-        document.getElementById('automl-inprogress').style.display = 'none';
-        document.getElementById('automl-complete').style.display = 'block';
-        document.getElementById('rules-next-btn').style.display = 'inline-block';
-    }
-
-    function getSelectedRules() {
-        return Array.from(document.querySelectorAll('#multiselect-dropdown input:checked')).map(cb => cb.value);
-    }
-
-    function generateTreeNode(variable, approval, defaultRate, animationDelay, isSimulation = false) {
-        const ruleId = variable.toLowerCase().replace(/[^a-z0-9]/g, '');
-        const valueInput = document.getElementById(`${ruleId}-value`);
-        const value = isSimulation && valueInput ? valueInput.value : variableData[variable].value;
-        const data = variableData[variable];
-        return `
-            <div class="tree-node" style="animation-delay: ${animationDelay}s;">
-                <div class="node-condition">${variable} ${data.op} ${value}${data.unit}</div>
-                <div class="node-metrics">
-                    <div><i class="fas fa-check-circle mr-1"></i>${approval}% Appr.</div>
-                    <div><i class="fas fa-exclamation-triangle mr-1"></i>${defaultRate}% Def.</div>
-                </div>
-            </div>
-        `;
-    }
-
-    function buildDecisionTree(isSimulation = false) {
-        const treeContainer = document.getElementById('tree-container');
-        const buildBtn = document.getElementById('build-tree-btn');
-        buildBtn.innerHTML = `<div class="loader !w-5 !h-5 !border-2 mx-auto"></div>`;
-        buildBtn.disabled = true;
-        treeContainer.innerHTML = '';
-        if(!isSimulation) document.getElementById('tree-section').style.display = 'none';
-
-        setTimeout(() => {
-            const selectedRules = getSelectedRules();
-            if (selectedRules.length === 0) {
-                treeContainer.innerHTML = `<p class="text-gray-500">Please select at least one variable to build the tree.</p>`;
-                buildBtn.innerHTML = `<i class="fas fa-sitemap mr-2"></i>Build & Visualize Rules`;
-                buildBtn.disabled = false;
-                return;
-            }
-
-            let treeHTML = '';
-            let approval = 70.0;
-            let defaultRate = 3.0;
-            let diminishingFactor = 1;
-            let lastRule = '';
-            let currentTreeLevel = ``;
-
-            selectedRules.forEach((rule, index) => {
-                const ruleId = rule.toLowerCase().replace(/[^a-z0-9]/g, '');
-                const valueInput = document.getElementById(`${ruleId}-value`);
-                const currentValue = valueInput ? parseFloat(valueInput.value) : variableData[rule].value;
-                const baseValue = variableData[rule].value;
-                const valueEffect = (currentValue - baseValue) * (variableData[rule].op === '>' ? -0.1 : 0.1);
-                approval -= ((5 / diminishingFactor) + valueEffect);
-                defaultRate -= ((0.8 / diminishingFactor) + (valueEffect / 5));
-                diminishingFactor += 0.5;
-                const nodeHTML = generateTreeNode(rule, approval.toFixed(1), defaultRate.toFixed(1), (index * 0.1), isSimulation);
-                lastRule = rule;
-
-                if (index === 0) {
-                    currentTreeLevel = nodeHTML;
-                } else {
-                    currentTreeLevel = `
-                        ${currentTreeLevel}
-                        <div class="tree-branch w-full">
-                            <div class="tree-leaf-container">
-                                <div class="leaf-label">Pass</div>
-                                ${nodeHTML}
-                            </div>
-                            <div class="tree-leaf-container">
-                                <div class="leaf-label">Fail</div>
-                                <div class="tree-leaf leaf-bad" style="animation-delay: ${ (index * 0.1) + 0.1 }s;">
-                                    <strong>Reject</strong>
-                                    <p class="text-xs">${selectedRules[index-1]}</p>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                }
-            });
-
-            treeHTML = `
-                <div class="tree">
-                    ${currentTreeLevel}
-                    <div class="tree-branch w-full">
-                        <div class="tree-leaf-container">
-                            <div class="leaf-label">Pass</div>
-                            <div class="tree-leaf leaf-good" style="animation-delay: ${selectedRules.length * 0.1}s;">
-                                <strong>Approve</strong>
-                                <p class="text-xs font-semibold">${defaultRate.toFixed(1)}% Default</p>
-                            </div>
-                        </div>
-                        <div class="tree-leaf-container">
-                            <div class="leaf-label">Fail</div>
-                            <div class="tree-leaf leaf-bad" style="animation-delay: ${ (selectedRules.length * 0.1) + 0.1 }s;">
-                                <strong>Reject</strong>
-                                <p class="text-xs">${lastRule}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            treeContainer.innerHTML = treeHTML;
-            
-            if (!isSimulation) populateWorkbench(selectedRules);
-            document.getElementById('tree-section').style.display = 'block';
-            buildBtn.innerHTML = `<i class="fas fa-check mr-2"></i> Rules Built`;
-            buildBtn.classList.add('bg-green-600');
-            buildBtn.disabled = false;
-        }, 1500);
-    }
-    
-    function populateWorkbench(rules) {
-        const workbench = document.getElementById('rule-workbench-container');
-        const rulesContainer = document.getElementById('workbench-rules');
-        rulesContainer.innerHTML = '';
-
-        rules.forEach(rule => {
-            const data = variableData[rule];
-            const ruleId = rule.toLowerCase().replace(/[^a-z0-9]/g, '');
-            const ruleHTML = `<div class="p-4 border rounded-lg bg-white"><label class="font-semibold text-gray-800">${rule}</label><div class="flex items-center space-x-4 mt-2"><span class="font-mono">${data.op}</span><input type="range" id="${ruleId}-slider" min="${data.value - 20}" max="${data.value + 20}" value="${data.value}" class="w-full"><input type="number" id="${ruleId}-value" value="${data.value}" class="w-24 p-2 border rounded-md text-center"><span>${data.unit}</span></div></div>`;
-            rulesContainer.innerHTML += ruleHTML;
-        });
-
-        rules.forEach(rule => {
-            const ruleId = rule.toLowerCase().replace(/[^a-z0-9]/g, '');
-            const slider = document.getElementById(`${ruleId}-slider`);
-            const valueInput = document.getElementById(`${ruleId}-value`);
-            slider.oninput = () => valueInput.value = slider.value;
-            valueInput.onchange = () => slider.value = valueInput.value;
-        });
-    }
-
-    function simulateRules() {
-        const simBtn = document.getElementById('simulate-rules-btn');
-        simBtn.innerHTML = `<div class="loader !w-5 !h-5 !border-2 mx-auto"></div>`;
-        simBtn.disabled = true;
-        buildDecisionTree(true);
-        setTimeout(() => {
-            simBtn.innerHTML = `<i class="fas fa-sync-alt mr-2"></i>Simulate & Rebuild Tree`;
-            simBtn.disabled = false;
-        }, 2000);
-    }
-    
-    function finishDemo() {
-        const rulesList = document.getElementById('summary-rules-list');
-        rulesList.innerHTML = '';
-        const selectedRules = getSelectedRules();
-        if (selectedRules.length > 0 && document.getElementById('tree-section').style.display !== 'none') {
-            selectedRules.forEach(rule => {
-                const ruleId = rule.toLowerCase().replace(/[^a-z0-9]/g, '');
-                const valueEl = document.getElementById(`${ruleId}-value`);
-                if (valueEl) {
-                    const value = valueEl.value;
-                    const data = variableData[rule];
-                    rulesList.innerHTML += `<p><strong>${rule}:</strong> <span class="font-mono text-indigo-600">${data.op} ${value}${data.unit}</span></p>`;
-                }
-            });
-        } else {
-            rulesList.innerHTML = '<p>No fail-safe rules configured.</p>';
-        }
-        goToStep(4);
-    }
-    
-    function switchTab(event, tabName) {
-        const tabContainer = event.target.closest('#automl-inprogress');
-        if (tabContainer) {
-            tabContainer.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
-            tabContainer.querySelector(`#${tabName}-tab`).classList.add('active');
-            tabContainer.querySelectorAll('.tab-btn').forEach(tb => tb.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-        }
-    }
-
-    function initListeners() {
-        // Path Selection
-        document.getElementById('path-universal').addEventListener('click', () => selectPath('universal'));
-        document.getElementById('path-custom').addEventListener('click', () => selectPath('custom'));
-
-        // Back buttons
-        document.getElementById('back-to-options-1').addEventListener('click', () => showScreen('0'));
-        document.getElementById('back-to-options-2').addEventListener('click', () => showScreen('0'));
-        document.querySelectorAll('.back-btn').forEach(btn => btn.addEventListener('click', () => goToStep(currentStep - 1)));
-
-        // Step 1: Ingestion
-        document.querySelectorAll('#upload-bureau button, #upload-bank button, #upload-alt button').forEach(btn => {
-            const type = btn.closest('.card').id.replace('upload-', '');
-            btn.addEventListener('click', () => openUploadModal(type));
-        });
-        document.getElementById('close-modal-btn').addEventListener('click', closeUploadModal);
-        document.getElementById('confirm-mapping-btn').addEventListener('click', confirmMapping);
-        document.getElementById('ingestion-next-btn').addEventListener('click', () => goToStep(2));
-        
-        // Step 2: Model Building
-        document.getElementById('start-automl-btn').addEventListener('click', startModelBuilding);
-        document.getElementById('finalize-model-btn').addEventListener('click', finalizeModelBuilding);
-        document.getElementById('rules-next-btn').addEventListener('click', () => goToStep(3));
-        document.querySelectorAll('#automl-tabs .tab-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => switchTab(e, e.currentTarget.dataset.tab));
-        });
-
-        // Step 3: Rules
-        document.getElementById('build-tree-btn').addEventListener('click', () => buildDecisionTree(false));
-        document.getElementById('simulate-rules-btn').addEventListener('click', simulateRules);
-        document.querySelectorAll('.next-btn').forEach(btn => btn.addEventListener('click', () => goToStep(currentStep + 1)));
-
-        // Step 4: Finish
-        document.getElementById('start-over-btn').addEventListener('click', () => {
-            uploadedFiles = {};
-            document.querySelectorAll('#screen-2 .card').forEach(c => {
-                 c.classList.remove('border-2', 'border-green-500');
-                 const btn = c.querySelector('button');
-                 btn.innerHTML = `<i class="fas fa-upload mr-2"></i> Upload File`;
-                 btn.classList.add('btn-secondary');
-                 btn.classList.remove('bg-green-100', 'text-green-800');
-                 btn.disabled = false;
-            });
-            document.getElementById('ingestion-next-btn').disabled = true;
-            document.getElementById('ingestion-next-btn').classList.add('opacity-50');
-            showScreen('0');
-        });
-        
-        // Stepper Navigation
-        document.querySelectorAll('.step').forEach(stepIndicator => {
-            stepIndicator.addEventListener('click', () => {
-                const stepNum = parseInt(stepIndicator.id.split('-')[1]);
-                goToStep(stepNum);
+        // Add subtle animations on load
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.market-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.8s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 300 + 500);
             });
         });
-
-        // Home button
-        document.getElementById('home-btn').addEventListener('click', () => {
-            showScreen('0');
-        });
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        // Initial setup
-        const chartOptions = { chart: { type: 'bar', height: 300, toolbar: { show: false } }, plotOptions: { bar: { horizontal: false, columnWidth: '55%', endingShape: 'rounded' } }, dataLabels: { enabled: false }, stroke: { show: true, width: 2, colors: ['transparent'] }, xaxis: { categories: ['Approval Rate', 'Default Rate', 'Gini'] }, yaxis: { title: { text: 'Value' } }, fill: { opacity: 1 }, tooltip: { y: { formatter: (val) => val } }, colors: ['#a855f7', '#6366f1'] };
-        perfChart = new ApexCharts(document.querySelector("#performance-chart"), { ...chartOptions, series: [ { name: 'Legacy Strategy', data: [45, 4.5, 0.55] }, { name: 'Ki Originate', data: [58, 3.2, 0.78] } ] });
-        perfChart.render();
-        
-        const multiselectDropdown = document.getElementById('multiselect-dropdown');
-        allRuleVariables.forEach(variable => {
-            const label = document.createElement('label');
-            const checkbox = document.createElement('input');
-            checkbox.type = 'checkbox'; checkbox.value = variable; checkbox.className = 'mr-2';
-            if (['DTI / FOIR', 'LTV Ratio', 'Bureau Score'].includes(variable)) checkbox.checked = true;
-            label.appendChild(checkbox);
-            label.appendChild(document.createTextNode(variable));
-            multiselectDropdown.appendChild(label);
-        });
-        const multiselectInput = document.getElementById('multiselect-input');
-        multiselectInput.addEventListener('click', () => { multiselectDropdown.style.display = multiselectDropdown.style.display === 'block' ? 'none' : 'block'; });
-        multiselectDropdown.addEventListener('change', () => {
-            const selected = Array.from(multiselectDropdown.querySelectorAll('input:checked')).map(cb => cb.value);
-            document.getElementById('multiselect-text').textContent = selected.length > 0 ? `${selected.length} variables selected` : 'Select variables...';
-        });
-        document.addEventListener('click', (e) => { if (multiselectInput && !multiselectInput.contains(e.target) && multiselectDropdown && !multiselectDropdown.contains(e.target)) multiselectDropdown.style.display = 'none'; });
-        document.getElementById('multiselect-text').textContent = `3 variables selected`;
-
-        initListeners();
-    });
-</script>
+    </script>
 </body>
 </html>
-

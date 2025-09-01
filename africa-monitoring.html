@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KI Originate - Monitoring Dashboard</title>
+    <title>KI Originate - Africa Monitoring Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -35,14 +35,14 @@
         }
         
         .nav-tab.active {
-            color: #4f46e5;
-            border-bottom-color: #4f46e5;
-            background-color: #eef2ff;
+            color: #059669;
+            border-bottom-color: #059669;
+            background-color: #ecfdf5;
         }
         
         .nav-tab:hover {
-            color: #4f46e5;
-            background-color: #f8fafc;
+            color: #059669;
+            background-color: #f0fdf4;
         }
         
         .section-content {
@@ -60,7 +60,7 @@
         }
         
         .metric-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
             color: white;
             border-radius: 1rem;
             padding: 1.5rem;
@@ -73,7 +73,7 @@
         }
         
         .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
             color: white;
             font-weight: 600;
             padding: 0.75rem 1.5rem;
@@ -85,7 +85,7 @@
         
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 10px 20px rgba(5, 150, 105, 0.3);
         }
         
         .btn-secondary {
@@ -141,7 +141,7 @@
         }
         
         .performance-toggle {
-            background-color: #4f46e5;
+            background-color: #059669;
             color: white;
             padding: 0.5rem 1rem;
             border-radius: 0.5rem;
@@ -152,7 +152,7 @@
         }
         
         .performance-toggle:hover {
-            background-color: #4338ca;
+            background-color: #047857;
         }
         
         .modal {
@@ -190,16 +190,16 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between h-16">
                     <div class="flex items-center space-x-4">
-                        <button onclick="window.location.href='home.html'" class="text-gray-500 hover:text-gray-700">
+                        <button onclick="window.location.href='africa-home.html'" class="text-gray-500 hover:text-gray-700">
                             <i class="fas fa-arrow-left text-xl"></i>
                         </button>
                         <div class="flex items-center space-x-3">
-                            <div class="bg-indigo-600 text-white p-2 rounded-lg">
+                            <div class="bg-green-600 text-white p-2 rounded-lg">
                                 <i class="fas fa-chart-line text-xl"></i>
                             </div>
                             <div>
-                                <h1 class="text-2xl font-bold text-gray-900">Monitoring Dashboard</h1>
-                                <p class="text-sm text-gray-500">Portfolio & Model Performance</p>
+                                <h1 class="text-2xl font-bold text-gray-900">Africa Monitoring Dashboard</h1>
+                                <p class="text-sm text-gray-500">Kenya Portfolio & Model Performance</p>
                             </div>
                         </div>
                     </div>
@@ -239,16 +239,16 @@
                 <!-- Day 0 View (Default) -->
                 <div id="portfolio-day0" class="portfolio-view">
                     <div class="flex justify-between items-center mb-6">
-                        <h2 class="text-3xl font-bold text-gray-900">Portfolio Overview</h2>
+                        <h2 class="text-3xl font-bold text-gray-900">Kenya Portfolio Overview</h2>
                         <div class="flex items-center space-x-4">
                             <select class="border rounded-lg px-3 py-2">
                                 <option>All Products</option>
-                                <option>MFI - Individual Loans</option>
-                                <option>MSME (Unsecured)</option>
-                                <option>MSME (Secured)</option>
-                                <option>Agri Loans</option>
-                                <option>Affordable Housing</option>
-                                <option>Two Wheelers</option>
+                                <option>Digital Loans</option>
+                                <option>Microfinance</option>
+                                <option>MSME</option>
+                                <option>Agriculture</option>
+                                <option>Small Business</option>
+                                <option>Personal Loans</option>
                             </select>
                             <select class="border rounded-lg px-3 py-2">
                                 <option>Last 6 Months</option>
@@ -263,9 +263,9 @@
                         <div class="metric-card">
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <p class="text-blue-100 text-sm font-medium">Total Applications</p>
-                                    <p class="metric-value">10,900</p>
-                                    <p class="text-blue-100 text-sm">↑ 12% from last month</p>
+                                    <p class="text-green-100 text-sm font-medium">Total Applications</p>
+                                    <p class="metric-value">15,200</p>
+                                    <p class="text-green-100 text-sm">↑ 18% from last month</p>
                                 </div>
                                 <i class="fas fa-file-alt text-3xl opacity-80"></i>
                             </div>
@@ -273,9 +273,9 @@
                         <div class="metric-card">
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <p class="text-blue-100 text-sm font-medium">Auto Approved</p>
-                                    <p class="metric-value">8,720</p>
-                                    <p class="text-blue-100 text-sm">80.0% approval rate</p>
+                                    <p class="text-green-100 text-sm font-medium">Auto Approved</p>
+                                    <p class="metric-value">12,920</p>
+                                    <p class="text-green-100 text-sm">85.0% approval rate</p>
                                 </div>
                                 <i class="fas fa-check-circle text-3xl opacity-80"></i>
                             </div>
@@ -283,21 +283,21 @@
                         <div class="metric-card">
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <p class="text-blue-100 text-sm font-medium">Approved Amount</p>
-                                    <p class="metric-value">₹2.8B</p>
-                                    <p class="text-blue-100 text-sm">↑ 22% from last month</p>
+                                    <p class="text-green-100 text-sm font-medium">Approved Amount</p>
+                                    <p class="metric-value">KES 380M</p>
+                                    <p class="text-green-100 text-sm">↑ 25% from last month</p>
                                 </div>
-                                <i class="fas fa-rupee-sign text-3xl opacity-80"></i>
+                                <i class="fas fa-coins text-3xl opacity-80"></i>
                             </div>
                         </div>
                         <div class="metric-card">
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <p class="text-blue-100 text-sm font-medium">Avg. Loan Amount</p>
-                                    <p class="metric-value">₹3.2L</p>
-                                    <p class="text-blue-100 text-sm">Stable trend</p>
+                                    <p class="text-green-100 text-sm font-medium">Avg. Loan Amount</p>
+                                    <p class="metric-value">KES 29K</p>
+                                    <p class="text-green-100 text-sm">Mobile-first lending</p>
                                 </div>
-                                <i class="fas fa-calculator text-3xl opacity-80"></i>
+                                <i class="fas fa-mobile-alt text-3xl opacity-80"></i>
                             </div>
                         </div>
                     </div>
@@ -314,16 +314,22 @@
                         </div>
                     </div>
 
-                    <!-- Monthly Distribution Charts -->
+                    <!-- Product Distribution & Tenure Analysis -->
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
                         <div class="card p-6">
-                            <h3 class="text-xl font-bold text-gray-900 mb-4">Monthly Decision Trends</h3>
-                            <div id="decision-trends-chart"></div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">Product Distribution</h3>
+                            <div id="product-distribution-chart"></div>
                         </div>
                         <div class="card p-6">
-                            <h3 class="text-xl font-bold text-gray-900 mb-4">Monthly Bureau Score Trends</h3>
-                            <div id="bureau-trends-chart"></div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">Loan Tenure Distribution</h3>
+                            <div id="tenure-chart"></div>
                         </div>
+                    </div>
+
+                    <!-- Ticket Size Analysis -->
+                    <div class="card p-6 mb-8">
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Distribution by Ticket Size (KES)</h3>
+                        <div id="ticket-size-chart"></div>
                     </div>
 
                     <!-- Key Metrics Table -->
@@ -342,33 +348,28 @@
                                     <tbody>
                                         <tr>
                                             <td>KI Score</td>
-                                            <td>32.5</td>
-                                            <td><span class="text-green-600">↓ 2.1%</span></td>
+                                            <td>28.3</td>
+                                            <td><span class="text-green-600">↓ 3.2%</span></td>
                                         </tr>
                                         <tr>
-                                            <td>Bureau Score</td>
-                                            <td>698</td>
-                                            <td><span class="text-green-600">↑ 2.1%</span></td>
+                                            <td>Mobile Money Score</td>
+                                            <td>745</td>
+                                            <td><span class="text-green-600">↑ 4.1%</span></td>
                                         </tr>
                                         <tr>
                                             <td>Monthly Income</td>
-                                            <td>₹45,200</td>
-                                            <td><span class="text-green-600">↑ 5.3%</span></td>
+                                            <td>KES 28,500</td>
+                                            <td><span class="text-green-600">↑ 6.2%</span></td>
                                         </tr>
                                         <tr>
-                                            <td>FOIR Ratio</td>
-                                            <td>42.3%</td>
-                                            <td><span class="text-red-600">↑ 1.8%</span></td>
+                                            <td>Loan Tenure</td>
+                                            <td>1.8 months</td>
+                                            <td><span class="text-blue-600">→ 0.1%</span></td>
                                         </tr>
                                         <tr>
-                                            <td>LTV Ratio</td>
-                                            <td>78.5%</td>
-                                            <td><span class="text-gray-600">→ 0.2%</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Avg. Tenure</td>
-                                            <td>36 months</td>
-                                            <td><span class="text-green-600">↓ 2.1%</span></td>
+                                            <td>Mobile Usage Score</td>
+                                            <td>682</td>
+                                            <td><span class="text-green-600">↑ 2.8%</span></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -387,74 +388,37 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>MFI - Individual</td>
-                                            <td>₹60K</td>
-                                            <td class="text-green-600">85%</td>
+                                            <td>Digital Loans</td>
+                                            <td>KES 15K</td>
+                                            <td class="text-green-600">92%</td>
                                         </tr>
                                         <tr>
-                                            <td>MSME (Unsecured)</td>
-                                            <td>₹2.0L</td>
-                                            <td class="text-green-600">78%</td>
+                                            <td>Microfinance</td>
+                                            <td>KES 25K</td>
+                                            <td class="text-green-600">88%</td>
                                         </tr>
                                         <tr>
-                                            <td>Agri Loans</td>
-                                            <td>₹2.0L</td>
+                                            <td>Agriculture</td>
+                                            <td>KES 45K</td>
                                             <td class="text-green-600">82%</td>
                                         </tr>
                                         <tr>
-                                            <td>MSME (Secured)</td>
-                                            <td>₹7.5L</td>
-                                            <td class="text-green-600">75%</td>
+                                            <td>MSME</td>
+                                            <td>KES 85K</td>
+                                            <td class="text-green-600">78%</td>
                                         </tr>
                                         <tr>
-                                            <td>Affordable Housing</td>
-                                            <td>₹10.0L</td>
+                                            <td>Small Business</td>
+                                            <td>KES 65K</td>
+                                            <td class="text-green-600">80%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Personal Loans</td>
+                                            <td>KES 120K</td>
                                             <td class="text-yellow-600">72%</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Two Wheelers</td>
-                                            <td>₹1.2L</td>
-                                            <td class="text-green-600">88%</td>
                                         </tr>
                                     </tbody>
                                 </table>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product Mix -->
-                    <div class="card p-6 mb-8">
-                        <h3 class="text-xl font-bold text-gray-900 mb-4">Product Mix & Volume Distribution</h3>
-                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-                            <div class="text-center p-4 bg-blue-50 rounded-lg">
-                                <h4 class="font-bold text-blue-900 text-sm">MFI Individual</h4>
-                                <p class="text-xl font-bold text-blue-600">28%</p>
-                                <p class="text-xs text-blue-700">3,052 loans</p>
-                            </div>
-                            <div class="text-center p-4 bg-green-50 rounded-lg">
-                                <h4 class="font-bold text-green-900 text-sm">MSME Unsecured</h4>
-                                <p class="text-xl font-bold text-green-600">22%</p>
-                                <p class="text-xs text-green-700">2,398 loans</p>
-                            </div>
-                            <div class="text-center p-4 bg-yellow-50 rounded-lg">
-                                <h4 class="font-bold text-yellow-900 text-sm">Agri Loans</h4>
-                                <p class="text-xl font-bold text-yellow-600">18%</p>
-                                <p class="text-xs text-yellow-700">1,962 loans</p>
-                            </div>
-                            <div class="text-center p-4 bg-purple-50 rounded-lg">
-                                <h4 class="font-bold text-purple-900 text-sm">MSME Secured</h4>
-                                <p class="text-xl font-bold text-purple-600">15%</p>
-                                <p class="text-xs text-purple-700">1,635 loans</p>
-                            </div>
-                            <div class="text-center p-4 bg-red-50 rounded-lg">
-                                <h4 class="font-bold text-red-900 text-sm">Housing</h4>
-                                <p class="text-xl font-bold text-red-600">12%</p>
-                                <p class="text-xs text-red-700">1,308 loans</p>
-                            </div>
-                            <div class="text-center p-4 bg-indigo-50 rounded-lg">
-                                <h4 class="font-bold text-indigo-900 text-sm">Two Wheelers</h4>
-                                <p class="text-xl font-bold text-indigo-600">5%</p>
-                                <p class="text-xs text-indigo-700">545 loans</p>
                             </div>
                         </div>
                     </div>
@@ -463,7 +427,7 @@
                 <!-- Performance Data View (Hidden by default) -->
                 <div id="portfolio-performance" class="portfolio-view" style="display: none;">
                     <div class="flex justify-between items-center mb-6">
-                        <h2 class="text-3xl font-bold text-gray-900">Portfolio Performance</h2>
+                        <h2 class="text-3xl font-bold text-gray-900">Kenya Portfolio Performance</h2>
                         <div class="text-sm text-gray-600">
                             Performance data available from: <strong>Oct 2024</strong>
                         </div>
@@ -475,7 +439,7 @@
                             <div class="flex items-center justify-between">
                                 <div>
                                     <p class="text-gray-600 text-sm font-medium">Current Portfolio</p>
-                                    <p class="text-3xl font-bold text-gray-900">₹1.8B</p>
+                                    <p class="text-3xl font-bold text-gray-900">KES 285M</p>
                                     <p class="text-green-600 text-sm">Active loans</p>
                                 </div>
                                 <i class="fas fa-wallet text-3xl text-green-500"></i>
@@ -484,9 +448,9 @@
                         <div class="card p-6 border-l-4 border-blue-500">
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <p class="text-gray-600 text-sm font-medium">30+ DPD Rate</p>
-                                    <p class="text-3xl font-bold text-gray-900">2.8%</p>
-                                    <p class="text-blue-600 text-sm">vs 3.2% industry</p>
+                                    <p class="text-gray-600 text-sm font-medium">7+ DPD Rate</p>
+                                    <p class="text-3xl font-bold text-gray-900">1.8%</p>
+                                    <p class="text-blue-600 text-sm">vs 2.5% industry</p>
                                 </div>
                                 <i class="fas fa-exclamation-triangle text-3xl text-blue-500"></i>
                             </div>
@@ -494,9 +458,9 @@
                         <div class="card p-6 border-l-4 border-red-500">
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <p class="text-gray-600 text-sm font-medium">90+ DPD Rate</p>
-                                    <p class="text-3xl font-bold text-gray-900">0.9%</p>
-                                    <p class="text-red-600 text-sm">↑ 0.2% from last month</p>
+                                    <p class="text-gray-600 text-sm font-medium">30+ DPD Rate</p>
+                                    <p class="text-3xl font-bold text-gray-900">0.6%</p>
+                                    <p class="text-red-600 text-sm">↑ 0.1% from last month</p>
                                 </div>
                                 <i class="fas fa-times-circle text-3xl text-red-500"></i>
                             </div>
@@ -505,8 +469,8 @@
                             <div class="flex items-center justify-between">
                                 <div>
                                     <p class="text-gray-600 text-sm font-medium">Recovery Rate</p>
-                                    <p class="text-3xl font-bold text-gray-900">78%</p>
-                                    <p class="text-purple-600 text-sm">Within 90 days</p>
+                                    <p class="text-3xl font-bold text-gray-900">89%</p>
+                                    <p class="text-purple-600 text-sm">Within 30 days</p>
                                 </div>
                                 <i class="fas fa-undo text-3xl text-purple-500"></i>
                             </div>
@@ -516,12 +480,12 @@
                     <!-- Performance Charts -->
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
                         <div class="card p-6">
-                            <h3 class="text-xl font-bold text-gray-900 mb-4">DPD Trends</h3>
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">DPD Trends (Short-term Focus)</h3>
                             <div id="dpd-trends-chart"></div>
                         </div>
                         <div class="card p-6">
-                            <h3 class="text-xl font-bold text-gray-900 mb-4">Vintage Analysis</h3>
-                            <div id="vintage-chart"></div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">Mobile Money Performance</h3>
+                            <div id="mobile-money-chart"></div>
                         </div>
                     </div>
 
@@ -534,54 +498,54 @@
                                     <tr>
                                         <th>KI Score Band</th>
                                         <th>Volume</th>
-                                        <th>Outstanding (₹Cr)</th>
+                                        <th>Outstanding (KES M)</th>
+                                        <th>7+ DPD %</th>
                                         <th>30+ DPD %</th>
-                                        <th>90+ DPD %</th>
-                                        <th>Charge-off %</th>
+                                        <th>Write-off %</th>
                                     </tr>
                                 </thead>
-                                                                    <tbody>
-                                        <tr>
-                                            <td><span class="px-2 py-1 bg-green-100 text-green-800 rounded">1-20 (Best)</span></td>
-                                            <td>1,845</td>
-                                            <td>₹98.2</td>
-                                            <td class="text-green-600">0.6%</td>
-                                            <td class="text-green-600">0.1%</td>
-                                            <td class="text-green-600">0.05%</td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="px-2 py-1 bg-blue-100 text-blue-800 rounded">21-40</span></td>
-                                            <td>3,564</td>
-                                            <td>₹134.7</td>
-                                            <td class="text-blue-600">1.2%</td>
-                                            <td class="text-blue-600">0.4%</td>
-                                            <td class="text-blue-600">0.2%</td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded">41-60</span></td>
-                                            <td>2,456</td>
-                                            <td>₹72.8</td>
-                                            <td class="text-yellow-600">3.8%</td>
-                                            <td class="text-yellow-600">1.4%</td>
-                                            <td class="text-yellow-600">0.7%</td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="px-2 py-1 bg-red-100 text-red-800 rounded">61-80</span></td>
-                                            <td>789</td>
-                                            <td>₹18.3</td>
-                                            <td class="text-red-600">7.2%</td>
-                                            <td class="text-red-600">3.1%</td>
-                                            <td class="text-red-600">1.8%</td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="px-2 py-1 bg-red-200 text-red-900 rounded">81-100 (Worst)</span></td>
-                                            <td>66</td>
-                                            <td>₹1.2</td>
-                                            <td class="text-red-700">15.2%</td>
-                                            <td class="text-red-700">8.1%</td>
-                                            <td class="text-red-700">4.5%</td>
-                                        </tr>
-                                    </tbody>
+                                <tbody>
+                                    <tr>
+                                        <td><span class="px-2 py-1 bg-green-100 text-green-800 rounded">1-20 (Best)</span></td>
+                                        <td>2,845</td>
+                                        <td>KES 89.2</td>
+                                        <td class="text-green-600">0.4%</td>
+                                        <td class="text-green-600">0.1%</td>
+                                        <td class="text-green-600">0.02%</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="px-2 py-1 bg-blue-100 text-blue-800 rounded">21-40</span></td>
+                                        <td>5,234</td>
+                                        <td>KES 142.8</td>
+                                        <td class="text-blue-600">1.2%</td>
+                                        <td class="text-blue-600">0.3%</td>
+                                        <td class="text-blue-600">0.08%</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded">41-60</span></td>
+                                        <td>3,156</td>
+                                        <td>KES 76.4</td>
+                                        <td class="text-yellow-600">2.8%</td>
+                                        <td class="text-yellow-600">1.1%</td>
+                                        <td class="text-yellow-600">0.3%</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="px-2 py-1 bg-red-100 text-red-800 rounded">61-80</span></td>
+                                        <td>1,456</td>
+                                        <td>KES 28.9</td>
+                                        <td class="text-red-600">5.2%</td>
+                                        <td class="text-red-600">2.8%</td>
+                                        <td class="text-red-600">1.2%</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="px-2 py-1 bg-red-200 text-red-900 rounded">81-100 (Worst)</span></td>
+                                        <td>229</td>
+                                        <td>KES 3.2</td>
+                                        <td class="text-red-700">12.2%</td>
+                                        <td class="text-red-700">6.1%</td>
+                                        <td class="text-red-700">3.8%</td>
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -593,7 +557,7 @@
                 <!-- Day 0 View (Default) -->
                 <div id="model-day0" class="model-view">
                     <div class="flex justify-between items-center mb-6">
-                        <h2 class="text-3xl font-bold text-gray-900">Model Health Dashboard</h2>
+                        <h2 class="text-3xl font-bold text-gray-900">Africa Model Health Dashboard</h2>
                         <button class="btn-primary" onclick="showPerformanceSetup()">
                             <i class="fas fa-cog mr-2"></i>Setup Performance Data
                         </button>
@@ -605,7 +569,7 @@
                             <div class="flex items-center justify-between">
                                 <div>
                                     <h3 class="font-bold text-gray-900">Primary Model</h3>
-                                    <p class="text-lg font-semibold text-green-600">XGBoost v2.1</p>
+                                    <p class="text-lg font-semibold text-green-600">XGBoost Africa v1.3</p>
                                     <p class="text-sm text-gray-600">Deployed: Oct 15, 2024</p>
                                 </div>
                                 <div class="text-green-500">
@@ -618,8 +582,8 @@
                             <div class="flex items-center justify-between">
                                 <div>
                                     <h3 class="font-bold text-gray-900">Champion Gini</h3>
-                                    <p class="text-lg font-semibold text-blue-600">0.78</p>
-                                    <p class="text-sm text-gray-600">Development dataset</p>
+                                    <p class="text-lg font-semibold text-blue-600">0.82</p>
+                                    <p class="text-sm text-gray-600">Kenya development dataset</p>
                                 </div>
                                 <div class="text-blue-500">
                                     <i class="fas fa-trophy text-2xl"></i>
@@ -631,7 +595,7 @@
                             <div class="flex items-center justify-between">
                                 <div>
                                     <h3 class="font-bold text-gray-900">Predictions Made</h3>
-                                    <p class="text-lg font-semibold text-yellow-600">10,900</p>
+                                    <p class="text-lg font-semibold text-yellow-600">15,200</p>
                                     <p class="text-sm text-gray-600">This month</p>
                                 </div>
                                 <div class="text-yellow-500">
@@ -662,62 +626,62 @@
                                     <tbody>
                                         <tr>
                                             <td>1-10 (Best)</td>
-                                            <td>8.2%</td>
-                                            <td>7.8%</td>
-                                            <td class="text-green-600">0.002</td>
+                                            <td>12.5%</td>
+                                            <td>13.2%</td>
+                                            <td class="text-green-600">0.004</td>
                                         </tr>
                                         <tr>
                                             <td>11-20</td>
-                                            <td>12.5%</td>
-                                            <td>13.1%</td>
+                                            <td>16.8%</td>
+                                            <td>16.1%</td>
                                             <td class="text-green-600">0.003</td>
                                         </tr>
                                         <tr>
                                             <td>21-30</td>
-                                            <td>18.3%</td>
-                                            <td>17.9%</td>
-                                            <td class="text-green-600">0.001</td>
-                                        </tr>
-                                        <tr>
-                                            <td>31-40</td>
-                                            <td>22.1%</td>
-                                            <td>22.8%</td>
+                                            <td>22.3%</td>
+                                            <td>22.9%</td>
                                             <td class="text-green-600">0.002</td>
                                         </tr>
                                         <tr>
+                                            <td>31-40</td>
+                                            <td>20.1%</td>
+                                            <td>19.8%</td>
+                                            <td class="text-green-600">0.000</td>
+                                        </tr>
+                                        <tr>
                                             <td>41-50</td>
-                                            <td>15.4%</td>
-                                            <td>15.1%</td>
+                                            <td>14.2%</td>
+                                            <td>14.6%</td>
                                             <td class="text-green-600">0.001</td>
                                         </tr>
                                         <tr>
                                             <td>51-60</td>
-                                            <td>12.8%</td>
-                                            <td>12.5%</td>
-                                            <td class="text-green-600">0.001</td>
+                                            <td>8.9%</td>
+                                            <td>8.4%</td>
+                                            <td class="text-green-600">0.003</td>
                                         </tr>
                                         <tr>
                                             <td>61-70</td>
-                                            <td>7.2%</td>
-                                            <td>7.5%</td>
+                                            <td>3.8%</td>
+                                            <td>3.6%</td>
                                             <td class="text-green-600">0.001</td>
                                         </tr>
                                         <tr>
                                             <td>71-80</td>
-                                            <td>2.8%</td>
-                                            <td>2.6%</td>
-                                            <td class="text-green-600">0.001</td>
+                                            <td>1.2%</td>
+                                            <td>1.2%</td>
+                                            <td class="text-green-600">0.000</td>
                                         </tr>
                                         <tr>
                                             <td>81-90</td>
-                                            <td>0.6%</td>
-                                            <td>0.6%</td>
+                                            <td>0.2%</td>
+                                            <td>0.2%</td>
                                             <td class="text-green-600">0.000</td>
                                         </tr>
                                         <tr>
                                             <td>91-100 (Worst)</td>
-                                            <td>0.1%</td>
-                                            <td>0.1%</td>
+                                            <td>0.0%</td>
+                                            <td>0.0%</td>
                                             <td class="text-green-600">0.000</td>
                                         </tr>
                                     </tbody>
@@ -725,7 +689,7 @@
                             </div>
                             <div class="mt-4 p-3 bg-green-50 rounded-lg">
                                 <p class="text-sm text-green-700">
-                                    <strong>Overall PSI: 0.012</strong> - KI Score distribution is stable
+                                    <strong>Overall PSI: 0.014</strong> - KI Score distribution is stable
                                 </p>
                             </div>
                         </div>
@@ -747,44 +711,44 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Bureau Score</td>
-                                            <td>0.08</td>
+                                            <td>Mobile Money Score</td>
+                                            <td>0.06</td>
                                             <td><span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Stable</span></td>
                                             <td class="text-green-600">↓</td>
                                         </tr>
                                         <tr>
                                             <td>Monthly Income</td>
-                                            <td>0.12</td>
-                                            <td><span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded text-xs">Monitor</span></td>
-                                            <td class="text-yellow-600">↑</td>
+                                            <td>0.09</td>
+                                            <td><span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Stable</span></td>
+                                            <td class="text-green-600">↑</td>
                                         </tr>
                                         <tr>
-                                            <td>DTI Ratio</td>
-                                            <td>0.06</td>
+                                            <td>Mobile Usage Score</td>
+                                            <td>0.04</td>
                                             <td><span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Stable</span></td>
                                             <td class="text-green-600">→</td>
                                         </tr>
                                         <tr>
-                                            <td>Bank Statement Score</td>
-                                            <td>0.18</td>
-                                            <td><span class="px-2 py-1 bg-red-100 text-red-800 rounded text-xs">Alert</span></td>
-                                            <td class="text-red-600">↑</td>
+                                            <td>Loan Amount</td>
+                                            <td>0.11</td>
+                                            <td><span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded text-xs">Monitor</span></td>
+                                            <td class="text-yellow-600">↑</td>
                                         </tr>
                                         <tr>
-                                            <td>Loan Amount</td>
-                                            <td>0.09</td>
+                                            <td>Transaction Frequency</td>
+                                            <td>0.07</td>
                                             <td><span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Stable</span></td>
                                             <td class="text-green-600">↓</td>
                                         </tr>
                                         <tr>
-                                            <td>Employment Type</td>
-                                            <td>0.05</td>
+                                            <td>Account Age</td>
+                                            <td>0.03</td>
                                             <td><span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Stable</span></td>
                                             <td class="text-green-600">→</td>
                                         </tr>
                                         <tr>
                                             <td>Loan Tenure</td>
-                                            <td>0.07</td>
+                                            <td>0.05</td>
                                             <td><span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Stable</span></td>
                                             <td class="text-green-600">↓</td>
                                         </tr>
@@ -806,26 +770,12 @@
                     <div class="card p-6 mb-8">
                         <h3 class="text-xl font-bold text-gray-900 mb-4">Model Health Alerts</h3>
                         <div class="space-y-4">
-                            <div class="alert-card p-4 rounded-lg">
-                                <div class="flex items-start space-x-3">
-                                    <i class="fas fa-exclamation-triangle text-red-500 text-xl mt-1"></i>
-                                    <div class="flex-1">
-                                        <h4 class="font-bold text-red-800">Bank Statement Score CSI Alert</h4>
-                                        <p class="text-red-700 text-sm">CSI value of 0.18 indicates feature drift. Bank statement input patterns may have shifted significantly.</p>
-                                        <p class="text-red-600 text-xs mt-1">Detected: Nov 10, 2024 | Severity: Medium</p>
-                                    </div>
-                                    <button class="text-red-600 hover:text-red-800">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            
                             <div class="warning-card p-4 rounded-lg">
                                 <div class="flex items-start space-x-3">
                                     <i class="fas fa-info-circle text-yellow-500 text-xl mt-1"></i>
                                     <div class="flex-1">
-                                        <h4 class="font-bold text-yellow-800">Monthly Income Distribution Shift</h4>
-                                        <p class="text-yellow-700 text-sm">Average income increased by 8% week-over-week. Monitor for sustained trend.</p>
+                                        <h4 class="font-bold text-yellow-800">Loan Amount CSI Monitor</h4>
+                                        <p class="text-yellow-700 text-sm">CSI value of 0.11 indicates slight drift in loan amount patterns. Monitor for continued trend.</p>
                                         <p class="text-yellow-600 text-xs mt-1">Detected: Nov 12, 2024 | Severity: Low</p>
                                     </div>
                                     <button class="text-yellow-600 hover:text-yellow-800">
@@ -838,8 +788,8 @@
                                 <div class="flex items-start space-x-3">
                                     <i class="fas fa-check-circle text-green-500 text-xl mt-1"></i>
                                     <div class="flex-1">
-                                        <h4 class="font-bold text-green-800">Model Performance Stable</h4>
-                                        <p class="text-green-700 text-sm">KI Score PSI (0.012) and most feature CSI values are stable. Model is performing as expected.</p>
+                                        <h4 class="font-bold text-green-800">Model Performance Excellent</h4>
+                                        <p class="text-green-700 text-sm">KI Score PSI (0.014) and mobile money features showing stable performance. Model optimized for short-term lending.</p>
                                         <p class="text-green-600 text-xs mt-1">Last Check: Nov 15, 2024</p>
                                     </div>
                                 </div>
@@ -849,7 +799,7 @@
 
                     <!-- Feature Importance -->
                     <div class="card p-6">
-                        <h3 class="text-xl font-bold text-gray-900 mb-4">Current Feature Importance</h3>
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Current Feature Importance (Africa Model)</h3>
                         <div id="feature-importance-chart"></div>
                     </div>
                 </div>
@@ -857,9 +807,9 @@
                 <!-- Model Performance View (Hidden by default) -->
                 <div id="model-performance" class="model-view" style="display: none;">
                     <div class="flex justify-between items-center mb-6">
-                        <h2 class="text-3xl font-bold text-gray-900">Model Performance Analysis</h2>
+                        <h2 class="text-3xl font-bold text-gray-900">Africa Model Performance Analysis</h2>
                         <div class="text-sm text-gray-600">
-                            Performance validation with live data
+                            Performance validation with Kenya live data
                         </div>
                     </div>
 
@@ -869,8 +819,8 @@
                             <div class="flex items-center justify-between">
                                 <div>
                                     <p class="text-gray-600 text-sm font-medium">Live Gini</p>
-                                    <p class="text-3xl font-bold text-gray-900">0.74</p>
-                                    <p class="text-green-600 text-sm">vs 0.78 dev</p>
+                                    <p class="text-3xl font-bold text-gray-900">0.79</p>
+                                    <p class="text-green-600 text-sm">vs 0.82 dev</p>
                                 </div>
                                 <i class="fas fa-chart-line text-3xl text-green-500"></i>
                             </div>
@@ -879,8 +829,8 @@
                             <div class="flex items-center justify-between">
                                 <div>
                                     <p class="text-gray-600 text-sm font-medium">KS Statistic</p>
-                                    <p class="text-3xl font-bold text-gray-900">0.45</p>
-                                    <p class="text-blue-600 text-sm">Strong separation</p>
+                                    <p class="text-3xl font-bold text-gray-900">0.48</p>
+                                    <p class="text-blue-600 text-sm">Excellent separation</p>
                                 </div>
                                 <i class="fas fa-divide text-3xl text-blue-500"></i>
                             </div>
@@ -889,7 +839,7 @@
                             <div class="flex items-center justify-between">
                                 <div>
                                     <p class="text-gray-600 text-sm font-medium">Model Accuracy</p>
-                                    <p class="text-3xl font-bold text-gray-900">82.4%</p>
+                                    <p class="text-3xl font-bold text-gray-900">87.2%</p>
                                     <p class="text-purple-600 text-sm">On validation set</p>
                                 </div>
                                 <i class="fas fa-bullseye text-3xl text-purple-500"></i>
@@ -898,8 +848,8 @@
                         <div class="card p-6 border-l-4 border-orange-500">
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <p class="text-gray-600 text-sm font-medium">Precision @ 40%</p>
-                                    <p class="text-3xl font-bold text-gray-900">91.2%</p>
+                                    <p class="text-gray-600 text-sm font-medium">Precision @ 85%</p>
+                                    <p class="text-3xl font-bold text-gray-900">94.1%</p>
                                     <p class="text-orange-600 text-sm">Approval threshold</p>
                                 </div>
                                 <i class="fas fa-crosshairs text-3xl text-orange-500"></i>
@@ -921,7 +871,7 @@
 
                     <!-- Prediction Distribution -->
                     <div class="card p-6">
-                        <h3 class="text-xl font-bold text-gray-900 mb-4">Prediction Score Distribution</h3>
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Prediction Score Distribution (Africa)</h3>
                         <div id="prediction-distribution-chart"></div>
                     </div>
                 </div>
@@ -933,7 +883,7 @@
     <div id="performance-setup-modal" class="modal">
         <div class="modal-content">
             <div class="flex justify-between items-center mb-6">
-                <h3 class="text-2xl font-bold text-gray-900">Setup Performance Data</h3>
+                <h3 class="text-2xl font-bold text-gray-900">Setup Performance Data - Kenya</h3>
                 <button onclick="closePerformanceSetup()" class="text-gray-400 hover:text-gray-600">
                     <i class="fas fa-times text-xl"></i>
                 </button>
@@ -948,7 +898,7 @@
                             <select class="w-full border rounded-lg px-3 py-2">
                                 <option>SFTP</option>
                                 <option>API Push</option>
-                                <option>Manual Upload</option>
+                                <option>Mobile API</option>
                             </select>
                         </div>
                         <div>
@@ -956,36 +906,14 @@
                             <select class="w-full border rounded-lg px-3 py-2">
                                 <option>Daily</option>
                                 <option>Weekly</option>
-                                <option>Monthly</option>
+                                <option>Real-time</option>
                             </select>
                         </div>
                     </div>
                 </div>
 
                 <div>
-                    <h4 class="font-bold text-lg text-gray-800 mb-3">SFTP Configuration</h4>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Server Host</label>
-                            <input type="text" class="w-full border rounded-lg px-3 py-2" placeholder="sftp.kaleidofin.com">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Port</label>
-                            <input type="text" class="w-full border rounded-lg px-3 py-2" value="22">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Username</label>
-                            <input type="text" class="w-full border rounded-lg px-3 py-2" placeholder="client_username">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Directory Path</label>
-                            <input type="text" class="w-full border rounded-lg px-3 py-2" placeholder="/upload/performance/">
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                    <h4 class="font-bold text-lg text-gray-800 mb-3">Required Data Format</h4>
+                    <h4 class="font-bold text-lg text-gray-800 mb-3">Required Data Format (Kenya)</h4>
                     <div class="bg-gray-50 p-4 rounded-lg">
                         <div class="data-table">
                             <table class="text-sm">
@@ -1005,10 +933,10 @@
                                         <td>Unique loan identifier</td>
                                     </tr>
                                     <tr>
-                                        <td class="font-mono">application_id</td>
+                                        <td class="font-mono">mobile_number</td>
                                         <td>String</td>
                                         <td><span class="text-red-600">Yes</span></td>
-                                        <td>Original application ID</td>
+                                        <td>M-Pesa linked mobile number</td>
                                     </tr>
                                     <tr>
                                         <td class="font-mono">dpd_as_of_date</td>
@@ -1017,46 +945,22 @@
                                         <td>Days past due</td>
                                     </tr>
                                     <tr>
-                                        <td class="font-mono">current_balance</td>
+                                        <td class="font-mono">current_balance_kes</td>
                                         <td>Number</td>
                                         <td><span class="text-red-600">Yes</span></td>
-                                        <td>Outstanding balance</td>
+                                        <td>Outstanding balance in KES</td>
                                     </tr>
                                     <tr>
-                                        <td class="font-mono">disbursed_amount</td>
+                                        <td class="font-mono">disbursed_amount_kes</td>
                                         <td>Number</td>
                                         <td><span class="text-red-600">Yes</span></td>
-                                        <td>Original loan amount</td>
+                                        <td>Original loan amount in KES</td>
                                     </tr>
                                     <tr>
-                                        <td class="font-mono">total_overdue</td>
-                                        <td>Number</td>
+                                        <td class="font-mono">repayment_method</td>
+                                        <td>String</td>
                                         <td><span class="text-yellow-600">Optional</span></td>
-                                        <td>Total overdue amount</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-mono">disbursed_date</td>
-                                        <td>Date</td>
-                                        <td><span class="text-yellow-600">Optional</span></td>
-                                        <td>YYYY-MM-DD format</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-mono">interest_rate</td>
-                                        <td>Number</td>
-                                        <td><span class="text-yellow-600">Optional</span></td>
-                                        <td>Annual interest rate %</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-mono">written_off</td>
-                                        <td>Boolean</td>
-                                        <td><span class="text-yellow-600">Optional</span></td>
-                                        <td>Yes/No or 1/0</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-mono">repossession</td>
-                                        <td>Boolean</td>
-                                        <td><span class="text-yellow-600">Optional</span></td>
-                                        <td>Yes/No or 1/0</td>
+                                        <td>M-Pesa, Bank, Cash</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -1127,7 +1031,7 @@
         }
 
         function savePerformanceSetup() {
-            alert('Performance data configuration saved! SFTP endpoint configured successfully.');
+            alert('Performance data configuration saved! Kenya SFTP endpoint configured successfully.');
             closePerformanceSetup();
         }
 
@@ -1139,10 +1043,10 @@
                 plotOptions: { bar: { horizontal: false, columnWidth: '55%' } },
                 dataLabels: { enabled: false },
                 xaxis: { categories: ['May 24', 'Jun 24', 'Jul 24', 'Aug 24', 'Sep 24', 'Oct 24'] },
-                colors: ['#4f46e5', '#06b6d4'],
+                colors: ['#059669', '#10b981'],
                 series: [
-                    { name: 'Applications', data: [1500, 1600, 1700, 1900, 2000, 2200] },
-                    { name: 'Approved', data: [1200, 1280, 1360, 1520, 1600, 1760] }
+                    { name: 'Applications', data: [2100, 2350, 2580, 2800, 3100, 3200] },
+                    { name: 'Approved', data: [1785, 1998, 2193, 2380, 2635, 2720] }
                 ]
             });
             charts.originations.render();
@@ -1152,12 +1056,12 @@
                 chart: { type: 'line', height: 300, toolbar: { show: false } },
                 stroke: { width: 3, curve: 'smooth' },
                 xaxis: { categories: ['May 24', 'Jun 24', 'Jul 24', 'Aug 24', 'Sep 24', 'Oct 24'] },
-                yaxis: { title: { text: 'Average KI Score' }, min: 25, max: 40 },
-                colors: ['#4f46e5', '#10b981', '#ef4444'],
+                yaxis: { title: { text: 'Average KI Score' }, min: 20, max: 35 },
+                colors: ['#059669', '#10b981', '#ef4444'],
                 series: [
-                    { name: 'Overall Avg KI Score', data: [34.2, 33.8, 33.1, 32.9, 32.4, 32.5] },
-                    { name: 'Approved Avg KI Score', data: [28.5, 28.1, 27.8, 27.2, 26.9, 27.1] },
-                    { name: 'Rejected Avg KI Score', data: [52.3, 51.8, 51.2, 50.9, 50.4, 49.8] }
+                    { name: 'Overall Avg KI Score', data: [30.2, 29.8, 29.1, 28.9, 28.4, 28.3] },
+                    { name: 'Approved Avg KI Score', data: [24.5, 24.1, 23.8, 23.2, 22.9, 23.1] },
+                    { name: 'Rejected Avg KI Score', data: [48.3, 47.8, 47.2, 46.9, 46.4, 45.8] }
                 ],
                 tooltip: {
                     y: {
@@ -1169,50 +1073,76 @@
             });
             charts.kiScore.render();
 
-            // Decision Trends Chart
-            charts.decisionTrends = new ApexCharts(document.querySelector("#decision-trends-chart"), {
-                chart: { type: 'area', height: 300, toolbar: { show: false }, stacked: true },
-                dataLabels: { enabled: false },
-                stroke: { curve: 'smooth', width: 2 },
-                xaxis: { categories: ['May 24', 'Jun 24', 'Jul 24', 'Aug 24', 'Sep 24', 'Oct 24'] },
+            // Product Distribution Chart
+            charts.productDistribution = new ApexCharts(document.querySelector("#product-distribution-chart"), {
+                chart: { type: 'donut', height: 300 },
+                labels: ['Digital Loans', 'Microfinance', 'MSME', 'Agriculture', 'Small Business', 'Personal Loans'],
+                colors: ['#06b6d4', '#f59e0b', '#ef4444', '#10b981', '#8b5cf6', '#f97316'],
+                series: [25, 20, 15, 15, 15, 10],
+                legend: { position: 'bottom' },
+                plotOptions: {
+                    pie: {
+                        donut: {
+                            labels: {
+                                show: true,
+                                total: {
+                                    show: true,
+                                    label: 'Total',
+                                    formatter: () => '100%'
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            charts.productDistribution.render();
+
+            // Tenure Distribution Chart - Based on attachment showing majority <3 months
+            charts.tenureChart = new ApexCharts(document.querySelector("#tenure-chart"), {
+                chart: { type: 'bar', height: 300, toolbar: { show: false } },
+                plotOptions: { bar: { horizontal: true } },
+                dataLabels: { enabled: true },
+                xaxis: { 
+                    categories: ['<1M', '1M', '2M', '3M', '4M-6M', '7M-12M', '12M-18M', '18M-24M', '24M-30M', '30M-36M', '36M+']
+                },
+                colors: ['#059669'],
+                series: [{ 
+                    name: 'Percentage', 
+                    data: [8, 81, 5, 3, 2, 0.5, 0.3, 0.1, 0.05, 0.03, 0.02] // Heavily weighted toward 1 month
+                }]
+            });
+            charts.tenureChart.render();
+
+            // Ticket Size Chart - Based on attachment
+            charts.ticketSizeChart = new ApexCharts(document.querySelector("#ticket-size-chart"), {
+                chart: { type: 'bar', height: 350, toolbar: { show: false } },
+                plotOptions: { bar: { horizontal: false, columnWidth: '80%' } },
+                dataLabels: { enabled: true },
+                xaxis: { 
+                    categories: ['0-5K', '5K-10K', '10K-15K', '15K-20K', '20K-25K', '25K-30K', '>30K'],
+                    title: { text: 'Ticket Size (KES)' }
+                },
                 yaxis: { title: { text: 'Percentage %' } },
-                colors: ['#10b981', '#ef4444', '#f59e0b'],
-                series: [
-                    { name: 'Approved', data: [78, 79, 80, 79, 80, 80] },
-                    { name: 'Rejected', data: [20, 19, 18, 19, 18, 18] },
-                    { name: 'Pending Review', data: [2, 2, 2, 2, 2, 2] }
-                ],
-                fill: { opacity: 0.7 }
+                colors: ['#059669'],
+                series: [{ 
+                    name: 'Distribution %', 
+                    data: [47, 16, 10, 8, 6, 3, 10] // Based on the distribution chart showing majority in 0-5K range
+                }]
             });
-            charts.decisionTrends.render();
+            charts.ticketSizeChart.render();
 
-            // Bureau Score Trends Chart
-            charts.bureauTrends = new ApexCharts(document.querySelector("#bureau-trends-chart"), {
-                chart: { type: 'line', height: 300, toolbar: { show: false } },
-                stroke: { width: 3, curve: 'smooth' },
-                xaxis: { categories: ['May 24', 'Jun 24', 'Jul 24', 'Aug 24', 'Sep 24', 'Oct 24'] },
-                yaxis: { title: { text: 'Average Bureau Score' }, min: 680, max: 720 },
-                colors: ['#6366f1', '#10b981', '#ef4444'],
-                series: [
-                    { name: 'Overall Avg', data: [692, 695, 697, 698, 699, 698] },
-                    { name: 'Approved Avg', data: [708, 710, 712, 714, 715, 714] },
-                    { name: 'Rejected Avg', data: [658, 660, 662, 664, 665, 663] }
-                ]
-            });
-            charts.bureauTrends.render();
-
-            // Feature Importance Chart
+            // Feature Importance Chart - Africa specific
             charts.featureImportance = new ApexCharts(document.querySelector("#feature-importance-chart"), {
                 chart: { type: 'bar', height: 300, toolbar: { show: false } },
                 plotOptions: { bar: { horizontal: true } },
                 dataLabels: { enabled: true },
                 xaxis: { 
-                    categories: ['Bureau Score', 'Monthly Income', 'Bank Statement Score', 'DTI Ratio', 'Loan Amount', 'Age', 'Employment Type', 'Loan Tenure']
+                    categories: ['Mobile Money Score', 'Monthly Income', 'Mobile Usage Score', 'Transaction Frequency', 'Account Age', 'Loan Amount', 'Employment Type', 'Loan Tenure']
                 },
-                colors: ['#4f46e5'],
+                colors: ['#059669'],
                 series: [{ 
                     name: 'Importance', 
-                    data: [0.24, 0.18, 0.15, 0.12, 0.09, 0.08, 0.07, 0.07] 
+                    data: [0.28, 0.19, 0.16, 0.13, 0.10, 0.08, 0.04, 0.02] 
                 }]
             });
             charts.featureImportance.render();
@@ -1220,7 +1150,7 @@
 
         // Initialize Performance charts
         function initPerformanceCharts() {
-            // DPD Trends Chart
+            // DPD Trends Chart - Short term focus
             if (!charts.dpdTrends) {
                 charts.dpdTrends = new ApexCharts(document.querySelector("#dpd-trends-chart"), {
                     chart: { type: 'line', height: 300, toolbar: { show: false } },
@@ -1228,29 +1158,28 @@
                     xaxis: { categories: ['Oct 24', 'Nov 24'] },
                     colors: ['#ef4444', '#f59e0b', '#06b6d4'],
                     series: [
-                        { name: '30+ DPD', data: [2.1, 2.8] },
-                        { name: '60+ DPD', data: [1.2, 1.6] },
-                        { name: '90+ DPD', data: [0.7, 0.9] }
+                        { name: '7+ DPD', data: [1.5, 1.8] },
+                        { name: '15+ DPD', data: [0.8, 1.0] },
+                        { name: '30+ DPD', data: [0.5, 0.6] }
                     ]
                 });
                 charts.dpdTrends.render();
             }
 
-            // Vintage Analysis Chart
-            if (!charts.vintage) {
-                charts.vintage = new ApexCharts(document.querySelector("#vintage-chart"), {
-                    chart: { type: 'line', height: 300, toolbar: { show: false } },
-                    stroke: { width: 2, curve: 'smooth' },
-                    xaxis: { categories: ['Month 1', 'Month 2', 'Month 3', 'Month 4', 'Month 5', 'Month 6'] },
-                    yaxis: { title: { text: 'Cumulative Default Rate %' } },
-                    colors: ['#10b981', '#06b6d4', '#f59e0b', '#ef4444'],
+            // Mobile Money Performance Chart
+            if (!charts.mobileMoney) {
+                charts.mobileMoney = new ApexCharts(document.querySelector("#mobile-money-chart"), {
+                    chart: { type: 'area', height: 300, toolbar: { show: false } },
+                    stroke: { curve: 'smooth', width: 2 },
+                    xaxis: { categories: ['Oct 24', 'Nov 24'] },
+                    colors: ['#10b981', '#059669'],
                     series: [
-                        { name: 'Oct 2024', data: [0.1, 0.3, 0.7, 1.2, 1.8, 2.4] },
-                        { name: 'Sep 2024', data: [0.2, 0.4, 0.8, 1.4, 2.1, 2.8] },
-                        { name: 'Aug 2024', data: [0.1, 0.5, 1.0, 1.6, 2.3, 3.1] }
-                    ]
+                        { name: 'M-Pesa Repayments %', data: [78, 82] },
+                        { name: 'Mobile Lending Volume', data: [85, 89] }
+                    ],
+                    fill: { opacity: 0.7 }
                 });
-                charts.vintage.render();
+                charts.mobileMoney.render();
             }
 
             // ROC Curve
@@ -1260,9 +1189,9 @@
                     stroke: { width: 3, curve: 'smooth' },
                     xaxis: { title: { text: 'False Positive Rate' } },
                     yaxis: { title: { text: 'True Positive Rate' } },
-                    colors: ['#4f46e5', '#ef4444'],
+                    colors: ['#059669', '#ef4444'],
                     series: [
-                        { name: 'Current Model (AUC: 0.74)', data: [[0, 0], [0.1, 0.25], [0.2, 0.45], [0.3, 0.62], [0.4, 0.75], [0.5, 0.82], [0.6, 0.88], [0.7, 0.92], [0.8, 0.96], [0.9, 0.98], [1, 1]] },
+                        { name: 'Africa Model (AUC: 0.79)', data: [[0, 0], [0.1, 0.28], [0.2, 0.48], [0.3, 0.65], [0.4, 0.78], [0.5, 0.85], [0.6, 0.90], [0.7, 0.94], [0.8, 0.97], [0.9, 0.99], [1, 1]] },
                         { name: 'Random (AUC: 0.5)', data: [[0, 0], [1, 1]] }
                     ]
                 });
@@ -1276,16 +1205,16 @@
                     stroke: { width: 3, curve: 'smooth' },
                     xaxis: { title: { text: 'Mean Predicted Probability' } },
                     yaxis: { title: { text: 'Fraction of Positives' } },
-                    colors: ['#4f46e5', '#ef4444'],
+                    colors: ['#059669', '#ef4444'],
                     series: [
-                        { name: 'Model Calibration', data: [[0.1, 0.08], [0.2, 0.18], [0.3, 0.28], [0.4, 0.39], [0.5, 0.51], [0.6, 0.62], [0.7, 0.71], [0.8, 0.82], [0.9, 0.89]] },
+                        { name: 'Model Calibration', data: [[0.1, 0.09], [0.2, 0.19], [0.3, 0.29], [0.4, 0.38], [0.5, 0.52], [0.6, 0.61], [0.7, 0.72], [0.8, 0.81], [0.9, 0.88]] },
                         { name: 'Perfect Calibration', data: [[0, 0], [1, 1]] }
                     ]
                 });
                 charts.calibration.render();
             }
 
-            // Prediction Distribution
+            // Prediction Distribution - Africa optimized
             if (!charts.predictionDist) {
                 charts.predictionDist = new ApexCharts(document.querySelector("#prediction-distribution-chart"), {
                     chart: { type: 'histogram', height: 300, toolbar: { show: false } },
@@ -1295,10 +1224,10 @@
                         categories: ['0-0.1', '0.1-0.2', '0.2-0.3', '0.3-0.4', '0.4-0.5', '0.5-0.6', '0.6-0.7', '0.7-0.8', '0.8-0.9', '0.9-1.0']
                     },
                     yaxis: { title: { text: 'Frequency' } },
-                    colors: ['#4f46e5'],
+                    colors: ['#059669'],
                     series: [{ 
                         name: 'Applications', 
-                        data: [156, 298, 423, 567, 734, 892, 678, 456, 289, 145] 
+                        data: [189, 356, 567, 823, 1156, 945, 678, 512, 367, 189] 
                     }]
                 });
                 charts.predictionDist.render();
