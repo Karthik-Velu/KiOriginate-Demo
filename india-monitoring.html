@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KI Originate - India Monitoring Dashboard</title>
+    <title>KI Originate - Enhanced Monitoring Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -87,6 +87,13 @@
             transform: translateY(-2px);
             box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
         }
+
+        .btn-primary:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
         
         .btn-secondary {
             background-color: #e5e7eb;
@@ -140,6 +147,16 @@
             color: #374151;
         }
         
+        .kaleidofin-logo {
+            display: inline-block;
+            margin-right: 1rem;
+        }
+        
+        .kaleidofin-logo svg {
+            height: 32px;
+            width: auto;
+        }
+        
         .performance-toggle {
             background-color: #4f46e5;
             color: white;
@@ -177,9 +194,96 @@
             border-radius: 0.75rem;
             padding: 2rem;
             width: 90%;
-            max-width: 600px;
-            max-height: 80vh;
+            max-width: 700px;
+            max-height: 90vh;
             overflow-y: auto;
+        }
+
+        .modal-step {
+            display: none;
+        }
+
+        .stepper {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-grow: 1;
+            position: relative;
+        }
+        .step-circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #e5e7eb;
+            color: #6b7280;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border: 2px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        .step-label {
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            color: #6b7280;
+            text-align: center;
+        }
+        .step-line {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            width: 100%;
+            height: 2px;
+            background-color: #e5e7eb;
+            z-index: -1;
+        }
+        .step:last-child .step-line {
+            display: none;
+        }
+
+        .step.active .step-circle {
+            background-color: #4f46e5;
+            color: white;
+            border-color: #4f46e5;
+        }
+        .step.active .step-label {
+            color: #4f46e5;
+            font-weight: 600;
+        }
+
+        .step.completed .step-circle {
+            background-color: #10b981;
+            color: white;
+            border-color: #10b981;
+        }
+
+        .step.completed .step-line {
+            background-color: #10b981;
+        }
+
+        .upload-box {
+            border: 2px dashed #d1d5db;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+        }
+        .upload-box:hover {
+            background-color: #f9fafb;
+            border-color: #4f46e5;
+        }
+        .roll-rate-table td {
+            text-align: center;
+        }
+        .roll-rate-table .bg-gray-100 {
+            background-color: #f3f4f6;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -193,6 +297,14 @@
                         <button onclick="window.location.href='india-home.html'" class="text-gray-500 hover:text-gray-700">
                             <i class="fas fa-arrow-left text-xl"></i>
                         </button>
+                        <div class="kaleidofin-logo">
+                            <svg width="264" height="69" viewBox="0 0 264 69" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M0 28.6165L29.6939 14.0607V25.7053L0 40.2611V28.6165Z" fill="#0F547E"/>
+                                <path d="M0 40.5523L29.6939 55.1081V43.4634L0 28.9076V40.5523Z" fill="#28B2B6"/>
+                                <path d="M67.9042 27.1169L57.14 38.4274L68.1228 54H59.2164L52.1131 43.7276L49.1079 46.8967V54H41.8407V14.4402H49.1079V37.1161L58.3967 27.1169H67.9042ZM66.8046 46.6782C66.8046 44.3833 67.5513 42.5437 69.0448 41.1595C70.5383 39.7752 72.469 38.901 74.8367 38.5367L81.4482 37.5532C82.796 37.3711 83.4699 36.7336 83.4699 35.6408C83.4699 34.6208 83.0692 33.783 82.2678 33.1273C81.5029 32.4716 80.3918 32.1438 78.9348 32.1438C77.4048 32.1438 76.1845 32.5627 75.2738 33.4005C74.3996 34.2383 73.9078 35.2765 73.7985 36.515L67.351 35.149C67.6059 32.8177 68.7534 30.7596 70.7933 28.9746C72.8332 27.1897 75.5288 26.2972 78.8801 26.2972C82.8871 26.2972 85.8377 27.2626 87.7319 29.1932C89.6261 31.0874 90.5732 33.528 90.5732 36.515V49.738C90.5732 51.3408 90.6825 52.7615 90.901 54H84.2349C84.0528 53.1986 83.9617 52.124 83.9617 50.7762C82.2496 53.4354 79.6087 54.765 76.0388 54.765C73.2704 54.765 71.0301 53.9636 69.318 52.3608C67.6424 50.758 66.8046 48.8638 66.8046 46.6782ZM77.5687 49.3556C79.2808 49.3556 80.6833 48.882 81.7761 47.9349C82.9053 46.9514 83.4699 45.3486 83.4699 43.1265V41.9244L77.4048 42.8533C75.1828 43.1812 74.0717 44.3104 74.0717 46.241C74.0717 47.1153 74.3814 47.862 75.0006 48.4813C75.6199 49.0641 76.4759 49.3556 77.5687 49.3556ZM101.887 54H94.62V14.4402H101.887V54ZM111.689 37.4986H123.71C123.637 36.005 123.091 34.7483 122.071 33.7284C121.087 32.7084 119.63 32.1984 117.7 32.1984C115.951 32.1984 114.531 32.7448 113.438 33.8376C112.345 34.9305 111.762 36.1508 111.689 37.4986ZM124.42 44.4925L130.486 46.2957C129.757 48.7727 128.318 50.8126 126.169 52.4154C124.056 54.0182 121.415 54.8196 118.246 54.8196C114.385 54.8196 111.106 53.5264 108.411 50.9401C105.715 48.3174 104.367 44.8204 104.367 40.4491C104.367 36.2965 105.679 32.9088 108.301 30.286C110.924 27.6268 114.021 26.2972 117.59 26.2972C121.743 26.2972 124.985 27.5358 127.316 30.0128C129.684 32.4898 130.868 35.8958 130.868 40.2306C130.868 40.522 130.85 40.8498 130.813 41.2141C130.813 41.5784 130.813 41.8698 130.813 42.0884L130.759 42.4708H111.525C111.598 44.2193 112.29 45.6764 113.602 46.8421C114.913 48.0078 116.479 48.5906 118.301 48.5906C121.397 48.5906 123.437 47.2246 124.42 44.4925ZM140.58 54H133.312V27.1169H140.58V54ZM132.438 18.3197C132.438 17.0812 132.875 16.0248 133.749 15.1506C134.624 14.2399 135.68 13.7846 136.919 13.7846C138.157 13.7846 139.214 14.2217 140.088 15.0959C140.962 15.9702 141.399 17.0448 141.399 18.3197C141.399 19.5218 140.962 20.56 140.088 21.4342C139.214 22.3085 138.157 22.7456 136.919 22.7456C135.68 22.7456 134.624 22.3085 133.749 21.4342C132.875 20.56 132.438 19.5218 132.438 18.3197ZM170.708 14.4402V49.137C170.708 50.9219 170.781 52.5429 170.926 54H163.987C163.805 53.0893 163.714 52.0512 163.714 50.8855C163.095 52.0147 162.111 52.9254 160.763 53.6175C159.452 54.3096 157.922 54.6557 156.173 54.6557C152.349 54.6557 149.198 53.3261 146.721 50.6669C144.28 47.9713 143.06 44.5836 143.06 40.5038C143.06 36.5332 144.262 33.2002 146.666 30.5046C149.107 27.809 152.203 26.4612 155.955 26.4612C159.816 26.4612 162.348 27.5722 163.55 29.7942V14.4402H170.708ZM150.382 40.5038C150.382 42.8715 151.001 44.7475 152.239 46.1318C153.478 47.4796 155.081 48.1535 157.048 48.1535C158.978 48.1535 160.563 47.4613 161.801 46.0771C163.04 44.6929 163.659 42.8169 163.659 40.4491C163.659 38.1178 163.04 36.2965 161.801 34.9851C160.563 33.6373 158.978 32.9634 157.048 32.9634C155.117 32.9634 153.514 33.6373 152.239 34.9851C151.001 36.3329 150.382 38.1725 150.382 40.5038ZM182.526 46.1864C183.873 47.5342 185.494 48.2081 187.389 48.2081C189.283 48.2081 190.886 47.5342 192.197 46.1864C193.545 44.8386 194.219 42.9626 194.219 40.5584C194.219 38.1542 193.545 36.2783 192.197 34.9305C190.886 33.5827 189.283 32.9088 187.389 32.9088C185.494 32.9088 183.873 33.5827 182.526 34.9305C181.214 36.2783 180.558 38.1542 180.558 40.5584C180.558 42.9626 181.214 44.8386 182.526 46.1864ZM177.28 30.3406C179.976 27.645 183.345 26.2972 187.389 26.2972C191.432 26.2972 194.783 27.645 197.442 30.3406C200.138 33.0362 201.486 36.4422 201.486 40.5584C201.486 44.6747 200.138 48.0806 197.442 50.7762C194.783 53.4718 191.432 54.8196 187.389 54.8196C183.345 54.8196 179.976 53.4718 177.28 50.7762C174.621 48.0806 173.291 44.6747 173.291 40.5584C173.291 36.4422 174.621 33.0362 177.28 30.3406Z" fill="#0F547E"/>
+                                <path d="M223.396 33.3459H212.632V54H205.31V33.3459H200.829V27.1169H205.31V24.057C205.31 21.0335 206.184 18.6111 207.933 16.7898C209.717 14.9684 212.103 14.0578 215.09 14.0578C216.693 14.0578 217.895 14.2399 218.697 14.6042V20.7239C218.077 20.5418 217.312 20.4507 216.402 20.4507C215.418 20.4507 214.544 20.7421 213.779 21.325C213.014 21.8714 212.632 22.8185 212.632 24.1663V27.1169H230.608V54H223.396V33.3459ZM223.833 21.4342C222.959 20.56 222.522 19.5036 222.522 18.2651C222.522 17.0266 222.959 15.9702 223.833 15.0959C224.707 14.1853 225.764 13.7299 227.002 13.7299C228.241 13.7299 229.297 14.1853 230.171 15.0959C231.045 15.9702 231.483 17.0266 231.483 18.2651C231.483 19.5036 231.045 20.56 230.171 21.4342C229.297 22.2721 228.241 22.691 227.002 22.691C225.764 22.691 224.707 22.2721 223.833 21.4342ZM242.403 38.5367V54H235.136V27.1169H242.184V30.4499C242.949 29.1386 244.042 28.1368 245.463 27.4447C246.884 26.7526 248.377 26.4065 249.943 26.4065C253.113 26.4065 255.517 27.4083 257.156 29.4118C258.832 31.3788 259.669 33.9287 259.669 37.0614V54H252.402V38.3182C252.402 36.7154 251.983 35.4222 251.146 34.4387C250.344 33.4552 249.106 32.9634 247.43 32.9634C245.9 32.9634 244.68 33.4916 243.769 34.548C242.858 35.6044 242.403 36.9339 242.403 38.5367Z" fill="#28B2B6"/>
+                            </svg>
+                        </div>
                         <div class="flex items-center space-x-3">
                             <div class="bg-indigo-600 text-white p-2 rounded-lg">
                                 <i class="fas fa-chart-line text-xl"></i>
@@ -221,10 +333,10 @@
         <div class="bg-white border-b">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex space-x-8">
-                    <div class="nav-tab active" onclick="switchSection('portfolio')">
+                    <div class="nav-tab active" onclick="switchSection('portfolio', event)">
                         <i class="fas fa-briefcase mr-2"></i>Portfolio Monitoring
                     </div>
-                    <div class="nav-tab" onclick="switchSection('model')">
+                    <div class="nav-tab" onclick="switchSection('model', event)">
                         <i class="fas fa-brain mr-2"></i>Model Monitoring
                     </div>
                 </div>
@@ -241,14 +353,21 @@
                     <div class="flex justify-between items-center mb-6">
                         <h2 class="text-3xl font-bold text-gray-900">India Portfolio Overview</h2>
                         <div class="flex items-center space-x-4">
-                            <select class="border rounded-lg px-3 py-2">
-                                <option>All Products</option>
-                                <option>MFI - Individual Loans</option>
-                                <option>MSME (Unsecured)</option>
-                                <option>MSME (Secured)</option>
-                                <option>Agri Loans</option>
-                                <option>Affordable Housing</option>
-                                <option>Two Wheelers</option>
+                            <div class="flex items-center space-x-2 text-sm">
+                                <span class="text-gray-600">Weighting:</span>
+                                <button id="day0-mode-aum" class="px-3 py-1 rounded border bg-indigo-600 text-white" onclick="setDay0MetricMode('AUM')">AUM</button>
+                                <button id="day0-mode-count" class="px-3 py-1 rounded border bg-white text-gray-700" onclick="setDay0MetricMode('COUNT')">Count</button>
+                            </div>
+                            <select id="product-filter" class="border rounded-lg px-3 py-2">
+                                <option value="all">All Products</option>
+                                
+                                <option value="mfi">MFI - Individual Loans</option>
+                                <option value="msme_unsecured">MSME (Unsecured)</option>
+                                <option value="msme_secured">MSME (Secured)</option>
+                                <option value="agri">Agri Loans</option>
+                                <option value="housing">Affordable Housing</option>
+                                <option value="tw">Two Wheelers</option>
+    
                             </select>
                             <select class="border rounded-lg px-3 py-2">
                                 <option>Last 6 Months</option>
@@ -258,174 +377,11 @@
                         </div>
                     </div>
 
-                    <!-- Key Metrics -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                        <div class="metric-card">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <p class="text-blue-100 text-sm font-medium">Total Applications</p>
-                                    <p class="metric-value">10,900</p>
-                                    <p class="text-blue-100 text-sm">↑ 12% from last month</p>
-                                </div>
-                                <i class="fas fa-file-alt text-3xl opacity-80"></i>
-                            </div>
-                        </div>
-                        <div class="metric-card">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <p class="text-blue-100 text-sm font-medium">Auto Approved</p>
-                                    <p class="metric-value">8,720</p>
-                                    <p class="text-blue-100 text-sm">80.0% approval rate</p>
-                                </div>
-                                <i class="fas fa-check-circle text-3xl opacity-80"></i>
-                            </div>
-                        </div>
-                        <div class="metric-card">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <p class="text-blue-100 text-sm font-medium">Approved Amount</p>
-                                    <p class="metric-value">₹280 Cr</p>
-                                    <p class="text-blue-100 text-sm">↑ 22% from last month</p>
-                                </div>
-                                <i class="fas fa-rupee-sign text-3xl opacity-80"></i>
-                            </div>
-                        </div>
-                        <div class="metric-card">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <p class="text-blue-100 text-sm font-medium">Avg. Loan Amount</p>
-                                    <p class="metric-value">₹3.2L</p>
-                                    <p class="text-blue-100 text-sm">Stable trend</p>
-                                </div>
-                                <i class="fas fa-calculator text-3xl opacity-80"></i>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Charts Row -->
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-                        <div class="card p-6">
-                            <h3 class="text-xl font-bold text-gray-900 mb-4">Monthly Originations</h3>
-                            <div id="originations-chart"></div>
-                        </div>
-                        <div class="card p-6">
-                            <h3 class="text-xl font-bold text-gray-900 mb-4">Monthly KI Score Trends</h3>
-                            <div id="ki-score-chart"></div>
-                        </div>
-                    </div>
-
-                    <!-- Monthly Distribution Charts -->
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-                        <div class="card p-6">
-                            <h3 class="text-xl font-bold text-gray-900 mb-4">Monthly Decision Trends</h3>
-                            <div id="decision-trends-chart"></div>
-                        </div>
-                        <div class="card p-6">
-                            <h3 class="text-xl font-bold text-gray-900 mb-4">Monthly Bureau Score Trends</h3>
-                            <div id="bureau-trends-chart"></div>
-                        </div>
-                    </div>
-
-                    <!-- Key Metrics Table -->
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-                        <div class="card p-6">
-                            <h3 class="text-xl font-bold text-gray-900 mb-4">Key Distributions</h3>
-                            <div class="data-table">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Metric</th>
-                                            <th>Average</th>
-                                            <th>Trend</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>KI Score</td>
-                                            <td>32.5</td>
-                                            <td><span class="text-green-600">↓ 2.1%</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Bureau Score</td>
-                                            <td>698</td>
-                                            <td><span class="text-green-600">↑ 2.1%</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Monthly Income</td>
-                                            <td>₹45,200</td>
-                                            <td><span class="text-green-600">↑ 5.3%</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>FOIR Ratio</td>
-                                            <td>42.3%</td>
-                                            <td><span class="text-red-600">↑ 1.8%</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>LTV Ratio</td>
-                                            <td>78.5%</td>
-                                            <td><span class="text-gray-600">→ 0.2%</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Avg. Tenure</td>
-                                            <td>36 months</td>
-                                            <td><span class="text-green-600">↓ 2.1%</span></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="card p-6">
-                            <h3 class="text-xl font-bold text-gray-900 mb-4">Product-wise Performance</h3>
-                            <div class="data-table">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Product</th>
-                                            <th>Avg Amount</th>
-                                            <th>Approval %</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>MFI - Individual</td>
-                                            <td>₹60K</td>
-                                            <td class="text-green-600">85%</td>
-                                        </tr>
-                                        <tr>
-                                            <td>MSME (Unsecured)</td>
-                                            <td>₹2.0L</td>
-                                            <td class="text-green-600">78%</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Agri Loans</td>
-                                            <td>₹2.0L</td>
-                                            <td class="text-green-600">82%</td>
-                                        </tr>
-                                        <tr>
-                                            <td>MSME (Secured)</td>
-                                            <td>₹7.5L</td>
-                                            <td class="text-green-600">75%</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Affordable Housing</td>
-                                            <td>₹10.0L</td>
-                                            <td class="text-yellow-600">72%</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Two Wheelers</td>
-                                            <td>₹1.2L</td>
-                                            <td class="text-green-600">88%</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- Product Mix -->
-                    <div class="card p-6 mb-8">
+                    <div id="product-mix-card" class="card p-6 mb-8">
                         <h3 class="text-xl font-bold text-gray-900 mb-4">Product Mix & Volume Distribution</h3>
                         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                            
                             <div class="text-center p-4 bg-blue-50 rounded-lg">
                                 <h4 class="font-bold text-blue-900 text-sm">MFI Individual</h4>
                                 <p class="text-xl font-bold text-blue-600">28%</p>
@@ -456,6 +412,166 @@
                                 <p class="text-xl font-bold text-indigo-600">5%</p>
                                 <p class="text-xs text-indigo-700">545 loans</p>
                             </div>
+    
+                        </div>
+                    </div>
+
+                    <!-- Key Metrics -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <div class="metric-card">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-blue-100 text-sm font-medium">Total Applications</p>
+                                    <p class="metric-value" id="metric-total-apps">10,900</p>
+                                    <p class="text-blue-100 text-sm">↑ 12% from last month</p>
+                                </div>
+                                <i class="fas fa-file-alt text-3xl opacity-80"></i>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-blue-100 text-sm font-medium">Auto Approved</p>
+                                    <p class="metric-value" id="metric-approved-apps">8,720</p>
+                                    <p class="text-blue-100 text-sm" id="metric-approval-rate">80.0% approval rate</p>
+                                </div>
+                                <i class="fas fa-check-circle text-3xl opacity-80"></i>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-blue-100 text-sm font-medium">Approved Amount</p>
+                                    <p class="metric-value" id="metric-approved-amount">₹280 Cr</p>
+                                    <p class="text-blue-100 text-sm">↑ 22% from last month</p>
+                                </div>
+                                <i class="fas fa-rupee-sign text-3xl opacity-80"></i>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-blue-100 text-sm font-medium">Avg. Loan Amount</p>
+                                    <p class="metric-value" id="metric-avg-loan">₹3.2L</p>
+                                    <p class="text-blue-100 text-sm">Stable trend</p>
+                                </div>
+                                <i class="fas fa-calculator text-3xl opacity-80"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Charts Row: Originations and Decision Trends -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                        <div class="card p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">Monthly Originations</h3>
+                            <div id="originations-chart"></div>
+                        </div>
+                        <div class="card p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">Monthly Decision Trends</h3>
+                            <div id="decision-trends-chart"></div>
+                        </div>
+                    </div>
+
+                    <!-- Detailed Metric Trends -->
+                    <div class="card p-6 mb-8">
+                        <h3 class="text-xl font-bold text-gray-900 mb-6">Key Metric Distributions (Month-on-Month)</h3>
+                        <div class="space-y-8">
+                            <!-- KI Score -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div class="p-4 border rounded-lg">
+                                    <h4 class="font-semibold text-center text-gray-700 mb-2">KI Score Distribution (Approved)</h4>
+                                    <div id="ki-score-dist-approved-chart"></div>
+                        </div>
+                                <div class="p-4 border rounded-lg">
+                                    <h4 class="font-semibold text-center text-gray-700 mb-2">KI Score Distribution (Declined)</h4>
+                                    <div id="ki-score-dist-declined-chart"></div>
+                        </div>
+                    </div>
+                            <!-- Bureau Score -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div class="p-4 border rounded-lg">
+                                    <h4 class="font-semibold text-center text-gray-700 mb-2">Bureau Score Distribution (Approved)</h4>
+                                    <div id="bureau-score-dist-approved-chart"></div>
+                            </div>
+                                <div class="p-4 border rounded-lg">
+                                    <h4 class="font-semibold text-center text-gray-700 mb-2">Bureau Score Distribution (Declined)</h4>
+                                    <div id="bureau-score-dist-declined-chart"></div>
+                        </div>
+                            </div>
+                             <!-- Monthly Income -->
+                             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div class="p-4 border rounded-lg">
+                                    <h4 class="font-semibold text-center text-gray-700 mb-2">Annual Income Distribution (Approved)</h4>
+                                    <div id="income-dist-approved-chart"></div>
+                        </div>
+                                <div class="p-4 border rounded-lg">
+                                    <h4 class="font-semibold text-center text-gray-700 mb-2">Annual Income Distribution (Declined)</h4>
+                                    <div id="income-dist-declined-chart"></div>
+                                </div>
+                            </div>
+                             <!-- FOIR -->
+                             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div class="p-4 border rounded-lg">
+                                    <h4 class="font-semibold text-center text-gray-700 mb-2">FOIR Distribution (Approved)</h4>
+                                    <div id="foir-dist-approved-chart"></div>
+                                </div>
+                                <div class="p-4 border rounded-lg">
+                                    <h4 class="font-semibold text-center text-gray-700 mb-2">FOIR Distribution (Declined)</h4>
+                                    <div id="foir-dist-declined-chart"></div>
+                                </div>
+                            </div>
+                             <!-- LTV -->
+                             <div id="ltv-distribution-section" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div class="p-4 border rounded-lg">
+                                    <h4 class="font-semibold text-center text-gray-700 mb-2">LTV Distribution (Approved)*</h4>
+                                    <div id="ltv-dist-approved-chart"></div>
+                                </div>
+                                <div class="p-4 border rounded-lg">
+                                    <h4 class="font-semibold text-center text-gray-700 mb-2">LTV Distribution (Declined)*</h4>
+                                    <div id="ltv-dist-declined-chart"></div>
+                                </div>
+                            </div>
+                             <!-- Ticket Size -->
+                             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div class="p-4 border rounded-lg">
+                                    <h4 class="font-semibold text-center text-gray-700 mb-2">Loan Ticket Size Distribution (Approved)</h4>
+                                    <div id="ticket-size-dist-approved-chart"></div>
+                                </div>
+                                <div class="p-4 border rounded-lg">
+                                    <h4 class="font-semibold text-center text-gray-700 mb-2">Loan Ticket Size Distribution (Declined)</h4>
+                                    <div id="ticket-size-dist-declined-chart"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-4 text-right">*LTV Ratio applicable for secured products only.</p>
+                    </div>
+
+                    <!-- Demographic Distributions -->
+                    <div class="card p-6 mb-8">
+                        <h3 class="text-xl font-bold text-gray-900 mb-6">Demographic Distributions (Month-on-Month)</h3>
+                        <div class="space-y-8">
+                            <!-- Age -->
+                             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div class="p-4 border rounded-lg">
+                                    <h4 class="font-semibold text-center text-gray-700 mb-2">Age Distribution (Approved)</h4>
+                                    <div id="age-dist-approved-chart"></div>
+                            </div>
+                                <div class="p-4 border rounded-lg">
+                                    <h4 class="font-semibold text-center text-gray-700 mb-2">Age Distribution (Declined)</h4>
+                                    <div id="age-dist-declined-chart"></div>
+                            </div>
+                            </div>
+                            <!-- Education -->
+                             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div class="p-4 border rounded-lg">
+                                    <h4 class="font-semibold text-center text-gray-700 mb-2">Education Distribution (Approved)</h4>
+                                    <div id="education-dist-approved-chart"></div>
+                            </div>
+                                <div class="p-4 border rounded-lg">
+                                    <h4 class="font-semibold text-center text-gray-700 mb-2">Education Distribution (Declined)</h4>
+                                    <div id="education-dist-declined-chart"></div>
+                            </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -463,128 +579,244 @@
                 <!-- Performance Data View (Hidden by default) -->
                 <div id="portfolio-performance" class="portfolio-view" style="display: none;">
                     <div class="flex justify-between items-center mb-6">
-                        <h2 class="text-3xl font-bold text-gray-900">Portfolio Performance</h2>
-                        <div class="text-sm text-gray-600">
-                            Performance data available from: <strong>Oct 2024</strong>
+                        <h2 class="text-3xl font-bold text-gray-900">Portfolio Performance Analysis</h2>
+                        <div class="flex items-center space-x-2 text-sm">
+                            <span class="text-gray-600">Weighting:</span>
+                            <button id="mode-aum" class="px-3 py-1 rounded border bg-indigo-600 text-white" onclick="setMetricMode('AUM')">AUM</button>
+                            <button id="mode-count" class="px-3 py-1 rounded border bg-white text-gray-700" onclick="setMetricMode('COUNT')">Count</button>
                         </div>
                     </div>
 
-                    <!-- Performance Metrics -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                        <div class="card p-6 border-l-4 border-green-500">
-                            <div class="flex items-center justify-between">
+                    <!-- Risk Summary (only risk charts) -->
+                    <div class="card p-6 mb-8">
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Risk Summary</h3>
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                                 <div>
-                                    <p class="text-gray-600 text-sm font-medium">Current Portfolio</p>
-                                    <p class="text-3xl font-bold text-gray-900">₹180 Cr</p>
-                                    <p class="text-green-600 text-sm">Active loans</p>
+                                <h4 class="font-semibold text-gray-800 mb-4 text-center">Risk by Program</h4>
+                                <div id="risk-by-program-chart"></div>
                                 </div>
-                                <i class="fas fa-wallet text-3xl text-green-500"></i>
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-4 text-center">Risk by Originator</h4>
+                                <div id="risk-by-originator-chart"></div>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-4 text-center">Risk by State</h4>
+                                <div id="risk-by-state-chart"></div>
+                        </div>
+                                <div>
+                                <h4 class="font-semibold text-gray-800 mb-4 text-center">Risk by Tenure</h4>
+                                <div id="risk-by-tenure-chart"></div>
+                                </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-4 text-center">Risk by Ticket Size</h4>
+                                <div id="risk-by-ticket-size-chart"></div>
+                            </div>
+                                <div>
+                                <h4 class="font-semibold text-gray-800 mb-4 text-center">Risk by Interest Rate</h4>
+                                <div id="risk-by-interest-chart"></div>
+                                </div>
                             </div>
                         </div>
-                        <div class="card p-6 border-l-4 border-blue-500">
-                            <div class="flex items-center justify-between">
+
+                    <!-- Metrics Over Time -->
+                    <div class="card p-6 mb-8">
+                         <h3 class="text-xl font-bold text-gray-900 mb-4">Risk over Time</h3>
+                         <div id="risk-metrics-over-time-chart"></div>
+                         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
                                 <div>
-                                    <p class="text-gray-600 text-sm font-medium">30+ DPD Rate</p>
-                                    <p class="text-3xl font-bold text-gray-900">2.8%</p>
-                                    <p class="text-blue-600 text-sm">vs 3.2% industry</p>
+                                 <h4 class="font-semibold text-gray-800 mb-2">PAR 30 over Time</h4>
+                                 <div id="par30-over-time-chart"></div>
                                 </div>
-                                <i class="fas fa-exclamation-triangle text-3xl text-blue-500"></i>
+                             <div>
+                                 <h4 class="font-semibold text-gray-800 mb-2">PAR 60 over Time</h4>
+                                 <div id="par60-over-time-chart"></div>
                             </div>
-                        </div>
-                        <div class="card p-6 border-l-4 border-red-500">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <p class="text-gray-600 text-sm font-medium">90+ DPD Rate</p>
-                                    <p class="text-3xl font-bold text-gray-900">0.9%</p>
-                                    <p class="text-red-600 text-sm">↑ 0.2% from last month</p>
-                                </div>
-                                <i class="fas fa-times-circle text-3xl text-red-500"></i>
-                            </div>
-                        </div>
-                        <div class="card p-6 border-l-4 border-purple-500">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <p class="text-gray-600 text-sm font-medium">Recovery Rate</p>
-                                    <p class="text-3xl font-bold text-gray-900">78%</p>
-                                    <p class="text-purple-600 text-sm">Within 90 days</p>
-                                </div>
-                                <i class="fas fa-undo text-3xl text-purple-500"></i>
-                            </div>
+                             <div>
+                                 <h4 class="font-semibold text-gray-800 mb-2">PAR 90 over Time</h4>
+                                 <div id="par90-over-time-chart"></div>
                         </div>
                     </div>
-
-                    <!-- Performance Charts -->
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-                        <div class="card p-6">
-                            <h3 class="text-xl font-bold text-gray-900 mb-4">DPD Trends</h3>
-                            <div id="dpd-trends-chart"></div>
                         </div>
-                        <div class="card p-6">
-                            <h3 class="text-xl font-bold text-gray-900 mb-4">Vintage Analysis</h3>
+
+                    <!-- Vintage Analysis -->
+                    <div class="card p-6 mb-8">
+                         <h3 class="text-xl font-bold text-gray-900 mb-4">Vintage Analysis (90+ DPD Rate %)</h3>
                             <div id="vintage-chart"></div>
-                        </div>
                     </div>
 
-                    <!-- Performance by Segments -->
-                    <div class="card p-6">
-                        <h3 class="text-xl font-bold text-gray-900 mb-4">Performance by KI Score Bands</h3>
+                    <!-- Roll Rate Analysis -->
+                    <div class="card p-6 mb-8">
+                         <h3 class="text-xl font-bold text-gray-900 mb-4">Roll Rate Analysis (Oct'24 to Nov'24)</h3>
                         <div class="data-table">
-                            <table>
+                             <table class="roll-rate-table">
                                 <thead>
                                     <tr>
-                                        <th>KI Score Band</th>
-                                        <th>Volume</th>
-                                        <th>Outstanding (₹Cr)</th>
-                                        <th>30+ DPD %</th>
-                                        <th>90+ DPD %</th>
-                                        <th>Charge-off %</th>
+                                        <th class="bg-gray-100">From (Oct)</th>
+                                        <th class="bg-blue-100">Current</th>
+                                        <th class="bg-yellow-100">DPD 1-30</th>
+                                        <th class="bg-orange-100">DPD 31-60</th>
+                                        <th class="bg-red-100">DPD 61-90</th>
+                                        <th class="bg-red-200">DPD 90+</th>
                                     </tr>
                                 </thead>
                                                                     <tbody>
                                         <tr>
-                                            <td><span class="px-2 py-1 bg-green-100 text-green-800 rounded">1-20 (Best)</span></td>
-                                            <td>1,845</td>
-                                            <td>₹9.8 Cr</td>
-                                            <td class="text-green-600">0.6%</td>
-                                            <td class="text-green-600">0.1%</td>
-                                            <td class="text-green-600">0.05%</td>
+                                        <td class="bg-gray-100">Current</td>
+                                        <td class="bg-green-100">97.2%</td>
+                                        <td>2.5%</td>
+                                        <td>0.2%</td>
+                                        <td>0.1%</td>
+                                        <td>0.0%</td>
                                         </tr>
                                         <tr>
-                                            <td><span class="px-2 py-1 bg-blue-100 text-blue-800 rounded">21-40</span></td>
-                                            <td>3,564</td>
-                                            <td>₹13.5 Cr</td>
-                                            <td class="text-blue-600">1.2%</td>
-                                            <td class="text-blue-600">0.4%</td>
-                                            <td class="text-blue-600">0.2%</td>
+                                        <td class="bg-gray-100">DPD 1-30</td>
+                                        <td>45.5%</td>
+                                        <td class="bg-yellow-200">40.1%</td>
+                                        <td>14.0%</td>
+                                        <td>0.3%</td>
+                                        <td>0.1%</td>
                                         </tr>
                                         <tr>
-                                            <td><span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded">41-60</span></td>
-                                            <td>2,456</td>
-                                            <td>₹7.3 Cr</td>
-                                            <td class="text-yellow-600">3.8%</td>
-                                            <td class="text-yellow-600">1.4%</td>
-                                            <td class="text-yellow-600">0.7%</td>
+                                        <td class="bg-gray-100">DPD 31-60</td>
+                                        <td>25.2%</td>
+                                        <td>15.8%</td>
+                                        <td class="bg-orange-200">42.5%</td>
+                                        <td>16.1%</td>
+                                        <td>0.4%</td>
                                         </tr>
                                         <tr>
-                                            <td><span class="px-2 py-1 bg-red-100 text-red-800 rounded">61-80</span></td>
-                                            <td>789</td>
-                                            <td>₹1.8 Cr</td>
-                                            <td class="text-red-600">7.2%</td>
-                                            <td class="text-red-600">3.1%</td>
-                                            <td class="text-red-600">1.8%</td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="px-2 py-1 bg-red-200 text-red-900 rounded">81-100 (Worst)</span></td>
-                                            <td>66</td>
-                                            <td>₹0.12 Cr</td>
-                                            <td class="text-red-700">15.2%</td>
-                                            <td class="text-red-700">8.1%</td>
-                                            <td class="text-red-700">4.5%</td>
+                                        <td class="bg-gray-100">DPD 61-90</td>
+                                        <td>15.0%</td>
+                                        <td>10.1%</td>
+                                        <td>14.9%</td>
+                                        <td class="bg-red-300">45.5%</td>
+                                        <td>14.5%</td>
                                         </tr>
                                     </tbody>
                             </table>
                         </div>
                     </div>
+
+                    </div>
+
+                    <!-- DealSmart Module -->
+                    <div class="card p-6 mb-8">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-xl font-bold text-gray-900">DealSmart Module - Intelligent Decisioning</h3>
+                            <div class="flex items-center space-x-4">
+                                <div class="text-sm text-gray-500">
+                                    <i class="fas fa-lightbulb mr-1"></i>
+                                    AI-Powered Deal Optimization
+                                </div>
+                                <select id="dealsmart-product-filter" class="border rounded-lg px-3 py-2 text-sm">
+                                    <option value="all">All Products</option>
+                                    <option value="mfi">MFI - Individual Loans</option>
+                                    <option value="msme_unsecured">MSME (Unsecured)</option>
+                                    <option value="msme_secured">MSME (Secured)</option>
+                                    <option value="agri">Agri Loans</option>
+                                    <option value="housing">Affordable Housing</option>
+                                    <option value="tw">Two Wheelers</option>
+                                </select>
+                                <select id="dealsmart-time-filter" class="border rounded-lg px-3 py-2 text-sm">
+                                    <option>Last 6 Months</option>
+                                    <option>Last 12 Months</option>
+                                    <option>YTD</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Upsell and Counter Offer Metrics -->
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                            <!-- Upsell Offers Card -->
+                            <div class="card p-6">
+                                <div class="flex items-center mb-4">
+                                    <div class="bg-green-100 p-2 rounded-lg mr-3">
+                                        <i class="fas fa-arrow-up text-green-600"></i>
+                                    </div>
+                                    <h4 class="font-semibold text-gray-800">Upsell Offers</h4>
+                                </div>
+                                <div class="grid grid-cols-3 gap-4">
+                                    <div class="text-center">
+                                        <p class="text-2xl font-bold text-gray-900">1,250</p>
+                                        <p class="text-sm text-gray-600">Total Upsell Offers</p>
+                                    </div>
+                                    <div class="text-center">
+                                        <p class="text-2xl font-bold text-green-600">₹22,500</p>
+                                        <p class="text-sm text-gray-600">Average Increase</p>
+                                    </div>
+                                    <div class="text-center">
+                                        <p class="text-2xl font-bold text-green-600">₹2.8 Cr</p>
+                                        <p class="text-sm text-gray-600">Incremental Business</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Counter Offers Card -->
+                            <div class="card p-6">
+                                <div class="flex items-center mb-4">
+                                    <div class="bg-green-100 p-2 rounded-lg mr-3">
+                                        <i class="fas fa-shield-alt text-green-600"></i>
+                                    </div>
+                                    <h4 class="font-semibold text-gray-800">Counter Offers</h4>
+                                </div>
+                                <div class="grid grid-cols-3 gap-4">
+                                    <div class="text-center">
+                                        <p class="text-2xl font-bold text-gray-900">890</p>
+                                        <p class="text-sm text-gray-600">Total Counter Offers</p>
+                                    </div>
+                                    <div class="text-center">
+                                        <p class="text-2xl font-bold text-green-600">₹80,000</p>
+                                        <p class="text-sm text-gray-600">Average Loan Amount</p>
+                                    </div>
+                                    <div class="text-center">
+                                        <p class="text-2xl font-bold text-green-600">₹7.1 Cr</p>
+                                        <p class="text-sm text-gray-600">Salvaged Business</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- RBP Performance -->
+                        <div class="card p-6 mb-6">
+                            <h4 class="font-semibold text-gray-800 mb-4">Risk-Based Pricing (RBP) Performance</h4>
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-6">
+                                <div>
+                                    <h5 class="text-sm font-medium text-gray-700 mb-2">PD (%) by KI Score (1-100)</h5>
+                                    <div id="pd-chart" class="h-48"></div>
+                                </div>
+                                <div>
+                                    <h5 class="text-sm font-medium text-gray-700 mb-2">LGD (%) by Recovery Rate</h5>
+                                    <div id="lgd-chart" class="h-48"></div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 p-3 rounded-lg mb-4">
+                                <p class="text-sm font-medium text-gray-800">RBP = (PD × LGD) + Hurdle Rate + Margin</p>
+                                <p class="text-xs text-gray-600">RBP = Estimated Loss (EL) + Cost of Funds + Required Margin</p>
+                            </div>
+                            <div>
+                                <h5 class="text-sm font-medium text-gray-700 mb-2">Interest Rate Distribution</h5>
+                                <div id="rbp-distribution-chart"></div>
+                            </div>
+                        </div>
+
+                        <!-- Impact Metrics -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="card p-6">
+                                <h4 class="font-semibold text-gray-800 mb-2">Conversion Lift</h4>
+                                <p class="text-sm text-gray-600 mb-3">Estimated increase in offer acceptance from low-risk customers.</p>
+                                <p class="text-3xl font-bold text-green-600">+8%</p>
+                            </div>
+                            <div class="card p-6">
+                                <h4 class="font-semibold text-gray-800 mb-2">Margin Improvement</h4>
+                                <p class="text-sm text-gray-600 mb-3">Projected NIM gain from accurately pricing risk across the portfolio.</p>
+                                <p class="text-3xl font-bold text-green-600">+0.5%</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Comparative Analysis removed per requirement -->
+                </div>
+            </div>
                 </div>
             </div>
 
@@ -593,53 +825,10 @@
                 <!-- Day 0 View (Default) -->
                 <div id="model-day0" class="model-view">
                     <div class="flex justify-between items-center mb-6">
-                        <h2 class="text-3xl font-bold text-gray-900">Model Health Dashboard</h2>
+                        <h2 class="text-3xl font-bold text-gray-900">India Model Health Dashboard</h2>
                         <button class="btn-primary" onclick="showPerformanceSetup()">
                             <i class="fas fa-cog mr-2"></i>Setup Performance Data
                         </button>
-                    </div>
-
-                    <!-- Model Status Cards -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                        <div class="card p-6 border-l-4 border-green-500">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <h3 class="font-bold text-gray-900">Primary Model</h3>
-                                    <p class="text-lg font-semibold text-green-600">XGBoost v2.1</p>
-                                    <p class="text-sm text-gray-600">Deployed: Oct 15, 2024</p>
-                                </div>
-                                <div class="text-green-500">
-                                    <i class="fas fa-check-circle text-2xl"></i>
-                                    <p class="text-xs mt-1">Active</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card p-6 border-l-4 border-blue-500">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <h3 class="font-bold text-gray-900">Champion Gini</h3>
-                                    <p class="text-lg font-semibold text-blue-600">0.78</p>
-                                    <p class="text-sm text-gray-600">Development dataset</p>
-                                </div>
-                                <div class="text-blue-500">
-                                    <i class="fas fa-trophy text-2xl"></i>
-                                    <p class="text-xs mt-1">Champion</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card p-6 border-l-4 border-yellow-500">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <h3 class="font-bold text-gray-900">Predictions Made</h3>
-                                    <p class="text-lg font-semibold text-yellow-600">10,900</p>
-                                    <p class="text-sm text-gray-600">This month</p>
-                                </div>
-                                <div class="text-yellow-500">
-                                    <i class="fas fa-chart-line text-2xl"></i>
-                                    <p class="text-xs mt-1">Active</p>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
                     <!-- PSI and CSI Tables -->
@@ -742,52 +931,46 @@
                                             <th>Feature</th>
                                             <th>CSI Score</th>
                                             <th>Status</th>
-                                            <th>Trend</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        
                                         <tr>
-                                            <td>Bureau Score</td>
-                                            <td>0.08</td>
-                                            <td><span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Stable</span></td>
-                                            <td class="text-green-600">↓</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Monthly Income</td>
-                                            <td>0.12</td>
-                                            <td><span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded text-xs">Monitor</span></td>
-                                            <td class="text-yellow-600">↑</td>
-                                        </tr>
-                                        <tr>
-                                            <td>DTI Ratio</td>
-                                            <td>0.06</td>
-                                            <td><span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Stable</span></td>
-                                            <td class="text-green-600">→</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Bank Statement Score</td>
-                                            <td>0.18</td>
-                                            <td><span class="px-2 py-1 bg-red-100 text-red-800 rounded text-xs">Alert</span></td>
-                                            <td class="text-red-600">↑</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Loan Amount</td>
-                                            <td>0.09</td>
-                                            <td><span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Stable</span></td>
-                                            <td class="text-green-600">↓</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Employment Type</td>
-                                            <td>0.05</td>
-                                            <td><span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Stable</span></td>
-                                            <td class="text-green-600">→</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Loan Tenure</td>
+                                            <td>Number of dependents</td>
                                             <td>0.07</td>
                                             <td><span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Stable</span></td>
-                                            <td class="text-green-600">↓</td>
                                         </tr>
+                                        <tr>
+                                            <td>Land Holding</td>
+                                            <td>0.05</td>
+                                            <td><span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Stable</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td># enquiries in last 180 days</td>
+                                            <td>0.14</td>
+                                            <td><span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded text-xs">Monitor</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sum of outstanding balance (MFI)</td>
+                                            <td>0.08</td>
+                                            <td><span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Stable</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Age of the customer</td>
+                                            <td>0.06</td>
+                                            <td><span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Stable</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td># times 90 DPD in last 360 days</td>
+                                            <td>0.09</td>
+                                            <td><span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Stable</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Days since last closed loan</td>
+                                            <td>0.07</td>
+                                            <td><span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Stable</span></td>
+                                        </tr>
+    
                                     </tbody>
                                 </table>
                             </div>
@@ -804,67 +987,41 @@
 
                     <!-- Alerts Section -->
                     <div class="card p-6 mb-8">
-                        <h3 class="text-xl font-bold text-gray-900 mb-4">Model Health Alerts</h3>
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Internal Alerts</h3>
                         <div class="space-y-4">
-                            <div class="alert-card p-4 rounded-lg">
+                             <div class="warning-card p-4 rounded-lg">
                                 <div class="flex items-start space-x-3">
-                                    <i class="fas fa-exclamation-triangle text-red-500 text-xl mt-1"></i>
+                                    <i class="fas fa-info-circle text-yellow-500 text-xl mt-1"></i>
                                     <div class="flex-1">
-                                        <h4 class="font-bold text-red-800">Bank Statement Score CSI Alert</h4>
-                                        <p class="text-red-700 text-sm">CSI value of 0.18 indicates feature drift. Bank statement input patterns may have shifted significantly.</p>
-                                        <p class="text-red-600 text-xs mt-1">Detected: Nov 10, 2024 | Severity: Medium</p>
+                                        <h4 class="font-bold text-yellow-800">New-to-Credit (NTC) Population Increasing</h4>
+                                        <p class="text-yellow-700 text-sm">NTC applications increased from a 6-week average of 20% to 30% this week. This may impact portfolio risk.</p>
+                                        <p class="text-yellow-600 text-xs mt-1">Detected: Nov 14, 2024 | Severity: Low</p>
                                     </div>
-                                    <button class="text-red-600 hover:text-red-800">
-                                        <i class="fas fa-times"></i>
-                                    </button>
                                 </div>
                             </div>
-                            
                             <div class="warning-card p-4 rounded-lg">
                                 <div class="flex items-start space-x-3">
                                     <i class="fas fa-info-circle text-yellow-500 text-xl mt-1"></i>
                                     <div class="flex-1">
-                                        <h4 class="font-bold text-yellow-800">Monthly Income Distribution Shift</h4>
-                                        <p class="text-yellow-700 text-sm">Average income increased by 8% week-over-week. Monitor for sustained trend.</p>
-                                        <p class="text-yellow-600 text-xs mt-1">Detected: Nov 12, 2024 | Severity: Low</p>
-                                    </div>
-                                    <button class="text-yellow-600 hover:text-yellow-800">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="success-card p-4 rounded-lg">
-                                <div class="flex items-start space-x-3">
-                                    <i class="fas fa-check-circle text-green-500 text-xl mt-1"></i>
-                                    <div class="flex-1">
-                                        <h4 class="font-bold text-green-800">Model Performance Stable</h4>
-                                        <p class="text-green-700 text-sm">KI Score PSI (0.012) and most feature CSI values are stable. Model is performing as expected.</p>
-                                        <p class="text-green-600 text-xs mt-1">Last Check: Nov 15, 2024</p>
+                                        <h4 class="font-bold text-yellow-800">Bureau Score Distribution Shift</h4>
+                                        <p class="text-yellow-700 text-sm">The proportion of applicants with bureau scores below 700 has increased by 8% this week compared to the monthly average.</p>
+                                        <p class="text-yellow-600 text-xs mt-1">Detected: Nov 12, 2024 | Severity: Medium</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Feature Importance -->
-                    <div class="card p-6">
-                        <h3 class="text-xl font-bold text-gray-900 mb-4">Current Feature Importance</h3>
-                        <div id="feature-importance-chart"></div>
-                    </div>
                 </div>
 
                 <!-- Model Performance View (Hidden by default) -->
                 <div id="model-performance" class="model-view" style="display: none;">
                     <div class="flex justify-between items-center mb-6">
                         <h2 class="text-3xl font-bold text-gray-900">Model Performance Analysis</h2>
-                        <div class="text-sm text-gray-600">
-                            Performance validation with live data
-                        </div>
                     </div>
 
                     <!-- Model Performance Metrics -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                         <div class="card p-6 border-l-4 border-green-500">
                             <div class="flex items-center justify-between">
                                 <div>
@@ -888,21 +1045,11 @@
                         <div class="card p-6 border-l-4 border-purple-500">
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <p class="text-gray-600 text-sm font-medium">Model Accuracy</p>
-                                    <p class="text-3xl font-bold text-gray-900">82.4%</p>
-                                    <p class="text-purple-600 text-sm">On validation set</p>
+                                    <p class="text-gray-600 text-sm font-medium">Live AUC</p>
+                                    <p class="text-3xl font-bold text-gray-900">0.82</p>
+                                    <p class="text-purple-600 text-sm">Area Under Curve</p>
                                 </div>
-                                <i class="fas fa-bullseye text-3xl text-purple-500"></i>
-                            </div>
-                        </div>
-                        <div class="card p-6 border-l-4 border-orange-500">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <p class="text-gray-600 text-sm font-medium">Precision @ 40%</p>
-                                    <p class="text-3xl font-bold text-gray-900">91.2%</p>
-                                    <p class="text-orange-600 text-sm">Approval threshold</p>
-                                </div>
-                                <i class="fas fa-crosshairs text-3xl text-orange-500"></i>
+                                <i class="fas fa-vector-square text-3xl text-purple-500"></i>
                             </div>
                         </div>
                     </div>
@@ -914,15 +1061,29 @@
                             <div id="roc-chart"></div>
                         </div>
                         <div class="card p-6">
-                            <h3 class="text-xl font-bold text-gray-900 mb-4">Model Calibration</h3>
-                            <div id="calibration-chart"></div>
+                             <h3 class="text-xl font-bold text-gray-900 mb-4">Default Captured by Decile (Lift)</h3>
+                             <div id="gain-lift-chart"></div>
                         </div>
                     </div>
 
-                    <!-- Prediction Distribution -->
-                    <div class="card p-6">
-                        <h3 class="text-xl font-bold text-gray-900 mb-4">Prediction Score Distribution</h3>
-                        <div id="prediction-distribution-chart"></div>
+                    <!-- Gini / KS Table -->
+                    <div class="card p-6 mb-8">
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Gini & KS Performance Details</h3>
+                        <div class="data-table">
+                            <h4 class="font-semibold text-gray-700 text-md mb-2">Monitoring Sample (Gini: 53)</h4>
+                             <table>
+                                <thead>
+                                    <tr><th>KI Score Band</th><th>% Population</th><th>Observed PD</th><th>Cumulative Bad% (A)</th><th>Cumulative Good% (B)</th><th>KS (A-B)</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>1-20 (Low Risk)</td><td>20%</td><td>0.3%</td><td>10.1%</td><td>20.5%</td><td>-10.4</td></tr>
+                                    <tr><td>21-40</td><td>20%</td><td>1.1%</td><td>28.5%</td><td>40.1%</td><td>-11.6</td></tr>
+                                    <tr><td>41-60</td><td>20%</td><td>2.8%</td><td>55.5%</td><td>59.8%</td><td>-4.3</td></tr>
+                                    <tr><td>61-80</td><td>20%</td><td>4.3%</td><td>81.7%</td><td>79.2%</td><td class="font-bold">2.5</td></tr>
+                                    <tr><td>81-100 (High Risk)</td><td>20%</td><td>9.1%</td><td>100%</td><td>100%</td><td>0.0</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -932,142 +1093,110 @@
     <!-- Performance Setup Modal -->
     <div id="performance-setup-modal" class="modal">
         <div class="modal-content">
-            <div class="flex justify-between items-center mb-6">
+             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-2xl font-bold text-gray-900">Setup Performance Data</h3>
                 <button onclick="closePerformanceSetup()" class="text-gray-400 hover:text-gray-600">
                     <i class="fas fa-times text-xl"></i>
                 </button>
             </div>
             
-            <div class="space-y-6">
-                <div>
-                    <h4 class="font-bold text-lg text-gray-800 mb-3">Data Upload Configuration</h4>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Upload Method</label>
-                            <select class="w-full border rounded-lg px-3 py-2">
-                                <option>SFTP</option>
-                                <option>API Push</option>
-                                <option>Manual Upload</option>
-                            </select>
+            <!-- Stepper -->
+            <div class="stepper">
+                <div id="step-indicator-1" class="step active">
+                    <div class="step-line"></div>
+                    <div class="step-circle">1</div>
+                    <div class="step-label">Upload Data</div>
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Upload Frequency</label>
-                            <select class="w-full border rounded-lg px-3 py-2">
-                                <option>Daily</option>
-                                <option>Weekly</option>
-                                <option>Monthly</option>
-                            </select>
+                <div id="step-indicator-2" class="step">
+                    <div class="step-line"></div>
+                    <div class="step-circle">2</div>
+                    <div class="step-label">Map Columns</div>
                         </div>
+                <div id="step-indicator-3" class="step">
+                    <div class="step-line"></div>
+                    <div class="step-circle">3</div>
+                    <div class="step-label">Validate</div>
+                </div>
+                 <div id="step-indicator-4" class="step">
+                    <div class="step-circle">4</div>
+                    <div class="step-label">Finish</div>
                     </div>
                 </div>
 
-                <div>
-                    <h4 class="font-bold text-lg text-gray-800 mb-3">SFTP Configuration</h4>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Server Host</label>
-                            <input type="text" class="w-full border rounded-lg px-3 py-2" placeholder="sftp.kaleidofin.com">
+            <!-- Step 1: Upload -->
+            <div id="step-1" class="modal-step" style="display: block;">
+                <h4 class="font-bold text-lg text-gray-800 mb-3">Upload Performance File</h4>
+                <p class="text-sm text-gray-600 mb-4">Please upload a CSV or Excel file containing performance data. Download our sample file to see the required format.</p>
+                <div class="flex justify-center space-x-4 mb-6">
+                    <button onclick="downloadSampleCSV()" class="btn-secondary"><i class="fas fa-download mr-2"></i>Download Sample CSV</button>
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Port</label>
-                            <input type="text" class="w-full border rounded-lg px-3 py-2" value="22">
+                <div class="upload-box" onclick="document.getElementById('file-upload-input').click()">
+                     <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-3"></i>
+                     <p class="font-semibold text-gray-700">Click to browse or drag & drop your file</p>
+                     <p class="text-xs text-gray-500">Max file size: 10MB</p>
+                     <input type="file" id="file-upload-input" class="hidden" onchange="handleFileSelect(event)">
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Username</label>
-                            <input type="text" class="w-full border rounded-lg px-3 py-2" placeholder="client_username">
+                <p id="file-name-display" class="text-center mt-3 text-sm text-gray-600"></p>
+                <div class="flex justify-end mt-6">
+                    <button id="step-1-next" onclick="nextStep()" class="btn-primary" disabled>Next <i class="fas fa-arrow-right ml-2"></i></button>
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Directory Path</label>
-                            <input type="text" class="w-full border rounded-lg px-3 py-2" placeholder="/upload/performance/">
                         </div>
+
+            <!-- Step 2: Map Columns -->
+            <div id="step-2" class="modal-step">
+                 <h4 class="font-bold text-lg text-gray-800 mb-3">Map Your Columns</h4>
+                 <p class="text-sm text-gray-600 mb-4">Match the required data fields to the columns from your uploaded file. This ensures we process your data correctly.</p>
+                 <div class="space-y-3">
+                    <div class="grid grid-cols-3 items-center gap-4 p-2 bg-gray-50 rounded">
+                        <label class="font-semibold text-gray-700 text-sm">Required Field</label>
+                        <span class="col-span-2 font-semibold text-gray-700 text-sm">Your File's Column</span>
+                    </div>
+                     <!-- Mandatory Fields -->
+                     <div class="grid grid-cols-3 items-center gap-4 p-2 border-b"><label class="text-sm">Loan ID <span class="text-red-500">*</span></label><i class="fas fa-arrows-alt-h text-gray-400 text-center"></i><select class="w-full border rounded-lg px-3 py-1 text-sm"><option>loan_reference_num</option><option>application_id</option><option>customer_id</option></select></div>
+                     <div class="grid grid-cols-3 items-center gap-4 p-2 border-b"><label class="text-sm">Application ID <span class="text-red-500">*</span></label><i class="fas fa-arrows-alt-h text-gray-400 text-center"></i><select class="w-full border rounded-lg px-3 py-1 text-sm"><option>application_id</option><option>loan_reference_num</option><option>customer_id</option></select></div>
+                     <div class="grid grid-cols-3 items-center gap-4 p-2 border-b"><label class="text-sm">DPD as of Reporting Date <span class="text-red-500">*</span></label><i class="fas fa-arrows-alt-h text-gray-400 text-center"></i><select class="w-full border rounded-lg px-3 py-1 text-sm"><option>dpd_days</option><option>days_overdue</option><option>late_by_days</option></select></div>
+                     <div class="grid grid-cols-3 items-center gap-4 p-2 border-b"><label class="text-sm">Current Balance <span class="text-red-500">*</span></label><i class="fas fa-arrows-alt-h text-gray-400 text-center"></i><select class="w-full border rounded-lg px-3 py-1 text-sm"><option>outstanding_principal</option><option>current_bal</option><option>balance_amt</option></select></div>
+                     <div class="grid grid-cols-3 items-center gap-4 p-2 border-b"><label class="text-sm">Loan Disbursed Amount <span class="text-red-500">*</span></label><i class="fas fa-arrows-alt-h text-gray-400 text-center"></i><select class="w-full border rounded-lg px-3 py-1 text-sm"><option>disbursed_amt</option><option>loan_amount</option></select></div>
+                     <!-- Optional Fields -->
+                     <div class="grid grid-cols-3 items-center gap-4 p-2 border-b"><label class="text-sm">Total Overdue Amount</label><i class="fas fa-arrows-alt-h text-gray-400 text-center"></i><select class="w-full border rounded-lg px-3 py-1 text-sm"><option>-- Do not map --</option><option>overdue_amt</option></select></div>
+                     <div class="grid grid-cols-3 items-center gap-4 p-2 border-b"><label class="text-sm">Loan Disbursed Date</label><i class="fas fa-arrows-alt-h text-gray-400 text-center"></i><select class="w-full border rounded-lg px-3 py-1 text-sm"><option>-- Do not map --</option><option>disbursement_date</option></select></div>
+                     <div class="grid grid-cols-3 items-center gap-4 p-2 border-b"><label class="text-sm">Interest Rate</label><i class="fas fa-arrows-alt-h text-gray-400 text-center"></i><select class="w-full border rounded-lg px-3 py-1 text-sm"><option>-- Do not map --</option><option>interest_rate_pa</option></select></div>
+                     <div class="grid grid-cols-3 items-center gap-4 p-2 border-b"><label class="text-sm">Loan Written Off</label><i class="fas fa-arrows-alt-h text-gray-400 text-center"></i><select class="w-full border rounded-lg px-3 py-1 text-sm"><option>-- Do not map --</option><option>is_written_off</option></select></div>
+                     <div class="grid grid-cols-3 items-center gap-4 p-2 border-b"><label class="text-sm">Repossession</label><i class="fas fa-arrows-alt-h text-gray-400 text-center"></i><select class="w-full border rounded-lg px-3 py-1 text-sm"><option>-- Do not map --</option><option>is_repossessed</option></select></div>
+                     <div class="grid grid-cols-3 items-center gap-4 p-2"><label class="text-sm">Recovery after writeoff</label><i class="fas fa-arrows-alt-h text-gray-400 text-center"></i><select class="w-full border rounded-lg px-3 py-1 text-sm"><option>-- Do not map --</option><option>recovery_amt</option></select></div>
+                 </div>
+                 <div class="flex justify-between mt-6">
+                    <button onclick="prevStep()" class="btn-secondary"><i class="fas fa-arrow-left mr-2"></i>Back</button>
+                    <button onclick="nextStep()" class="btn-primary">Next <i class="fas fa-arrow-right ml-2"></i></button>
                     </div>
                 </div>
 
-                <div>
-                    <h4 class="font-bold text-lg text-gray-800 mb-3">Required Data Format</h4>
-                    <div class="bg-gray-50 p-4 rounded-lg">
-                        <div class="data-table">
-                            <table class="text-sm">
-                                <thead>
-                                    <tr>
-                                        <th class="text-left">Field Name</th>
-                                        <th class="text-left">Type</th>
-                                        <th class="text-left">Required</th>
-                                        <th class="text-left">Description</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="font-mono">loan_id</td>
-                                        <td>String</td>
-                                        <td><span class="text-red-600">Yes</span></td>
-                                        <td>Unique loan identifier</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-mono">application_id</td>
-                                        <td>String</td>
-                                        <td><span class="text-red-600">Yes</span></td>
-                                        <td>Original application ID</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-mono">dpd_as_of_date</td>
-                                        <td>Number</td>
-                                        <td><span class="text-red-600">Yes</span></td>
-                                        <td>Days past due</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-mono">current_balance</td>
-                                        <td>Number</td>
-                                        <td><span class="text-red-600">Yes</span></td>
-                                        <td>Outstanding balance</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-mono">disbursed_amount</td>
-                                        <td>Number</td>
-                                        <td><span class="text-red-600">Yes</span></td>
-                                        <td>Original loan amount</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-mono">total_overdue</td>
-                                        <td>Number</td>
-                                        <td><span class="text-yellow-600">Optional</span></td>
-                                        <td>Total overdue amount</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-mono">disbursed_date</td>
-                                        <td>Date</td>
-                                        <td><span class="text-yellow-600">Optional</span></td>
-                                        <td>YYYY-MM-DD format</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-mono">interest_rate</td>
-                                        <td>Number</td>
-                                        <td><span class="text-yellow-600">Optional</span></td>
-                                        <td>Annual interest rate %</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-mono">written_off</td>
-                                        <td>Boolean</td>
-                                        <td><span class="text-yellow-600">Optional</span></td>
-                                        <td>Yes/No or 1/0</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-mono">repossession</td>
-                                        <td>Boolean</td>
-                                        <td><span class="text-yellow-600">Optional</span></td>
-                                        <td>Yes/No or 1/0</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+            <!-- Step 3: Validate -->
+             <div id="step-3" class="modal-step">
+                 <h4 class="font-bold text-lg text-gray-800 mb-3">Validate Data</h4>
+                 <p class="text-sm text-gray-600 mb-4">We will run a few checks on your data to ensure it's in the correct format and ready for processing.</p>
+                 <div id="validation-result" class="hidden p-4 rounded-lg text-center my-4"></div>
+                 <div class="text-center">
+                    <button id="validate-btn" onclick="validateData()" class="btn-primary"><i class="fas fa-check-circle mr-2"></i>Validate Data</button>
                         </div>
+                 <div class="flex justify-between mt-6">
+                    <button onclick="prevStep()" class="btn-secondary"><i class="fas fa-arrow-left mr-2"></i>Back</button>
+                    <button id="step-3-next" onclick="nextStep()" class="btn-primary" disabled>Next <i class="fas fa-arrow-right ml-2"></i></button>
                     </div>
                 </div>
 
-                <div class="flex justify-end space-x-4">
-                    <button onclick="closePerformanceSetup()" class="btn-secondary">Cancel</button>
-                    <button onclick="savePerformanceSetup()" class="btn-primary">Save Configuration</button>
+            <!-- Step 4: Finish -->
+             <div id="step-4" class="modal-step">
+                <div class="text-center p-6">
+                    <i class="fas fa-check-circle fa-3x text-green-500 mb-4"></i>
+                     <h4 class="font-bold text-2xl text-gray-800 mb-3">Configuration Complete!</h4>
+                     <p class="text-gray-600 mb-6">Your performance data mapping has been saved. You can now enable performance data view on your dashboard.</p>
+                     <button onclick="savePerformanceSetup()" class="btn-primary">Finish Setup</button>
                 </div>
+            </div>
+        </div>
+    </div>
+
             </div>
         </div>
     </div>
@@ -1075,14 +1204,13 @@
     <script>
         let performanceDataEnabled = false;
         let charts = {};
+        let productData = {};
+        let modalCurrentStep = 1;
 
         // Section switching
-        function switchSection(section) {
-            // Update nav tabs
+        function switchSection(section, event) {
             document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            // Update content sections
+            event.target.closest('.nav-tab').classList.add('active');
             document.querySelectorAll('.section-content').forEach(content => content.classList.remove('active'));
             document.getElementById(`${section}-section`).classList.add('active');
         }
@@ -1096,20 +1224,14 @@
             if (performanceDataEnabled) {
                 toggleIcon.className = 'fas fa-toggle-on mr-2';
                 toggleText.textContent = 'Performance Data Active';
-                
-                // Show performance views, hide day 0 views
                 document.getElementById('portfolio-day0').style.display = 'none';
                 document.getElementById('portfolio-performance').style.display = 'block';
                 document.getElementById('model-day0').style.display = 'none';
                 document.getElementById('model-performance').style.display = 'block';
-                
-                // Initialize performance charts
-                initPerformanceCharts();
+                setTimeout(initPerformanceCharts, 10); 
             } else {
                 toggleIcon.className = 'fas fa-toggle-off mr-2';
                 toggleText.textContent = 'Enable Performance Data';
-                
-                // Show day 0 views, hide performance views
                 document.getElementById('portfolio-day0').style.display = 'block';
                 document.getElementById('portfolio-performance').style.display = 'none';
                 document.getElementById('model-day0').style.display = 'block';
@@ -1117,198 +1239,925 @@
             }
         }
 
-        // Performance setup modal
+        // --- Performance setup modal workflow ---
         function showPerformanceSetup() {
+            modalCurrentStep = 1;
+            showStep(modalCurrentStep);
             document.getElementById('performance-setup-modal').classList.add('show');
         }
 
         function closePerformanceSetup() {
             document.getElementById('performance-setup-modal').classList.remove('show');
         }
-
-        function savePerformanceSetup() {
-            alert('Performance data configuration saved! SFTP endpoint configured successfully.');
-            closePerformanceSetup();
+        
+        function nextStep() {
+            if (modalCurrentStep < 4) {
+                modalCurrentStep++;
+                showStep(modalCurrentStep);
+            }
         }
 
-        // Initialize Day 0 charts
-        function initDay0Charts() {
+        function prevStep() {
+            if (modalCurrentStep > 1) {
+                modalCurrentStep--;
+                showStep(modalCurrentStep);
+            }
+        }
+
+        function showStep(stepNum) {
+            document.querySelectorAll('.modal-step').forEach(step => step.style.display = 'none');
+            document.getElementById(`step-${stepNum}`).style.display = 'block';
+
+            document.querySelectorAll('.step').forEach((step, index) => {
+                const stepIndicator = step;
+                stepIndicator.classList.remove('active', 'completed');
+                if (index + 1 < stepNum) {
+                    stepIndicator.classList.add('completed');
+                } else if (index + 1 === stepNum) {
+                    stepIndicator.classList.add('active');
+                }
+            });
+        }
+        
+        function downloadSampleCSV() {
+            const header = "Loan ID,Application ID,DPD as of Reporting Date,Current Balance,Loan Disbursed Amount,Total Overdue Amount,Loan Disbursed Date,Interest Rate,Loan Written Off,Repossession,Recovery after writeoff\n";
+            const row1 = "LN001,APP001,0,50000,50000,0,2024-10-01,12.5,No,No,0\n";
+            const row2 = "LN002,APP002,32,75000,80000,5000,2024-09-15,14.0,No,No,0\n";
+            const row3 = "LN003,APP003,15,45000,50000,2500,2024-09-20,13.2,No,No,0\n";
+            const csvContent = "data:text/csv;charset=utf-8," + header + row1 + row2 + row3;
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "performance_data_sample.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if(file) {
+                document.getElementById('file-name-display').textContent = `File selected: ${file.name}`;
+                document.getElementById('step-1-next').disabled = false;
+            }
+        }
+
+        function validateData() {
+            const btn = document.getElementById('validate-btn');
+            const resultDiv = document.getElementById('validation-result');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Validating...';
+            btn.disabled = true;
+            resultDiv.classList.remove('hidden', 'bg-green-100', 'text-green-800', 'bg-red-100', 'text-red-800');
+
+            setTimeout(() => {
+                resultDiv.innerHTML = '<i class="fas fa-check-circle mr-2"></i>Validation Successful! All mandatory columns mapped and formats are correct.';
+                resultDiv.classList.add('bg-green-100', 'text-green-800');
+                resultDiv.classList.remove('hidden');
+                btn.innerHTML = '<i class="fas fa-check-circle mr-2"></i>Validation Complete';
+                document.getElementById('step-3-next').disabled = false;
+            }, 2000);
+        }
+
+        function savePerformanceSetup() {
+            alert('Performance data configuration saved successfully!');
+            closePerformanceSetup();
+            // Automatically enable performance data mode
+            if (!performanceDataEnabled) {
+                togglePerformanceMode();
+            }
+        }
+        
+        // Chart creation functions
+        function createStackedBarChart(elementId, categories, seriesData, colors) {
+             const options = {
+                series: seriesData,
+                chart: { type: 'bar', height: 220, stacked: true, stackType: '100%', toolbar: { show: false } },
+                plotOptions: { bar: { horizontal: false } },
+                xaxis: { categories: categories },
+                yaxis: { labels: { formatter: (val) => val.toFixed(0) + '%' } },
+                legend: { position: 'top', horizontalAlign: 'left', offsetX: 10 },
+                fill: { opacity: 1 },
+                colors: colors
+             };
+             if(document.querySelector(`#${elementId}`)){
+                const chart = new ApexCharts(document.querySelector(`#${elementId}`), options);
+                chart.render();
+                return chart;
+             }
+             return null;
+        }
+
+        // Initialize charts
+        function initCharts() {
+            const months = ['May 24', 'Jun 24', 'Jul 24', 'Aug 24', 'Sep 24', 'Oct 24'];
+            
+            // Sample data for demonstration
+            const sampleData = {
+                originations: [
+                    { name: 'Applications', data: [1500, 1600, 1700, 1900, 2000, 2200] },
+                    { name: 'Approved', data: [1200, 1280, 1360, 1520, 1600, 1760] }
+                ],
+                decisionTrends: [
+                    { name: 'Approved', data: [80, 80, 80, 80, 80, 80] },
+                    { name: 'Rejected', data: [20, 20, 20, 20, 20, 20] }
+                ]
+            };
+            
             // Originations Chart
             charts.originations = new ApexCharts(document.querySelector("#originations-chart"), {
                 chart: { type: 'bar', height: 300, toolbar: { show: false } },
                 plotOptions: { bar: { horizontal: false, columnWidth: '55%' } },
                 dataLabels: { enabled: false },
-                xaxis: { categories: ['May 24', 'Jun 24', 'Jul 24', 'Aug 24', 'Sep 24', 'Oct 24'] },
+                xaxis: { categories: months },
                 colors: ['#4f46e5', '#06b6d4'],
-                series: [
-                    { name: 'Applications', data: [1500, 1600, 1700, 1900, 2000, 2200] },
-                    { name: 'Approved', data: [1200, 1280, 1360, 1520, 1600, 1760] }
-                ]
+                series: sampleData.originations
             });
             charts.originations.render();
-
-            // KI Score Monthly Trends
-            charts.kiScore = new ApexCharts(document.querySelector("#ki-score-chart"), {
-                chart: { type: 'line', height: 300, toolbar: { show: false } },
-                stroke: { width: 3, curve: 'smooth' },
-                xaxis: { categories: ['May 24', 'Jun 24', 'Jul 24', 'Aug 24', 'Sep 24', 'Oct 24'] },
-                yaxis: { title: { text: 'Average KI Score' }, min: 25, max: 40 },
-                colors: ['#4f46e5', '#10b981', '#ef4444'],
-                series: [
-                    { name: 'Overall Avg KI Score', data: [34.2, 33.8, 33.1, 32.9, 32.4, 32.5] },
-                    { name: 'Approved Avg KI Score', data: [28.5, 28.1, 27.8, 27.2, 26.9, 27.1] },
-                    { name: 'Rejected Avg KI Score', data: [52.3, 51.8, 51.2, 50.9, 50.4, 49.8] }
-                ],
-                tooltip: {
-                    y: {
-                        formatter: function(val) {
-                            return val.toFixed(1) + ' (Lower is Better)';
-                        }
-                    }
-                }
-            });
-            charts.kiScore.render();
 
             // Decision Trends Chart
             charts.decisionTrends = new ApexCharts(document.querySelector("#decision-trends-chart"), {
                 chart: { type: 'area', height: 300, toolbar: { show: false }, stacked: true },
                 dataLabels: { enabled: false },
                 stroke: { curve: 'smooth', width: 2 },
-                xaxis: { categories: ['May 24', 'Jun 24', 'Jul 24', 'Aug 24', 'Sep 24', 'Oct 24'] },
+                xaxis: { categories: months },
                 yaxis: { title: { text: 'Percentage %' } },
-                colors: ['#10b981', '#ef4444', '#f59e0b'],
-                series: [
-                    { name: 'Approved', data: [78, 79, 80, 79, 80, 80] },
-                    { name: 'Rejected', data: [20, 19, 18, 19, 18, 18] },
-                    { name: 'Pending Review', data: [2, 2, 2, 2, 2, 2] }
-                ],
+                colors: ['#10b981', '#ef4444'],
+                series: sampleData.decisionTrends,
                 fill: { opacity: 0.7 }
             });
             charts.decisionTrends.render();
 
-            // Bureau Score Trends Chart
-            charts.bureauTrends = new ApexCharts(document.querySelector("#bureau-trends-chart"), {
-                chart: { type: 'line', height: 300, toolbar: { show: false } },
-                stroke: { width: 3, curve: 'smooth' },
-                xaxis: { categories: ['May 24', 'Jun 24', 'Jul 24', 'Aug 24', 'Sep 24', 'Oct 24'] },
-                yaxis: { title: { text: 'Average Bureau Score' }, min: 680, max: 720 },
-                colors: ['#6366f1', '#10b981', '#ef4444'],
-                series: [
-                    { name: 'Overall Avg', data: [692, 695, 697, 698, 699, 698] },
-                    { name: 'Approved Avg', data: [708, 710, 712, 714, 715, 714] },
-                    { name: 'Rejected Avg', data: [658, 660, 662, 664, 665, 663] }
-                ]
-            });
-            charts.bureauTrends.render();
+            // Distribution Charts
+            const distChartColors = ['#2563eb', '#3b82f6', '#60a5fa', '#93c5fd'];
+            const riskChartColors = ['#f97316', '#fb923c', '#fdba74', '#fed7aa'];
+            
+            // Sample distribution data
+            const sampleDistribution = [
+                { name: 'Best', data: [60, 62, 65, 64, 66, 68] },
+                { name: 'Good', data: [30, 28, 26, 27, 25, 24] },
+                { name: 'Fair', data: [8, 8, 7, 7, 7, 6] },
+                { name: 'Poor', data: [2, 2, 2, 2, 2, 2] }
+            ];
 
-            // Feature Importance Chart
-            charts.featureImportance = new ApexCharts(document.querySelector("#feature-importance-chart"), {
-                chart: { type: 'bar', height: 300, toolbar: { show: false } },
-                plotOptions: { bar: { horizontal: true } },
-                dataLabels: { enabled: true },
-                xaxis: { 
-                    categories: ['Bureau Score', 'Monthly Income', 'Bank Statement Score', 'DTI Ratio', 'Loan Amount', 'Age', 'Employment Type', 'Loan Tenure']
-                },
-                colors: ['#4f46e5'],
-                series: [{ 
-                    name: 'Importance', 
-                    data: [0.24, 0.18, 0.15, 0.12, 0.09, 0.08, 0.07, 0.07] 
-                }]
-            });
-            charts.featureImportance.render();
+            charts.kiScoreApproved = createStackedBarChart('ki-score-dist-approved-chart', months, sampleDistribution, distChartColors);
+            charts.kiScoreDeclined = createStackedBarChart('ki-score-dist-declined-chart', months, sampleDistribution, riskChartColors);
+            charts.bureauScoreApproved = createStackedBarChart('bureau-score-dist-approved-chart', months, sampleDistribution, distChartColors);
+            charts.bureauScoreDeclined = createStackedBarChart('bureau-score-dist-declined-chart', months, sampleDistribution, riskChartColors);
+            charts.incomeApproved = createStackedBarChart('income-dist-approved-chart', months, sampleDistribution, distChartColors);
+            charts.incomeDeclined = createStackedBarChart('income-dist-declined-chart', months, sampleDistribution, riskChartColors);
+            charts.foirApproved = createStackedBarChart('foir-dist-approved-chart', months, sampleDistribution, distChartColors);
+            charts.foirDeclined = createStackedBarChart('foir-dist-declined-chart', months, sampleDistribution, riskChartColors);
+            charts.ltvApproved = createStackedBarChart('ltv-dist-approved-chart', months, sampleDistribution, distChartColors);
+            charts.ltvDeclined = createStackedBarChart('ltv-dist-declined-chart', months, sampleDistribution, riskChartColors);
+            charts.ticketSizeApproved = createStackedBarChart('ticket-size-dist-approved-chart', months, sampleDistribution, distChartColors);
+            charts.ticketSizeDeclined = createStackedBarChart('ticket-size-dist-declined-chart', months, sampleDistribution, riskChartColors);
+            charts.ageApproved = createStackedBarChart('age-dist-approved-chart', months, sampleDistribution, distChartColors);
+            charts.ageDeclined = createStackedBarChart('age-dist-declined-chart', months, sampleDistribution, riskChartColors);
+            charts.educationApproved = createStackedBarChart('education-dist-approved-chart', months, sampleDistribution, distChartColors);
+            charts.educationDeclined = createStackedBarChart('education-dist-declined-chart', months, sampleDistribution, riskChartColors);
         }
 
+        // Metric mode toggle function
+        let currentMetricMode = 'AUM';
+        
+        function setMetricMode(mode) {
+            currentMetricMode = mode;
+            document.getElementById('mode-aum').classList.toggle('bg-indigo-600', mode === 'AUM');
+            document.getElementById('mode-aum').classList.toggle('text-white', mode === 'AUM');
+            document.getElementById('mode-aum').classList.toggle('bg-white', mode !== 'AUM');
+            document.getElementById('mode-aum').classList.toggle('text-gray-700', mode !== 'AUM');
+            
+            document.getElementById('mode-count').classList.toggle('bg-indigo-600', mode === 'COUNT');
+            document.getElementById('mode-count').classList.toggle('text-white', mode === 'COUNT');
+            document.getElementById('mode-count').classList.toggle('bg-white', mode !== 'COUNT');
+            document.getElementById('mode-count').classList.toggle('text-gray-700', mode !== 'COUNT');
+            
+            // Update all risk charts with new data based on mode
+            updateRiskCharts();
+        }
+        
+        // Day 0 metric mode toggle function
+        let currentDay0MetricMode = 'AUM';
+        
+        function setDay0MetricMode(mode) {
+            currentDay0MetricMode = mode;
+            document.getElementById('day0-mode-aum').classList.toggle('bg-indigo-600', mode === 'AUM');
+            document.getElementById('day0-mode-aum').classList.toggle('text-white', mode === 'AUM');
+            document.getElementById('day0-mode-aum').classList.toggle('bg-white', mode !== 'AUM');
+            document.getElementById('day0-mode-aum').classList.toggle('text-gray-700', mode !== 'AUM');
+            
+            document.getElementById('day0-mode-count').classList.toggle('bg-indigo-600', mode === 'COUNT');
+            document.getElementById('day0-mode-count').classList.toggle('text-white', mode === 'COUNT');
+            document.getElementById('day0-mode-count').classList.toggle('bg-white', mode !== 'COUNT');
+            document.getElementById('day0-mode-count').classList.toggle('text-gray-700', mode !== 'COUNT');
+            
+            // Update Day 0 charts and metrics based on mode
+            updateDay0Metrics();
+        }
+        
+        function updateDay0Metrics() {
+            // Update product mix display based on current mode
+            const isAUM = currentDay0MetricMode === 'AUM';
+            
+            // Update the product mix cards with different percentages based on mode
+            const productMixCards = document.querySelectorAll('#product-mix-card .text-center');
+            const aumData = [
+                { name: 'MFI Individual', percentage: '28%' },
+                { name: 'MSME Unsecured', percentage: '22%' },
+                { name: 'Agri Loans', percentage: '18%' },
+                { name: 'MSME Secured', percentage: '15%' },
+                { name: 'Housing', percentage: '12%' },
+                { name: 'Two Wheelers', percentage: '5%' }
+            ];
+            
+            const countData = [
+                { name: 'MFI Individual', percentage: '32%' },
+                { name: 'MSME Unsecured', percentage: '25%' },
+                { name: 'Agri Loans', percentage: '20%' },
+                { name: 'MSME Secured', percentage: '12%' },
+                { name: 'Housing', percentage: '8%' },
+                { name: 'Two Wheelers', percentage: '3%' }
+            ];
+            
+            const dataToUse = isAUM ? aumData : countData;
+            
+            // Update the percentage displays - ensure no decimals
+            productMixCards.forEach((card, index) => {
+                if (index < dataToUse.length) {
+                    const percentageElement = card.querySelector('.text-xl.font-bold');
+                    if (percentageElement) {
+                        percentageElement.textContent = dataToUse[index].percentage;
+                    }
+                }
+            });
+            
+            // Update KPIs based on mode
+            if (isAUM) {
+                document.getElementById('metric-approved-amount').textContent = '₹280 Cr';
+                document.getElementById('metric-avg-loan').textContent = '₹3.2L';
+            } else {
+                document.getElementById('metric-approved-amount').textContent = '8,720 loans';
+                document.getElementById('metric-avg-loan').textContent = '₹2.8L avg';
+            }
+        }
+        
+        function updateRiskCharts() {
+            // Update risk charts based on current metric mode
+            const isAUM = currentMetricMode === 'AUM';
+            
+            // Risk by Program
+            if (charts.riskByProgram) {
+                charts.riskByProgram.updateSeries([
+                    { name: 'PAR 30+', data: isAUM ? [14.6, 13.2, 15.8] : [12.3, 11.1, 13.4] },
+                    { name: 'PAR 60+', data: isAUM ? [12.8, 11.4, 13.9] : [10.1, 9.2, 11.6] },
+                    { name: 'PAR 90+', data: isAUM ? [11.8, 10.2, 12.1] : [8.9, 8.1, 10.2] }
+                ]);
+            }
+            
+            // Risk by Originator
+            if (charts.riskByOriginator) {
+                charts.riskByOriginator.updateSeries([
+                    { name: 'PAR 30+', data: isAUM ? [12.4, 15.8, 13.9, 16.2] : [11.2, 14.1, 12.5, 14.8] },
+                    { name: 'PAR 60+', data: isAUM ? [10.1, 13.2, 11.7, 14.3] : [9.1, 11.8, 10.4, 12.9] },
+                    { name: 'PAR 90+', data: isAUM ? [8.8, 11.9, 10.4, 12.8] : [7.8, 10.5, 9.2, 11.4] }
+                ]);
+            }
+            
+            // Risk by State
+            if (charts.riskByState) {
+                charts.riskByState.updateSeries([
+                    { name: 'PAR 30+', data: isAUM ? [11.2, 14.8, 16.3, 13.7] : [10.1, 13.2, 14.8, 12.4] },
+                    { name: 'PAR 60+', data: isAUM ? [9.4, 12.1, 14.2, 11.8] : [8.5, 10.9, 12.8, 10.6] },
+                    { name: 'PAR 90+', data: isAUM ? [8.1, 10.9, 12.4, 10.2] : [7.2, 9.6, 11.1, 9.1] }
+                ]);
+            }
+            
+            // Risk by Tenure
+            if (charts.riskByTenure) {
+                charts.riskByTenure.updateSeries([
+                    { name: 'PAR 30+', data: isAUM ? [13.2, 23.0, 23.8, 53.0] : [11.8, 20.4, 21.2, 48.1] },
+                    { name: 'PAR 60+', data: isAUM ? [11.6, 19.9, 20.5, 47.0] : [10.2, 17.6, 18.1, 42.8] },
+                    { name: 'PAR 90+', data: isAUM ? [10.4, 17.8, 18.2, 42.0] : [9.1, 15.8, 16.1, 38.2] }
+                ]);
+            }
+            
+            // Risk by Ticket Size
+            if (charts.riskByTicketSize) {
+                charts.riskByTicketSize.updateSeries([
+                    { name: 'PAR 30+', data: isAUM ? [18.2, 11.2, 15.7, 14.6] : [16.4, 10.1, 14.2, 13.1] },
+                    { name: 'PAR 60+', data: isAUM ? [15.8, 9.5, 13.2, 12.1] : [14.1, 8.6, 11.8, 10.9] },
+                    { name: 'PAR 90+', data: isAUM ? [13.4, 8.4, 11.8, 10.8] : [12.2, 7.5, 10.5, 9.6] }
+                ]);
+            }
+            
+            // Risk by Interest Rate
+            if (charts.riskByInterest) {
+                charts.riskByInterest.updateSeries([
+                    { name: 'PAR 30+', data: isAUM ? [9.8, 12.4, 16.7, 19.3] : [8.9, 11.2, 15.1, 17.4] },
+                    { name: 'PAR 60+', data: isAUM ? [8.2, 10.1, 14.2, 16.8] : [7.4, 9.1, 12.8, 15.2] },
+                    { name: 'PAR 90+', data: isAUM ? [7.1, 8.9, 12.4, 14.9] : [6.4, 8.0, 11.2, 13.4] }
+                ]);
+            }
+        }
+        
         // Initialize Performance charts
         function initPerformanceCharts() {
-            // DPD Trends Chart
-            if (!charts.dpdTrends) {
-                charts.dpdTrends = new ApexCharts(document.querySelector("#dpd-trends-chart"), {
-                    chart: { type: 'line', height: 300, toolbar: { show: false } },
-                    stroke: { width: 3, curve: 'smooth' },
-                    xaxis: { categories: ['Oct 24', 'Nov 24'] },
-                    colors: ['#ef4444', '#f59e0b', '#06b6d4'],
-                    series: [
-                        { name: '30+ DPD', data: [2.1, 2.8] },
-                        { name: '60+ DPD', data: [1.2, 1.6] },
-                        { name: '90+ DPD', data: [0.7, 0.9] }
-                    ]
+            // Remove AUM charts as they're no longer needed
+
+            // Risk by Program Bar Chart
+            if (!charts.riskByProgram && document.querySelector("#risk-by-program-chart")) {
+                charts.riskByProgram = new ApexCharts(document.querySelector("#risk-by-program-chart"), {
+                    chart: { type: 'bar', height: 200, toolbar: { show: false } },
+                series: [
+                        { name: 'PAR 30+', data: [14.6, 13.2, 15.8] },
+                        { name: 'PAR 60+', data: [12.8, 11.4, 13.9] },
+                        { name: 'PAR 90+', data: [11.8, 10.2, 12.1] }
+                    ],
+                    xaxis: { categories: ['MFI', 'MSME', 'Agri'] },
+                    colors: ['#eab308', '#f97316', '#ef4444'],
+                    legend: { show: true, position: 'top' },
+                    dataLabels: { enabled: true, formatter: (val) => val.toFixed(1) + '%' }
                 });
-                charts.dpdTrends.render();
+                charts.riskByProgram.render();
+            }
+            
+            // Risk by Originator Bar Chart
+            if (!charts.riskByOriginator && document.querySelector("#risk-by-originator-chart")) {
+                charts.riskByOriginator = new ApexCharts(document.querySelector("#risk-by-originator-chart"), {
+                    chart: { type: 'bar', height: 200, toolbar: { show: false } },
+                    series: [
+                        { name: 'PAR 30+', data: [12.4, 15.8, 13.9, 16.2] },
+                        { name: 'PAR 60+', data: [10.1, 13.2, 11.7, 14.3] },
+                        { name: 'PAR 90+', data: [8.8, 11.9, 10.4, 12.8] }
+                    ],
+                    xaxis: { categories: ['Partner A', 'Partner B', 'Partner C', 'Partner D'] },
+                    colors: ['#eab308', '#f97316', '#ef4444'],
+                    legend: { show: true, position: 'top' },
+                    dataLabels: { enabled: true, formatter: (val) => val.toFixed(1) + '%' }
+                });
+                charts.riskByOriginator.render();
+            }
+            
+            // Risk by State Bar Chart
+            if (!charts.riskByState && document.querySelector("#risk-by-state-chart")) {
+                charts.riskByState = new ApexCharts(document.querySelector("#risk-by-state-chart"), {
+                    chart: { type: 'bar', height: 200, toolbar: { show: false } },
+                    series: [
+                        { name: 'PAR 30+', data: [11.2, 14.8, 16.3, 13.7] },
+                        { name: 'PAR 60+', data: [9.4, 12.1, 14.2, 11.8] },
+                        { name: 'PAR 90+', data: [8.1, 10.9, 12.4, 10.2] }
+                    ],
+                    xaxis: { categories: ['Maharashtra', 'Karnataka', 'Tamil Nadu', 'Gujarat'] },
+                    colors: ['#eab308', '#f97316', '#ef4444'],
+                    legend: { show: true, position: 'top' },
+                    dataLabels: { enabled: true, formatter: (val) => val.toFixed(1) + '%' }
+                });
+                charts.riskByState.render();
             }
 
-            // Vintage Analysis Chart
+            // Remove AUM by Tenure chart as it's no longer needed
+
+            // Risk by Tenure Bar Chart
+            if (!charts.riskByTenure && document.querySelector("#risk-by-tenure-chart")) {
+                charts.riskByTenure = new ApexCharts(document.querySelector("#risk-by-tenure-chart"), {
+                    chart: { type: 'bar', height: 250, toolbar: { show: false } },
+                    series: [
+                        { name: 'PAR 30+', data: [13.2, 23.0, 23.8, 53.0] },
+                        { name: 'PAR 60+', data: [11.6, 19.9, 20.5, 47.0] },
+                        { name: 'PAR 90+', data: [10.4, 17.8, 18.2, 42.0] }
+                    ],
+                    xaxis: { categories: ['18-20 months', '21-24 months', '25-30 months', 'nan'] },
+                    colors: ['#eab308', '#f97316', '#ef4444'],
+                    legend: { show: false },
+                    dataLabels: { enabled: true, formatter: (val) => val.toFixed(1) + '%' }
+                });
+                charts.riskByTenure.render();
+            }
+
+            // Risk by Ticket Size Bar Chart
+            if (!charts.riskByTicketSize && document.querySelector("#risk-by-ticket-size-chart")) {
+                charts.riskByTicketSize = new ApexCharts(document.querySelector("#risk-by-ticket-size-chart"), {
+                    chart: { type: 'bar', height: 200, toolbar: { show: false } },
+                series: [
+                        { name: 'PAR 30+', data: [18.2, 11.2, 15.7, 14.6] },
+                        { name: 'PAR 60+', data: [15.8, 9.5, 13.2, 12.1] },
+                        { name: 'PAR 90+', data: [13.4, 8.4, 11.8, 10.8] }
+                    ],
+                    xaxis: { categories: ['< ₹25k', '₹25k-50k', '₹50k-75k', '> ₹75k'] },
+                    colors: ['#eab308', '#f97316', '#ef4444'],
+                    legend: { show: true, position: 'top' },
+                    dataLabels: { enabled: true, formatter: (val) => val.toFixed(1) + '%' }
+                });
+                charts.riskByTicketSize.render();
+            }
+            
+            // Risk by Interest Rate Bar Chart
+            if (!charts.riskByInterest && document.querySelector("#risk-by-interest-chart")) {
+                charts.riskByInterest = new ApexCharts(document.querySelector("#risk-by-interest-chart"), {
+                    chart: { type: 'bar', height: 200, toolbar: { show: false } },
+                    series: [
+                        { name: 'PAR 30+', data: [9.8, 12.4, 16.7, 19.3] },
+                        { name: 'PAR 60+', data: [8.2, 10.1, 14.2, 16.8] },
+                        { name: 'PAR 90+', data: [7.1, 8.9, 12.4, 14.9] }
+                    ],
+                    xaxis: { categories: ['< 12%', '12-15%', '15-18%', '> 18%'] },
+                    colors: ['#eab308', '#f97316', '#ef4444'],
+                    legend: { show: true, position: 'top' },
+                    dataLabels: { enabled: true, formatter: (val) => val.toFixed(1) + '%' }
+                });
+                charts.riskByInterest.render();
+            }
+
+            if (!charts.riskMetrics) {
+                charts.riskMetrics = new ApexCharts(document.querySelector("#risk-metrics-over-time-chart"), {
+                chart: { type: 'line', height: 300, toolbar: { show: false } },
+                stroke: { width: 3, curve: 'smooth' },
+                    xaxis: { categories: ['Jun 24', 'Jul 24', 'Aug 24', 'Sep 24', 'Oct 24', 'Nov 24'] },
+                    yaxis: { labels: { formatter: (val) => val.toFixed(1) + '%' } },
+                    colors: ['#3b82f6', '#f59e0b', '#ef4444'],
+                series: [
+                        { name: '30+ DPD', data: [18.5, 16.8, 15.2, 13.9, 12.1, 10.8] },
+                        { name: '60+ DPD', data: [15.2, 13.8, 12.4, 11.1, 9.8, 8.6] },
+                        { name: '90+ DPD', data: [12.8, 11.6, 10.2, 9.1, 7.9, 6.9] }
+                    ]
+                });
+                charts.riskMetrics.render();
+            }
+
+            // PAR 30/60/90 over time individual charts (showing decreasing trend)
+            if (!charts.par30OverTime && document.querySelector('#par30-over-time-chart')) {
+                charts.par30OverTime = new ApexCharts(document.querySelector('#par30-over-time-chart'), {
+                    chart: { type: 'line', height: 180, toolbar: { show: false } },
+                    stroke: { width: 3, curve: 'smooth' },
+                    colors: ['#3b82f6'],
+                    xaxis: { categories: ['Aug 2024','Sep 2024','Oct 2024','Nov 2024','Dec 2024','Jan 2025','Feb 2025','Mar 2025'] },
+                    series: [{ name: 'PAR 30', data: [16.6, 16.2, 14.2, 12.8, 11.8, 10.3, 8.8, 7.0] }],
+                    dataLabels: { enabled: false }
+                });
+                charts.par30OverTime.render();
+            }
+
+            if (!charts.par60OverTime && document.querySelector('#par60-over-time-chart')) {
+                charts.par60OverTime = new ApexCharts(document.querySelector('#par60-over-time-chart'), {
+                    chart: { type: 'line', height: 180, toolbar: { show: false } },
+                    stroke: { width: 3, curve: 'smooth' },
+                    colors: ['#f59e0b'],
+                    xaxis: { categories: ['Aug 2024','Sep 2024','Oct 2024','Nov 2024','Dec 2024','Jan 2025','Feb 2025','Mar 2025'] },
+                    series: [{ name: 'PAR 60', data: [14.6, 14.1, 12.4, 11.7, 9.8, 8.1, 6.6, 5.4] }],
+                    dataLabels: { enabled: false }
+                });
+                charts.par60OverTime.render();
+            }
+
+            if (!charts.par90OverTime && document.querySelector('#par90-over-time-chart')) {
+                charts.par90OverTime = new ApexCharts(document.querySelector('#par90-over-time-chart'), {
+                    chart: { type: 'line', height: 180, toolbar: { show: false } },
+                    stroke: { width: 3, curve: 'smooth' },
+                    colors: ['#ef4444'],
+                    xaxis: { categories: ['Aug 2024','Sep 2024','Oct 2024','Nov 2024','Dec 2024','Jan 2025','Feb 2025','Mar 2025'] },
+                    series: [{ name: 'PAR 90', data: [11.8, 11.1, 9.4, 8.4, 7.1, 5.4, 4.4, 3.0] }],
+                    dataLabels: { enabled: false }
+                });
+                charts.par90OverTime.render();
+            }
+            
             if (!charts.vintage) {
                 charts.vintage = new ApexCharts(document.querySelector("#vintage-chart"), {
                     chart: { type: 'line', height: 300, toolbar: { show: false } },
                     stroke: { width: 2, curve: 'smooth' },
-                    xaxis: { categories: ['Month 1', 'Month 2', 'Month 3', 'Month 4', 'Month 5', 'Month 6'] },
-                    yaxis: { title: { text: 'Cumulative Default Rate %' } },
-                    colors: ['#10b981', '#06b6d4', '#f59e0b', '#ef4444'],
+                    xaxis: { 
+                        categories: ['MOB 1', 'MOB 2', 'MOB 3', 'MOB 4', 'MOB 5', 'MOB 6', 'MOB 7', 'MOB 8', 'MOB 9', 'MOB 10', 'MOB 11', 'MOB 12'],
+                        title: { text: 'Months on Book (MOB)' },
+                        type: 'category'
+                    },
+                    yaxis: { 
+                        title: { text: 'Cumulative Default Rate (%)' },
+                        min: 0,
+                        max: 8,
+                        labels: { formatter: (val) => val.toFixed(1) + '%' }
+                    },
+                    colors: ['#10b981', '#06b6d4', '#8b5cf6', '#f59e0b', '#ef4444', '#ec4899'],
+                    legend: { 
+                        position: 'top',
+                        horizontalAlign: 'center',
+                        fontSize: '12px'
+                    },
+                    tooltip: {
+                        shared: true,
+                        intersect: false,
+                        y: { formatter: (val) => val.toFixed(2) + '%' }
+                    },
                     series: [
-                        { name: 'Oct 2024', data: [0.1, 0.3, 0.7, 1.2, 1.8, 2.4] },
-                        { name: 'Sep 2024', data: [0.2, 0.4, 0.8, 1.4, 2.1, 2.8] },
-                        { name: 'Aug 2024', data: [0.1, 0.5, 1.0, 1.6, 2.3, 3.1] }
+                        { 
+                            name: 'Nov 2024 Cohort', 
+                            data: [0.1, 0.3, 0.6, null, null, null, null, null, null, null, null, null] 
+                        },
+                        { 
+                            name: 'Oct 2024 Cohort', 
+                            data: [0.1, 0.4, 0.8, 1.2, null, null, null, null, null, null, null, null] 
+                        },
+                        { 
+                            name: 'Sep 2024 Cohort', 
+                            data: [0.2, 0.5, 1.0, 1.5, 2.1, 2.6, null, null, null, null, null, null] 
+                        },
+                        { 
+                            name: 'Aug 2024 Cohort', 
+                            data: [0.2, 0.6, 1.2, 1.8, 2.5, 3.1, 3.6, 4.0, null, null, null, null] 
+                        },
+                        { 
+                            name: 'Jul 2024 Cohort', 
+                            data: [0.3, 0.7, 1.4, 2.1, 2.9, 3.6, 4.2, 4.7, 5.1, 5.4, null, null] 
+                        },
+                        { 
+                            name: 'Jun 2024 Cohort', 
+                            data: [0.3, 0.8, 1.6, 2.4, 3.3, 4.1, 4.8, 5.4, 5.9, 6.3, 6.6, 6.8] 
+                        }
                     ]
                 });
                 charts.vintage.render();
             }
 
-            // ROC Curve
-            if (!charts.roc) {
+            if (!charts.roc && document.querySelector("#roc-chart")) {
                 charts.roc = new ApexCharts(document.querySelector("#roc-chart"), {
-                    chart: { type: 'line', height: 300, toolbar: { show: false } },
+                    chart: { 
+                        type: 'line', 
+                        height: 300, 
+                        toolbar: { show: false },
+                        animations: { enabled: false } // Disable animations to prevent disappearing
+                    },
                     stroke: { width: 3, curve: 'smooth' },
-                    xaxis: { title: { text: 'False Positive Rate' } },
-                    yaxis: { title: { text: 'True Positive Rate' } },
+                    xaxis: { 
+                        title: { text: 'False Positive Rate' }, 
+                        min: 0, 
+                        max: 1,
+                        type: 'numeric'
+                    },
+                    yaxis: { 
+                        title: { text: 'True Positive Rate' }, 
+                        min: 0, 
+                        max: 1 
+                    },
                     colors: ['#4f46e5', '#ef4444'],
                     series: [
-                        { name: 'Current Model (AUC: 0.74)', data: [[0, 0], [0.1, 0.25], [0.2, 0.45], [0.3, 0.62], [0.4, 0.75], [0.5, 0.82], [0.6, 0.88], [0.7, 0.92], [0.8, 0.96], [0.9, 0.98], [1, 1]] },
-                        { name: 'Random (AUC: 0.5)', data: [[0, 0], [1, 1]] }
-                    ]
+                        { 
+                            name: 'Current Model (AUC: 0.82)', 
+                            data: [
+                                [0, 0], [0.1, 0.35], [0.2, 0.55], [0.3, 0.72], [0.4, 0.80], 
+                                [0.5, 0.86], [0.6, 0.90], [0.7, 0.94], [0.8, 0.97], [0.9, 0.99], [1, 1]
+                            ] 
+                        },
+                        { 
+                            name: 'Random (AUC: 0.5)', 
+                            data: [[0, 0], [1, 1]] 
+                        }
+                    ],
+                    tooltip: { 
+                        x: { formatter: (val) => val.toFixed(2) }, 
+                        y: { formatter: (val) => val.toFixed(2) } 
+                    },
+                    legend: { 
+                        show: true,
+                        position: 'top'
+                    }
                 });
                 charts.roc.render();
             }
 
-            // Calibration Chart
-            if (!charts.calibration) {
-                charts.calibration = new ApexCharts(document.querySelector("#calibration-chart"), {
-                    chart: { type: 'line', height: 300, toolbar: { show: false } },
-                    stroke: { width: 3, curve: 'smooth' },
-                    xaxis: { title: { text: 'Mean Predicted Probability' } },
-                    yaxis: { title: { text: 'Fraction of Positives' } },
-                    colors: ['#4f46e5', '#ef4444'],
+            if (!charts.gainLift) {
+                charts.gainLift = new ApexCharts(document.querySelector("#gain-lift-chart"), {
                     series: [
-                        { name: 'Model Calibration', data: [[0.1, 0.08], [0.2, 0.18], [0.3, 0.28], [0.4, 0.39], [0.5, 0.51], [0.6, 0.62], [0.7, 0.71], [0.8, 0.82], [0.9, 0.89]] },
-                        { name: 'Perfect Calibration', data: [[0, 0], [1, 1]] }
-                    ]
+                        { name: 'KI Score', type: 'column', data: [39, 22, 15, 10, 6, 4, 2, 1, 1, 0] },
+                        { name: 'Bureau Score', type: 'line', data: [25, 18, 14, 11, 8, 6, 5, 4, 3, 2] }
+                    ],
+                    chart: { height: 300, type: 'line', toolbar: {show: false} },
+                    stroke: { width: [0, 3] },
+                    title: { text: 'Ki Score vs Bureau Score Lift' },
+                    dataLabels: { enabled: true, enabledOnSeries: [0], formatter: (val) => val + '%'},
+                    labels: ['10', '9', '8', '7', '6', '5', '4', '3', '2', '1'],
+                    xaxis: { title: { text: 'Decile (10=Riskiest)' } },
+                    yaxis: [{ title: { text: 'Default Captured (%)' }, labels: { formatter: (val) => val + '%' } }],
+                    colors: ['#8b5cf6', '#f59e0b']
                 });
-                charts.calibration.render();
+                charts.gainLift.render();
+            }
+        }
+
+        function updateDashboard(productKey) {
+            const data = productData[productKey];
+            if (!data) return;
+
+            document.getElementById('metric-total-apps').textContent = data.metrics.totalApplications.toLocaleString();
+            document.getElementById('metric-approved-apps').textContent = data.metrics.approvedApplications.toLocaleString();
+            document.getElementById('metric-approval-rate').textContent = `${data.metrics.approvalRate}% approval rate`;
+            document.getElementById('metric-approved-amount').textContent = data.metrics.approvedAmount;
+            document.getElementById('metric-avg-loan').textContent = data.metrics.avgLoanSize;
+
+            // Update charts if they exist
+            if (charts.originations) charts.originations.updateSeries(data.charts.originations.series);
+            if (charts.decisionTrends) charts.decisionTrends.updateSeries(data.charts.decisionTrends.series);
+            
+            if (charts.kiScoreApproved) charts.kiScoreApproved.updateSeries(data.charts.kiScore.approved);
+            if (charts.kiScoreDeclined) charts.kiScoreDeclined.updateSeries(data.charts.kiScore.declined);
+            if (charts.bureauScoreApproved) charts.bureauScoreApproved.updateSeries(data.charts.bureauScore.approved);
+            if (charts.bureauScoreDeclined) charts.bureauScoreDeclined.updateSeries(data.charts.bureauScore.declined);
+            if (charts.incomeApproved) charts.incomeApproved.updateSeries(data.charts.income.approved);
+            if (charts.incomeDeclined) charts.incomeDeclined.updateSeries(data.charts.income.declined);
+            if (charts.foirApproved) charts.foirApproved.updateSeries(data.charts.foir.approved);
+            if (charts.foirDeclined) charts.foirDeclined.updateSeries(data.charts.foir.declined);
+            if (charts.ticketSizeApproved) charts.ticketSizeApproved.updateSeries(data.charts.ticketSize.approved);
+            if (charts.ticketSizeDeclined) charts.ticketSizeDeclined.updateSeries(data.charts.ticketSize.declined);
+            if (charts.ageApproved) charts.ageApproved.updateSeries(data.charts.age.approved);
+            if (charts.ageDeclined) charts.ageDeclined.updateSeries(data.charts.age.declined);
+            if (charts.educationApproved) charts.educationApproved.updateSeries(data.charts.education.approved);
+            if (charts.educationDeclined) charts.educationDeclined.updateSeries(data.charts.education.declined);
+            
+            const productMixCard = document.getElementById('product-mix-card');
+            const ltvSection = document.getElementById('ltv-distribution-section');
+            
+            // Show/hide product mix for 'all' products view
+            productMixCard.style.display = productKey === 'all' ? 'block' : 'none';
+
+            // Show/hide LTV charts based on product type (only for secured products)
+            if (data.showLTV) {
+                ltvSection.style.display = 'grid';
+                if (charts.ltvApproved) charts.ltvApproved.updateSeries(data.charts.ltv.approved);
+                if (charts.ltvDeclined) charts.ltvDeclined.updateSeries(data.charts.ltv.declined);
+            } else {
+                ltvSection.style.display = 'none';
+            }
+        }
+
+        // Initialize DealSmart charts
+        function initDealSmartCharts() {
+            // PD Chart - KI Score 1-100
+            if (!charts.pdChart && document.querySelector("#pd-chart")) {
+                charts.pdChart = new ApexCharts(document.querySelector("#pd-chart"), {
+                    chart: { type: 'line', height: 200, toolbar: { show: false } },
+                    series: [{ name: 'PD (%)', data: [0.2, 0.5, 1.0, 1.8, 2.5, 3.5, 4.8, 6.2, 8.0, 10.5] }],
+                    xaxis: { 
+                        categories: ['1-10', '11-20', '21-30', '31-40', '41-50', '51-60', '61-70', '71-80', '81-90', '91-100'],
+                        title: { text: 'KI Score (1=Best, 100=Worst)' }
+                    },
+                    colors: ['#ec4899'],
+                    stroke: { width: 3, curve: 'smooth' },
+                    fill: { opacity: 0.3 },
+                    yaxis: { min: 0, max: 12, title: { text: 'PD (%)' } }
+                });
+                charts.pdChart.render();
             }
 
-            // Prediction Distribution
-            if (!charts.predictionDist) {
-                charts.predictionDist = new ApexCharts(document.querySelector("#prediction-distribution-chart"), {
-                    chart: { type: 'histogram', height: 300, toolbar: { show: false } },
-                    plotOptions: { bar: { columnWidth: '80%' } },
+            // LGD Chart - by Recovery Rate
+            if (!charts.lgdChart && document.querySelector("#lgd-chart")) {
+                charts.lgdChart = new ApexCharts(document.querySelector("#lgd-chart"), {
+                    chart: { type: 'line', height: 200, toolbar: { show: false } },
+                    series: [{ name: 'LGD (%)', data: [25, 35, 45, 55, 65, 75, 85, 95] }],
                     xaxis: { 
-                        title: { text: 'Prediction Score Bins' },
-                        categories: ['0-0.1', '0.1-0.2', '0.2-0.3', '0.3-0.4', '0.4-0.5', '0.5-0.6', '0.6-0.7', '0.7-0.8', '0.8-0.9', '0.9-1.0']
+                        categories: ['90%+', '80-90%', '70-80%', '60-70%', '50-60%', '40-50%', '30-40%', '<30%'],
+                        title: { text: 'Past Recovery Rate' }
                     },
-                    yaxis: { title: { text: 'Frequency' } },
-                    colors: ['#4f46e5'],
-                    series: [{ 
-                        name: 'Applications', 
-                        data: [156, 298, 423, 567, 734, 892, 678, 456, 289, 145] 
-                    }]
+                    colors: ['#3b82f6'],
+                    stroke: { width: 3, curve: 'smooth' },
+                    fill: { opacity: 0.3 },
+                    yaxis: { min: 0, max: 100, title: { text: 'LGD (%)' } }
                 });
-                charts.predictionDist.render();
+                charts.lgdChart.render();
+            }
+
+            // RBP Distribution chart - with Standard Pricing in middle
+            if (!charts.rbpDistribution && document.querySelector("#rbp-distribution-chart")) {
+                charts.rbpDistribution = new ApexCharts(document.querySelector("#rbp-distribution-chart"), {
+                    chart: { type: 'bar', height: 250, toolbar: { show: false } },
+                    series: [
+                        { name: 'Standard Pricing', data: [0, 0, 0, 5, 15, 25, 15, 5, 0, 0, 0, 0, 0, 0, 0] },
+                        { name: 'Risk-Based Pricing', data: [8, 12, 18, 22, 25, 28, 30, 25, 20, 15, 10, 8, 5, 3, 2] }
+                    ],
+                    xaxis: { 
+                        categories: ['10%', '11%', '12%', '13%', '14%', '15%', '16%', '17%', '18%', '19%', '20%', '21%', '22%', '23%', '24%'],
+                        labels: { 
+                            style: { 
+                                colors: ['#10b981', '#10b981', '#10b981', '#10b981', '#10b981', '#3b82f6', '#3b82f6', '#3b82f6', '#3b82f6', '#ef4444', '#ef4444', '#ef4444', '#ef4444', '#ef4444', '#ef4444'] 
+                            } 
+                        }
+                    },
+                    colors: ['#3b82f6', '#10b981'],
+                    dataLabels: { enabled: false },
+                    plotOptions: { bar: { horizontal: false, columnWidth: '70%' } },
+                    legend: { position: 'top' },
+                    annotations: {
+                        xaxis: [{
+                            x: 2,
+                            x2: 4,
+                            fillColor: '#10b981',
+                            opacity: 0.6,
+                            label: {
+                                text: 'Improved Conversion Zone (12-14%)',
+                                style: { color: '#fff', background: '#10b981', fontSize: '12px' }
+                            }
+                        }, {
+                            x: 9,
+                            x2: 11,
+                            fillColor: '#ef4444',
+                            opacity: 0.6,
+                            label: {
+                                text: 'Improved NIM Zone (19-21%)',
+                                style: { color: '#fff', background: '#ef4444', fontSize: '12px' }
+                            }
+                        }]
+                    }
+                });
+                charts.rbpDistribution.render();
             }
         }
 
         // Initialize on load
         document.addEventListener('DOMContentLoaded', function() {
-            initDay0Charts();
+            // Initialize product data for India
+            productData = {
+                'all': {
+                    showLTV: true,
+                    metrics: { totalApplications: 10900, approvedApplications: 8720, approvalRate: 80.0, approvedAmount: '₹280 Cr', avgLoanSize: '₹3.2L' },
+                    charts: {
+                        originations: { series: [{ name: 'Applications', data: [1500, 1600, 1700, 1900, 2000, 2200] }, { name: 'Approved', data: [1200, 1280, 1360, 1520, 1600, 1760] }] },
+                        decisionTrends: { series: [{ name: 'KI Score Approved', data: [78, 79, 80, 79, 80, 80] }, { name: 'KI Score Rejected', data: [22, 21, 20, 21, 20, 20] }] },
+                        kiScore: { approved: [{ name: '1-20 (Best)', data: [60, 62, 65, 64, 66, 68] }, { name: '21-40', data: [30, 28, 26, 27, 25, 24] }, { name: '41-60', data: [8, 8, 7, 7, 7, 6] }, { name: '>60', data: [2, 2, 2, 2, 2, 2] }], declined: [{ name: '<40', data: [10, 11, 12, 10, 9, 8] }, { name: '41-60', data: [25, 25, 24, 26, 27, 28] }, { name: '61-80', data: [40, 40, 42, 41, 40, 41] }, { name: '>80 (Worst)', data: [25, 24, 22, 23, 24, 23] }] },
+                        bureauScore: { approved: [{ name: '>780', data: [35, 36, 38, 40, 42, 43] }, { name: '751-780', data: [40, 40, 38, 37, 36, 35] }, { name: '700-750', data: [20, 19, 19, 18, 17, 17] }, { name: '<700', data: [5, 5, 5, 5, 5, 5] }], declined: [{ name: '>720', data: [10, 10, 11, 12, 12, 13] }, { name: '681-720', data: [20, 21, 22, 22, 23, 22] }, { name: '650-680', data: [40, 40, 39, 38, 37, 38] }, { name: '<650', data: [30, 29, 28, 28, 28, 27] }] },
+                        income: { approved: [{ name: '>₹5L', data: [20, 22, 23, 25, 26, 28] }, { name: '₹3-5L', data: [40, 40, 41, 41, 42, 42] }, { name: '₹1-3L', data: [35, 34, 32, 30, 28, 26] }, { name: '<₹1L', data: [5, 4, 4, 4, 4, 4] }], declined: [{ name: '>₹5L', data: [5, 5, 6, 6, 7, 7] }, { name: '₹3-5L', data: [15, 16, 16, 17, 18, 18] }, { name: '₹1-3L', data: [40, 40, 39, 38, 37, 38] }, { name: '<₹1L', data: [40, 39, 39, 39, 38, 37] }] },
+                        foir: { approved: [{ name: '<35%', data: [50, 52, 53, 55, 56, 58] }, { name: '36-45%', data: [35, 34, 33, 32, 31, 30] }, { name: '46-55%', data: [13, 12, 12, 11, 11, 10] }, { name: '>55%', data: [2, 2, 2, 2, 2, 2] }], declined: [{ name: '<40%', data: [5, 5, 6, 6, 7, 7] }, { name: '41-50%', data: [15, 16, 16, 17, 18, 18] }, { name: '51-60%', data: [40, 40, 39, 38, 37, 38] }, { name: '>60%', data: [40, 39, 39, 39, 38, 37] }] },
+                        ltv: { approved: [{ name: '<60%', data: [15, 16, 18, 20, 22, 23] }, { name: '61-75%', data: [50, 50, 49, 48, 47, 46] }, { name: '76-85%', data: [30, 29, 28, 27, 26, 26] }, { name: '>85%', data: [5, 5, 5, 5, 5, 5] }], declined: [{ name: '<70%', data: [2, 2, 2, 3, 3, 3] }, { name: '71-80%', data: [10, 11, 11, 12, 12, 13] }, { name: '81-90%', data: [48, 48, 49, 48, 47, 47] }, { name: '>90%', data: [40, 39, 38, 37, 38, 37] }] },
+                        ticketSize: { approved: [{ name: '>₹7L', data: [15, 16, 17, 18, 19, 20] }, { name: '₹3-7L', data: [35, 35, 36, 36, 37, 38] }, { name: '₹1-3L', data: [40, 39, 38, 37, 36, 35] }, { name: '<₹1L', data: [10, 10, 9, 9, 8, 7] }], declined: [{ name: '>₹7L', data: [10, 10, 11, 11, 12, 12] }, { name: '₹3-7L', data: [30, 31, 31, 32, 32, 33] }, { name: '₹1-3L', data: [45, 44, 44, 43, 43, 42] }, { name: '<₹1L', data: [15, 15, 14, 14, 13, 13] }] },
+                        age: { approved: [{ name: '>55', data: [8, 8, 8, 9, 9, 9] }, { name: '46-55', data: [22, 22, 21, 21, 20, 20] }, { name: '36-45', data: [35, 35, 36, 36, 36, 37] }, { name: '25-35', data: [30, 30, 30, 29, 29, 28] }, { name: '<25', data: [5, 5, 5, 5, 6, 6] }], declined: [{ name: '>55', data: [4, 4, 4, 4, 3, 3] }, { name: '46-55', data: [10, 10, 11, 11, 12, 12] }, { name: '36-45', data: [25, 25, 24, 24, 23, 23] }, { name: '25-35', data: [36, 36, 36, 35, 35, 34] }, { name: '<25', data: [25, 25, 25, 26, 27, 28] }] },
+                        education: { approved: [{ name: 'Undergraduate+', data: [10,11,11,12,12,13]},{ name: '12th Pass', data: [30,30,31,31,32,32] },{ name: '10th Pass', data: [50, 49, 48, 47, 46, 45] },{ name: 'Illiterate', data: [10, 10, 10, 10, 10, 10] }], declined: [{ name: 'Undergraduate+', data: [5,5,5,6,6,6]},{ name: '12th Pass', data: [20,21,21,22,22,23] },{ name: '10th Pass', data: [50, 50, 49, 48, 47, 47] },{ name: 'Illiterate', data: [25, 24, 25, 24, 25, 24] }]},
+                    }
+                },
+                'mfi': {
+                    showLTV: false,
+                    metrics: { totalApplications: 3052, approvedApplications: 2442, approvalRate: 80.0, approvedAmount: '₹78 Cr', avgLoanSize: '₹0.6L' },
+                    charts: {
+                        originations: { series: [{ name: 'Applications', data: [420, 448, 476, 532, 560, 616] }, { name: 'Approved', data: [336, 358, 381, 426, 448, 493] }] },
+                        decisionTrends: { series: [{ name: 'KI Score Approved', data: [80, 80, 80, 80, 80, 80] }, { name: 'KI Score Rejected', data: [20, 20, 20, 20, 20, 20] }] },
+                        kiScore: { approved: [{ name: '1-20 (Best)', data: [65, 67, 70, 69, 71, 73] }, { name: '21-40', data: [25, 23, 21, 22, 20, 19] }, { name: '41-60', data: [8, 8, 7, 7, 7, 6] }, { name: '>60', data: [2, 2, 2, 2, 2, 2] }], declined: [{ name: '<40', data: [8, 9, 10, 8, 7, 6] }, { name: '41-60', data: [22, 22, 21, 23, 24, 25] }, { name: '61-80', data: [42, 42, 44, 43, 42, 43] }, { name: '>80 (Worst)', data: [28, 27, 25, 26, 27, 26] }] },
+                        bureauScore: { approved: [{ name: '>780', data: [25, 26, 28, 30, 32, 33] }, { name: '751-780', data: [35, 35, 33, 32, 31, 30] }, { name: '700-750', data: [30, 29, 29, 28, 27, 27] }, { name: '<700', data: [10, 10, 10, 10, 10, 10] }], declined: [{ name: '>720', data: [8, 8, 9, 10, 10, 11] }, { name: '681-720', data: [18, 19, 20, 20, 21, 20] }, { name: '650-680', data: [42, 42, 41, 40, 39, 40] }, { name: '<650', data: [32, 31, 30, 30, 30, 29] }] },
+                        income: { approved: [{ name: '>₹5L', data: [5, 7, 8, 10, 11, 13] }, { name: '₹3-5L', data: [15, 15, 16, 16, 17, 17] }, { name: '₹1-3L', data: [60, 59, 57, 55, 53, 51] }, { name: '<₹1L', data: [20, 19, 19, 19, 19, 19] }], declined: [{ name: '>₹5L', data: [2, 2, 3, 3, 4, 4] }, { name: '₹3-5L', data: [8, 9, 9, 10, 11, 11] }, { name: '₹1-3L', data: [45, 45, 44, 43, 42, 43] }, { name: '<₹1L', data: [45, 44, 44, 44, 43, 42] }] },
+                        foir: { approved: [{ name: '<35%', data: [45, 47, 48, 50, 51, 53] }, { name: '36-45%', data: [40, 39, 38, 37, 36, 35] }, { name: '46-55%', data: [13, 12, 12, 11, 11, 10] }, { name: '>55%', data: [2, 2, 2, 2, 2, 2] }], declined: [{ name: '<40%', data: [3, 3, 4, 4, 5, 5] }, { name: '41-50%', data: [12, 13, 13, 14, 15, 15] }, { name: '51-60%', data: [45, 45, 44, 43, 42, 43] }, { name: '>60%', data: [40, 39, 39, 39, 38, 37] }] },
+                        ltv: { approved: [], declined: [] }, // No LTV for MFI
+                        ticketSize: { approved: [{ name: '>₹1L', data: [5, 6, 7, 8, 9, 10] }, { name: '₹50K-1L', data: [25, 25, 26, 26, 27, 28] }, { name: '₹25-50K', data: [50, 49, 48, 47, 46, 45] }, { name: '<₹25K', data: [20, 20, 19, 19, 18, 17] }], declined: [{ name: '>₹1L', data: [8, 8, 9, 9, 10, 10] }, { name: '₹50K-1L', data: [22, 23, 23, 24, 24, 25] }, { name: '₹25-50K', data: [50, 49, 49, 48, 48, 47] }, { name: '<₹25K', data: [20, 20, 19, 19, 18, 18] }] },
+                        age: { approved: [{ name: '>55', data: [12, 12, 12, 13, 13, 13] }, { name: '46-55', data: [28, 28, 27, 27, 26, 26] }, { name: '36-45', data: [35, 35, 36, 36, 36, 37] }, { name: '25-35', data: [20, 20, 20, 19, 19, 18] }, { name: '<25', data: [5, 5, 5, 5, 6, 6] }], declined: [{ name: '>55', data: [8, 8, 8, 8, 7, 7] }, { name: '46-55', data: [15, 15, 16, 16, 17, 17] }, { name: '36-45', data: [30, 30, 29, 29, 28, 28] }, { name: '25-35', data: [32, 32, 32, 31, 31, 30] }, { name: '<25', data: [15, 15, 15, 16, 17, 18] }] },
+                        education: { approved: [{ name: 'Undergraduate+', data: [2,3,3,4,4,5]},{ name: '12th Pass', data: [15,15,16,16,17,17] },{ name: '10th Pass', data: [65, 64, 63, 62, 61, 60] },{ name: 'Illiterate', data: [18, 18, 18, 18, 18, 18] }], declined: [{ name: 'Undergraduate+', data: [1,1,1,2,2,2]},{ name: '12th Pass', data: [10,11,11,12,12,13] },{ name: '10th Pass', data: [60, 60, 59, 58, 57, 57] },{ name: 'Illiterate', data: [29, 28, 29, 28, 29, 28] }]},
+                    }
+                },
+                'msme_secured': {
+                    showLTV: true,
+                    metrics: { totalApplications: 1635, approvedApplications: 1308, approvalRate: 80.0, approvedAmount: '₹92 Cr', avgLoanSize: '₹7.0L' },
+                    charts: {
+                        originations: { series: [{ name: 'Applications', data: [225, 240, 255, 285, 300, 330] }, { name: 'Approved', data: [180, 192, 204, 228, 240, 264] }] },
+                        decisionTrends: { series: [{ name: 'KI Score Approved', data: [80, 80, 80, 80, 80, 80] }, { name: 'KI Score Rejected', data: [20, 20, 20, 20, 20, 20] }] },
+                        kiScore: { approved: [{ name: '1-20 (Best)', data: [55, 57, 60, 59, 61, 63] }, { name: '21-40', data: [35, 33, 31, 32, 30, 29] }, { name: '41-60', data: [8, 8, 7, 7, 7, 6] }, { name: '>60', data: [2, 2, 2, 2, 2, 2] }], declined: [{ name: '<40', data: [12, 13, 14, 12, 11, 10] }, { name: '41-60', data: [28, 28, 27, 29, 30, 31] }, { name: '61-80', data: [38, 38, 40, 39, 38, 39] }, { name: '>80 (Worst)', data: [22, 21, 19, 20, 21, 20] }] },
+                        bureauScore: { approved: [{ name: '>780', data: [45, 46, 48, 50, 52, 53] }, { name: '751-780', data: [35, 35, 33, 32, 31, 30] }, { name: '700-750', data: [15, 14, 14, 13, 12, 12] }, { name: '<700', data: [5, 5, 5, 5, 5, 5] }], declined: [{ name: '>720', data: [15, 15, 16, 17, 17, 18] }, { name: '681-720', data: [25, 26, 27, 27, 28, 27] }, { name: '650-680', data: [35, 35, 34, 33, 32, 33] }, { name: '<650', data: [25, 24, 23, 23, 23, 22] }] },
+                        income: { approved: [{ name: '>₹5L', data: [35, 37, 38, 40, 41, 43] }, { name: '₹3-5L', data: [45, 45, 46, 46, 47, 47] }, { name: '₹1-3L', data: [18, 17, 15, 13, 11, 9] }, { name: '<₹1L', data: [2, 1, 1, 1, 1, 1] }], declined: [{ name: '>₹5L', data: [10, 10, 11, 11, 12, 12] }, { name: '₹3-5L', data: [25, 26, 26, 27, 28, 28] }, { name: '₹1-3L', data: [35, 35, 34, 33, 32, 33] }, { name: '<₹1L', data: [30, 29, 29, 29, 28, 27] }] },
+                        foir: { approved: [{ name: '<35%', data: [60, 62, 63, 65, 66, 68] }, { name: '36-45%', data: [30, 29, 28, 27, 26, 25] }, { name: '46-55%', data: [8, 7, 7, 6, 6, 5] }, { name: '>55%', data: [2, 2, 2, 2, 2, 2] }], declined: [{ name: '<40%', data: [8, 8, 9, 9, 10, 10] }, { name: '41-50%', data: [22, 23, 23, 24, 25, 25] }, { name: '51-60%', data: [35, 35, 34, 33, 32, 33] }, { name: '>60%', data: [35, 34, 34, 34, 33, 32] }] },
+                        ltv: { approved: [{ name: '<60%', data: [25, 26, 28, 30, 32, 33] }, { name: '61-75%', data: [55, 55, 54, 53, 52, 51] }, { name: '76-85%', data: [18, 17, 16, 15, 14, 14] }, { name: '>85%', data: [2, 2, 2, 2, 2, 2] }], declined: [{ name: '<70%', data: [5, 5, 5, 6, 6, 6] }, { name: '71-80%', data: [15, 16, 16, 17, 17, 18] }, { name: '81-90%', data: [40, 40, 41, 40, 39, 39] }, { name: '>90%', data: [40, 39, 38, 37, 38, 37] }] },
+                        ticketSize: { approved: [{ name: '>₹10L', data: [25, 26, 27, 28, 29, 30] }, { name: '₹5-10L', data: [45, 45, 46, 46, 47, 48] }, { name: '₹2-5L', data: [25, 24, 23, 22, 21, 20] }, { name: '<₹2L', data: [5, 5, 4, 4, 3, 2] }], declined: [{ name: '>₹10L', data: [15, 15, 16, 16, 17, 17] }, { name: '₹5-10L', data: [35, 36, 36, 37, 37, 38] }, { name: '₹2-5L', data: [35, 34, 34, 33, 33, 32] }, { name: '<₹2L', data: [15, 15, 14, 14, 13, 13] }] },
+                        age: { approved: [{ name: '>55', data: [6, 6, 6, 7, 7, 7] }, { name: '46-55', data: [25, 25, 24, 24, 23, 23] }, { name: '36-45', data: [45, 45, 46, 46, 46, 47] }, { name: '25-35', data: [20, 20, 20, 19, 19, 18] }, { name: '<25', data: [4, 4, 4, 4, 5, 5] }], declined: [{ name: '>55', data: [2, 2, 2, 2, 1, 1] }, { name: '46-55', data: [8, 8, 9, 9, 10, 10] }, { name: '36-45', data: [30, 30, 29, 29, 28, 28] }, { name: '25-35', data: [40, 40, 40, 39, 39, 38] }, { name: '<25', data: [20, 20, 20, 21, 22, 23] }] },
+                        education: { approved: [{ name: 'Undergraduate+', data: [25,26,26,27,27,28]},{ name: '12th Pass', data: [45,45,46,46,47,47] },{ name: '10th Pass', data: [25, 24, 23, 22, 21, 20] },{ name: 'Illiterate', data: [5, 5, 5, 5, 5, 5] }], declined: [{ name: 'Undergraduate+', data: [15,15,15,16,16,16]},{ name: '12th Pass', data: [35,36,36,37,37,38] },{ name: '10th Pass', data: [35, 35, 34, 33, 32, 32] },{ name: 'Illiterate', data: [15, 14, 15, 14, 15, 14] }]},
+                    }
+                }
+            };
+            
+            // Copy 'all' data as placeholder for other products
+            productData['msme_unsecured'] = JSON.parse(JSON.stringify(productData['all']));
+            productData['msme_unsecured'].showLTV = false;
+            productData['msme_unsecured'].metrics = { totalApplications: 2398, approvedApplications: 1918, approvalRate: 80.0, approvedAmount: '₹96 Cr', avgLoanSize: '₹5.0L' };
+            
+            productData['agri'] = JSON.parse(JSON.stringify(productData['all']));
+            productData['agri'].showLTV = false;
+            productData['agri'].metrics = { totalApplications: 1962, approvedApplications: 1570, approvalRate: 80.0, approvedAmount: '₹63 Cr', avgLoanSize: '₹4.0L' };
+            
+            productData['housing'] = JSON.parse(JSON.stringify(productData['msme_secured']));
+            productData['housing'].metrics = { totalApplications: 1308, approvedApplications: 1046, approvalRate: 80.0, approvedAmount: '₹105 Cr', avgLoanSize: '₹10.0L' };
+            
+            productData['tw'] = JSON.parse(JSON.stringify(productData['all']));
+            productData['tw'].showLTV = true;
+            productData['tw'].metrics = { totalApplications: 545, approvedApplications: 436, approvalRate: 80.0, approvedAmount: '₹22 Cr', avgLoanSize: '₹5.0L' };
+            
+            initCharts();
+            initDealSmartCharts();
+            updateDashboard('all');
+
+            // Add event listener for product filter
+            document.getElementById('product-filter').addEventListener('change', function(e) {
+                updateDashboard(e.target.value);
+            });
+
+            // Add event listeners for DealSmart filters
+            document.getElementById('dealsmart-product-filter').addEventListener('change', function(e) {
+                updateDealSmartData(e.target.value);
+            });
+
+            document.getElementById('dealsmart-time-filter').addEventListener('change', function(e) {
+                updateDealSmartData(document.getElementById('dealsmart-product-filter').value);
+            });
         });
+
+        // Update DealSmart data based on product filter
+        function updateDealSmartData(productKey) {
+            const dealSmartData = {
+                'all': {
+                    upsellOffers: 1250,
+                    avgIncrease: '₹22,500',
+                    incrementalBusiness: '₹2.8 Cr',
+                    counterOffers: 890,
+                    avgLoanAmount: '₹80,000',
+                    salvagedBusiness: '₹7.1 Cr',
+                    conversionLift: '+8%',
+                    marginImprovement: '+0.5%'
+                },
+                'mfi': {
+                    upsellOffers: 420,
+                    avgIncrease: '₹8,500',
+                    incrementalBusiness: '₹0.9 Cr',
+                    counterOffers: 298,
+                    avgLoanAmount: '₹25,000',
+                    salvagedBusiness: '₹1.5 Cr',
+                    conversionLift: '+12%',
+                    marginImprovement: '+0.8%'
+                },
+                'msme_unsecured': {
+                    upsellOffers: 528,
+                    avgIncrease: '₹35,000',
+                    incrementalBusiness: '₹1.8 Cr',
+                    counterOffers: 360,
+                    avgLoanAmount: '₹2.5L',
+                    salvagedBusiness: '₹2.3 Cr',
+                    conversionLift: '+6%',
+                    marginImprovement: '+0.4%'
+                },
+                'msme_secured': {
+                    upsellOffers: 245,
+                    avgIncrease: '₹75,000',
+                    incrementalBusiness: '₹1.8 Cr',
+                    counterOffers: 131,
+                    avgLoanAmount: '₹7.0L',
+                    salvagedBusiness: '₹1.8 Cr',
+                    conversionLift: '+4%',
+                    marginImprovement: '+0.3%'
+                },
+                'agri': {
+                    upsellOffers: 353,
+                    avgIncrease: '₹45,000',
+                    incrementalBusiness: '₹1.6 Cr',
+                    counterOffers: 196,
+                    avgLoanAmount: '₹4.0L',
+                    salvagedBusiness: '₹1.6 Cr',
+                    conversionLift: '+10%',
+                    marginImprovement: '+0.6%'
+                },
+                'housing': {
+                    upsellOffers: 157,
+                    avgIncrease: '₹2.5L',
+                    incrementalBusiness: '₹3.9 Cr',
+                    counterOffers: 105,
+                    avgLoanAmount: '₹10.0L',
+                    salvagedBusiness: '₹1.0 Cr',
+                    conversionLift: '+3%',
+                    marginImprovement: '+0.2%'
+                },
+                'tw': {
+                    upsellOffers: 87,
+                    avgIncrease: '₹25,000',
+                    incrementalBusiness: '₹0.2 Cr',
+                    counterOffers: 65,
+                    avgLoanAmount: '₹5.0L',
+                    salvagedBusiness: '₹0.3 Cr',
+                    conversionLift: '+15%',
+                    marginImprovement: '+1.2%'
+                }
+            };
+
+            const data = dealSmartData[productKey] || dealSmartData['all'];
+            
+            // Update Upsell Offers card
+            const upsellCard = document.querySelector('#dealsmart-section .space-y-6 .card:nth-child(1)');
+            if (upsellCard) {
+                upsellCard.querySelector('.text-2xl:nth-child(1)').textContent = data.upsellOffers.toLocaleString();
+                upsellCard.querySelector('.text-2xl:nth-child(2)').textContent = data.avgIncrease;
+                upsellCard.querySelector('.text-2xl:nth-child(3)').textContent = data.incrementalBusiness;
+            }
+            
+            // Update Counter Offers card
+            const counterCard = document.querySelector('#dealsmart-section .space-y-6 .card:nth-child(2)');
+            if (counterCard) {
+                counterCard.querySelector('.text-2xl:nth-child(1)').textContent = data.counterOffers.toLocaleString();
+                counterCard.querySelector('.text-2xl:nth-child(2)').textContent = data.avgLoanAmount;
+                counterCard.querySelector('.text-2xl:nth-child(3)').textContent = data.salvagedBusiness;
+            }
+            
+            // Update bottom row cards
+            const bottomCards = document.querySelectorAll('#dealsmart-section .grid:nth-child(3) .card');
+            if (bottomCards.length >= 2) {
+                bottomCards[0].querySelector('.text-3xl').textContent = data.conversionLift;
+                bottomCards[1].querySelector('.text-3xl').textContent = data.marginImprovement;
+            }
+        }
     </script>
 </body>
 </html>
