@@ -262,7 +262,7 @@
                     <p class="text-gray-500">Interactive Credit Decisioning Platform</p>
                 </div>
             </div>
-            <button id="home-btn" class="btn-secondary hidden"><i class="fas fa-home mr-2"></i>Home</button>
+            <button id="home-btn" class="btn-secondary" onclick="window.location.href='home.html'"><i class="fas fa-home mr-2"></i>Home</button>
         </div>
 
         <!-- Main Content Area -->
@@ -496,11 +496,8 @@
         }
 
         const homeBtn = document.getElementById('home-btn');
-        if (screenId === '0') {
-            homeBtn.style.display = 'none';
-        } else {
-            homeBtn.style.display = 'block';
-        }
+        // Always show home button now
+        homeBtn.style.display = 'block';
     }
 
     function selectPath(path) {

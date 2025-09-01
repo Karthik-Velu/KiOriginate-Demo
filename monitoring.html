@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KI Originate - Monitoring Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: all 0.2s ease-in-out;
+        }
+        
+        .card:hover {
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.1);
+        }
+        
+        .nav-tab {
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-weight: 600;
+            color: #6b7280;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-tab.active {
+            color: #4f46e5;
+            border-bottom-color: #4f46e5;
+            background-color: #eef2ff;
+        }
+        
+        .nav-tab:hover {
+            color: #4f46e5;
+            background-color: #f8fafc;
+        }
+        
+        .section-content {
+            display: none;
+        }
+        
+        .section-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+        }
+        
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-secondary {
+            background-color: #e5e7eb;
+            color: #374151;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #d1d5db;
+        }
+        
+        .alert-card {
+            border-left: 4px solid #ef4444;
+            background-color: #fef2f2;
+        }
+        
+        .warning-card {
+            border-left: 4px solid #f59e0b;
+            background-color: #fffbeb;
+        }
+        
+        .success-card {
+            border-left: 4px solid #10b981;
+            background-color: #ecfdf5;
+        }
+        
+        .data-table {
+            overflow-x: auto;
+        }
+        
+        .data-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .data-table th,
+        .data-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .data-table th {
+            background-color: #f9fafb;
+            font-weight: 600;
+            color: #374151;
+        }
+        
+        .performance-toggle {
+            background-color: #4f46e5;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .performance-toggle:hover {
+            background-color: #4338ca;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 50;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="min-h-screen">
+        <!-- Header -->
+        <div class="bg-white shadow-sm border-b">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center space-x-4">
+                        <button onclick="window.location.href='home.html'" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-arrow-left text-xl"></i>
+                        </button>
+                        <div class="flex items-center space-x-3">
+                            <div class="bg-indigo-600 text-white p-2 rounded-lg">
+                                <i class="fas fa-chart-line text-xl"></i>
+                            </div>
+                            <div>
+                                <h1 class="text-2xl font-bold text-gray-900">Monitoring Dashboard</h1>
+                                <p class="text-sm text-gray-500">Portfolio & Model Performance</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="performance-toggle" onclick="togglePerformanceMode()">
+                            <i class="fas fa-toggle-off mr-2" id="toggle-icon"></i>
+                            <span id="toggle-text">Enable Performance Data</span>
+                        </div>
+                        <div class="text-sm text-gray-500">
+                            <i class="fas fa-calendar mr-1"></i>
+                            Last Updated: <span id="last-updated">Nov 15, 2024</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="bg-white border-b">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex space-x-8">
+                    <div class="nav-tab active" onclick="switchSection('portfolio')">
+                        <i class="fas fa-briefcase mr-2"></i>Portfolio Monitoring
+                    </div>
+                    <div class="nav-tab" onclick="switchSection('model')">
+                        <i class="fas fa-brain mr-2"></i>Model Monitoring
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            
+            <!-- Portfolio Monitoring Section -->
+            <div id="portfolio-section" class="section-content active">
+                <!-- Day 0 View (Default) -->
+                <div id="portfolio-day0" class="portfolio-view">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-3xl font-bold text-gray-900">Portfolio Overview</h2>
+                        <div class="flex items-center space-x-4">
+                            <select class="border rounded-lg px-3 py-2">
+                                <option>All Products</option>
+                                <option>MFI - Individual Loans</option>
+                                <option>MSME (Unsecured)</option>
+                                <option>MSME (Secured)</option>
+                                <option>Agri Loans</option>
+                                <option>Affordable Housing</option>
+                                <option>Two Wheelers</option>
+                            </select>
+                            <select class="border rounded-lg px-3 py-2">
+                                <option>Last 6 Months</option>
+                                <option>Last 12 Months</option>
+                                <option>YTD</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Key Metrics -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <div class="metric-card">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-blue-100 text-sm font-medium">Total Applications</p>
+                                    <p class="metric-value">10,900</p>
+                                    <p class="text-blue-100 text-sm">↑ 12% from last month</p>
+                                </div>
+                                <i class="fas fa-file-alt text-3xl opacity-80"></i>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-blue-100 text-sm font-medium">Auto Approved</p>
+                                    <p class="metric-value">8,720</p>
+                                    <p class="text-blue-100 text-sm">80.0% approval rate</p>
+                                </div>
+                                <i class="fas fa-check-circle text-3xl opacity-80"></i>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-blue-100 text-sm font-medium">Approved Amount</p>
+                                    <p class="metric-value">₹2.8B</p>
+                                    <p class="text-blue-100 text-sm">↑ 22% from last month</p>
+                                </div>
+                                <i class="fas fa-rupee-sign text-3xl opacity-80"></i>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-blue-100 text-sm font-medium">Avg. Loan Amount</p>
+                                    <p class="metric-value">₹3.2L</p>
+                                    <p class="text-blue-100 text-sm">Stable trend</p>
+                                </div>
+                                <i class="fas fa-calculator text-3xl opacity-80"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Charts Row -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                        <div class="card p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">Monthly Originations</h3>
+                            <div id="originations-chart"></div>
+                        </div>
+                        <div class="card p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">Monthly KI Score Trends</h3>
+                            <div id="ki-score-chart"></div>
+                        </div>
+                    </div>
+
+                    <!-- Monthly Distribution Charts -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                        <div class="card p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">Monthly Decision Trends</h3>
+                            <div id="decision-trends-chart"></div>
+                        </div>
+                        <div class="card p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">Monthly Bureau Score Trends</h3>
+                            <div id="bureau-trends-chart"></div>
+                        </div>
+                    </div>
+
+                    <!-- Key Metrics Table -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                        <div class="card p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">Key Distributions</h3>
+                            <div class="data-table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Metric</th>
+                                            <th>Average</th>
+                                            <th>Trend</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>KI Score</td>
+                                            <td>32.5</td>
+                                            <td><span class="text-green-600">↓ 2.1%</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Bureau Score</td>
+                                            <td>698</td>
+                                            <td><span class="text-green-600">↑ 2.1%</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Monthly Income</td>
+                                            <td>₹45,200</td>
+                                            <td><span class="text-green-600">↑ 5.3%</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>FOIR Ratio</td>
+                                            <td>42.3%</td>
+                                            <td><span class="text-red-600">↑ 1.8%</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>LTV Ratio</td>
+                                            <td>78.5%</td>
+                                            <td><span class="text-gray-600">→ 0.2%</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Avg. Tenure</td>
+                                            <td>36 months</td>
+                                            <td><span class="text-green-600">↓ 2.1%</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="card p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">Product-wise Performance</h3>
+                            <div class="data-table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Avg Amount</th>
+                                            <th>Approval %</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>MFI - Individual</td>
+                                            <td>₹60K</td>
+                                            <td class="text-green-600">85%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>MSME (Unsecured)</td>
+                                            <td>₹2.0L</td>
+                                            <td class="text-green-600">78%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Agri Loans</td>
+                                            <td>₹2.0L</td>
+                                            <td class="text-green-600">82%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>MSME (Secured)</td>
+                                            <td>₹7.5L</td>
+                                            <td class="text-green-600">75%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Affordable Housing</td>
+                                            <td>₹10.0L</td>
+                                            <td class="text-yellow-600">72%</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Two Wheelers</td>
+                                            <td>₹1.2L</td>
+                                            <td class="text-green-600">88%</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product Mix -->
+                    <div class="card p-6 mb-8">
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Product Mix & Volume Distribution</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                            <div class="text-center p-4 bg-blue-50 rounded-lg">
+                                <h4 class="font-bold text-blue-900 text-sm">MFI Individual</h4>
+                                <p class="text-xl font-bold text-blue-600">28%</p>
+                                <p class="text-xs text-blue-700">3,052 loans</p>
+                            </div>
+                            <div class="text-center p-4 bg-green-50 rounded-lg">
+                                <h4 class="font-bold text-green-900 text-sm">MSME Unsecured</h4>
+                                <p class="text-xl font-bold text-green-600">22%</p>
+                                <p class="text-xs text-green-700">2,398 loans</p>
+                            </div>
+                            <div class="text-center p-4 bg-yellow-50 rounded-lg">
+                                <h4 class="font-bold text-yellow-900 text-sm">Agri Loans</h4>
+                                <p class="text-xl font-bold text-yellow-600">18%</p>
+                                <p class="text-xs text-yellow-700">1,962 loans</p>
+                            </div>
+                            <div class="text-center p-4 bg-purple-50 rounded-lg">
+                                <h4 class="font-bold text-purple-900 text-sm">MSME Secured</h4>
+                                <p class="text-xl font-bold text-purple-600">15%</p>
+                                <p class="text-xs text-purple-700">1,635 loans</p>
+                            </div>
+                            <div class="text-center p-4 bg-red-50 rounded-lg">
+                                <h4 class="font-bold text-red-900 text-sm">Housing</h4>
+                                <p class="text-xl font-bold text-red-600">12%</p>
+                                <p class="text-xs text-red-700">1,308 loans</p>
+                            </div>
+                            <div class="text-center p-4 bg-indigo-50 rounded-lg">
+                                <h4 class="font-bold text-indigo-900 text-sm">Two Wheelers</h4>
+                                <p class="text-xl font-bold text-indigo-600">5%</p>
+                                <p class="text-xs text-indigo-700">545 loans</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Performance Data View (Hidden by default) -->
+                <div id="portfolio-performance" class="portfolio-view" style="display: none;">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-3xl font-bold text-gray-900">Portfolio Performance</h2>
+                        <div class="text-sm text-gray-600">
+                            Performance data available from: <strong>Oct 2024</strong>
+                        </div>
+                    </div>
+
+                    <!-- Performance Metrics -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <div class="card p-6 border-l-4 border-green-500">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-600 text-sm font-medium">Current Portfolio</p>
+                                    <p class="text-3xl font-bold text-gray-900">₹1.8B</p>
+                                    <p class="text-green-600 text-sm">Active loans</p>
+                                </div>
+                                <i class="fas fa-wallet text-3xl text-green-500"></i>
+                            </div>
+                        </div>
+                        <div class="card p-6 border-l-4 border-blue-500">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-600 text-sm font-medium">30+ DPD Rate</p>
+                                    <p class="text-3xl font-bold text-gray-900">2.8%</p>
+                                    <p class="text-blue-600 text-sm">vs 3.2% industry</p>
+                                </div>
+                                <i class="fas fa-exclamation-triangle text-3xl text-blue-500"></i>
+                            </div>
+                        </div>
+                        <div class="card p-6 border-l-4 border-red-500">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-600 text-sm font-medium">90+ DPD Rate</p>
+                                    <p class="text-3xl font-bold text-gray-900">0.9%</p>
+                                    <p class="text-red-600 text-sm">↑ 0.2% from last month</p>
+                                </div>
+                                <i class="fas fa-times-circle text-3xl text-red-500"></i>
+                            </div>
+                        </div>
+                        <div class="card p-6 border-l-4 border-purple-500">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-600 text-sm font-medium">Recovery Rate</p>
+                                    <p class="text-3xl font-bold text-gray-900">78%</p>
+                                    <p class="text-purple-600 text-sm">Within 90 days</p>
+                                </div>
+                                <i class="fas fa-undo text-3xl text-purple-500"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Performance Charts -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                        <div class="card p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">DPD Trends</h3>
+                            <div id="dpd-trends-chart"></div>
+                        </div>
+                        <div class="card p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">Vintage Analysis</h3>
+                            <div id="vintage-chart"></div>
+                        </div>
+                    </div>
+
+                    <!-- Performance by Segments -->
+                    <div class="card p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Performance by KI Score Bands</h3>
+                        <div class="data-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>KI Score Band</th>
+                                        <th>Volume</th>
+                                        <th>Outstanding (₹Cr)</th>
+                                        <th>30+ DPD %</th>
+                                        <th>90+ DPD %</th>
+                                        <th>Charge-off %</th>
+                                    </tr>
+                                </thead>
+                                                                    <tbody>
+                                        <tr>
+                                            <td><span class="px-2 py-1 bg-green-100 text-green-800 rounded">1-20 (Best)</span></td>
+                                            <td>1,845</td>
+                                            <td>₹98.2</td>
+                                            <td class="text-green-600">0.6%</td>
+                                            <td class="text-green-600">0.1%</td>
+                                            <td class="text-green-600">0.05%</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="px-2 py-1 bg-blue-100 text-blue-800 rounded">21-40</span></td>
+                                            <td>3,564</td>
+                                            <td>₹134.7</td>
+                                            <td class="text-blue-600">1.2%</td>
+                                            <td class="text-blue-600">0.4%</td>
+                                            <td class="text-blue-600">0.2%</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded">41-60</span></td>
+                                            <td>2,456</td>
+                                            <td>₹72.8</td>
+                                            <td class="text-yellow-600">3.8%</td>
+                                            <td class="text-yellow-600">1.4%</td>
+                                            <td class="text-yellow-600">0.7%</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="px-2 py-1 bg-red-100 text-red-800 rounded">61-80</span></td>
+                                            <td>789</td>
+                                            <td>₹18.3</td>
+                                            <td class="text-red-600">7.2%</td>
+                                            <td class="text-red-600">3.1%</td>
+                                            <td class="text-red-600">1.8%</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="px-2 py-1 bg-red-200 text-red-900 rounded">81-100 (Worst)</span></td>
+                                            <td>66</td>
+                                            <td>₹1.2</td>
+                                            <td class="text-red-700">15.2%</td>
+                                            <td class="text-red-700">8.1%</td>
+                                            <td class="text-red-700">4.5%</td>
+                                        </tr>
+                                    </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Model Monitoring Section -->
+            <div id="model-section" class="section-content">
+                <!-- Day 0 View (Default) -->
+                <div id="model-day0" class="model-view">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-3xl font-bold text-gray-900">Model Health Dashboard</h2>
+                        <button class="btn-primary" onclick="showPerformanceSetup()">
+                            <i class="fas fa-cog mr-2"></i>Setup Performance Data
+                        </button>
+                    </div>
+
+                    <!-- Model Status Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div class="card p-6 border-l-4 border-green-500">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="font-bold text-gray-900">Primary Model</h3>
+                                    <p class="text-lg font-semibold text-green-600">XGBoost v2.1</p>
+                                    <p class="text-sm text-gray-600">Deployed: Oct 15, 2024</p>
+                                </div>
+                                <div class="text-green-500">
+                                    <i class="fas fa-check-circle text-2xl"></i>
+                                    <p class="text-xs mt-1">Active</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card p-6 border-l-4 border-blue-500">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="font-bold text-gray-900">Champion Gini</h3>
+                                    <p class="text-lg font-semibold text-blue-600">0.78</p>
+                                    <p class="text-sm text-gray-600">Development dataset</p>
+                                </div>
+                                <div class="text-blue-500">
+                                    <i class="fas fa-trophy text-2xl"></i>
+                                    <p class="text-xs mt-1">Champion</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card p-6 border-l-4 border-yellow-500">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="font-bold text-gray-900">Predictions Made</h3>
+                                    <p class="text-lg font-semibold text-yellow-600">10,900</p>
+                                    <p class="text-sm text-gray-600">This month</p>
+                                </div>
+                                <div class="text-yellow-500">
+                                    <i class="fas fa-chart-line text-2xl"></i>
+                                    <p class="text-xs mt-1">Active</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PSI and CSI Tables -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                        <div class="card p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">
+                                Population Stability Index (PSI)
+                                <span class="text-sm font-normal text-gray-500 ml-2">- Model Score Distribution Shift</span>
+                            </h3>
+                            <div class="data-table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>KI Score Range</th>
+                                            <th>Reference %</th>
+                                            <th>Current %</th>
+                                            <th>PSI Component</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1-10 (Best)</td>
+                                            <td>8.2%</td>
+                                            <td>7.8%</td>
+                                            <td class="text-green-600">0.002</td>
+                                        </tr>
+                                        <tr>
+                                            <td>11-20</td>
+                                            <td>12.5%</td>
+                                            <td>13.1%</td>
+                                            <td class="text-green-600">0.003</td>
+                                        </tr>
+                                        <tr>
+                                            <td>21-30</td>
+                                            <td>18.3%</td>
+                                            <td>17.9%</td>
+                                            <td class="text-green-600">0.001</td>
+                                        </tr>
+                                        <tr>
+                                            <td>31-40</td>
+                                            <td>22.1%</td>
+                                            <td>22.8%</td>
+                                            <td class="text-green-600">0.002</td>
+                                        </tr>
+                                        <tr>
+                                            <td>41-50</td>
+                                            <td>15.4%</td>
+                                            <td>15.1%</td>
+                                            <td class="text-green-600">0.001</td>
+                                        </tr>
+                                        <tr>
+                                            <td>51-60</td>
+                                            <td>12.8%</td>
+                                            <td>12.5%</td>
+                                            <td class="text-green-600">0.001</td>
+                                        </tr>
+                                        <tr>
+                                            <td>61-70</td>
+                                            <td>7.2%</td>
+                                            <td>7.5%</td>
+                                            <td class="text-green-600">0.001</td>
+                                        </tr>
+                                        <tr>
+                                            <td>71-80</td>
+                                            <td>2.8%</td>
+                                            <td>2.6%</td>
+                                            <td class="text-green-600">0.001</td>
+                                        </tr>
+                                        <tr>
+                                            <td>81-90</td>
+                                            <td>0.6%</td>
+                                            <td>0.6%</td>
+                                            <td class="text-green-600">0.000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>91-100 (Worst)</td>
+                                            <td>0.1%</td>
+                                            <td>0.1%</td>
+                                            <td class="text-green-600">0.000</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="mt-4 p-3 bg-green-50 rounded-lg">
+                                <p class="text-sm text-green-700">
+                                    <strong>Overall PSI: 0.012</strong> - KI Score distribution is stable
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="card p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">
+                                Characteristic Stability Index (CSI)
+                                <span class="text-sm font-normal text-gray-500 ml-2">- Input Feature Drift Detection</span>
+                            </h3>
+                            <div class="data-table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Feature</th>
+                                            <th>CSI Score</th>
+                                            <th>Status</th>
+                                            <th>Trend</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Bureau Score</td>
+                                            <td>0.08</td>
+                                            <td><span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Stable</span></td>
+                                            <td class="text-green-600">↓</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Monthly Income</td>
+                                            <td>0.12</td>
+                                            <td><span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded text-xs">Monitor</span></td>
+                                            <td class="text-yellow-600">↑</td>
+                                        </tr>
+                                        <tr>
+                                            <td>DTI Ratio</td>
+                                            <td>0.06</td>
+                                            <td><span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Stable</span></td>
+                                            <td class="text-green-600">→</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Bank Statement Score</td>
+                                            <td>0.18</td>
+                                            <td><span class="px-2 py-1 bg-red-100 text-red-800 rounded text-xs">Alert</span></td>
+                                            <td class="text-red-600">↑</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Loan Amount</td>
+                                            <td>0.09</td>
+                                            <td><span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Stable</span></td>
+                                            <td class="text-green-600">↓</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Employment Type</td>
+                                            <td>0.05</td>
+                                            <td><span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Stable</span></td>
+                                            <td class="text-green-600">→</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Loan Tenure</td>
+                                            <td>0.07</td>
+                                            <td><span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Stable</span></td>
+                                            <td class="text-green-600">↓</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="mt-4 p-3 bg-gray-50 rounded-lg">
+                                <p class="text-sm text-gray-600">
+                                    <strong>CSI Thresholds:</strong> 
+                                    <span class="text-green-600">≤0.10 Stable</span> | 
+                                    <span class="text-yellow-600">0.10-0.20 Monitor</span> | 
+                                    <span class="text-red-600">>0.20 Alert</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Alerts Section -->
+                    <div class="card p-6 mb-8">
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Model Health Alerts</h3>
+                        <div class="space-y-4">
+                            <div class="alert-card p-4 rounded-lg">
+                                <div class="flex items-start space-x-3">
+                                    <i class="fas fa-exclamation-triangle text-red-500 text-xl mt-1"></i>
+                                    <div class="flex-1">
+                                        <h4 class="font-bold text-red-800">Bank Statement Score CSI Alert</h4>
+                                        <p class="text-red-700 text-sm">CSI value of 0.18 indicates feature drift. Bank statement input patterns may have shifted significantly.</p>
+                                        <p class="text-red-600 text-xs mt-1">Detected: Nov 10, 2024 | Severity: Medium</p>
+                                    </div>
+                                    <button class="text-red-600 hover:text-red-800">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="warning-card p-4 rounded-lg">
+                                <div class="flex items-start space-x-3">
+                                    <i class="fas fa-info-circle text-yellow-500 text-xl mt-1"></i>
+                                    <div class="flex-1">
+                                        <h4 class="font-bold text-yellow-800">Monthly Income Distribution Shift</h4>
+                                        <p class="text-yellow-700 text-sm">Average income increased by 8% week-over-week. Monitor for sustained trend.</p>
+                                        <p class="text-yellow-600 text-xs mt-1">Detected: Nov 12, 2024 | Severity: Low</p>
+                                    </div>
+                                    <button class="text-yellow-600 hover:text-yellow-800">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="success-card p-4 rounded-lg">
+                                <div class="flex items-start space-x-3">
+                                    <i class="fas fa-check-circle text-green-500 text-xl mt-1"></i>
+                                    <div class="flex-1">
+                                        <h4 class="font-bold text-green-800">Model Performance Stable</h4>
+                                        <p class="text-green-700 text-sm">KI Score PSI (0.012) and most feature CSI values are stable. Model is performing as expected.</p>
+                                        <p class="text-green-600 text-xs mt-1">Last Check: Nov 15, 2024</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Feature Importance -->
+                    <div class="card p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Current Feature Importance</h3>
+                        <div id="feature-importance-chart"></div>
+                    </div>
+                </div>
+
+                <!-- Model Performance View (Hidden by default) -->
+                <div id="model-performance" class="model-view" style="display: none;">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-3xl font-bold text-gray-900">Model Performance Analysis</h2>
+                        <div class="text-sm text-gray-600">
+                            Performance validation with live data
+                        </div>
+                    </div>
+
+                    <!-- Model Performance Metrics -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <div class="card p-6 border-l-4 border-green-500">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-600 text-sm font-medium">Live Gini</p>
+                                    <p class="text-3xl font-bold text-gray-900">0.74</p>
+                                    <p class="text-green-600 text-sm">vs 0.78 dev</p>
+                                </div>
+                                <i class="fas fa-chart-line text-3xl text-green-500"></i>
+                            </div>
+                        </div>
+                        <div class="card p-6 border-l-4 border-blue-500">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-600 text-sm font-medium">KS Statistic</p>
+                                    <p class="text-3xl font-bold text-gray-900">0.45</p>
+                                    <p class="text-blue-600 text-sm">Strong separation</p>
+                                </div>
+                                <i class="fas fa-divide text-3xl text-blue-500"></i>
+                            </div>
+                        </div>
+                        <div class="card p-6 border-l-4 border-purple-500">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-600 text-sm font-medium">Model Accuracy</p>
+                                    <p class="text-3xl font-bold text-gray-900">82.4%</p>
+                                    <p class="text-purple-600 text-sm">On validation set</p>
+                                </div>
+                                <i class="fas fa-bullseye text-3xl text-purple-500"></i>
+                            </div>
+                        </div>
+                        <div class="card p-6 border-l-4 border-orange-500">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-600 text-sm font-medium">Precision @ 40%</p>
+                                    <p class="text-3xl font-bold text-gray-900">91.2%</p>
+                                    <p class="text-orange-600 text-sm">Approval threshold</p>
+                                </div>
+                                <i class="fas fa-crosshairs text-3xl text-orange-500"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Performance Charts -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                        <div class="card p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">ROC Curve Comparison</h3>
+                            <div id="roc-chart"></div>
+                        </div>
+                        <div class="card p-6">
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">Model Calibration</h3>
+                            <div id="calibration-chart"></div>
+                        </div>
+                    </div>
+
+                    <!-- Prediction Distribution -->
+                    <div class="card p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Prediction Score Distribution</h3>
+                        <div id="prediction-distribution-chart"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Performance Setup Modal -->
+    <div id="performance-setup-modal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-900">Setup Performance Data</h3>
+                <button onclick="closePerformanceSetup()" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="space-y-6">
+                <div>
+                    <h4 class="font-bold text-lg text-gray-800 mb-3">Data Upload Configuration</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Upload Method</label>
+                            <select class="w-full border rounded-lg px-3 py-2">
+                                <option>SFTP</option>
+                                <option>API Push</option>
+                                <option>Manual Upload</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Upload Frequency</label>
+                            <select class="w-full border rounded-lg px-3 py-2">
+                                <option>Daily</option>
+                                <option>Weekly</option>
+                                <option>Monthly</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-lg text-gray-800 mb-3">SFTP Configuration</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Server Host</label>
+                            <input type="text" class="w-full border rounded-lg px-3 py-2" placeholder="sftp.kaleidofin.com">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Port</label>
+                            <input type="text" class="w-full border rounded-lg px-3 py-2" value="22">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Username</label>
+                            <input type="text" class="w-full border rounded-lg px-3 py-2" placeholder="client_username">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Directory Path</label>
+                            <input type="text" class="w-full border rounded-lg px-3 py-2" placeholder="/upload/performance/">
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-lg text-gray-800 mb-3">Required Data Format</h4>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <div class="data-table">
+                            <table class="text-sm">
+                                <thead>
+                                    <tr>
+                                        <th class="text-left">Field Name</th>
+                                        <th class="text-left">Type</th>
+                                        <th class="text-left">Required</th>
+                                        <th class="text-left">Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="font-mono">loan_id</td>
+                                        <td>String</td>
+                                        <td><span class="text-red-600">Yes</span></td>
+                                        <td>Unique loan identifier</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-mono">application_id</td>
+                                        <td>String</td>
+                                        <td><span class="text-red-600">Yes</span></td>
+                                        <td>Original application ID</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-mono">dpd_as_of_date</td>
+                                        <td>Number</td>
+                                        <td><span class="text-red-600">Yes</span></td>
+                                        <td>Days past due</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-mono">current_balance</td>
+                                        <td>Number</td>
+                                        <td><span class="text-red-600">Yes</span></td>
+                                        <td>Outstanding balance</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-mono">disbursed_amount</td>
+                                        <td>Number</td>
+                                        <td><span class="text-red-600">Yes</span></td>
+                                        <td>Original loan amount</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-mono">total_overdue</td>
+                                        <td>Number</td>
+                                        <td><span class="text-yellow-600">Optional</span></td>
+                                        <td>Total overdue amount</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-mono">disbursed_date</td>
+                                        <td>Date</td>
+                                        <td><span class="text-yellow-600">Optional</span></td>
+                                        <td>YYYY-MM-DD format</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-mono">interest_rate</td>
+                                        <td>Number</td>
+                                        <td><span class="text-yellow-600">Optional</span></td>
+                                        <td>Annual interest rate %</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-mono">written_off</td>
+                                        <td>Boolean</td>
+                                        <td><span class="text-yellow-600">Optional</span></td>
+                                        <td>Yes/No or 1/0</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-mono">repossession</td>
+                                        <td>Boolean</td>
+                                        <td><span class="text-yellow-600">Optional</span></td>
+                                        <td>Yes/No or 1/0</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-end space-x-4">
+                    <button onclick="closePerformanceSetup()" class="btn-secondary">Cancel</button>
+                    <button onclick="savePerformanceSetup()" class="btn-primary">Save Configuration</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let performanceDataEnabled = false;
+        let charts = {};
+
+        // Section switching
+        function switchSection(section) {
+            // Update nav tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Update content sections
+            document.querySelectorAll('.section-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(`${section}-section`).classList.add('active');
+        }
+
+        // Performance mode toggle
+        function togglePerformanceMode() {
+            performanceDataEnabled = !performanceDataEnabled;
+            const toggleIcon = document.getElementById('toggle-icon');
+            const toggleText = document.getElementById('toggle-text');
+            
+            if (performanceDataEnabled) {
+                toggleIcon.className = 'fas fa-toggle-on mr-2';
+                toggleText.textContent = 'Performance Data Active';
+                
+                // Show performance views, hide day 0 views
+                document.getElementById('portfolio-day0').style.display = 'none';
+                document.getElementById('portfolio-performance').style.display = 'block';
+                document.getElementById('model-day0').style.display = 'none';
+                document.getElementById('model-performance').style.display = 'block';
+                
+                // Initialize performance charts
+                initPerformanceCharts();
+            } else {
+                toggleIcon.className = 'fas fa-toggle-off mr-2';
+                toggleText.textContent = 'Enable Performance Data';
+                
+                // Show day 0 views, hide performance views
+                document.getElementById('portfolio-day0').style.display = 'block';
+                document.getElementById('portfolio-performance').style.display = 'none';
+                document.getElementById('model-day0').style.display = 'block';
+                document.getElementById('model-performance').style.display = 'none';
+            }
+        }
+
+        // Performance setup modal
+        function showPerformanceSetup() {
+            document.getElementById('performance-setup-modal').classList.add('show');
+        }
+
+        function closePerformanceSetup() {
+            document.getElementById('performance-setup-modal').classList.remove('show');
+        }
+
+        function savePerformanceSetup() {
+            alert('Performance data configuration saved! SFTP endpoint configured successfully.');
+            closePerformanceSetup();
+        }
+
+        // Initialize Day 0 charts
+        function initDay0Charts() {
+            // Originations Chart
+            charts.originations = new ApexCharts(document.querySelector("#originations-chart"), {
+                chart: { type: 'bar', height: 300, toolbar: { show: false } },
+                plotOptions: { bar: { horizontal: false, columnWidth: '55%' } },
+                dataLabels: { enabled: false },
+                xaxis: { categories: ['May 24', 'Jun 24', 'Jul 24', 'Aug 24', 'Sep 24', 'Oct 24'] },
+                colors: ['#4f46e5', '#06b6d4'],
+                series: [
+                    { name: 'Applications', data: [1500, 1600, 1700, 1900, 2000, 2200] },
+                    { name: 'Approved', data: [1200, 1280, 1360, 1520, 1600, 1760] }
+                ]
+            });
+            charts.originations.render();
+
+            // KI Score Monthly Trends
+            charts.kiScore = new ApexCharts(document.querySelector("#ki-score-chart"), {
+                chart: { type: 'line', height: 300, toolbar: { show: false } },
+                stroke: { width: 3, curve: 'smooth' },
+                xaxis: { categories: ['May 24', 'Jun 24', 'Jul 24', 'Aug 24', 'Sep 24', 'Oct 24'] },
+                yaxis: { title: { text: 'Average KI Score' }, min: 25, max: 40 },
+                colors: ['#4f46e5', '#10b981', '#ef4444'],
+                series: [
+                    { name: 'Overall Avg KI Score', data: [34.2, 33.8, 33.1, 32.9, 32.4, 32.5] },
+                    { name: 'Approved Avg KI Score', data: [28.5, 28.1, 27.8, 27.2, 26.9, 27.1] },
+                    { name: 'Rejected Avg KI Score', data: [52.3, 51.8, 51.2, 50.9, 50.4, 49.8] }
+                ],
+                tooltip: {
+                    y: {
+                        formatter: function(val) {
+                            return val.toFixed(1) + ' (Lower is Better)';
+                        }
+                    }
+                }
+            });
+            charts.kiScore.render();
+
+            // Decision Trends Chart
+            charts.decisionTrends = new ApexCharts(document.querySelector("#decision-trends-chart"), {
+                chart: { type: 'area', height: 300, toolbar: { show: false }, stacked: true },
+                dataLabels: { enabled: false },
+                stroke: { curve: 'smooth', width: 2 },
+                xaxis: { categories: ['May 24', 'Jun 24', 'Jul 24', 'Aug 24', 'Sep 24', 'Oct 24'] },
+                yaxis: { title: { text: 'Percentage %' } },
+                colors: ['#10b981', '#ef4444', '#f59e0b'],
+                series: [
+                    { name: 'Approved', data: [78, 79, 80, 79, 80, 80] },
+                    { name: 'Rejected', data: [20, 19, 18, 19, 18, 18] },
+                    { name: 'Pending Review', data: [2, 2, 2, 2, 2, 2] }
+                ],
+                fill: { opacity: 0.7 }
+            });
+            charts.decisionTrends.render();
+
+            // Bureau Score Trends Chart
+            charts.bureauTrends = new ApexCharts(document.querySelector("#bureau-trends-chart"), {
+                chart: { type: 'line', height: 300, toolbar: { show: false } },
+                stroke: { width: 3, curve: 'smooth' },
+                xaxis: { categories: ['May 24', 'Jun 24', 'Jul 24', 'Aug 24', 'Sep 24', 'Oct 24'] },
+                yaxis: { title: { text: 'Average Bureau Score' }, min: 680, max: 720 },
+                colors: ['#6366f1', '#10b981', '#ef4444'],
+                series: [
+                    { name: 'Overall Avg', data: [692, 695, 697, 698, 699, 698] },
+                    { name: 'Approved Avg', data: [708, 710, 712, 714, 715, 714] },
+                    { name: 'Rejected Avg', data: [658, 660, 662, 664, 665, 663] }
+                ]
+            });
+            charts.bureauTrends.render();
+
+            // Feature Importance Chart
+            charts.featureImportance = new ApexCharts(document.querySelector("#feature-importance-chart"), {
+                chart: { type: 'bar', height: 300, toolbar: { show: false } },
+                plotOptions: { bar: { horizontal: true } },
+                dataLabels: { enabled: true },
+                xaxis: { 
+                    categories: ['Bureau Score', 'Monthly Income', 'Bank Statement Score', 'DTI Ratio', 'Loan Amount', 'Age', 'Employment Type', 'Loan Tenure']
+                },
+                colors: ['#4f46e5'],
+                series: [{ 
+                    name: 'Importance', 
+                    data: [0.24, 0.18, 0.15, 0.12, 0.09, 0.08, 0.07, 0.07] 
+                }]
+            });
+            charts.featureImportance.render();
+        }
+
+        // Initialize Performance charts
+        function initPerformanceCharts() {
+            // DPD Trends Chart
+            if (!charts.dpdTrends) {
+                charts.dpdTrends = new ApexCharts(document.querySelector("#dpd-trends-chart"), {
+                    chart: { type: 'line', height: 300, toolbar: { show: false } },
+                    stroke: { width: 3, curve: 'smooth' },
+                    xaxis: { categories: ['Oct 24', 'Nov 24'] },
+                    colors: ['#ef4444', '#f59e0b', '#06b6d4'],
+                    series: [
+                        { name: '30+ DPD', data: [2.1, 2.8] },
+                        { name: '60+ DPD', data: [1.2, 1.6] },
+                        { name: '90+ DPD', data: [0.7, 0.9] }
+                    ]
+                });
+                charts.dpdTrends.render();
+            }
+
+            // Vintage Analysis Chart
+            if (!charts.vintage) {
+                charts.vintage = new ApexCharts(document.querySelector("#vintage-chart"), {
+                    chart: { type: 'line', height: 300, toolbar: { show: false } },
+                    stroke: { width: 2, curve: 'smooth' },
+                    xaxis: { categories: ['Month 1', 'Month 2', 'Month 3', 'Month 4', 'Month 5', 'Month 6'] },
+                    yaxis: { title: { text: 'Cumulative Default Rate %' } },
+                    colors: ['#10b981', '#06b6d4', '#f59e0b', '#ef4444'],
+                    series: [
+                        { name: 'Oct 2024', data: [0.1, 0.3, 0.7, 1.2, 1.8, 2.4] },
+                        { name: 'Sep 2024', data: [0.2, 0.4, 0.8, 1.4, 2.1, 2.8] },
+                        { name: 'Aug 2024', data: [0.1, 0.5, 1.0, 1.6, 2.3, 3.1] }
+                    ]
+                });
+                charts.vintage.render();
+            }
+
+            // ROC Curve
+            if (!charts.roc) {
+                charts.roc = new ApexCharts(document.querySelector("#roc-chart"), {
+                    chart: { type: 'line', height: 300, toolbar: { show: false } },
+                    stroke: { width: 3, curve: 'smooth' },
+                    xaxis: { title: { text: 'False Positive Rate' } },
+                    yaxis: { title: { text: 'True Positive Rate' } },
+                    colors: ['#4f46e5', '#ef4444'],
+                    series: [
+                        { name: 'Current Model (AUC: 0.74)', data: [[0, 0], [0.1, 0.25], [0.2, 0.45], [0.3, 0.62], [0.4, 0.75], [0.5, 0.82], [0.6, 0.88], [0.7, 0.92], [0.8, 0.96], [0.9, 0.98], [1, 1]] },
+                        { name: 'Random (AUC: 0.5)', data: [[0, 0], [1, 1]] }
+                    ]
+                });
+                charts.roc.render();
+            }
+
+            // Calibration Chart
+            if (!charts.calibration) {
+                charts.calibration = new ApexCharts(document.querySelector("#calibration-chart"), {
+                    chart: { type: 'line', height: 300, toolbar: { show: false } },
+                    stroke: { width: 3, curve: 'smooth' },
+                    xaxis: { title: { text: 'Mean Predicted Probability' } },
+                    yaxis: { title: { text: 'Fraction of Positives' } },
+                    colors: ['#4f46e5', '#ef4444'],
+                    series: [
+                        { name: 'Model Calibration', data: [[0.1, 0.08], [0.2, 0.18], [0.3, 0.28], [0.4, 0.39], [0.5, 0.51], [0.6, 0.62], [0.7, 0.71], [0.8, 0.82], [0.9, 0.89]] },
+                        { name: 'Perfect Calibration', data: [[0, 0], [1, 1]] }
+                    ]
+                });
+                charts.calibration.render();
+            }
+
+            // Prediction Distribution
+            if (!charts.predictionDist) {
+                charts.predictionDist = new ApexCharts(document.querySelector("#prediction-distribution-chart"), {
+                    chart: { type: 'histogram', height: 300, toolbar: { show: false } },
+                    plotOptions: { bar: { columnWidth: '80%' } },
+                    xaxis: { 
+                        title: { text: 'Prediction Score Bins' },
+                        categories: ['0-0.1', '0.1-0.2', '0.2-0.3', '0.3-0.4', '0.4-0.5', '0.5-0.6', '0.6-0.7', '0.7-0.8', '0.8-0.9', '0.9-1.0']
+                    },
+                    yaxis: { title: { text: 'Frequency' } },
+                    colors: ['#4f46e5'],
+                    series: [{ 
+                        name: 'Applications', 
+                        data: [156, 298, 423, 567, 734, 892, 678, 456, 289, 145] 
+                    }]
+                });
+                charts.predictionDist.render();
+            }
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', function() {
+            initDay0Charts();
+        });
+    </script>
+</body>
+</html>
