@@ -225,10 +225,10 @@
     <script>
         // --- DATA ---
         const mockApplications = [
-            { id: '664793', name: 'Rajesh Kumar Sharma', assetClass: 'SME Loan', score: 35, decision: 'Approved', date: '2025-09-02', bureauProfile: 'Fair', cashflowProfile: 'Excellent', altDataProfile: 'Positive' },
-            { id: '664794', name: 'Priya Patel', assetClass: 'MSME Loan', score: 12, decision: 'Approved', date: '2025-09-01', bureauProfile: 'Excellent', cashflowProfile: 'Excellent', altDataProfile: 'Positive' },
-            { id: '664795', name: 'Amit Singh', assetClass: 'Digital Loan', score: 28, decision: 'Approved', date: '2025-08-30', bureauProfile: 'No History', cashflowProfile: 'Excellent', altDataProfile: 'Average' },
-            { id: '664796', name: 'Vikram Reddy', assetClass: 'Personal Loan', score: 75, decision: 'Review', date: '2025-08-29', bureauProfile: 'Good', cashflowProfile: 'Poor', altDataProfile: 'Average' },
+            { id: '664793', name: 'Rajesh Kumar Sharma', assetClass: 'MFI', score: 35, decision: 'Approved', date: '2025-09-02', bureauProfile: 'Fair', cashflowProfile: 'Excellent', altDataProfile: 'Positive' },
+            { id: '664794', name: 'Priya Patel', assetClass: 'MFI', score: 12, decision: 'Approved', date: '2025-09-01', bureauProfile: 'Excellent', cashflowProfile: 'Excellent', altDataProfile: 'Positive' },
+            { id: '664795', name: 'Amit Singh', assetClass: 'Agri Loan', score: 28, decision: 'Approved', date: '2025-08-30', bureauProfile: 'No History', cashflowProfile: 'Excellent', altDataProfile: 'Average' },
+            { id: '664796', name: 'Vikram Reddy', assetClass: 'Affordable Housing', score: 75, decision: 'Review', date: '2025-08-29', bureauProfile: 'Good', cashflowProfile: 'Poor', altDataProfile: 'Average' },
         ];
 
         // --- DETAILED DATA FOR EACH USE CASE ---
@@ -328,10 +328,10 @@
                 ...mockApplications[2],
                 summary: { kiScore: 28, grade: 'Good', requestedAmount: 5000, eligibleAmount: 5000, term: 1, apr: 15, },
                 explainability: {
-                    good: ['Excellent bank statement history', 'Stable digital footprint'],
+                    good: ['Excellent bank statement history', 'Good agricultural indicators', 'Adequate groundwater and rainfall'],
                     improvement: ['Build formal credit history'], bad: ['No bureau data available'],
                 },
-                collateral: null,
+                collateral: { type: 'Agricultural Land', ownership: 'Owned', value: 150000 },
                 bureau: { 
                     profile: 'No History', class: 'text-slate-700 bg-slate-100', 
                     details: [
@@ -354,18 +354,23 @@
                         {label: 'Unique Payers', value: '40+'}, {label: 'High-Risk Txns', value: 'None'}
                     ] 
                 },
-                alternate: { 
-                    profile: 'Average', class: 'text-slate-700 bg-slate-100', 
-                    points: { 
-                        agri: [], 
+                alternate: {
+                    profile: 'Average', class: 'text-slate-700 bg-slate-100',
+                    points: {
+                        agri: [
+                            {label: 'Groundwater Thickness', value: '12m (Good)', class: 'text-green-600'},
+                            {label: 'Annual Rainfall', value: '850mm (Adequate)'},
+                            {label: 'Yield-Related Metrics', value: 'Rice: 4.2 tons/ha'},
+                            {label: 'Cash Conversion Cycle', value: '45 days', class: 'text-green-600'}
+                        ],
                         socio: [
                             {label: 'Income Estimate', value: '₹22,000/month'}, {label: 'Housing Quality Index', value: 'Average'},
                             {label: 'SIM Tenure', value: '3 years'}, {label: 'Access to Drinking Water', value: 'Yes'},
                             {label: 'Access to Toilet', value: 'No'}, {label: 'Access to LPG Cooking', value: 'No'},
                             {label: 'Ownership of Scooter', value: 'Yes'}, {label: 'Ownership of Computer', value: 'No'},
                             {label: 'Ownership of Refrigerator', value: 'No'}
-                        ] 
-                    } 
+                        ]
+                    }
                 },
                 affordability: { preDTI: '0%', postDTI: '20%', emi: '₹5,100', verdict: 'Comfortable', verdictClass: 'text-green-800 bg-green-50' },
             },
@@ -376,7 +381,7 @@
                     good: ['Good on-time payment history on bureau'],
                     improvement: ['Reduce betting frequency'], bad: ['High velocity, circular payments detected', 'Significant betting activity'],
                 },
-                collateral: null,
+                collateral: { type: 'Residential Property', ownership: 'Owned', value: 2080000 },
                 bureau: { 
                     profile: 'Good', class: 'text-green-700 bg-green-100', 
                     details: [ 
@@ -399,18 +404,21 @@
                         {label: 'Unique Payers', value: '10 (Limited Circle)'}, {label: 'Fraud Flags', value: '2 (Velocity, Circular)', class: 'text-red-600'}
                     ] 
                 },
-                alternate: { 
-                    profile: 'Average', class: 'text-slate-700 bg-slate-100', 
-                    points: { 
-                        agri: [], 
+                alternate: {
+                    profile: 'Average', class: 'text-slate-700 bg-slate-100',
+                    points: {
+                        agri: [],
                         socio: [
                             {label: 'Income Estimate', value: '₹40,000/month'}, {label: 'SIM Tenure', value: '5 years'},
                             {label: 'Livelihood Zone', value: 'Informal Trade'}, {label: 'Housing Quality', value: 'Average'},
                             {label: 'Access to Drinking Water', value: 'Yes'}, {label: 'Access to Toilet', value: 'No'},
                             {label: 'Access to LPG Cooking', value: 'No'}, {label: 'Ownership of Scooter', value: 'No'},
-                            {label: 'Ownership of Computer', value: 'No'}, {label: 'Ownership of Refrigerator', value: 'No'}
-                        ] 
-                    } 
+                            {label: 'Ownership of Computer', value: 'No'}, {label: 'Ownership of Refrigerator', value: 'No'},
+                            {label: 'Property Area', value: '650 sq ft'}, {label: 'Building Age', value: '8 years'},
+                            {label: 'Rate per Sq Ft', value: '₹3,200'}, {label: 'LTV Ratio', value: '75%', class: 'text-yellow-600'},
+                            {label: 'Property Value', value: '₹20,80,000'}, {label: 'Collateral Type', value: 'Residential Apartment'}
+                        ]
+                    }
                 },
                 affordability: { preDTI: '30%', postDTI: 'N/A', emi: 'N/A', verdict: 'Rejected', verdictClass: 'text-red-800 bg-red-50' },
             },
