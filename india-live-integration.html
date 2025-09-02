@@ -226,7 +226,7 @@
         // --- DATA ---
         const mockApplications = [
             { id: '664793', name: 'Rajesh Kumar Sharma', assetClass: 'MFI', score: 35, decision: 'Approved', date: '2025-09-02', bureauProfile: 'Fair', cashflowProfile: 'Excellent', altDataProfile: 'Positive' },
-            { id: '664794', name: 'Priya Patel', assetClass: 'MFI', score: 12, decision: 'Approved', date: '2025-09-01', bureauProfile: 'Excellent', cashflowProfile: 'Excellent', altDataProfile: 'Positive' },
+            { id: '664794', name: 'Priya Patel', assetClass: 'MSME', score: 12, decision: 'Approved', date: '2025-09-01', bureauProfile: 'Excellent', cashflowProfile: 'Excellent', altDataProfile: 'Positive' },
             { id: '664795', name: 'Amit Singh', assetClass: 'Agri Loan', score: 28, decision: 'Approved', date: '2025-08-30', bureauProfile: 'No History', cashflowProfile: 'Excellent', altDataProfile: 'Average' },
             { id: '664796', name: 'Vikram Reddy', assetClass: 'Affordable Housing', score: 75, decision: 'Review', date: '2025-08-29', bureauProfile: 'Good', cashflowProfile: 'Poor', altDataProfile: 'Average' },
         ];
@@ -413,12 +413,18 @@
                             {label: 'Livelihood Zone', value: 'Informal Trade'}, {label: 'Housing Quality', value: 'Average'},
                             {label: 'Access to Drinking Water', value: 'Yes'}, {label: 'Access to Toilet', value: 'No'},
                             {label: 'Access to LPG Cooking', value: 'No'}, {label: 'Ownership of Scooter', value: 'No'},
-                            {label: 'Ownership of Computer', value: 'No'}, {label: 'Ownership of Refrigerator', value: 'No'},
-                            {label: 'Property Area', value: '650 sq ft'}, {label: 'Building Age', value: '8 years'},
-                            {label: 'Rate per Sq Ft', value: '₹3,200'}, {label: 'LTV Ratio', value: '75%', class: 'text-yellow-600'},
-                            {label: 'Property Value', value: '₹20,80,000'}, {label: 'Collateral Type', value: 'Residential Apartment'}
+                            {label: 'Ownership of Computer', value: 'No'}, {label: 'Ownership of Refrigerator', value: 'No'}
                         ]
                     }
+                },
+                collateralDetails: {
+                    profile: 'Average', class: 'text-slate-700 bg-slate-100',
+                    details: [
+                        {label: 'Property Area', value: '650 sq ft'}, {label: 'Building Age', value: '8 years'},
+                        {label: 'Rate per Sq Ft', value: '₹3,200'}, {label: 'LTV Ratio', value: '75%', class: 'text-yellow-600'},
+                        {label: 'Property Value', value: '₹20,80,000'}, {label: 'Collateral Type', value: 'Residential Apartment'},
+                        {label: 'Location', value: 'Mumbai Suburban'}, {label: 'Property Status', value: 'Ready Possession'}
+                    ]
                 },
                 affordability: { preDTI: '30%', postDTI: 'N/A', emi: 'N/A', verdict: 'Rejected', verdictClass: 'text-red-800 bg-red-50' },
             },
@@ -528,7 +534,19 @@
             document.getElementById('explain-good').innerHTML = app.explainability.good.map(i => `<li>${i}</li>`).join('');
             document.getElementById('explain-improvement').innerHTML = app.explainability.improvement.map(i => `<li>${i}</li>`).join('');
             document.getElementById('explain-bad').innerHTML = app.explainability.bad.map(i => `<li>${i}</li>`).join('');
-            populateSection('collateral', app.collateral, (data, el) => { el.innerHTML = `<li><span class="text-slate-500 block">Type</span><p class="font-semibold text-slate-800">${data.type}</p></li> <li><span class="text-slate-500 block">Ownership</span><p class="font-semibold text-slate-800">${data.ownership}</p></li> <li><span class="text-slate-500 block">Value (KES)</span><p class="font-semibold text-slate-800">${data.value.toLocaleString()}</p></li>`; });
+            if (app.collateralDetails) {
+                // For Affordable Housing with detailed collateral info
+                populateSection('collateral', app.collateralDetails, (data, listEl, badgeEl) => {
+                    badgeEl.textContent = data.profile;
+                    badgeEl.className = `text-sm font-medium px-3 py-1 rounded-full ${data.class}`;
+                    listEl.innerHTML = data.details.map(i => `<li><span class="text-slate-500 block">${i.label}</span><p class="font-semibold ${i.class || 'text-slate-800'}">${i.value}</p></li>`).join('');
+                });
+            } else {
+                // For other asset classes with basic collateral info
+                populateSection('collateral', app.collateral, (data, el) => {
+                    el.innerHTML = `<li><span class="text-slate-500 block">Type</span><p class="font-semibold text-slate-800">${data.type}</p></li> <li><span class="text-slate-500 block">Ownership</span><p class="font-semibold text-slate-800">${data.ownership}</p></li> <li><span class="text-slate-500 block">Value (₹)</span><p class="font-semibold text-slate-800">₹${data.value.toLocaleString()}</p></li>`;
+                });
+            }
             populateSection('bureau', app.bureau, (data, listEl, badgeEl) => { badgeEl.textContent = data.profile; badgeEl.className = `text-sm font-medium px-3 py-1 rounded-full ${data.class}`; listEl.innerHTML = data.details.map(i => `<li><span class="text-slate-500 block">${i.label}</span><p class="font-semibold text-slate-800 ${i.class || ''}">${i.value}</p></li>`).join(''); });
             populateSection('cashflow', app.cashflow, (data, listEl, badgeEl) => { badgeEl.textContent = data.profile; badgeEl.className = `text-sm font-medium px-3 py-1 rounded-full ${data.class}`; listEl.innerHTML = data.details.map(i => `<li><span class="text-slate-500 block">${i.label}</span><p class="font-semibold ${i.class || 'text-slate-800'}">${i.value}</p></li>`).join(''); });
             populateSection('alternate', app.alternate, (data, contentEl, badgeEl) => { badgeEl.textContent = data.profile; badgeEl.className = `text-sm font-medium px-3 py-1 rounded-full ${data.class}`; let html = ''; if (data.points.agri.length > 0) html += `<div><h3 class="font-semibold text-slate-700 mb-2">1. Agricultural & Climate Data</h3><ul class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">${data.points.agri.map(i => `<li><span class="text-slate-500 block">${i.label}</span><p class="font-semibold ${i.class || 'text-slate-800'}">${i.value}</p></li>`).join('')}</ul></div>`; if (data.points.socio.length > 0) html += `<div><h3 class="font-semibold text-slate-700 mb-2">2. Socioeconomic & Digital Data</h3><ul class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">${data.points.socio.map(i => `<li><span class="text-slate-500 block">${i.label}</span><p class="font-semibold ${i.class || 'text-slate-800'}">${i.value}</p></li>`).join('')}</ul></div>`; contentEl.innerHTML = html; });
