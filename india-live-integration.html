@@ -48,6 +48,9 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between h-16">
                     <div class="flex items-center space-x-4">
+                        <button onclick="window.location.href='india-home.html'" class="text-gray-600 hover:text-gray-900 transition-colors mr-4" title="Back to Home">
+                            <i class="fas fa-arrow-left text-xl"></i>
+                        </button>
                         <div class="kaleidofin-logo">
                             <svg width="264" height="69" viewBox="0 0 264 69" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M0 28.6165L29.6939 14.0607V25.7053L0 40.2611V28.6165Z" fill="#0F547E"/>
@@ -222,19 +225,19 @@
     <script>
         // --- DATA ---
         const mockApplications = [
-            { id: '664793', name: 'Grace Adhiambo', assetClass: 'Small Business', score: 35, decision: 'Approved', date: '2025-09-02', bureauProfile: 'Fair', cashflowProfile: 'Excellent', altDataProfile: 'Positive' },
-            { id: '664794', name: 'David Kimani', assetClass: 'MSME Loan', score: 12, decision: 'Approved', date: '2025-09-01', bureauProfile: 'Excellent', cashflowProfile: 'Excellent', altDataProfile: 'Positive' },
-            { id: '664795', name: 'Mary Wanjiru', assetClass: 'Digital Loan', score: 28, decision: 'Approved', date: '2025-08-30', bureauProfile: 'No History', cashflowProfile: 'Excellent', altDataProfile: 'Average' },
-            { id: '664796', name: 'Peter Oloo', assetClass: 'Personal Loan', score: 75, decision: 'Review', date: '2025-08-29', bureauProfile: 'Good', cashflowProfile: 'Poor', altDataProfile: 'Average' },
+            { id: '664793', name: 'Rajesh Kumar Sharma', assetClass: 'SME Loan', score: 35, decision: 'Approved', date: '2025-09-02', bureauProfile: 'Fair', cashflowProfile: 'Excellent', altDataProfile: 'Positive' },
+            { id: '664794', name: 'Priya Patel', assetClass: 'MSME Loan', score: 12, decision: 'Approved', date: '2025-09-01', bureauProfile: 'Excellent', cashflowProfile: 'Excellent', altDataProfile: 'Positive' },
+            { id: '664795', name: 'Amit Singh', assetClass: 'Digital Loan', score: 28, decision: 'Approved', date: '2025-08-30', bureauProfile: 'No History', cashflowProfile: 'Excellent', altDataProfile: 'Average' },
+            { id: '664796', name: 'Vikram Reddy', assetClass: 'Personal Loan', score: 75, decision: 'Review', date: '2025-08-29', bureauProfile: 'Good', cashflowProfile: 'Poor', altDataProfile: 'Average' },
         ];
 
         // --- DETAILED DATA FOR EACH USE CASE ---
         const mockApplicationDetails = {
-            '664793': { /* Grace Adhiambo - Use Case 1: Fair Bureau, Strong Alternatives */
+            '664793': { /* Rajesh Kumar Sharma - Use Case 1: Fair Bureau, Strong Alternatives */
                 ...mockApplications[0],
                 summary: { kiScore: 35, grade: 'Good', requestedAmount: 50000, eligibleAmount: 50000, term: 12, apr: 28, },
                 explainability: {
-                    good: ['Strong M-PESA surplus', 'Positive alternate data signals', 'Consistent business inflows'],
+                    good: ['Strong bank statement surplus', 'Positive alternate data signals', 'Consistent business inflows'],
                     improvement: ['Multiple recent credit inquiries', 'No formal collateral offered'],
                     bad: ['One instance of 30 DPD (12m ago)'],
                 },
@@ -245,7 +248,7 @@
                         {label: 'Credit History', value: '1.5 years'}, {label: 'Active Accounts', value: '1'}, 
                         {label: 'Inquiries (180d)', value: '6', class: 'text-yellow-600'}, {label: 'Worst DPD (12m)', value: '1-30 DPD'},
                         {label: 'Credit Utilization', value: '75%'}, {label: 'On-Time Payments', value: '92%'},
-                        {label: 'Total Balance', value: 'KES 22,500'}, {label: 'Oldest Account', value: '18 months'},
+                        {label: 'Total Balance', value: '₹1,25,000'}, {label: 'Oldest Account', value: '18 months'},
                         {label: 'Secured Loans', value: '0'}, {label: 'Unsecured Loans', value: '1'},
                         {label: 'Public Records', value: 'None'}, {label: 'Days Since Last Loan', value: '45'}
                     ] 
@@ -253,11 +256,11 @@
                 cashflow: { 
                     profile: 'Excellent', class: 'text-green-700 bg-green-100', 
                     details: [ 
-                        {label: 'Avg Net Surplus', value: 'KES 15,100', class: 'text-green-600'}, {label: 'Avg Monthly Inflow', value: 'KES 65,400'},
-                        {label: 'Avg Monthly Outflow', value: 'KES 50,300'}, {label: 'Income Volatility', value: 'Low (20%)'}, 
+                        {label: 'Avg Net Surplus', value: '₹8,500', class: 'text-green-600'}, {label: 'Avg Monthly Inflow', value: '₹36,500'},
+                        {label: 'Avg Monthly Outflow', value: '₹28,000'}, {label: 'Income Volatility', value: 'Low (20%)'}, 
                         {label: 'Betting Activity', value: 'None Detected', class: 'text-green-600'}, {label: 'Loan Repayments', value: '1 Detected (Paid)'},
-                        {label: 'Avg Txn Value', value: 'KES 1,250'}, {label: 'Days with Zero Balance', value: '0'},
-                        {label: 'Inflow Source', value: 'Paybill (Business)'}, {label: 'Balance Trend', value: 'Increasing', class: 'text-green-600'},
+                        {label: 'Avg Txn Value', value: '₹1,200'}, {label: 'Days with Zero Balance', value: '0'},
+                        {label: 'Inflow Source', value: 'Business Income'}, {label: 'Balance Trend', value: 'Increasing', class: 'text-green-600'},
                         {label: 'Unique Payers', value: '150+'}, {label: 'High-Risk Txns', value: 'None'}
                     ] 
                 },
@@ -265,16 +268,17 @@
                     profile: 'Positive', class: 'text-green-700 bg-green-100', 
                     points: { 
                         agri: [], 
-                        socio: [ 
-                            {label: 'Housing Quality Index', value: 'Good'}, {label: 'Livelihood Zone', value: 'Urban Trade'}, 
-                            {label: 'SIM Tenure', value: '6 years', class: 'text-green-600'}, {label: 'Access to Water', value: 'Piped'},
-                            {label: 'Asset Ownership', value: 'Motorcycle'}, {label: 'Education Level', value: 'Secondary'}
+                        socio: [
+                            {label: 'Income Estimate', value: '₹42,000/month'}, {label: 'Housing Quality Index', value: 'Good'},
+                            {label: 'Livelihood Zone', value: 'Urban Trade'}, {label: 'SIM Tenure', value: '6 years', class: 'text-green-600'},
+                            {label: 'Access to Water', value: 'Piped'}, {label: 'Asset Ownership', value: 'Motorcycle'},
+                            {label: 'Education Level', value: 'Secondary'}
                         ] 
                     } 
                 },
-                affordability: { preDTI: '20%', postDTI: '45%', emi: 'KES 4,820', verdict: 'Comfortable', verdictClass: 'text-green-800 bg-green-50' },
+                affordability: { preDTI: '20%', postDTI: '45%', emi: '₹4,800', verdict: 'Comfortable', verdictClass: 'text-green-800 bg-green-50' },
             },
-            '664794': { /* David Kimani - Use Case 2: Excellent Profile Upsell */
+            '664794': { /* Priya Patel - Use Case 2: Excellent Profile Upsell */
                 ...mockApplications[1],
                 summary: { kiScore: 12, grade: 'Excellent', requestedAmount: 250000, eligibleAmount: 350000, term: 24, apr: 18, },
                 explainability: {
@@ -288,7 +292,7 @@
                         {label: 'Credit History', value: '8 years'}, {label: 'Active Accounts', value: '3'}, 
                         {label: 'Inquiries (180d)', value: '1'}, {label: 'Worst DPD (12m)', value: 'No delinquency', class: 'text-green-600'},
                         {label: 'Credit Utilization', value: '15%', class: 'text-green-600'}, {label: 'On-Time Payments', value: '100%'},
-                        {label: 'Total Balance', value: 'KES 1,200,000'}, {label: 'Oldest Account', value: '96 months'},
+                        {label: 'Total Balance', value: '₹6,50,000'}, {label: 'Oldest Account', value: '96 months'},
                         {label: 'Secured Loans', value: '2 (Mortgage, Auto)'}, {label: 'Unsecured Loans', value: '1 (Credit Card)'},
                         {label: 'Public Records', value: 'None'}, {label: 'Days Since Last Loan', value: '250'}
                     ] 
@@ -296,11 +300,11 @@
                 cashflow: { 
                     profile: 'Excellent', class: 'text-green-700 bg-green-100', 
                     details: [ 
-                        {label: 'Avg Net Surplus', value: 'KES 85,000', class: 'text-green-600'}, {label: 'Avg Monthly Inflow', value: 'KES 250,000'},
-                        {label: 'Avg Monthly Outflow', value: 'KES 165,000'}, {label: 'Income Volatility', value: 'Very Low (10%)'}, 
+                        {label: 'Avg Net Surplus', value: '₹1,35,000', class: 'text-green-600'}, {label: 'Avg Monthly Inflow', value: '₹4,00,000'},
+                        {label: 'Avg Monthly Outflow', value: '₹2,65,000'}, {label: 'Income Volatility', value: 'Very Low (10%)'}, 
                         {label: 'Betting Activity', value: 'None Detected', class: 'text-green-600'}, {label: 'Loan Repayments', value: '3 Detected (All Paid)'},
-                        {label: 'Avg Txn Value', value: 'KES 5,500'}, {label: 'Days with Zero Balance', value: '0'},
-                        {label: 'Inflow Source', value: 'Salary (Formal)'}, {label: 'Balance Trend', value: 'Increasing', class: 'text-green-600'},
+                        {label: 'Avg Txn Value', value: '₹5,000'}, {label: 'Days with Zero Balance', value: '0'},
+                        {label: 'Inflow Source', value: 'Salary Income'}, {label: 'Balance Trend', value: 'Increasing', class: 'text-green-600'},
                         {label: 'Unique Payers', value: '20+'}, {label: 'High-Risk Txns', value: 'None'}
                     ] 
                 },
@@ -308,20 +312,21 @@
                     profile: 'Positive', class: 'text-green-700 bg-green-100', 
                     points: { 
                         agri: [], 
-                        socio: [ 
-                            {label: 'Housing Quality Index', value: 'Excellent'}, {label: 'Livelihood Zone', value: 'Formal Employment'}, 
-                            {label: 'SIM Tenure', value: '10+ years', class: 'text-green-600'}, {label: 'Access to Water', value: 'Piped'},
-                            {label: 'Asset Ownership', value: 'Vehicle'}, {label: 'Education Level', value: 'University'}
+                        socio: [
+                            {label: 'Income Estimate', value: '₹3,50,000/month'}, {label: 'Housing Quality Index', value: 'Excellent'},
+                            {label: 'Livelihood Zone', value: 'Formal Employment'}, {label: 'SIM Tenure', value: '10+ years', class: 'text-green-600'},
+                            {label: 'Access to Water', value: 'Piped'}, {label: 'Asset Ownership', value: 'Vehicle'},
+                            {label: 'Education Level', value: 'University'}
                         ] 
                     } 
                 },
-                affordability: { preDTI: '10%', postDTI: '25%', emi: 'KES 17,250', verdict: 'Very Strong', verdictClass: 'text-green-800 bg-green-50' },
+                affordability: { preDTI: '10%', postDTI: '25%', emi: '₹17,250', verdict: 'Very Strong', verdictClass: 'text-green-800 bg-green-50' },
             },
-            '664795': { /* Mary Wanjiru - Use Case 3: No Bureau, Cashflow Approval */
+            '664795': { /* Amit Singh - Use Case 3: No Bureau, Cashflow Approval */
                 ...mockApplications[2],
                 summary: { kiScore: 28, grade: 'Good', requestedAmount: 5000, eligibleAmount: 5000, term: 1, apr: 15, },
                 explainability: {
-                    good: ['Excellent M-PESA history', 'Stable digital footprint'],
+                    good: ['Excellent bank statement history', 'Stable digital footprint'],
                     improvement: ['Build formal credit history'], bad: ['No bureau data available'],
                 },
                 collateral: null,
@@ -339,10 +344,10 @@
                 cashflow: { 
                     profile: 'Excellent', class: 'text-green-700 bg-green-100', 
                     details: [ 
-                        {label: 'Avg Net Surplus', value: 'KES 9,800', class: 'text-green-600'}, {label: 'Avg Monthly Inflow', value: 'KES 30,000'},
-                        {label: 'Avg Monthly Outflow', value: 'KES 20,200'}, {label: 'Income Volatility', value: 'Low (25%)'}, 
+                        {label: 'Avg Net Surplus', value: '₹7,500', class: 'text-green-600'}, {label: 'Avg Monthly Inflow', value: '₹25,000'},
+                        {label: 'Avg Monthly Outflow', value: '₹17,500'}, {label: 'Income Volatility', value: 'Low (25%)'}, 
                         {label: 'Betting Activity', value: 'None Detected', class: 'text-green-600'}, {label: 'Loan Repayments', value: 'None Detected'},
-                        {label: 'Avg Txn Value', value: 'KES 800'}, {label: 'Days with Zero Balance', value: '0'},
+                        {label: 'Avg Txn Value', value: '₹750'}, {label: 'Days with Zero Balance', value: '0'},
                         {label: 'Inflow Source', value: 'P2P & Business'}, {label: 'Balance Trend', value: 'Stable'},
                         {label: 'Unique Payers', value: '40+'}, {label: 'High-Risk Txns', value: 'None'}
                     ] 
@@ -351,16 +356,16 @@
                     profile: 'Average', class: 'text-slate-700 bg-slate-100', 
                     points: { 
                         agri: [], 
-                        socio: [ 
-                            {label: 'Housing Quality Index', value: 'Average'}, {label: 'SIM Tenure', value: '3 years'},
-                            {label: 'Access to Water', value: 'Borehole'}, {label: 'Asset Ownership', value: 'Smartphone'},
-                            {label: 'Education Level', value: 'Secondary'}
+                        socio: [
+                            {label: 'Income Estimate', value: '₹22,000/month'}, {label: 'Housing Quality Index', value: 'Average'},
+                            {label: 'SIM Tenure', value: '3 years'}, {label: 'Access to Water', value: 'Borehole'},
+                            {label: 'Asset Ownership', value: 'Smartphone'}, {label: 'Education Level', value: 'Secondary'}
                         ] 
                     } 
                 },
-                affordability: { preDTI: '0%', postDTI: '20%', emi: 'KES 5,100', verdict: 'Comfortable', verdictClass: 'text-green-800 bg-green-50' },
+                affordability: { preDTI: '0%', postDTI: '20%', emi: '₹5,100', verdict: 'Comfortable', verdictClass: 'text-green-800 bg-green-50' },
             },
-             '664796': { /* Peter Oloo - Use Case 4: Fraud Signals */
+             '664796': { /* Vikram Reddy - Use Case 4: Fraud Signals */
                 ...mockApplications[3],
                 summary: { kiScore: 75, grade: 'High Risk', requestedAmount: 20000, eligibleAmount: 0, term: 0, apr: 0, },
                 explainability: {
@@ -374,7 +379,7 @@
                         {label: 'Credit History', value: '4 years'}, {label: 'Active Accounts', value: '2'}, 
                         {label: 'Inquiries (180d)', value: '2'}, {label: 'Worst DPD (12m)', value: 'No delinquency', class: 'text-green-600'},
                         {label: 'Credit Utilization', value: '40%'}, {label: 'On-Time Payments', value: '98%'},
-                        {label: 'Total Balance', value: 'KES 150,000'}, {label: 'Oldest Account', value: '48 months'},
+                        {label: 'Total Balance', value: '₹75,000'}, {label: 'Oldest Account', value: '48 months'},
                         {label: 'Secured Loans', value: '1'}, {label: 'Unsecured Loans', value: '1'},
                         {label: 'Public Records', value: 'None'}, {label: 'Days Since Last Loan', value: '120'}
                     ] 
@@ -382,10 +387,10 @@
                 cashflow: { 
                     profile: 'Poor', class: 'text-red-700 bg-red-100', 
                     details: [ 
-                        {label: 'Avg Net Surplus', value: 'KES 1,200'}, {label: 'Avg Monthly Inflow', value: 'KES 45,000'},
-                        {label: 'Avg Monthly Outflow', value: 'KES 43,800'}, {label: 'Income Volatility', value: 'Very High (80%)', class: 'text-red-600'}, 
+                        {label: 'Avg Net Surplus', value: '₹1,200'}, {label: 'Avg Monthly Inflow', value: '₹45,000'},
+                        {label: 'Avg Monthly Outflow', value: '₹43,800'}, {label: 'Income Volatility', value: 'Very High (80%)', class: 'text-red-600'}, 
                         {label: 'Betting Activity', value: 'High (>30% of outflow)', class: 'text-red-600'}, {label: 'Loan Repayments', value: 'Multiple Digital Loans'},
-                        {label: 'Avg Txn Value', value: 'KES 500'}, {label: 'Days with Zero Balance', value: '12', class: 'text-yellow-600'},
+                        {label: 'Avg Txn Value', value: '₹500'}, {label: 'Days with Zero Balance', value: '12', class: 'text-yellow-600'},
                         {label: 'Inflow Source', value: 'Betting/P2P'}, {label: 'Balance Trend', value: 'Decreasing'},
                         {label: 'Unique Payers', value: '10 (Limited Circle)'}, {label: 'Fraud Flags', value: '2 (Velocity, Circular)', class: 'text-red-600'}
                     ] 
@@ -394,10 +399,10 @@
                     profile: 'Average', class: 'text-slate-700 bg-slate-100', 
                     points: { 
                         agri: [], 
-                        socio: [ 
-                            {label: 'SIM Tenure', value: '5 years'}, {label: 'Livelihood Zone', value: 'Informal Trade'},
-                            {label: 'Housing Quality', value: 'Average'}, {label: 'Access to Sanitation', value: 'Shared'},
-                            {label: 'Asset Ownership', value: 'None Reported'}
+                        socio: [
+                            {label: 'Income Estimate', value: '₹40,000/month'}, {label: 'SIM Tenure', value: '5 years'},
+                            {label: 'Livelihood Zone', value: 'Informal Trade'}, {label: 'Housing Quality', value: 'Average'},
+                            {label: 'Access to Sanitation', value: 'Shared'}, {label: 'Asset Ownership', value: 'None Reported'}
                         ] 
                     } 
                 },
@@ -501,8 +506,8 @@
             setKiGaugeValue('ki-gauge-pointer-container', app.summary.kiScore, 1, 100);
             const recoList = document.getElementById('decision-recommendation-list');
             recoList.innerHTML = `
-                <li class="flex justify-between"><span>Requested Amount:</span> <span class="font-medium">KES ${app.summary.requestedAmount.toLocaleString()}</span></li>
-                <li class="flex justify-between ${app.summary.eligibleAmount > app.summary.requestedAmount ? 'text-green-600' : ''}"><span>Eligible Amount:</span> <span class="font-bold">KES ${app.summary.eligibleAmount.toLocaleString()}</span></li>
+                <li class="flex justify-between"><span>Requested Amount:</span> <span class="font-medium">₹${app.summary.requestedAmount.toLocaleString()}</span></li>
+                <li class="flex justify-between ${app.summary.eligibleAmount > app.summary.requestedAmount ? 'text-green-600' : ''}"><span>Eligible Amount:</span> <span class="font-bold">₹${app.summary.eligibleAmount.toLocaleString()}</span></li>
                 <li class="flex justify-between"><span>Recommended Term:</span> <span class="font-medium">${app.summary.term} Months</span></li>
                 <li class="flex justify-between"><span>Recommended APR:</span> <span class="font-medium">${app.summary.apr}%</span></li>
             `;
