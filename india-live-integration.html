@@ -213,7 +213,7 @@
                     </div>
                 </div>
                 
-                <div class="section-card" id="collateral-section"><div class="section-header"><h2 class="text-xl font-bold text-slate-800">Collateral Details</h2></div><ul class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm" id="collateral-details-list"></ul></div>
+                <div class="section-card" id="collateral-section"><div class="section-header"><h2 class="text-xl font-bold text-slate-800">Collateral Details</h2><span class="text-sm font-medium px-3 py-1 rounded-full" id="collateral-profile-badge"></span></div><ul class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm" id="collateral-details-list"></ul></div>
                 <div class="section-card" id="bureau-section"><div class="section-header"><h2 class="text-xl font-bold text-slate-800">Bureau Details</h2><span class="text-sm font-medium px-3 py-1 rounded-full" id="bureau-profile-badge"></span></div><ul class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm" id="bureau-details-list"></ul></div>
                 <div class="section-card" id="cashflow-section"><div class="section-header"><h2 class="text-xl font-bold text-slate-800">Cashflow Analysis</h2><span class="text-sm font-medium px-3 py-1 rounded-full" id="cashflow-profile-badge"></span></div><ul class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm" id="cashflow-details-list"></ul></div>
                 <div class="section-card" id="alternate-section"><div class="section-header"><h2 class="text-xl font-bold text-slate-800">Alternate Data Analysis</h2><span class="text-sm font-medium px-3 py-1 rounded-full" id="alternate-profile-badge"></span></div><div class="space-y-4 mt-4" id="alternate-details-content"></div></div>
@@ -557,7 +557,7 @@
             const sectionEl = document.getElementById(`${name}-section`);
             if (!data) { if(sectionEl) sectionEl.style.display = 'none'; return; }
             if(sectionEl) sectionEl.style.display = 'block';
-            if (name === 'bureau' || name === 'cashflow' || name === 'alternate') { renderer(data, document.getElementById(`${name}-details-list`) || document.getElementById(`${name}-details-content`), document.getElementById(`${name}-profile-badge`)); } 
+            if (name === 'bureau' || name === 'cashflow' || name === 'alternate' || name === 'collateral') { renderer(data, document.getElementById(`${name}-details-list`) || document.getElementById(`${name}-details-content`), document.getElementById(`${name}-profile-badge`)); } 
             else { renderer(data, document.getElementById(`${name}-details-list`) || document.getElementById(`${name}-details-grid`)); }
         }
         
