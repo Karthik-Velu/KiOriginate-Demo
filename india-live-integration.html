@@ -3,66 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KI Originate - India Live Integration Demo</title>
+    <title>KI Originate - Live Integration Demo</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f8fafc;
         }
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
-        .card {
-            background-color: white;
+        .page { display: none; }
+        .page.active { display: block; }
+        .sidebar-link { transition: all 0.2s ease-in-out; }
+        .sidebar-link:hover, .sidebar-link.active { background-color: #e0f2fe; color: #0c4a6e; }
+        .k-gradient-text {
+            background: linear-gradient(to right, #0ea5e9, #22d3ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .los-terminal {
+            max-width: 1600px;
+            margin: 0 auto;
             border-radius: 0.75rem;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            transition: all 0.2s ease-in-out;
+            overflow: hidden;
         }
-
-        .card:hover {
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.1);
-        }
-
-        .status-indicator {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 8px;
-        }
-
-        .status-processing { background-color: #f59e0b; }
-        .status-approved { background-color: #10b981; }
-        .status-rejected { background-color: #ef4444; }
-        .status-pending { background-color: #6b7280; }
-
-        .api-call {
-            background: #1f2937;
-            color: #f9fafb;
-            font-family: 'Courier New', monospace;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            overflow-x: auto;
-        }
-
-        .decision-card {
-            border-left: 4px solid;
-        }
-
-        .decision-approved { border-left-color: #10b981; }
-        .decision-rejected { border-left-color: #ef4444; }
-        .decision-manual-review { border-left-color: #f59e0b; }
-
-        .fade-in {
-            animation: fadeIn 0.5s ease-in;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .gauge-container { position: relative; width: 250px; height: 125px; overflow: hidden; }
+        .gauge-background { position: absolute; width: 100%; height: 100%; border-radius: 250px 250px 0 0; background: conic-gradient(from -90deg at 50% 100%, #22c55e, #84cc16, #eab308, #f97316, #ef4444); }
+        .gauge-mask { position: absolute; top: 10px; left: 10px; width: 230px; height: 115px; background: #fff; border-radius: 230px 230px 0 0; }
+        .gauge-pointer-container { position: absolute; width: 100%; height: 100%; display: flex; justify-content: center; align-items: flex-end; transition: transform 1s ease-out; }
+        .gauge-pointer { width: 2px; height: 115px; background-color: #334155; transform-origin: bottom center; }
+        .gauge-center-circle { position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 20px; height: 20px; background-color: #334155; border-radius: 50%; }
+        .gauge-text { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); text-align: center; }
+        .section-card { background-color: white; padding: 1.5rem; border-radius: 0.75rem; border: 1px solid #e2e8f0; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #f1f5f9; }
+        .clickable-row:hover { cursor: pointer; background-color: #f9fafb; }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -72,28 +48,15 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between h-16">
                     <div class="flex items-center space-x-4">
-                        <button onclick="window.location.href='india-home.html'" class="text-gray-500 hover:text-gray-700">
-                            <i class="fas fa-arrow-left text-xl"></i>
-                        </button>
                         <div class="kaleidofin-logo">
                             <svg width="264" height="69" viewBox="0 0 264 69" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M0 28.6165L29.6939 14.0607V25.7053L0 40.2611V28.6165Z" fill="#0F547E"/>
                                 <path d="M0 40.5523L29.6939 55.1081V43.4634L0 28.9076V40.5523Z" fill="#28B2B6"/>
                                 <path d="M67.9042 27.1169L57.14 38.4274L68.1228 54H59.2164L52.1131 43.7276L49.1079 46.8967V54H41.8407V14.4402H49.1079V37.1161L58.3967 27.1169H67.9042ZM66.8046 46.6782C66.8046 44.3833 67.5513 42.5437 69.0448 41.1595C70.5383 39.7752 72.469 38.901 74.8367 38.5367L81.4482 37.5532C82.796 37.3711 83.4699 36.7336 83.4699 35.6408C83.4699 34.6208 83.0692 33.783 82.2678 33.1273C81.5029 32.4716 80.3918 32.1438 78.9348 32.1438C77.4048 32.1438 76.1845 32.5627 75.2738 33.4005C74.3996 34.2383 73.9078 35.2765 73.7985 36.515L67.351 35.149C67.6059 32.8177 68.7534 30.7596 70.7933 28.9746C72.8332 27.1897 75.5288 26.2972 78.8801 26.2972C82.8871 26.2972 85.8377 27.2626 87.7319 29.1932C89.6261 31.0874 90.5732 33.528 90.5732 36.515V49.738C90.5732 51.3408 90.6825 52.7615 90.901 54H84.2349C84.0528 53.1986 83.9617 52.124 83.9617 50.7762C82.2496 53.4354 79.6087 54.765 76.0388 54.765C73.2704 54.765 71.0301 53.9636 69.318 52.3608C67.6424 50.758 66.8046 48.8638 66.8046 46.6782ZM77.5687 49.3556C79.2808 49.3556 80.6833 48.882 81.7761 47.9349C82.9053 46.9514 83.4699 45.3486 83.4699 43.1265V41.9244L77.4048 42.8533C75.1828 43.1812 74.0717 44.3104 74.0717 46.241C74.0717 47.1153 74.3814 47.862 75.0006 48.4813C75.6199 49.0641 76.4759 49.3556 77.5687 49.3556ZM101.887 54H94.62V14.4402H101.887V54ZM111.689 37.4986H123.71C123.637 36.005 123.091 34.7483 122.071 33.7284C121.087 32.7084 119.63 32.1984 117.7 32.1984C115.951 32.1984 114.531 32.7448 113.438 33.8376C112.345 34.9305 111.762 36.1508 111.689 37.4986ZM124.42 44.4925L130.486 46.2957C129.757 48.7727 128.318 50.8126 126.169 52.4154C124.056 54.0182 121.415 54.8196 118.246 54.8196C114.385 54.8196 111.106 53.5264 108.411 50.9401C105.715 48.3174 104.367 44.8204 104.367 40.4491C104.367 36.2965 105.679 32.9088 108.301 30.286C110.924 27.6268 114.021 26.2972 117.59 26.2972C121.743 26.2972 124.985 27.5358 127.316 30.0128C129.684 32.4898 130.868 35.8958 130.868 40.2306C130.868 40.522 130.85 40.8498 130.813 41.2141C130.813 41.5784 130.813 41.8698 130.813 42.0884L130.759 42.4708H111.525C111.598 44.2193 112.29 45.6764 113.602 46.8421C114.913 48.0078 116.479 48.5906 118.301 48.5906C121.397 48.5906 123.437 47.2246 124.42 44.4925ZM140.58 54H133.312V27.1169H140.58V54ZM132.438 18.3197C132.438 17.0812 132.875 16.0248 133.749 15.1506C134.624 14.2399 135.68 13.7846 136.919 13.7846C138.157 13.7846 139.214 14.2217 140.088 15.0959C140.962 15.9702 141.399 17.0448 141.399 18.3197C141.399 19.5218 140.962 20.56 140.088 21.4342C139.214 22.3085 138.157 22.7456 136.919 22.7456C135.68 22.7456 134.624 22.3085 133.749 21.4342C132.875 20.56 132.438 19.5218 132.438 18.3197ZM170.708 14.4402V49.137C170.708 50.9219 170.781 52.5429 170.926 54H163.987C163.805 53.0893 163.714 52.0512 163.714 50.8855C163.095 52.0147 162.111 52.9254 160.763 53.6175C159.452 54.3096 157.922 54.6557 156.173 54.6557C152.349 54.6557 149.198 53.3261 146.721 50.6669C144.28 47.9713 143.06 44.5836 143.06 40.5038C143.06 36.5332 144.262 33.2002 146.666 30.5046C149.107 27.809 152.203 26.4612 155.955 26.4612C159.816 26.4612 162.348 27.5722 163.55 29.7942V14.4402H170.708ZM150.382 40.5038C150.382 42.8715 151.001 44.7475 152.239 46.1318C153.478 47.4796 155.081 48.1535 157.048 48.1535C158.978 48.1535 160.563 47.4613 161.801 46.0771C163.04 44.6929 163.659 42.8169 163.659 40.4491C163.659 38.1178 163.04 36.2965 161.801 34.9851C160.563 33.6373 158.978 32.9634 157.048 32.9634C155.117 32.9634 153.514 33.6373 152.239 34.9851C151.001 36.3329 150.382 38.1725 150.382 40.5038ZM182.526 46.1864C183.873 47.5342 185.494 48.2081 187.389 48.2081C189.283 48.2081 190.886 47.5342 192.197 46.1864C193.545 44.8386 194.219 42.9626 194.219 40.5584C194.219 38.1542 193.545 36.2783 192.197 34.9305C190.886 33.5827 189.283 32.9088 187.389 32.9088C185.494 32.9088 183.873 33.5827 182.526 34.9305C181.214 36.2783 180.558 38.1542 180.558 40.5584C180.558 42.9626 181.214 44.8386 182.526 46.1864ZM177.28 30.3406C179.976 27.645 183.345 26.2972 187.389 26.2972C191.432 26.2972 194.783 27.645 197.442 30.3406C200.138 33.0362 201.486 36.4422 201.486 40.5584C201.486 44.6747 200.138 48.0806 197.442 50.7762C194.783 53.4718 191.432 54.8196 187.389 54.8196C183.345 54.8196 179.976 53.4718 177.28 50.7762C174.621 48.0806 173.291 44.6747 173.291 40.5584C173.291 36.4422 174.621 33.0362 177.28 30.3406Z" fill="#0F547E"/>
-                                <path d="M223.396 33.3459H212.632V54H205.31V33.3459H200.829V27.1169H205.31V24.057C205.31 21.0335 206.184 18.6111 207.933 16.7898C209.717 14.9684 212.103 14.0578 215.09 14.0578C216.693 14.0578 217.895 14.2399 218.697 14.6042V20.7239C218.077 20.5418 217.312 20.4507 216.402 20.4507C215.418 20.4507 214.544 20.7421 213.779 21.325C213.014 21.8714 212.632 22.8185 212.632 24.1663V27.1169H230.608V54H223.396V33.3459ZM223.833 21.4342C222.959 20.56 222.522 19.5036 222.522 18.2651C222.522 17.0266 222.959 15.9702 223.833 15.0959C224.707 14.1853 225.764 13.7299 227.002 13.7299C228.241 13.7299 229.297 14.1853 230.171 15.0959C231.045 15.9702 231.483 17.0266 231.483 18.2651C231.483 19.5036 231.045 20.56 230.171 21.4342C229.297 22.2721 228.241 22.691 227.002 22.691C225.764 22.691 224.707 22.2721 223.833 21.4342ZM242.403 38.5367V54H235.136V27.1169H242.184V30.4499C242.949 29.1386 244.042 28.1368 245.463 27.4447C246.884 26.7526 248.377 26.4065 249.943 26.4065C253.113 26.4065 255.517 27.4083 257.156 29.4118C258.832 31.3788 259.669 33.9287 259.669 37.0614V54H252.402V38.3182C252.402 36.7154 251.983 35.4222 251.146 34.4387C250.344 33.4552 249.106 32.9634 247.43 32.9634C245.9 32.9634 244.68 33.4916 243.769 34.548C242.858 35.6044 242.403 36.9339 242.403 38.5367Z" fill="#28B2B6"/>
+                                <path d="M223.396 33.3459H212.632V54H205.31V33.3459H200.829V27.1169H205.31V24.057C205.31 21.0335 206.184 18.6111 207.933 16.7898C209.717 14.9684 212.103 14.0578 215.09 14.0578C216.693 14.0578 217.895 14.2399 218.697 14.6042V20.7239C218.077 20.5418 217.312 20.4507 216.402 20.4507C215.418 20.4507 214.544 20.7421 213.779 21.325C213.014 21.8714 212.632 22.8185 212.632 24.1663V27.1169H230.608V54H223.396V33.3459ZM223.833 21.4342C222.959 20.56 222.522 19.5036 222.522 18.2651C222.522 17.0266 222.959 15.9702 223.833 15.0959C224.707 14.1853 225.764 13.7299 227.002 13.7299C228.241 13.7299 229.297 14.1853 230.171 15.0959C231.045 15.9702 231.483 17.0266 231.483 18.2651C231.483 19.5036 231.045 20.56 230.171 21.4342C229.297 22.2721 228.241 22.691 227.002 22.691C225.764 22.691 224.707 22.2721 223.833 21.4342ZM242.403 38.5367V54H235.136V27.1169H242.184V30.4499C242.949 29.1386 244.042 28.1368 245.463 27.4447C246.884 26.7526 248.377 26.4065 249.943 26.4065C253.113 26.4065 255.517 27.4083 257.156 29.4118C258.832 31.3788 259.669 33.9287 259.669 37.0614V54H252.402V38.3182C252.402 36.7154 251.983 35.4222 251.146 34.4387C250.344 33.4552 249.106 32.9634 247.43 32.9634C245.9 32.9634 244.68 33.4916 243.769 34.548 242.858 35.6044 242.403 36.9339 242.403 38.5367Z" fill="#28B2B6"/>
                             </svg>
                         </div>
-                        <h1 class="text-2xl font-bold text-gray-900">India Live Integration Demo</h1>
-                    </div>
-                    <div class="flex items-center space-x-4">
-                        <div class="performance-toggle" onclick="togglePerformanceMode()">
-                            <i class="fas fa-toggle-off mr-2" id="toggle-icon"></i>
-                            <span id="toggle-text">Enable Performance Data</span>
-                        </div>
-                        <div class="text-sm text-gray-500">
-                            <i class="fas fa-calendar mr-1"></i>
-                            Last Updated: <span id="last-updated">Nov 15, 2024</span>
-                        </div>
+                        <h1 class="text-2xl font-bold text-gray-900">Live Integration Demo</h1>
                     </div>
                 </div>
             </div>
@@ -101,420 +64,517 @@
 
         <!-- Main Content -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <!-- Application Evaluation Panel -->
-                <div class="lg:col-span-2 space-y-6">
-                    <!-- Application Details -->
-                    <div class="card p-6">
-                        <div class="flex items-center justify-between mb-6">
-                            <h2 class="text-xl font-bold text-gray-900">Application Evaluation</h2>
-                            <div class="flex items-center space-x-2">
-                                <span class="status-indicator status-pending"></span>
-                                <span class="text-sm text-gray-600" id="app-status">Processing Application</span>
-                            </div>
-                        </div>
+            <div id="app-container">
+                <div class="los-terminal">
+                    <!-- APP SHELL (Sidebar + Main Content) -->
+                    <div id="app-shell" class="page active">
+                        <div class="flex bg-white" style="height: calc(100vh - 12rem);">
+                            <!-- Sidebar -->
+                            <nav class="w-64 bg-slate-50 border-r border-slate-200 p-4 flex flex-col">
+                                <div class="flex items-center space-x-2 mb-8">
+                                    <div class="w-10 h-10 bg-sky-500 rounded-lg flex items-center justify-center">
+                                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    </div>
+                                    <h1 class="text-2xl font-bold k-gradient-text">Ki Originate</h1>
+                                </div>
+                                <ul class="space-y-2">
+                                    <li><a href="#" onclick="showAppPage('applications-list-page', this)" class="sidebar-link active flex items-center p-3 rounded-lg text-slate-700 font-medium">Applications</a></li>
+                                    <li><a href="#" onclick="showAppPage('new-application-page', this)" class="sidebar-link flex items-center p-3 rounded-lg text-slate-700 font-medium">New Application</a></li>
+                                </ul>
+                            </nav>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <h3 class="font-semibold text-gray-800 mb-3">Applicant Information</h3>
-                                <div class="space-y-2 text-sm">
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-600">Application ID:</span>
-                                        <span class="font-mono" id="app-id">IND-APP-2024-001</span>
-                                    </div>
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-600">Name:</span>
-                                        <span id="applicant-name">Rajesh Kumar Sharma</span>
-                                    </div>
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-600">Monthly Income:</span>
-                                        <span id="monthly-income">₹85,000</span>
-                                    </div>
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-600">Requested Amount:</span>
-                                        <span id="requested-amount">₹5,00,000</span>
-                                    </div>
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-600">Purpose:</span>
-                                        <span id="loan-purpose">Business Expansion</span>
-                                    </div>
+                            <!-- Main Content -->
+                            <main class="flex-1 overflow-y-auto bg-slate-100">
+                                <div id="app-content" class="p-4 sm:p-6 lg:p-8">
+                                    <!-- App pages will be injected here -->
                                 </div>
-                            </div>
-
-                            <div>
-                                <h3 class="font-semibold text-gray-800 mb-3">Credit Assessment</h3>
-                                <div class="space-y-2 text-sm">
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-600">KI Score:</span>
-                                        <span id="ki-score" class="font-bold text-blue-600">742</span>
-                                    </div>
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-600">Bureau Score:</span>
-                                        <span id="bureau-score" class="font-bold text-green-600">715</span>
-                                    </div>
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-600">FOIR:</span>
-                                        <span id="foir">42%</span>
-                                    </div>
-                                    <div class="flex justify-between">
-                                        <span class="text-gray-600">LTV Ratio:</span>
-                                        <span id="ltv">65%</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- API Call Section -->
-                        <div class="mt-6">
-                            <h3 class="font-semibold text-gray-800 mb-3">Kaleidofin API Integration</h3>
-                            <div class="api-call" id="api-call-display">
-                                <div class="text-green-400">// API Call in Progress...</div>
-                                <div class="text-blue-400">POST https://api.kaleidofin.com/v2/applications/evaluate</div>
-                                <div class="text-gray-400">Content-Type: application/json</div>
-                                <div class="text-gray-400">Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...</div>
-                                <div class="text-gray-300 mt-2">
-                                    <span class="text-yellow-400">{</span><br>
-                                    &nbsp;&nbsp;"applicationId": "IND-APP-2024-001",<br>
-                                    &nbsp;&nbsp;"applicant": {<br>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;"name": "Rajesh Kumar Sharma",<br>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;"income": 85000,<br>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;"location": "Mumbai, Maharashtra"<br>
-                                    &nbsp;&nbsp;},<br>
-                                    &nbsp;&nbsp;"loan": {<br>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;"amount": 500000,<br>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;"purpose": "Business Expansion",<br>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;"tenure": 36<br>
-                                    &nbsp;&nbsp;},<br>
-                                    &nbsp;&nbsp;"creditData": {<br>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;"kiScore": 742,<br>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;"bureauScore": 715,<br>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;"foir": 0.42<br>
-                                    &nbsp;&nbsp;}<br>
-                                    <span class="text-yellow-400">}</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Processing Steps -->
-                        <div class="mt-6">
-                            <h3 class="font-semibold text-gray-800 mb-3">Processing Steps</h3>
-                            <div class="space-y-3">
-                                <div class="flex items-center space-x-3" id="step-1">
-                                    <div class="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center">
-                                        <i class="fas fa-check text-white text-sm"></i>
-                                    </div>
-                                    <span class="text-sm">Application Received</span>
-                                </div>
-                                <div class="flex items-center space-x-3" id="step-2">
-                                    <div class="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center">
-                                        <i class="fas fa-check text-white text-sm"></i>
-                                    </div>
-                                    <span class="text-sm">Credit Bureau Check</span>
-                                </div>
-                                <div class="flex items-center space-x-3" id="step-3">
-                                    <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center">
-                                        <i class="fas fa-spinner text-white text-sm animate-spin"></i>
-                                    </div>
-                                    <span class="text-sm">KI Score Assessment</span>
-                                </div>
-                                <div class="flex items-center space-x-3" id="step-4">
-                                    <div class="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center">
-                                        <span class="text-gray-600 text-sm">4</span>
-                                    </div>
-                                    <span class="text-sm">Risk-Based Pricing</span>
-                                </div>
-                                <div class="flex items-center space-x-3" id="step-5">
-                                    <div class="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center">
-                                        <span class="text-gray-600 text-sm">5</span>
-                                    </div>
-                                    <span class="text-sm">Decision Generation</span>
-                                </div>
-                            </div>
+                            </main>
                         </div>
                     </div>
-
-                    <!-- API Response -->
-                    <div class="card p-6" id="api-response-section" style="display: none;">
-                        <h3 class="font-semibold text-gray-800 mb-3">API Response</h3>
-                        <div class="api-call">
-                            <div class="text-green-400">// API Response Received</div>
-                            <div class="text-gray-300 mt-2">
-                                <span class="text-yellow-400">{</span><br>
-                                &nbsp;&nbsp;"status": "success",<br>
-                                &nbsp;&nbsp;"applicationId": "IND-APP-2024-001",<br>
-                                &nbsp;&nbsp;"decision": "approved",<br>
-                                &nbsp;&nbsp;"confidence": 0.87,<br>
-                                &nbsp;&nbsp;"approvedAmount": 500000,<br>
-                                &nbsp;&nbsp;"interestRate": 14.5,<br>
-                                &nbsp;&nbsp;"processingTime": "2.3s",<br>
-                                &nbsp;&nbsp;"riskMetrics": {<br>
-                                &nbsp;&nbsp;&nbsp;&nbsp;"pd": 0.034,<br>
-                                &nbsp;&nbsp;&nbsp;&nbsp;"lgd": 0.25,<br>
-                                &nbsp;&nbsp;&nbsp;&nbsp;"el": 8500<br>
-                                &nbsp;&nbsp;},<br>
-                                &nbsp;&nbsp;"recommendations": [<br>
-                                &nbsp;&nbsp;&nbsp;&nbsp;"Proceed with standard approval process",<br>
-                                &nbsp;&nbsp;&nbsp;&nbsp;"Consider upsell to ₹6,00,000 at same rate"<br>
-                                &nbsp;&nbsp;]<br>
-                                <span class="text-yellow-400">}</span>
-                            </div>
+                    
+                    <!-- EVALUATION SPINNER -->
+                    <div id="evaluation-spinner-page" class="page">
+                        <div class="h-full flex flex-col justify-center items-center bg-white p-4" style="height: calc(100vh - 12rem);">
+                            <div class="w-16 h-16 border-4 border-sky-500 border-dashed rounded-full animate-spin"></div>
+                            <p id="spinner-status" class="mt-6 text-lg font-medium text-slate-700">Starting Evaluation...</p>
                         </div>
                     </div>
                 </div>
-
-                <!-- Decision Panel -->
-                <div class="space-y-6">
-                    <!-- Decision Summary -->
-                    <div class="card p-6 decision-card decision-approved" id="decision-summary" style="display: none;">
-                        <div class="flex items-center mb-4">
-                            <i class="fas fa-check-circle text-2xl text-green-600 mr-3"></i>
-                            <div>
-                                <h3 class="font-bold text-gray-900">Application Approved</h3>
-                                <p class="text-sm text-gray-600">Decision generated in 2.3 seconds</p>
-                            </div>
-                        </div>
-
-                        <div class="space-y-3">
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm text-gray-600">Approved Amount:</span>
-                                <span class="font-bold text-lg">₹5,00,000</span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm text-gray-600">Interest Rate:</span>
-                                <span class="font-bold text-lg">14.5%</span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm text-gray-600">Monthly EMI:</span>
-                                <span class="font-bold text-lg">₹17,250</span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-sm text-gray-600">Tenure:</span>
-                                <span class="font-bold text-lg">36 months</span>
-                            </div>
-                        </div>
-
-                        <div class="mt-4 p-3 bg-green-50 rounded-lg">
-                            <p class="text-sm text-green-800">
-                                <strong>KI Confidence:</strong> 87% | <strong>Risk Level:</strong> Low
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Risk Assessment -->
-                    <div class="card p-6" id="risk-assessment" style="display: none;">
-                        <h3 class="font-semibold text-gray-800 mb-4">Risk Assessment</h3>
-                        <div class="space-y-4">
-                            <div class="flex items-center justify-between">
-                                <span class="text-sm">PD (Probability of Default)</span>
-                                <span class="font-bold text-green-600">3.4%</span>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <span class="text-sm">LGD (Loss Given Default)</span>
-                                <span class="font-bold text-yellow-600">25%</span>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <span class="text-sm">EL (Expected Loss)</span>
-                                <span class="font-bold text-blue-600">₹8,500</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Recommendations -->
-                    <div class="card p-6" id="recommendations" style="display: none;">
-                        <h3 class="font-semibold text-gray-800 mb-4">KI Recommendations</h3>
-                        <div class="space-y-3">
-                            <div class="flex items-start space-x-3">
-                                <i class="fas fa-lightbulb text-yellow-500 mt-1"></i>
-                                <p class="text-sm">Consider upsell opportunity to ₹6,00,000 at same interest rate</p>
-                            </div>
-                            <div class="flex items-start space-x-3">
-                                <i class="fas fa-shield-alt text-green-500 mt-1"></i>
-                                <p class="text-sm">Strong repayment history supports approval</p>
-                            </div>
-                            <div class="flex items-start space-x-3">
-                                <i class="fas fa-chart-line text-blue-500 mt-1"></i>
-                                <p class="text-sm">FOIR within acceptable range for income level</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Processing Timeline -->
-                    <div class="card p-6" id="timeline" style="display: none;">
-                        <h3 class="font-semibold text-gray-800 mb-4">Processing Timeline</h3>
-                        <div class="space-y-3">
-                            <div class="flex items-center space-x-3">
-                                <div class="w-3 h-3 rounded-full bg-green-500"></div>
-                                <div class="flex-1">
-                                    <p class="text-sm font-medium">Application Submitted</p>
-                                    <p class="text-xs text-gray-500">2:30:15 PM</p>
-                                </div>
-                            </div>
-                            <div class="flex items-center space-x-3">
-                                <div class="w-3 h-3 rounded-full bg-green-500"></div>
-                                <div class="flex-1">
-                                    <p class="text-sm font-medium">Credit Check Complete</p>
-                                    <p class="text-xs text-gray-500">2:30:18 PM</p>
-                                </div>
-                            </div>
-                            <div class="flex items-center space-x-3">
-                                <div class="w-3 h-3 rounded-full bg-blue-500"></div>
-                                <div class="flex-1">
-                                    <p class="text-sm font-medium">KI Assessment Running</p>
-                                    <p class="text-xs text-gray-500">2:30:20 PM</p>
-                                </div>
-                            </div>
-                            <div class="flex items-center space-x-3">
-                                <div class="w-3 h-3 rounded-full bg-gray-300"></div>
-                                <div class="flex-1">
-                                    <p class="text-sm font-medium">Decision Generated</p>
-                                    <p class="text-xs text-gray-500">2:30:22 PM</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="flex justify-center space-x-4 mt-8">
-                <button onclick="evaluateApplication()" class="btn-primary" id="evaluate-btn">
-                    <i class="fas fa-play mr-2"></i>Evaluate Application
-                </button>
-                <button onclick="resetDemo()" class="btn-secondary">
-                    <i class="fas fa-redo mr-2"></i>Reset Demo
-                </button>
             </div>
         </div>
     </div>
 
+    <!-- TEMPLATES for App Content -->
+    <template id="template-applications-list-page">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h1 class="text-3xl font-bold text-slate-800">Applications</h1>
+                <button onclick="showAppPage('new-application-page')" class="bg-sky-500 text-white font-bold py-2 px-4 rounded-lg shadow-sm hover:bg-sky-600 transition">New Application</button>
+            </div>
+            <div class="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
+                <table class="min-w-full divide-y divide-slate-200">
+                    <thead class="bg-slate-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Application ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Applicant Name</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Asset Class</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">KI Score</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Bureau Profile</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Cashflow Profile</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Alt Data Profile</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Decision</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Submitted At</th>
+                        </tr>
+                    </thead>
+                    <tbody id="applications-table-body" class="bg-white divide-y divide-slate-200"></tbody>
+                </table>
+            </div>
+        </div>
+    </template>
+
+    <template id="template-new-application-page">
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
+                <div class="mb-8 text-left">
+                    <h1 class="text-3xl font-bold text-slate-800">New Application</h1>
+                    <p class="text-slate-500 mt-1">Select an asset class and fill in the details to begin evaluation.</p>
+                </div>
+                
+                <div class="mb-8">
+                    <label for="asset-class" class="font-semibold text-slate-700">Asset Class</label>
+                    <select id="asset-class" onchange="updateAssetFields()" class="mt-1 block w-full rounded-lg border-slate-200 bg-slate-50 py-3 px-4 shadow-sm focus:border-sky-400 focus:ring focus:ring-sky-200 focus:ring-opacity-50 transition">
+                        <option value="Agriculture">Agriculture</option>
+                        <option value="SmallBusiness">Small Business</option>
+                        <option value="Personal">Personal Loan</option>
+                        <option value="Digital">Digital Loan</option>
+                        <option value="Microfinance">Microfinance (JLG)</option>
+                        <option value="MSME">MSME</option>
+                    </select>
+                </div>
+                
+                <div id="asset-specific-fields"></div>
+
+                <div class="mt-10 pt-6 border-t border-slate-200">
+                    <div class="flex justify-end">
+                        <button onclick="runEvaluation()" class="w-full md:w-auto bg-sky-600 text-white font-bold py-3 px-8 rounded-lg shadow-md hover:bg-sky-700 transition-all transform hover:scale-105 flex items-center justify-center gap-2">
+                            <span>Evaluate with Ki Originate</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                              <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="template-decision-screen-page">
+        <div class="max-w-5xl mx-auto">
+             <div class="section-card mb-6">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <a href="#" onclick="showAppPage('applications-list-page')" class="text-sky-600 hover:text-sky-800 text-sm mb-2 inline-block">&larr; Back to Applications List</a>
+                        <h1 class="text-2xl font-bold text-slate-800" id="decision-loan-id"></h1>
+                    </div>
+                    <span class="text-sm font-medium px-3 py-1 rounded-full" id="decision-status-badge"></span>
+                </div>
+                <div class="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-y-4 gap-x-2 text-sm border-t pt-4">
+                    <div><span class="text-slate-500 block">Date</span><p class="font-semibold text-slate-800" id="decision-date"></p></div>
+                    <div><span class="text-slate-500 block">Loan Officer</span><p class="font-semibold text-slate-800">John Okello</p></div>
+                    <div><span class="text-slate-500 block">Product</span><p class="font-semibold text-slate-800" id="decision-product"></p></div>
+                    <div><span class="text-slate-500 block">Applicant</span><p class="font-semibold text-slate-800" id="decision-applicant-name"></p></div>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <div class="section-card">
+                    <div class="section-header"><h2 class="text-xl font-bold text-slate-800">Ki Decision Summary</h2></div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div class="flex flex-col items-center">
+                            <div class="gauge-container"><div class="gauge-background"></div><div class="gauge-mask"></div><div id="ki-gauge-pointer-container" class="gauge-pointer-container"><div class="gauge-pointer"></div><div class="gauge-center-circle"></div></div><div class="gauge-text"><div class="text-4xl font-bold text-slate-800" id="decision-ki-score-val"></div><div class="text-lg font-semibold" id="decision-ki-score-grade"></div></div></div>
+                            <p class="text-sm font-medium text-slate-600 mt-2">KI Score (1-100, lower is better)</p>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-lg"><h3 class="font-semibold text-slate-700 mb-2">DealSmart Recommendation</h3>
+                           <ul class="text-sm text-slate-700 space-y-3" id="decision-recommendation-list">
+                           </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <div class="section-header"><h2 class="text-xl font-bold text-slate-800">Model Explainability</h2></div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-green-50 p-4 rounded-lg border border-green-200"><h3 class="font-semibold text-green-800 mb-2">What's Good</h3><ul class="list-disc list-inside text-sm text-green-700 space-y-1" id="explain-good"></ul></div>
+                        <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200"><h3 class="font-semibold text-yellow-800 mb-2">Needs Improvement</h3><ul class="list-disc list-inside text-sm text-yellow-700 space-y-1" id="explain-improvement"></ul></div>
+                        <div class="bg-red-50 p-4 rounded-lg border border-red-200"><h3 class="font-semibold text-red-800 mb-2">What's Bad</h3><ul class="list-disc list-inside text-sm text-red-700 space-y-1" id="explain-bad"></ul></div>
+                    </div>
+                </div>
+                
+                <div class="section-card" id="collateral-section"><div class="section-header"><h2 class="text-xl font-bold text-slate-800">Collateral Details</h2></div><ul class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm" id="collateral-details-list"></ul></div>
+                <div class="section-card" id="bureau-section"><div class="section-header"><h2 class="text-xl font-bold text-slate-800">Bureau Details</h2><span class="text-sm font-medium px-3 py-1 rounded-full" id="bureau-profile-badge"></span></div><ul class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm" id="bureau-details-list"></ul></div>
+                <div class="section-card" id="cashflow-section"><div class="section-header"><h2 class="text-xl font-bold text-slate-800">Cashflow Analysis (M-PESA)</h2><span class="text-sm font-medium px-3 py-1 rounded-full" id="cashflow-profile-badge"></span></div><ul class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm" id="cashflow-details-list"></ul></div>
+                <div class="section-card" id="alternate-section"><div class="section-header"><h2 class="text-xl font-bold text-slate-800">Alternate Data Analysis</h2><span class="text-sm font-medium px-3 py-1 rounded-full" id="alternate-profile-badge"></span></div><div class="space-y-4 mt-4" id="alternate-details-content"></div></div>
+                <div class="section-card" id="affordability-section"><div class="section-header"><h2 class="text-xl font-bold text-slate-800">Affordability Analysis</h2></div><div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center" id="affordability-details-grid"></div></div>
+            </div>
+        </div>
+    </template>
+
     <script>
-        let evaluationStep = 0;
-        const steps = ['Application Received', 'Credit Bureau Check', 'KI Score Assessment', 'Risk-Based Pricing', 'Decision Generation'];
+        // --- DATA ---
+        const mockApplications = [
+            { id: '664793', name: 'Grace Adhiambo', assetClass: 'Small Business', score: 35, decision: 'Approved', date: '2025-09-02', bureauProfile: 'Fair', cashflowProfile: 'Excellent', altDataProfile: 'Positive' },
+            { id: '664794', name: 'David Kimani', assetClass: 'MSME Loan', score: 12, decision: 'Approved', date: '2025-09-01', bureauProfile: 'Excellent', cashflowProfile: 'Excellent', altDataProfile: 'Positive' },
+            { id: '664795', name: 'Mary Wanjiru', assetClass: 'Digital Loan', score: 28, decision: 'Approved', date: '2025-08-30', bureauProfile: 'No History', cashflowProfile: 'Excellent', altDataProfile: 'Average' },
+            { id: '664796', name: 'Peter Oloo', assetClass: 'Personal Loan', score: 75, decision: 'Review', date: '2025-08-29', bureauProfile: 'Good', cashflowProfile: 'Poor', altDataProfile: 'Average' },
+        ];
 
-        function evaluateApplication() {
-            const btn = document.getElementById('evaluate-btn');
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Processing...';
-
-            // Update status
-            document.getElementById('app-status').textContent = 'Processing Application';
-
-            // Start evaluation process
-            setTimeout(() => showApiCall(), 1000);
-        }
-
-        function showApiCall() {
-            document.getElementById('api-response-section').style.display = 'block';
-            document.getElementById('api-response-section').classList.add('fade-in');
-
-            // Update step 3 to completed
-            updateStepStatus(3, 'completed');
-
-            setTimeout(() => {
-                updateStepStatus(4, 'processing');
-                showDecision();
-            }, 2000);
-        }
-
-        function showDecision() {
-            // Show decision summary
-            document.getElementById('decision-summary').style.display = 'block';
-            document.getElementById('decision-summary').classList.add('fade-in');
-
-            // Update status
-            document.getElementById('app-status').textContent = 'Application Approved';
-            document.querySelector('#app-status').previousElementSibling.className = 'status-indicator status-approved';
-
-            setTimeout(() => {
-                // Show risk assessment
-                document.getElementById('risk-assessment').style.display = 'block';
-                document.getElementById('risk-assessment').classList.add('fade-in');
-
-                setTimeout(() => {
-                    // Show recommendations
-                    document.getElementById('recommendations').style.display = 'block';
-                    document.getElementById('recommendations').classList.add('fade-in');
-
-                    setTimeout(() => {
-                        // Show timeline
-                        document.getElementById('timeline').style.display = 'block';
-                        document.getElementById('timeline').classList.add('fade-in');
-
-                        // Update step 5 to completed
-                        updateStepStatus(5, 'completed');
-
-                        // Re-enable button
-                        const btn = document.getElementById('evaluate-btn');
-                        btn.disabled = false;
-                        btn.innerHTML = '<i class="fas fa-check mr-2"></i>Evaluation Complete';
-                    }, 1000);
-                }, 1000);
-            }, 1000);
-        }
-
-        function updateStepStatus(stepNumber, status) {
-            const stepElement = document.getElementById(`step-${stepNumber}`);
-            const icon = stepElement.querySelector('i, span');
-
-            if (status === 'processing') {
-                stepElement.querySelector('div').className = 'w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center';
-                stepElement.querySelector('i').className = 'fas fa-spinner text-white text-sm animate-spin';
-            } else if (status === 'completed') {
-                stepElement.querySelector('div').className = 'w-8 h-8 rounded-full bg-green-500 flex items-center justify-center';
-                stepElement.querySelector('i').className = 'fas fa-check text-white text-sm';
+        // --- DETAILED DATA FOR EACH USE CASE ---
+        const mockApplicationDetails = {
+            '664793': { /* Grace Adhiambo - Use Case 1: Fair Bureau, Strong Alternatives */
+                ...mockApplications[0],
+                summary: { kiScore: 35, grade: 'Good', requestedAmount: 50000, eligibleAmount: 50000, term: 12, apr: 28, },
+                explainability: {
+                    good: ['Strong M-PESA surplus', 'Positive alternate data signals', 'Consistent business inflows'],
+                    improvement: ['Multiple recent credit inquiries', 'No formal collateral offered'],
+                    bad: ['One instance of 30 DPD (12m ago)'],
+                },
+                collateral: { type: 'Chattel (Business Stock)', ownership: 'Owned', value: 80000 },
+                bureau: { 
+                    profile: 'Fair', class: 'text-yellow-700 bg-yellow-100', 
+                    details: [ 
+                        {label: 'Credit History', value: '1.5 years'}, {label: 'Active Accounts', value: '1'}, 
+                        {label: 'Inquiries (180d)', value: '6', class: 'text-yellow-600'}, {label: 'Worst DPD (12m)', value: '1-30 DPD'},
+                        {label: 'Credit Utilization', value: '75%'}, {label: 'On-Time Payments', value: '92%'},
+                        {label: 'Total Balance', value: 'KES 22,500'}, {label: 'Oldest Account', value: '18 months'},
+                        {label: 'Secured Loans', value: '0'}, {label: 'Unsecured Loans', value: '1'},
+                        {label: 'Public Records', value: 'None'}, {label: 'Days Since Last Loan', value: '45'}
+                    ] 
+                },
+                cashflow: { 
+                    profile: 'Excellent', class: 'text-green-700 bg-green-100', 
+                    details: [ 
+                        {label: 'Avg Net Surplus', value: 'KES 15,100', class: 'text-green-600'}, {label: 'Avg Monthly Inflow', value: 'KES 65,400'},
+                        {label: 'Avg Monthly Outflow', value: 'KES 50,300'}, {label: 'Income Volatility', value: 'Low (20%)'}, 
+                        {label: 'Betting Activity', value: 'None Detected', class: 'text-green-600'}, {label: 'Loan Repayments', value: '1 Detected (Paid)'},
+                        {label: 'Avg Txn Value', value: 'KES 1,250'}, {label: 'Days with Zero Balance', value: '0'},
+                        {label: 'Inflow Source', value: 'Paybill (Business)'}, {label: 'Balance Trend', value: 'Increasing', class: 'text-green-600'},
+                        {label: 'Unique Payers', value: '150+'}, {label: 'High-Risk Txns', value: 'None'}
+                    ] 
+                },
+                alternate: { 
+                    profile: 'Positive', class: 'text-green-700 bg-green-100', 
+                    points: { 
+                        agri: [], 
+                        socio: [ 
+                            {label: 'Housing Quality Index', value: 'Good'}, {label: 'Livelihood Zone', value: 'Urban Trade'}, 
+                            {label: 'SIM Tenure', value: '6 years', class: 'text-green-600'}, {label: 'Access to Water', value: 'Piped'},
+                            {label: 'Asset Ownership', value: 'Motorcycle'}, {label: 'Education Level', value: 'Secondary'}
+                        ] 
+                    } 
+                },
+                affordability: { preDTI: '20%', postDTI: '45%', emi: 'KES 4,820', verdict: 'Comfortable', verdictClass: 'text-green-800 bg-green-50' },
+            },
+            '664794': { /* David Kimani - Use Case 2: Excellent Profile Upsell */
+                ...mockApplications[1],
+                summary: { kiScore: 12, grade: 'Excellent', requestedAmount: 250000, eligibleAmount: 350000, term: 24, apr: 18, },
+                explainability: {
+                    good: ['Pristine credit history', 'Very high, stable income', 'Strong collateral', 'Excellent alternate data'],
+                    improvement: [], bad: [],
+                },
+                collateral: { type: 'Land Title Deed', ownership: 'Owned', value: 1500000 },
+                bureau: { 
+                    profile: 'Excellent', class: 'text-green-700 bg-green-100', 
+                    details: [ 
+                        {label: 'Credit History', value: '8 years'}, {label: 'Active Accounts', value: '3'}, 
+                        {label: 'Inquiries (180d)', value: '1'}, {label: 'Worst DPD (12m)', value: 'No delinquency', class: 'text-green-600'},
+                        {label: 'Credit Utilization', value: '15%', class: 'text-green-600'}, {label: 'On-Time Payments', value: '100%'},
+                        {label: 'Total Balance', value: 'KES 1,200,000'}, {label: 'Oldest Account', value: '96 months'},
+                        {label: 'Secured Loans', value: '2 (Mortgage, Auto)'}, {label: 'Unsecured Loans', value: '1 (Credit Card)'},
+                        {label: 'Public Records', value: 'None'}, {label: 'Days Since Last Loan', value: '250'}
+                    ] 
+                },
+                cashflow: { 
+                    profile: 'Excellent', class: 'text-green-700 bg-green-100', 
+                    details: [ 
+                        {label: 'Avg Net Surplus', value: 'KES 85,000', class: 'text-green-600'}, {label: 'Avg Monthly Inflow', value: 'KES 250,000'},
+                        {label: 'Avg Monthly Outflow', value: 'KES 165,000'}, {label: 'Income Volatility', value: 'Very Low (10%)'}, 
+                        {label: 'Betting Activity', value: 'None Detected', class: 'text-green-600'}, {label: 'Loan Repayments', value: '3 Detected (All Paid)'},
+                        {label: 'Avg Txn Value', value: 'KES 5,500'}, {label: 'Days with Zero Balance', value: '0'},
+                        {label: 'Inflow Source', value: 'Salary (Formal)'}, {label: 'Balance Trend', value: 'Increasing', class: 'text-green-600'},
+                        {label: 'Unique Payers', value: '20+'}, {label: 'High-Risk Txns', value: 'None'}
+                    ] 
+                },
+                alternate: { 
+                    profile: 'Positive', class: 'text-green-700 bg-green-100', 
+                    points: { 
+                        agri: [], 
+                        socio: [ 
+                            {label: 'Housing Quality Index', value: 'Excellent'}, {label: 'Livelihood Zone', value: 'Formal Employment'}, 
+                            {label: 'SIM Tenure', value: '10+ years', class: 'text-green-600'}, {label: 'Access to Water', value: 'Piped'},
+                            {label: 'Asset Ownership', value: 'Vehicle'}, {label: 'Education Level', value: 'University'}
+                        ] 
+                    } 
+                },
+                affordability: { preDTI: '10%', postDTI: '25%', emi: 'KES 17,250', verdict: 'Very Strong', verdictClass: 'text-green-800 bg-green-50' },
+            },
+            '664795': { /* Mary Wanjiru - Use Case 3: No Bureau, Cashflow Approval */
+                ...mockApplications[2],
+                summary: { kiScore: 28, grade: 'Good', requestedAmount: 5000, eligibleAmount: 5000, term: 1, apr: 15, },
+                explainability: {
+                    good: ['Excellent M-PESA history', 'Stable digital footprint'],
+                    improvement: ['Build formal credit history'], bad: ['No bureau data available'],
+                },
+                collateral: null,
+                bureau: { 
+                    profile: 'No History', class: 'text-slate-700 bg-slate-100', 
+                    details: [
+                        {label: 'Credit History', value: 'N/A'}, {label: 'Active Accounts', value: 'N/A'}, 
+                        {label: 'Inquiries (180d)', value: 'N/A'}, {label: 'Worst DPD (12m)', value: 'N/A'},
+                        {label: 'Credit Utilization', value: 'N/A'}, {label: 'On-Time Payments', value: 'N/A'},
+                        {label: 'Total Balance', value: 'N/A'}, {label: 'Oldest Account', value: 'N/A'},
+                        {label: 'Secured Loans', value: 'N/A'}, {label: 'Unsecured Loans', value: 'N/A'},
+                        {label: 'Public Records', value: 'N/A'}, {label: 'Days Since Last Loan', value: 'N/A'}
+                    ] 
+                },
+                cashflow: { 
+                    profile: 'Excellent', class: 'text-green-700 bg-green-100', 
+                    details: [ 
+                        {label: 'Avg Net Surplus', value: 'KES 9,800', class: 'text-green-600'}, {label: 'Avg Monthly Inflow', value: 'KES 30,000'},
+                        {label: 'Avg Monthly Outflow', value: 'KES 20,200'}, {label: 'Income Volatility', value: 'Low (25%)'}, 
+                        {label: 'Betting Activity', value: 'None Detected', class: 'text-green-600'}, {label: 'Loan Repayments', value: 'None Detected'},
+                        {label: 'Avg Txn Value', value: 'KES 800'}, {label: 'Days with Zero Balance', value: '0'},
+                        {label: 'Inflow Source', value: 'P2P & Business'}, {label: 'Balance Trend', value: 'Stable'},
+                        {label: 'Unique Payers', value: '40+'}, {label: 'High-Risk Txns', value: 'None'}
+                    ] 
+                },
+                alternate: { 
+                    profile: 'Average', class: 'text-slate-700 bg-slate-100', 
+                    points: { 
+                        agri: [], 
+                        socio: [ 
+                            {label: 'Housing Quality Index', value: 'Average'}, {label: 'SIM Tenure', value: '3 years'},
+                            {label: 'Access to Water', value: 'Borehole'}, {label: 'Asset Ownership', value: 'Smartphone'},
+                            {label: 'Education Level', value: 'Secondary'}
+                        ] 
+                    } 
+                },
+                affordability: { preDTI: '0%', postDTI: '20%', emi: 'KES 5,100', verdict: 'Comfortable', verdictClass: 'text-green-800 bg-green-50' },
+            },
+             '664796': { /* Peter Oloo - Use Case 4: Fraud Signals */
+                ...mockApplications[3],
+                summary: { kiScore: 75, grade: 'High Risk', requestedAmount: 20000, eligibleAmount: 0, term: 0, apr: 0, },
+                explainability: {
+                    good: ['Good on-time payment history on bureau'],
+                    improvement: ['Reduce betting frequency'], bad: ['High velocity, circular payments detected', 'Significant betting activity'],
+                },
+                collateral: null,
+                bureau: { 
+                    profile: 'Good', class: 'text-green-700 bg-green-100', 
+                    details: [ 
+                        {label: 'Credit History', value: '4 years'}, {label: 'Active Accounts', value: '2'}, 
+                        {label: 'Inquiries (180d)', value: '2'}, {label: 'Worst DPD (12m)', value: 'No delinquency', class: 'text-green-600'},
+                        {label: 'Credit Utilization', value: '40%'}, {label: 'On-Time Payments', value: '98%'},
+                        {label: 'Total Balance', value: 'KES 150,000'}, {label: 'Oldest Account', value: '48 months'},
+                        {label: 'Secured Loans', value: '1'}, {label: 'Unsecured Loans', value: '1'},
+                        {label: 'Public Records', value: 'None'}, {label: 'Days Since Last Loan', value: '120'}
+                    ] 
+                },
+                cashflow: { 
+                    profile: 'Poor', class: 'text-red-700 bg-red-100', 
+                    details: [ 
+                        {label: 'Avg Net Surplus', value: 'KES 1,200'}, {label: 'Avg Monthly Inflow', value: 'KES 45,000'},
+                        {label: 'Avg Monthly Outflow', value: 'KES 43,800'}, {label: 'Income Volatility', value: 'Very High (80%)', class: 'text-red-600'}, 
+                        {label: 'Betting Activity', value: 'High (>30% of outflow)', class: 'text-red-600'}, {label: 'Loan Repayments', value: 'Multiple Digital Loans'},
+                        {label: 'Avg Txn Value', value: 'KES 500'}, {label: 'Days with Zero Balance', value: '12', class: 'text-yellow-600'},
+                        {label: 'Inflow Source', value: 'Betting/P2P'}, {label: 'Balance Trend', value: 'Decreasing'},
+                        {label: 'Unique Payers', value: '10 (Limited Circle)'}, {label: 'Fraud Flags', value: '2 (Velocity, Circular)', class: 'text-red-600'}
+                    ] 
+                },
+                alternate: { 
+                    profile: 'Average', class: 'text-slate-700 bg-slate-100', 
+                    points: { 
+                        agri: [], 
+                        socio: [ 
+                            {label: 'SIM Tenure', value: '5 years'}, {label: 'Livelihood Zone', value: 'Informal Trade'},
+                            {label: 'Housing Quality', value: 'Average'}, {label: 'Access to Sanitation', value: 'Shared'},
+                            {label: 'Asset Ownership', value: 'None Reported'}
+                        ] 
+                    } 
+                },
+                affordability: { preDTI: '30%', postDTI: 'N/A', emi: 'N/A', verdict: 'Rejected', verdictClass: 'text-red-800 bg-red-50' },
+            },
+        };
+        
+        // --- PAGE & CONTENT LOGIC ---
+        function showPage(pageId, isAppInit = false) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            if (isAppInit) {
+                const appListLink = Array.from(document.querySelectorAll('.sidebar-link')).find(el => el.getAttribute('onclick').includes('applications-list-page'));
+                showAppPage('applications-list-page', appListLink);
             }
         }
 
-        function resetDemo() {
-            // Reset all displays
-            document.getElementById('decision-summary').style.display = 'none';
-            document.getElementById('risk-assessment').style.display = 'none';
-            document.getElementById('recommendations').style.display = 'none';
-            document.getElementById('timeline').style.display = 'none';
-            document.getElementById('api-response-section').style.display = 'none';
+        function showAppPage(templateId, navLink = null, appId = null) {
+            const contentArea = document.getElementById('app-content');
+            const template = document.getElementById(`template-${templateId}`);
+            if (!template) return;
+            contentArea.innerHTML = template.innerHTML;
 
-            // Reset status
-            document.getElementById('app-status').textContent = 'Processing Application';
-            document.querySelector('#app-status').previousElementSibling.className = 'status-indicator status-pending';
-
-            // Reset steps
-            for (let i = 1; i <= 5; i++) {
-                const stepElement = document.getElementById(`step-${i}`);
-                if (i <= 2) {
-                    stepElement.querySelector('div').className = 'w-8 h-8 rounded-full bg-green-500 flex items-center justify-center';
-                    stepElement.querySelector('i').className = 'fas fa-check text-white text-sm';
-                } else {
-                    stepElement.querySelector('div').className = 'w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center';
-                    const span = stepElement.querySelector('span');
-                    if (span) span.textContent = i;
-                }
-            }
-
-            // Reset button
-            const btn = document.getElementById('evaluate-btn');
-            btn.disabled = false;
-            btn.innerHTML = '<i class="fas fa-play mr-2"></i>Evaluate Application';
-        }
-
-        function togglePerformanceMode() {
-            const toggle = document.getElementById('toggle-icon');
-            const text = document.getElementById('toggle-text');
-
-            if (toggle.classList.contains('fa-toggle-off')) {
-                toggle.className = 'fas fa-toggle-on mr-2 text-indigo-600';
-                text.textContent = 'Disable Performance Data';
+            document.querySelectorAll('.sidebar-link').forEach(link => link.classList.remove('active'));
+            if (navLink) {
+                navLink.classList.add('active');
             } else {
-                toggle.className = 'fas fa-toggle-off mr-2';
-                text.textContent = 'Enable Performance Data';
+                const matchingLink = Array.from(document.querySelectorAll('.sidebar-link')).find(l => l.getAttribute('onclick')?.includes(templateId));
+                if(matchingLink) matchingLink.classList.add('active');
+            }
+            
+            if (templateId === 'applications-list-page') {
+                populateApplicationsTable();
+            }
+            if (templateId === 'new-application-page') {
+                updateAssetFields();
+            }
+            if (templateId === 'decision-screen-page' && appId) {
+                const appData = mockApplicationDetails[appId];
+                if(appData) populateDecisionScreen(appData);
             }
         }
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            // Set initial step statuses
-            updateStepStatus(1, 'completed');
-            updateStepStatus(2, 'completed');
-        });
+        function populateApplicationsTable() {
+            const tableBody = document.getElementById('applications-table-body');
+            if (!tableBody) return;
+            tableBody.innerHTML = '';
+
+            const getProfileClass = (profile) => {
+                switch (profile) {
+                    case 'Excellent': case 'Positive': case 'Good': return 'text-green-700';
+                    case 'Fair': case 'Average': return 'text-yellow-700';
+                    case 'Poor': return 'text-red-700';
+                    default: return 'text-slate-600';
+                }
+            };
+
+            mockApplications.forEach(app => {
+                let decisionClass = '';
+                if (app.decision === 'Approved') { decisionClass = 'bg-green-100 text-green-800'; } 
+                else if (app.decision === 'Rejected') { decisionClass = 'bg-red-100 text-red-800'; } 
+                else { decisionClass = 'bg-yellow-100 text-yellow-800'; }
+
+                let scoreClass = '';
+                if(app.score <= 20) { scoreClass = 'text-green-600'; } 
+                else if (app.score <= 50) { scoreClass = 'text-yellow-600'; } 
+                else { scoreClass = 'text-red-600'; }
+
+                const row = `
+                    <tr class="clickable-row" onclick="showAppPage('decision-screen-page', null, '${app.id}')">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">${app.id}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">${app.name}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">${app.assetClass}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-bold ${scoreClass}">${app.score}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold ${getProfileClass(app.bureauProfile)}">${app.bureauProfile}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold ${getProfileClass(app.cashflowProfile)}">${app.cashflowProfile}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold ${getProfileClass(app.altDataProfile)}">${app.altDataProfile}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${decisionClass}">${app.decision}</span></td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">${app.date}</td>
+                    </tr>`;
+                tableBody.innerHTML += row;
+            });
+        }
+
+        function populateDecisionScreen(app) {
+            document.getElementById('decision-loan-id').textContent = `Loan ID - ${app.id}`;
+            const badge = document.getElementById('decision-status-badge');
+            badge.textContent = app.decision;
+             if (app.decision === 'Approved') { badge.className = 'text-sm font-medium text-green-700 bg-green-100 px-3 py-1 rounded-full';} 
+             else if (app.decision === 'Rejected') { badge.className = 'text-sm font-medium text-red-700 bg-red-100 px-3 py-1 rounded-full';} 
+             else { badge.className = 'text-sm font-medium text-yellow-700 bg-yellow-100 px-3 py-1 rounded-full';}
+            document.getElementById('decision-date').textContent = app.date;
+            document.getElementById('decision-product').textContent = app.assetClass;
+            document.getElementById('decision-applicant-name').textContent = app.name;
+            document.getElementById('decision-ki-score-val').textContent = app.summary.kiScore;
+            const gradeEl = document.getElementById('decision-ki-score-grade');
+            gradeEl.textContent = app.summary.grade;
+            if (app.summary.kiScore <= 20) { gradeEl.className = 'text-lg font-semibold text-green-600'; } 
+            else if (app.summary.kiScore <= 50) { gradeEl.className = 'text-lg font-semibold text-yellow-600'; } 
+            else { gradeEl.className = 'text-lg font-semibold text-red-600'; }
+            setKiGaugeValue('ki-gauge-pointer-container', app.summary.kiScore, 1, 100);
+            const recoList = document.getElementById('decision-recommendation-list');
+            recoList.innerHTML = `
+                <li class="flex justify-between"><span>Requested Amount:</span> <span class="font-medium">KES ${app.summary.requestedAmount.toLocaleString()}</span></li>
+                <li class="flex justify-between ${app.summary.eligibleAmount > app.summary.requestedAmount ? 'text-green-600' : ''}"><span>Eligible Amount:</span> <span class="font-bold">KES ${app.summary.eligibleAmount.toLocaleString()}</span></li>
+                <li class="flex justify-between"><span>Recommended Term:</span> <span class="font-medium">${app.summary.term} Months</span></li>
+                <li class="flex justify-between"><span>Recommended APR:</span> <span class="font-medium">${app.summary.apr}%</span></li>
+            `;
+            document.getElementById('explain-good').innerHTML = app.explainability.good.map(i => `<li>${i}</li>`).join('');
+            document.getElementById('explain-improvement').innerHTML = app.explainability.improvement.map(i => `<li>${i}</li>`).join('');
+            document.getElementById('explain-bad').innerHTML = app.explainability.bad.map(i => `<li>${i}</li>`).join('');
+            populateSection('collateral', app.collateral, (data, el) => { el.innerHTML = `<li><span class="text-slate-500 block">Type</span><p class="font-semibold text-slate-800">${data.type}</p></li> <li><span class="text-slate-500 block">Ownership</span><p class="font-semibold text-slate-800">${data.ownership}</p></li> <li><span class="text-slate-500 block">Value (KES)</span><p class="font-semibold text-slate-800">${data.value.toLocaleString()}</p></li>`; });
+            populateSection('bureau', app.bureau, (data, listEl, badgeEl) => { badgeEl.textContent = data.profile; badgeEl.className = `text-sm font-medium px-3 py-1 rounded-full ${data.class}`; listEl.innerHTML = data.details.map(i => `<li><span class="text-slate-500 block">${i.label}</span><p class="font-semibold text-slate-800 ${i.class || ''}">${i.value}</p></li>`).join(''); });
+            populateSection('cashflow', app.cashflow, (data, listEl, badgeEl) => { badgeEl.textContent = data.profile; badgeEl.className = `text-sm font-medium px-3 py-1 rounded-full ${data.class}`; listEl.innerHTML = data.details.map(i => `<li><span class="text-slate-500 block">${i.label}</span><p class="font-semibold ${i.class || 'text-slate-800'}">${i.value}</p></li>`).join(''); });
+            populateSection('alternate', app.alternate, (data, contentEl, badgeEl) => { badgeEl.textContent = data.profile; badgeEl.className = `text-sm font-medium px-3 py-1 rounded-full ${data.class}`; let html = ''; if (data.points.agri.length > 0) html += `<div><h3 class="font-semibold text-slate-700 mb-2">1. Agricultural & Climate Data</h3><ul class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">${data.points.agri.map(i => `<li><span class="text-slate-500 block">${i.label}</span><p class="font-semibold ${i.class || 'text-slate-800'}">${i.value}</p></li>`).join('')}</ul></div>`; if (data.points.socio.length > 0) html += `<div><h3 class="font-semibold text-slate-700 mb-2">2. Socioeconomic & Digital Data</h3><ul class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">${data.points.socio.map(i => `<li><span class="text-slate-500 block">${i.label}</span><p class="font-semibold ${i.class || 'text-slate-800'}">${i.value}</p></li>`).join('')}</ul></div>`; contentEl.innerHTML = html; });
+            populateSection('affordability', app.affordability, (data, gridEl) => { gridEl.innerHTML = ` <div class="bg-slate-50 p-4 rounded-lg"><p class="text-sm text-slate-500">DTI (Pre-Loan)</p><p class="text-2xl font-bold text-slate-800">${data.preDTI}</p></div> <div class="bg-sky-50 p-4 rounded-lg"><p class="text-sm text-sky-700">DTI (Post-Loan)</p><p class="text-2xl font-bold text-sky-800">${data.postDTI}</p></div> <div class="bg-slate-50 p-4 rounded-lg"><p class="text-sm text-slate-500">Proposed EMI</p><p class="text-2xl font-bold text-slate-800">${data.emi}</p></div> <div class="p-4 rounded-lg ${data.verdictClass}"><p class="text-sm">Verdict</p><p class="text-2xl font-bold">${data.verdict}</p></div> `; });
+        }
+
+        function populateSection(name, data, renderer) {
+            const sectionEl = document.getElementById(`${name}-section`);
+            if (!data) { if(sectionEl) sectionEl.style.display = 'none'; return; }
+            if(sectionEl) sectionEl.style.display = 'block';
+            if (name === 'bureau' || name === 'cashflow' || name === 'alternate') { renderer(data, document.getElementById(`${name}-details-list`) || document.getElementById(`${name}-details-content`), document.getElementById(`${name}-profile-badge`)); } 
+            else { renderer(data, document.getElementById(`${name}-details-list`) || document.getElementById(`${name}-details-grid`)); }
+        }
+        
+        // --- FORM LOGIC ---
+        const assetClassFields = {
+            _createField(label, id, type = 'text', options = [], value = '') { let fieldHtml = ''; const fieldClasses = "mt-1 block w-full rounded-lg border-slate-200 bg-slate-50 py-2.5 px-4 shadow-sm focus:border-sky-400 focus:ring focus:ring-sky-200 focus:ring-opacity-50 transition"; if (type === 'select') { const optionsHtml = options.map(opt => `<option>${opt}</option>`).join(''); fieldHtml = `<select id="${id}" class="${fieldClasses}">${optionsHtml}</select>`; } else { fieldHtml = `<input type="${type}" id="${id}" value="${value}" class="${fieldClasses}">`; } return `<div><label for="${id}" class="font-semibold text-slate-700">${label}</label>${fieldHtml}</div>`; },
+            _createSection(title, content) { return ` <div> <h3 class="text-lg font-bold text-slate-700 mb-4">${title}</h3> <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5"> ${content} </div> </div> `; },
+            _createWrapper(sections) { return `<div class="space-y-8">${sections}</div>`; },
+            Agriculture: function() { const loanDetails = this._createField('Requested Amount (KES)', 'req-amount', 'number', [], '18000') + this._createField('Tenure (months)', 'req-tenure', 'number', [], '6'); const applicantDetails = this._createField('Applicant Name', 'app-name', 'text', [], 'Faith Mwangi') + this._createField('National ID', 'app-id', 'text', [], '87654321') + this._createField('Pincode', 'app-pincode', 'text', [], '20117'); const collateralDetails = this._createField('Collateral Type', 'col-type', 'select', ['Land', 'Livestock', 'Equipment']) + this._createField('Ownership', 'col-owner', 'select', ['Communal', 'Owned', 'Leased']); return this._createWrapper(this._createSection('Loan Details', loanDetails) + this._createSection('Applicant Details', applicantDetails) + this._createSection('Collateral', collateralDetails)); },
+            SmallBusiness: function() { const loanDetails = this._createField('Requested Amount (KES)', 'req-amount', 'number', [], '40000') + this._createField('Tenure (months)', 'req-tenure', 'number', [], '12'); const businessDetails = this._createField('Business Name', 'biz-name', 'text', [], 'Kazi Njema Store') + this._createField('Years in Business', 'biz-years', 'number', [], '3') + this._createField('Avg Monthly Revenue', 'biz-rev', 'number', [], '150000'); return this._createWrapper(this._createSection('Loan Details', loanDetails) + this._createSection('Business Details', businessDetails)); },
+            Personal: function() { const loanDetails = this._createField('Requested Amount (KES)', 'req-amount', 'number', [], '50000') + this._createField('Tenure (months)', 'req-tenure', 'number', [], '24'); const applicantDetails = this._createField('Applicant Name', 'app-name', 'text', [], 'John Doe') + this._createField('Employer', 'app-employer', 'text', [], 'ABC Company') + this._createField('Net Monthly Salary', 'app-salary', 'number', [], '70000'); return this._createWrapper(this._createSection('Loan Details', loanDetails) + this._createSection('Applicant Details', applicantDetails)); },
+            Digital: function() { const loanDetails = this._createField('Requested Amount (KES)', 'req-amount', 'number', [], '5000'); const applicantDetails = this._createField('Full Name', 'app-name', 'text', [], 'Jane Akinyi') + this._createField('Phone Number', 'app-phone', 'text', [], '254722123456'); return this._createWrapper(this._createSection('Loan Details', loanDetails) + this._createSection('Applicant Details', applicantDetails)); },
+            Microfinance: function() { const loanDetails = this._createField('Loan per Member (KES)', 'req-amount', 'number', [], '10000') + this._createField('Tenure (weeks)', 'req-tenure', 'number', [], '16'); const groupDetails = this._createField('Group Name', 'group-name', 'text', [], 'Upendo Women Group') + this._createField('Number of Members', 'group-members', 'number', [], '15'); return this._createWrapper(this._createSection('Loan Details', loanDetails) + this._createSection('Group Details', groupDetails)); },
+            MSME: function() { const loanDetails = this._createField('Requested Amount (KES)', 'req-amount', 'number', [], '250000') + this._createField('Tenure (months)', 'req-tenure', 'number', [], '18'); const businessDetails = this._createField('Business Name', 'biz-name', 'text', [], 'Coastal Traders Ltd') + this._createField('Business Reg. No', 'biz-reg', 'text', [], 'BN-XYZ123') + this._createField('Avg Monthly Turnover', 'biz-turnover', 'number', [], '800000'); return this._createWrapper(this._createSection('Loan Details', loanDetails) + this._createSection('Business Details', businessDetails)); },
+        };
+
+        function updateAssetFields() {
+            const assetClass = document.getElementById('asset-class').value;
+            const fieldsContainer = document.getElementById('asset-specific-fields');
+            if (typeof assetClassFields[assetClass] === 'function') {
+                fieldsContainer.innerHTML = assetClassFields[assetClass]();
+            } else {
+                fieldsContainer.innerHTML = '';
+            }
+        }
+        
+        function runEvaluation() {
+            showPage('evaluation-spinner-page');
+            const statusEl = document.getElementById('spinner-status');
+            const steps = ['Pulling Bureau Report...', 'Analyzing M-PESA Statements...', 'Assessing Alternate Data...'];
+            let currentStep = 0;
+            statusEl.textContent = steps[currentStep];
+            const interval = setInterval(() => {
+                currentStep++;
+                if (currentStep < steps.length) {
+                    statusEl.textContent = steps[currentStep];
+                } else {
+                    clearInterval(interval);
+                    showPage('app-shell');
+                    showAppPage('decision-screen-page', null, '664793'); 
+                }
+            }, 1200);
+        }
+
+        function setKiGaugeValue(elementId, value, min, max) {
+            const pointerContainer = document.getElementById(elementId);
+            if (!pointerContainer) return;
+            const range = max - min;
+            const percentage = (value - min) / range;
+            const angle = -90 + (percentage * 180);
+            pointerContainer.style.transform = `rotate(${angle}deg)`;
+        }
+        
+        window.onload = () => showPage('app-shell', true);
     </script>
 </body>
 </html>
