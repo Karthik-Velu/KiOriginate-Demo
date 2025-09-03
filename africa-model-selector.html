@@ -47,9 +47,31 @@
             display: block;
         }
 
-        .header { text-align: center; margin-bottom: 2.5rem; }
+        .header { text-align: center; margin-bottom: 2.5rem; position: relative; }
         .header h1 { font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; }
         .header p { font-size: 1rem; color: var(--dark-gray); max-width: 600px; margin: 0 auto; }
+        .back-button {
+            position: absolute;
+            left: 0;
+            top: 0;
+            background-color: var(--medium-gray);
+            color: var(--text-color);
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+        .back-button:hover {
+            background-color: var(--dark-gray);
+            color: var(--white);
+        }
 
         .config-section { margin-bottom: 2.5rem; }
         .config-section h2 { font-size: 1.25rem; font-weight: 600; border-bottom: 1px solid var(--medium-gray); padding-bottom: 0.75rem; margin-bottom: 1.5rem; display: flex; align-items: center; }
@@ -149,7 +171,16 @@
     <div class="main-container">
         <!-- PAGE 1: DATA SELECTION -->
         <div id="data-selection-page" class="page active">
-            <header class="header"><h1>Custom Model Builder for Africa</h1><p>Select your asset class and available data sources to configure the optimal predictive model for your portfolio.</p></header>
+            <header class="header">
+                <a href="africa-index.html" class="back-button">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m15 18-6-6 6-6"/>
+                    </svg>
+                    Back to Engine Setup
+                </a>
+                <h1>Custom Model Builder for Africa</h1>
+                <p>Select your asset class and available data sources to configure the optimal predictive model for your portfolio.</p>
+            </header>
             <form id="model-config-form">
                 <section class="config-section">
                     <h2><span class="section-number">1</span>Select Asset Class (Mandatory)</h2>
