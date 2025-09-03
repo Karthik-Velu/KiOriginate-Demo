@@ -159,6 +159,69 @@
         .mapping-grid label { font-weight: 500; }
         .mapping-grid select { font-size: 0.9rem; }
 
+        /* Custom Model Building Pages Styles */
+        .info-box { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); border: 1px solid #cbd5e1; border-radius: 0.75rem; padding: 1.5rem; margin: 1rem 0; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .info-box h3 { color: var(--primary-color); margin-bottom: 0.5rem; font-size: 1.1rem; }
+        .info-box p { color: var(--dark-gray); margin: 0; line-height: 1.6; }
+
+        .feature-generation-status { background: #f0f9ff; border: 1px solid #0ea5e9; border-radius: 0.5rem; padding: 1rem; margin: 1rem 0; }
+        .feature-generation-status h4 { color: #0c4a6e; margin-bottom: 0.5rem; }
+        .feature-generation-status .status-item { display: flex; align-items: center; margin: 0.5rem 0; }
+        .feature-generation-status .status-icon { width: 20px; height: 20px; margin-right: 0.5rem; border-radius: 50%; }
+        .feature-generation-status .status-icon.completed { background: #10b981; }
+        .feature-generation-status .status-icon.processing { background: #f59e0b; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+        .feature-overview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin: 1rem 0; }
+        .feature-card { background: white; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .feature-card h5 { color: var(--primary-color); margin-bottom: 0.5rem; font-size: 0.9rem; }
+        .feature-card .feature-count { font-size: 1.2rem; font-weight: 600; color: var(--secondary-color); }
+        .feature-card .feature-list { font-size: 0.8rem; color: var(--dark-gray); margin-top: 0.5rem; }
+
+        .decision-tree-container { background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem; margin: 1rem 0; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .decision-tree-container h3 { color: var(--primary-color); margin-bottom: 1rem; }
+        .decision-tree { display: flex; flex-direction: column; align-items: center; }
+        .tree-node { background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 0.5rem; padding: 0.75rem 1rem; margin: 0.5rem; text-align: center; min-width: 150px; }
+        .tree-node.start { background: #dbeafe; border-color: #3b82f6; }
+        .tree-node.decision { background: #fef3c7; border-color: #f59e0b; }
+        .tree-node.result { background: #dcfce7; border-color: #10b981; }
+        .tree-connector { width: 2px; height: 20px; background: #cbd5e1; margin: 0.25rem 0; }
+
+        .training-progress { background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem; margin: 1rem 0; }
+        .training-progress h3 { color: var(--primary-color); margin-bottom: 1rem; }
+        .progress-bar { width: 100%; height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; margin: 0.5rem 0; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #10b981, #059669); transition: width 0.3s ease; }
+        .training-steps { margin: 1rem 0; }
+        .training-step { display: flex; align-items: center; margin: 0.5rem 0; padding: 0.5rem; border-radius: 0.25rem; }
+        .training-step.completed { background: #f0fdf4; }
+        .training-step.current { background: #fef3c7; }
+        .training-step.pending { background: #f8fafc; }
+
+        .model-comparison { background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem; margin: 1rem 0; }
+        .model-comparison h3 { color: var(--primary-color); margin-bottom: 1rem; }
+        .comparison-table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        .comparison-table th, .comparison-table td { padding: 0.75rem; text-align: left; border-bottom: 1px solid #e2e8f0; }
+        .comparison-table th { background: #f8fafc; font-weight: 600; color: var(--dark-gray); }
+        .comparison-table .metric-name { font-weight: 500; color: var(--primary-color); }
+        .comparison-table .metric-value { font-weight: 600; }
+        .comparison-table .improvement { color: #10b981; font-weight: 600; }
+
+        .metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0; }
+        .metric-card { background: white; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 1rem; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .metric-card .metric-value { font-size: 1.5rem; font-weight: 700; color: var(--primary-color); margin-bottom: 0.25rem; }
+        .metric-card .metric-label { font-size: 0.8rem; color: var(--dark-gray); text-transform: uppercase; letter-spacing: 0.5px; }
+
+        .improvement { display: inline-flex; align-items: center; padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600; }
+        .improvement.positive { background: #dcfce7; color: #166534; }
+        .improvement.negative { background: #fee2e2; color: #991b1b; }
+
+        .target-selection-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0; }
+        .target-option { background: white; border: 2px solid #e2e8f0; border-radius: 0.5rem; padding: 1.5rem; text-align: center; cursor: pointer; transition: all 0.2s; }
+        .target-option:hover { border-color: var(--primary-color); transform: translateY(-2px); box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .target-option.selected { border-color: var(--primary-color); background: #f0f9ff; }
+        .target-option h4 { color: var(--primary-color); margin-bottom: 0.5rem; }
+        .target-option p { color: var(--dark-gray); font-size: 0.9rem; margin: 0; }
+
     </style>
 </head>
 <body>
@@ -759,7 +822,10 @@
                     { label: "Marital Status", key: "marital_status", hints: ["marital"] },
                     { label: "Location", key: "location", hints: ["location", "city", "region"] },
                     { label: "Loan Amount Requested", key: "loan_amount", hints: ["amount", "amt"] },
-                    { label: "Tenure (in months)", key: "tenure", hints: ["tenure", "term"] }
+                    { label: "Tenure (in months)", key: "tenure", hints: ["tenure", "term"] },
+                    { label: "DPD 30 Performance", key: "dpd_30", hints: ["dpd_30", "dpd30", "performance_30"] },
+                    { label: "DPD 60 Performance", key: "dpd_60", hints: ["dpd_60", "dpd60", "performance_60"] },
+                    { label: "DPD 90 Performance", key: "dpd_90", hints: ["dpd_90", "dpd90", "performance_90"] }
                 ];
 
                 requiredFields.forEach(field => {
@@ -829,6 +895,96 @@
             document.querySelector('input[name="asset_class"]:checked').dispatchEvent(new Event('change'));
             document.querySelector('input[name="bureau_setup"]:checked').dispatchEvent(new Event('change'));
             lucide.createIcons();
+
+            // Custom Model Building Flow Event Listeners
+            document.getElementById('build-new-model-btn').addEventListener('click', () => showPage('target-selection-page'));
+            
+            // Target Selection Page Navigation
+            document.getElementById('target-dpd30').addEventListener('click', () => {
+                document.querySelectorAll('.target-option').forEach(opt => opt.classList.remove('selected'));
+                document.getElementById('target-dpd30').classList.add('selected');
+            });
+            document.getElementById('target-dpd60').addEventListener('click', () => {
+                document.querySelectorAll('.target-option').forEach(opt => opt.classList.remove('selected'));
+                document.getElementById('target-dpd60').classList.add('selected');
+            });
+            document.getElementById('target-dpd90').addEventListener('click', () => {
+                document.querySelectorAll('.target-option').forEach(opt => opt.classList.remove('selected'));
+                document.getElementById('target-dpd90').classList.add('selected');
+            });
+            document.getElementById('proceed-target-btn').addEventListener('click', () => {
+                const selectedTarget = document.querySelector('.target-option.selected');
+                if (selectedTarget) {
+                    showPage('feature-exploration-page');
+                    // Simulate feature generation progress
+                    simulateFeatureGeneration();
+                } else {
+                    alert('Please select a target variable (DPD 30, 60, or 90)');
+                }
+            });
+
+            // Feature Exploration Page Navigation
+            document.getElementById('proceed-features-btn').addEventListener('click', () => showPage('algorithm-selection-page'));
+
+            // Algorithm Selection Page Navigation
+            document.getElementById('proceed-algorithm-btn').addEventListener('click', () => showPage('rules-configuration-page'));
+
+            // Rules Configuration Page Navigation
+            document.getElementById('proceed-rules-btn').addEventListener('click', () => showPage('model-training-page'));
+
+            // Model Training Page Navigation
+            document.getElementById('proceed-training-btn').addEventListener('click', () => {
+                showPage('custom-backtest-results-page');
+                // Simulate training completion
+                simulateTrainingCompletion();
+            });
+
+            // Custom Backtest Results Page Navigation
+            document.getElementById('back-to-prebuilt-btn').addEventListener('click', () => showPage('backtest-results-page'));
+            document.getElementById('start-over-custom-btn').addEventListener('click', () => {
+                document.getElementById('model-config-form').reset();
+                document.querySelector('input[name="bureau_setup"][value="single"]').dispatchEvent(new Event('change'));
+                document.querySelector('input[name="asset_class"][value="SME"]').dispatchEvent(new Event('change'));
+                document.getElementById('include-bank-statement').dispatchEvent(new Event('change'));
+                showPage('data-selection-page');
+            });
+
+            // Helper Functions for Custom Model Building Flow
+            function simulateFeatureGeneration() {
+                const statusItems = document.querySelectorAll('.feature-generation-status .status-item');
+                let currentIndex = 0;
+                
+                const updateStatus = () => {
+                    if (currentIndex < statusItems.length) {
+                        const statusIcon = statusItems[currentIndex].querySelector('.status-icon');
+                        statusIcon.classList.remove('processing');
+                        statusIcon.classList.add('completed');
+                        currentIndex++;
+                        setTimeout(updateStatus, 1000);
+                    }
+                };
+                
+                updateStatus();
+            }
+
+            function simulateTrainingCompletion() {
+                const progressBar = document.querySelector('.progress-fill');
+                const trainingSteps = document.querySelectorAll('.training-step');
+                let currentStep = 0;
+                
+                const updateProgress = () => {
+                    if (currentStep < trainingSteps.length) {
+                        trainingSteps[currentStep].classList.remove('pending');
+                        trainingSteps[currentStep].classList.add('completed');
+                        const progress = ((currentStep + 1) / trainingSteps.length) * 100;
+                        progressBar.style.width = progress + '%';
+                        currentStep++;
+                        setTimeout(updateProgress, 800);
+                    }
+                };
+                
+                updateProgress();
+            }
         });
     </script>
 </body>

@@ -107,12 +107,15 @@
         .modal-content pre { background-color: var(--dark-gray); color: var(--light-gray); padding: 1rem; border-radius: 0.5rem; white-space: pre-wrap; font-size: 0.85rem; max-height: 400px; overflow-y: auto;}
 
         .button-group { display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; }
-        .submit-button, .back-button, .start-over-button { border: none; border-radius: 0.5rem; padding: 14px 28px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .submit-button, .back-button, .start-over-button, .secondary-button { border: none; border-radius: 0.5rem; padding: 14px 28px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
         .submit-button { background-color: var(--secondary-color); color: var(--white); }
         .submit-button:hover { background-color: #15803d; }
         .back-button { background-color: var(--medium-gray); color: var(--dark-gray); }
         .back-button:hover { background-color: #D1D5DB; }
         .start-over-button { background-color: var(--primary-color); color: var(--white); }
+        .start-over-button:hover { background-color: #3730a3; }
+        .secondary-button { background-color: var(--secondary-color); color: var(--white); }
+        .secondary-button:hover { background-color: #15803d; }
 
         .input-row { display: grid; grid-template-columns: 1fr 2fr; gap: 1rem; align-items: center; margin-bottom: 1rem; }
         .input-row label, .score-bucket-row > span { font-weight: 500; }
@@ -158,6 +161,69 @@
         .mapping-grid .grid-header { font-weight: 600; color: var(--dark-gray); padding-bottom: 0.5rem; border-bottom: 1px solid var(--medium-gray); }
         .mapping-grid label { font-weight: 500; }
         .mapping-grid select { font-size: 0.9rem; }
+
+        /* Custom Model Building Pages Styles */
+        .info-box { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); border: 1px solid #cbd5e1; border-radius: 0.75rem; padding: 1.5rem; margin: 1rem 0; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .info-box h3 { color: var(--primary-color); margin-bottom: 0.5rem; font-size: 1.1rem; }
+        .info-box p { color: var(--dark-gray); margin: 0; line-height: 1.6; }
+
+        .feature-generation-status { background: #f0f9ff; border: 1px solid #0ea5e9; border-radius: 0.5rem; padding: 1rem; margin: 1rem 0; }
+        .feature-generation-status h4 { color: #0c4a6e; margin-bottom: 0.5rem; }
+        .feature-generation-status .status-item { display: flex; align-items: center; margin: 0.5rem 0; }
+        .feature-generation-status .status-icon { width: 20px; height: 20px; margin-right: 0.5rem; border-radius: 50%; }
+        .feature-generation-status .status-icon.completed { background: #10b981; }
+        .feature-generation-status .status-icon.processing { background: #f59e0b; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+        .feature-overview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin: 1rem 0; }
+        .feature-card { background: white; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .feature-card h5 { color: var(--primary-color); margin-bottom: 0.5rem; font-size: 0.9rem; }
+        .feature-card .feature-count { font-size: 1.2rem; font-weight: 600; color: var(--secondary-color); }
+        .feature-card .feature-list { font-size: 0.8rem; color: var(--dark-gray); margin-top: 0.5rem; }
+
+        .decision-tree-container { background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem; margin: 1rem 0; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .decision-tree-container h3 { color: var(--primary-color); margin-bottom: 1rem; }
+        .decision-tree { display: flex; flex-direction: column; align-items: center; }
+        .tree-node { background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 0.5rem; padding: 0.75rem 1rem; margin: 0.5rem; text-align: center; min-width: 150px; }
+        .tree-node.start { background: #dbeafe; border-color: #3b82f6; }
+        .tree-node.decision { background: #fef3c7; border-color: #f59e0b; }
+        .tree-node.result { background: #dcfce7; border-color: #10b981; }
+        .tree-connector { width: 2px; height: 20px; background: #cbd5e1; margin: 0.25rem 0; }
+
+        .training-progress { background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem; margin: 1rem 0; }
+        .training-progress h3 { color: var(--primary-color); margin-bottom: 1rem; }
+        .progress-bar { width: 100%; height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; margin: 0.5rem 0; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #10b981, #059669); transition: width 0.3s ease; }
+        .training-steps { margin: 1rem 0; }
+        .training-step { display: flex; align-items: center; margin: 0.5rem 0; padding: 0.5rem; border-radius: 0.25rem; }
+        .training-step.completed { background: #f0fdf4; }
+        .training-step.current { background: #fef3c7; }
+        .training-step.pending { background: #f8fafc; }
+
+        .model-comparison { background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem; margin: 1rem 0; }
+        .model-comparison h3 { color: var(--primary-color); margin-bottom: 1rem; }
+        .comparison-table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        .comparison-table th, .comparison-table td { padding: 0.75rem; text-align: left; border-bottom: 1px solid #e2e8f0; }
+        .comparison-table th { background: #f8fafc; font-weight: 600; color: var(--dark-gray); }
+        .comparison-table .metric-name { font-weight: 500; color: var(--primary-color); }
+        .comparison-table .metric-value { font-weight: 600; }
+        .comparison-table .improvement { color: #10b981; font-weight: 600; }
+
+        .metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0; }
+        .metric-card { background: white; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 1rem; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .metric-card .metric-value { font-size: 1.5rem; font-weight: 700; color: var(--primary-color); margin-bottom: 0.25rem; }
+        .metric-card .metric-label { font-size: 0.8rem; color: var(--dark-gray); text-transform: uppercase; letter-spacing: 0.5px; }
+
+        .improvement { display: inline-flex; align-items: center; padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600; }
+        .improvement.positive { background: #dcfce7; color: #166534; }
+        .improvement.negative { background: #fee2e2; color: #991b1b; }
+
+        .target-selection-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0; }
+        .target-option { background: white; border: 2px solid #e2e8f0; border-radius: 0.5rem; padding: 1.5rem; text-align: center; cursor: pointer; transition: all 0.2s; }
+        .target-option:hover { border-color: var(--primary-color); transform: translateY(-2px); box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .target-option.selected { border-color: var(--primary-color); background: #f0f9ff; }
+        .target-option h4 { color: var(--primary-color); margin-bottom: 0.5rem; }
+        .target-option p { color: var(--dark-gray); font-size: 0.9rem; margin: 0; }
 
     </style>
 </head>
@@ -407,10 +473,472 @@
              </section>
              <div class="button-group">
                 <button type="button" class="back-button" id="back-btn-4">Back to Mapping</button>
+                <button type="button" class="secondary-button" id="build-new-model-btn">Build New Model</button>
                 <button type="button" class="start-over-button" id="start-over-btn-2">Start Over</button>
              </div>
         </div>
 
+        <!-- NEW MODEL BUILDING PAGES -->
+        <div id="target-selection-page" class="page">
+            <header class="header">
+                <h1>Target Variable Selection</h1>
+                <p>Based on your backtesting data, select the performance metric you want to predict.</p>
+            </header>
+            <section class="config-section">
+                <h2><span class="section-number">1</span>Select Target Variable</h2>
+                <p>Choose the default performance metric that will be used to train your custom model:</p>
+                <div class="input-group">
+                    <label class="custom-control radio">
+                        <input type="radio" name="target_variable" value="dpd30" checked>
+                        <span class="checkmark"></span>
+                        <strong>DPD 30+</strong> - Days Past Due 30 or more days
+                    </label>
+                    <label class="custom-control radio">
+                        <input type="radio" name="target_variable" value="dpd60">
+                        <span class="checkmark"></span>
+                        <strong>DPD 60+</strong> - Days Past Due 60 or more days
+                    </label>
+                    <label class="custom-control radio">
+                        <input type="radio" name="target_variable" value="dpd90">
+                        <span class="checkmark"></span>
+                        <strong>DPD 90+</strong> - Days Past Due 90 or more days
+                    </label>
+                </div>
+                <div class="info-box">
+                    <p><strong>Note:</strong> These performance metrics are automatically collected from your uploaded backtesting data and will be used to train the model.</p>
+                </div>
+            </section>
+            <div class="button-group">
+                <button type="button" class="back-button" id="back-to-backtest-btn">Back to Backtest Results</button>
+                <button type="button" class="submit-button" id="proceed-to-features-btn">Proceed to Feature Engineering</button>
+            </div>
+        </div>
+
+        <div id="feature-exploration-page" class="page">
+            <header class="header">
+                <h1>Feature Exploration & Engineering</h1>
+                <p>Our engine is analyzing your data and creating powerful new features to improve model accuracy.</p>
+            </header>
+            <section class="config-section">
+                <h2><span class="section-number">1</span>Feature Generation Progress</h2>
+                <div class="feature-generation-status">
+                    <div class="status-item">
+                        <i data-lucide="check-circle" style="color: var(--secondary-color);"></i>
+                        <span>Bureau Data Analysis Complete</span>
+                    </div>
+                    <div class="status-item">
+                        <i data-lucide="check-circle" style="color: var(--secondary-color);"></i>
+                        <span>Application Data Processing Complete</span>
+                    </div>
+                    <div class="status-item">
+                        <i data-lucide="check-circle" style="color: var(--secondary-color);"></i>
+                        <span>Bank Statement Analysis Complete</span>
+                    </div>
+                    <div class="status-item">
+                        <i data-lucide="check-circle" style="color: var(--secondary-color);"></i>
+                        <span>Feature Engineering Complete</span>
+                    </div>
+                </div>
+            </section>
+            <section class="config-section">
+                <h2><span class="section-number">2</span>Feature Overview</h2>
+                <div class="feature-overview-grid">
+                    <div class="feature-section">
+                        <h3>Initial Dataset Features (15)</h3>
+                        <div class="feature-list">
+                            <div class="feature-item">loan_amount</div>
+                            <div class="feature-item">customer_age</div>
+                            <div class="feature-item">income_monthly</div>
+                            <div class="feature-item">credit_score</div>
+                            <div class="feature-item">employment_years</div>
+                            <div class="feature-item">num_open_accounts</div>
+                            <div class="feature-item">last_inquiry_date</div>
+                            <div class="feature-item">home_ownership</div>
+                            <div class="feature-item">loan_purpose</div>
+                            <div class="feature-item">zip_code</div>
+                            <div class="feature-item">+ 5 more features</div>
+                        </div>
+                    </div>
+                    <div class="feature-section">
+                        <h3>All Generated Features (187)</h3>
+                        <div class="feature-list">
+                            <div class="feature-item">income_per_age</div>
+                            <div class="feature-item">loan_to_income_ratio</div>
+                            <div class="feature-item">days_since_last_inquiry</div>
+                            <div class="feature-item">is_home_owner_flag</div>
+                            <div class="feature-item">avg_credit_per_account</div>
+                            <div class="feature-item">employment_stability_index</div>
+                            <div class="feature-item">month_of_inquiry</div>
+                            <div class="feature-item">zip_code_risk_factor</div>
+                            <div class="feature-item">loan_purpose_business_flag</div>
+                            <div class="feature-item">credit_history_length</div>
+                            <div class="feature-item">+ 177 more features</div>
+                        </div>
+                    </div>
+                    <div class="feature-section">
+                        <h3>Top Selected Features (20)</h3>
+                        <div class="feature-list">
+                            <div class="feature-item">bureau_score_x_loan_amt</div>
+                            <div class="feature-item">avg_followup_lead_tm</div>
+                            <div class="feature-item">stdev_credibility</div>
+                            <div class="feature-item">tm_since_months</div>
+                            <div class="feature-item">inquiry_tm_last_info</div>
+                            <div class="feature-item">loan_to_income_ratio</div>
+                            <div class="feature-item">credit_history_length</div>
+                            <div class="feature-item">employment_stability_index</div>
+                            <div class="feature-item">customer_age</div>
+                            <div class="feature-item">num_open_accounts</div>
+                            <div class="feature-item">+ 10 more features</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-box">
+                    <p><strong>Automated Feature Selection:</strong> Our algorithm has automatically selected the 20 most predictive features from the 187 generated features to optimize model performance.</p>
+                </div>
+            </section>
+            <div class="button-group">
+                <button type="button" class="back-button" id="back-to-target-btn">Back to Target Selection</button>
+                <button type="button" class="submit-button" id="proceed-to-algorithm-btn">Proceed to Algorithm Selection</button>
+            </div>
+        </div>
+
+        <div id="algorithm-selection-page" class="page">
+            <header class="header">
+                <h1>Automated Algorithm Selection & Hyperparameter Tuning</h1>
+                <p>Our system is automatically selecting the best algorithm and optimizing hyperparameters for your data.</p>
+            </header>
+            <section class="config-section">
+                <h2><span class="section-number">1</span>Algorithm Evaluation Progress</h2>
+                <div class="algorithm-evaluation">
+                    <div class="evaluation-item">
+                        <div class="algorithm-name">Random Forest</div>
+                        <div class="evaluation-status">
+                            <i data-lucide="check-circle" style="color: var(--secondary-color);"></i>
+                            <span>Best Performance: 87.3% AUC</span>
+                        </div>
+                    </div>
+                    <div class="evaluation-item">
+                        <div class="algorithm-name">XGBoost</div>
+                        <div class="evaluation-status">
+                            <i data-lucide="check-circle" style="color: var(--secondary-color);"></i>
+                            <span>Performance: 86.1% AUC</span>
+                        </div>
+                    </div>
+                    <div class="evaluation-item">
+                        <div class="algorithm-name">LightGBM</div>
+                        <div class="evaluation-status">
+                            <i data-lucide="check-circle" style="color: var(--secondary-color);"></i>
+                            <span>Performance: 85.8% AUC</span>
+                        </div>
+                    </div>
+                    <div class="evaluation-item">
+                        <div class="algorithm-name">Neural Network</div>
+                        <div class="evaluation-status">
+                            <i data-lucide="check-circle" style="color: var(--secondary-color);"></i>
+                            <span>Performance: 84.2% AUC</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="config-section">
+                <h2><span class="section-number">2</span>Selected Algorithm: Random Forest</h2>
+                <div class="selected-algorithm-details">
+                    <div class="algorithm-info">
+                        <h4>Optimized Hyperparameters:</h4>
+                        <ul>
+                            <li>n_estimators: 200</li>
+                            <li>max_depth: 15</li>
+                            <li>min_samples_split: 10</li>
+                            <li>min_samples_leaf: 5</li>
+                            <li>random_state: 42</li>
+                        </ul>
+                    </div>
+                    <div class="performance-metrics">
+                        <h4>Cross-Validation Performance:</h4>
+                        <div class="metric-grid">
+                            <div class="metric-item">
+                                <span class="metric-label">AUC Score</span>
+                                <span class="metric-value">87.3%</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">Precision</span>
+                                <span class="metric-value">82.1%</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">Recall</span>
+                                <span class="metric-value">85.7%</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">F1 Score</span>
+                                <span class="metric-value">83.9%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="button-group">
+                <button type="button" class="back-button" id="back-to-features-btn">Back to Feature Engineering</button>
+                <button type="button" class="submit-button" id="proceed-to-rules-btn">Proceed to Rules Configuration</button>
+            </div>
+        </div>
+
+        <div id="rules-configuration-page" class="page">
+            <header class="header">
+                <h1>Rules Configuration & Decision Tree</h1>
+                <p>Configure decision rules based on the trained model. The Ki Score cutoff is always the starting point.</p>
+            </header>
+            <section class="config-section">
+                <h2><span class="section-number">1</span>Decision Tree Structure</h2>
+                <div class="decision-tree-container">
+                    <div class="tree-node root-node">
+                        <div class="node-content">
+                            <strong>Ki Score Cutoff</strong>
+                            <div class="node-threshold">≥ 650</div>
+                        </div>
+                        <div class="tree-branches">
+                            <div class="branch yes-branch">
+                                <div class="tree-node">
+                                    <div class="node-content">
+                                        <strong>Loan to Income Ratio</strong>
+                                        <div class="node-threshold">≤ 0.4</div>
+                                    </div>
+                                    <div class="tree-branches">
+                                        <div class="branch yes-branch">
+                                            <div class="tree-node leaf-node approved">
+                                                <div class="node-content">
+                                                    <strong>APPROVED</strong>
+                                                    <div class="node-confidence">Confidence: 94.2%</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="branch no-branch">
+                                            <div class="tree-node">
+                                                <div class="node-content">
+                                                    <strong>Employment Stability</strong>
+                                                    <div class="node-threshold">≥ 0.7</div>
+                                                </div>
+                                                <div class="tree-branches">
+                                                    <div class="branch yes-branch">
+                                                        <div class="tree-node leaf-node approved">
+                                                            <div class="node-content">
+                                                                <strong>APPROVED</strong>
+                                                                <div class="node-confidence">Confidence: 87.1%</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="branch no-branch">
+                                                        <div class="tree-node leaf-node rejected">
+                                                            <div class="node-content">
+                                                                <strong>REJECTED</strong>
+                                                                <div class="node-confidence">Confidence: 78.3%</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="branch no-branch">
+                                <div class="tree-node leaf-node rejected">
+                                    <div class="node-content">
+                                        <strong>REJECTED</strong>
+                                        <div class="node-confidence">Confidence: 91.5%</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="config-section">
+                <h2><span class="section-number">2</span>Additional Rule Variables</h2>
+                <p>Select additional variables to include in the decision tree (optional):</p>
+                <div class="input-group">
+                    <label class="custom-control checkbox">
+                        <input type="checkbox" name="additional_rules" value="employment_stability">
+                        <span class="checkmark"></span>
+                        Employment Stability Index
+                    </label>
+                    <label class="custom-control checkbox">
+                        <input type="checkbox" name="additional_rules" value="credit_history_length" checked>
+                        <span class="checkmark"></span>
+                        Credit History Length
+                    </label>
+                    <label class="custom-control checkbox">
+                        <input type="checkbox" name="additional_rules" value="zip_code_risk">
+                        <span class="checkmark"></span>
+                        Zip Code Risk Factor
+                    </label>
+                    <label class="custom-control checkbox">
+                        <input type="checkbox" name="additional_rules" value="loan_purpose">
+                        <span class="checkmark"></span>
+                        Loan Purpose Category
+                    </label>
+                </div>
+                <div class="info-box">
+                    <p><strong>Note:</strong> The decision tree will automatically determine the optimal thresholds and branching logic for the selected variables.</p>
+                </div>
+            </section>
+            <div class="button-group">
+                <button type="button" class="back-button" id="back-to-algorithm-btn">Back to Algorithm Selection</button>
+                <button type="button" class="submit-button" id="proceed-to-training-btn">Proceed to Model Training</button>
+            </div>
+        </div>
+
+        <div id="model-training-page" class="page">
+            <header class="header">
+                <h1>Model Training & Validation</h1>
+                <p>Training your custom model with the selected features and algorithm.</p>
+            </header>
+            <section class="config-section">
+                <h2><span class="section-number">1</span>Training Progress</h2>
+                <div class="training-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%;"></div>
+                    </div>
+                    <div class="training-status">
+                        <div class="status-item">
+                            <i data-lucide="check-circle" style="color: var(--secondary-color);"></i>
+                            <span>Data Preprocessing Complete</span>
+                        </div>
+                        <div class="status-item">
+                            <i data-lucide="check-circle" style="color: var(--secondary-color);"></i>
+                            <span>Feature Engineering Complete</span>
+                        </div>
+                        <div class="status-item">
+                            <i data-lucide="check-circle" style="color: var(--secondary-color);"></i>
+                            <span>Model Training Complete</span>
+                        </div>
+                        <div class="status-item">
+                            <i data-lucide="check-circle" style="color: var(--secondary-color);"></i>
+                            <span>Cross-Validation Complete</span>
+                        </div>
+                        <div class="status-item">
+                            <i data-lucide="check-circle" style="color: var(--secondary-color);"></i>
+                            <span>Model Validation Complete</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="config-section">
+                <h2><span class="section-number">2</span>Training Results</h2>
+                <div class="training-results">
+                    <div class="result-metrics">
+                        <h4>Model Performance Metrics:</h4>
+                        <div class="metric-grid">
+                            <div class="metric-item">
+                                <span class="metric-label">Training AUC</span>
+                                <span class="metric-value">89.2%</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">Validation AUC</span>
+                                <span class="metric-value">87.3%</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">Training Time</span>
+                                <span class="metric-value">2.3s</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">Model Size</span>
+                                <span class="metric-value">1.2MB</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="button-group">
+                <button type="button" class="back-button" id="back-to-rules-btn">Back to Rules Configuration</button>
+                <button type="button" class="submit-button" id="proceed-to-custom-backtest-btn">Proceed to Custom Model Backtest</button>
+            </div>
+        </div>
+
+        <div id="custom-backtest-results-page" class="page">
+            <header class="header">
+                <h1>Custom Model Backtest Results</h1>
+                <p>Performance analysis of your custom model compared to the pre-built model.</p>
+            </header>
+            <section class="config-section">
+                <h2><span class="section-number">1</span>Model Comparison</h2>
+                <div class="model-comparison">
+                    <div class="comparison-table-container">
+                        <table class="comparison-table">
+                            <thead>
+                                <tr>
+                                    <th>Metric</th>
+                                    <th>Pre-built Model</th>
+                                    <th>Custom Model</th>
+                                    <th>Improvement</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>AUC Score</td>
+                                    <td>84.2%</td>
+                                    <td>87.3%</td>
+                                    <td class="improvement">+3.1%</td>
+                                </tr>
+                                <tr>
+                                    <td>Approval Rate</td>
+                                    <td>68.5%</td>
+                                    <td>72.1%</td>
+                                    <td class="improvement">+3.6%</td>
+                                </tr>
+                                <tr>
+                                    <td>Loss Rate</td>
+                                    <td>4.2%</td>
+                                    <td>3.1%</td>
+                                    <td class="improvement">-1.1%</td>
+                                </tr>
+                                <tr>
+                                    <td>Precision</td>
+                                    <td>78.9%</td>
+                                    <td>82.1%</td>
+                                    <td class="improvement">+3.2%</td>
+                                </tr>
+                                <tr>
+                                    <td>Recall</td>
+                                    <td>81.3%</td>
+                                    <td>85.7%</td>
+                                    <td class="improvement">+4.4%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            <section class="config-section">
+                <h2><span class="section-number">2</span>Custom Model Scoring Results</h2>
+                <div class="results-filter">
+                    <button class="filter-tab active" data-filter="all">All (2.3 Lakhs)</button>
+                    <button class="filter-tab" data-filter="approved">Approved (1.9 Lakhs)</button>
+                    <button class="filter-tab" data-filter="rejected">Rejected (0.4 Lakhs)</button>
+                </div>
+                <div class="results-table-container">
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th>Time & Date</th>
+                                <th>Loan ID</th>
+                                <th>Customer ID</th>
+                                <th>Custom Score</th>
+                                <th>Risk Level</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="custom-results-tbody">
+                            <!-- JS will populate this -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            <div class="button-group">
+                <button type="button" class="back-button" id="back-to-training-btn">Back to Training</button>
+                <button type="button" class="secondary-button" id="deploy-model-btn">Deploy Custom Model</button>
+                <button type="button" class="start-over-button" id="start-over-custom-btn">Start Over</button>
+            </div>
+        </div>
     </div>
 
     <!-- Modals -->
@@ -758,7 +1286,10 @@
                     { label: "Marital Status", key: "marital_status", hints: ["marital"] },
                     { label: "Residential Pincode", key: "pincode", hints: ["pincode", "zip"] },
                     { label: "Loan Amount Requested", key: "loan_amount", hints: ["amount", "amt"] },
-                    { label: "Tenure (in months)", key: "tenure", hints: ["tenure", "term"] }
+                    { label: "Tenure (in months)", key: "tenure", hints: ["tenure", "term"] },
+                    { label: "DPD 30 Performance", key: "dpd_30", hints: ["dpd_30", "dpd30", "performance_30"] },
+                    { label: "DPD 60 Performance", key: "dpd_60", hints: ["dpd_60", "dpd60", "performance_60"] },
+                    { label: "DPD 90 Performance", key: "dpd_90", hints: ["dpd_90", "dpd90", "performance_90"] }
                 ];
 
                 requiredFields.forEach(field => {
@@ -828,6 +1359,96 @@
             document.querySelector('input[name="asset_class"]:checked').dispatchEvent(new Event('change'));
             document.querySelector('input[name="bureau_setup"]:checked').dispatchEvent(new Event('change'));
             lucide.createIcons();
+
+            // Custom Model Building Flow Event Listeners
+            document.getElementById('build-new-model-btn').addEventListener('click', () => showPage('target-selection-page'));
+            
+            // Target Selection Page Navigation
+            document.getElementById('target-dpd30').addEventListener('click', () => {
+                document.querySelectorAll('.target-option').forEach(opt => opt.classList.remove('selected'));
+                document.getElementById('target-dpd30').classList.add('selected');
+            });
+            document.getElementById('target-dpd60').addEventListener('click', () => {
+                document.querySelectorAll('.target-option').forEach(opt => opt.classList.remove('selected'));
+                document.getElementById('target-dpd60').classList.add('selected');
+            });
+            document.getElementById('target-dpd90').addEventListener('click', () => {
+                document.querySelectorAll('.target-option').forEach(opt => opt.classList.remove('selected'));
+                document.getElementById('target-dpd90').classList.add('selected');
+            });
+            document.getElementById('proceed-target-btn').addEventListener('click', () => {
+                const selectedTarget = document.querySelector('.target-option.selected');
+                if (selectedTarget) {
+                    showPage('feature-exploration-page');
+                    // Simulate feature generation progress
+                    simulateFeatureGeneration();
+                } else {
+                    alert('Please select a target variable (DPD 30, 60, or 90)');
+                }
+            });
+
+            // Feature Exploration Page Navigation
+            document.getElementById('proceed-features-btn').addEventListener('click', () => showPage('algorithm-selection-page'));
+
+            // Algorithm Selection Page Navigation
+            document.getElementById('proceed-algorithm-btn').addEventListener('click', () => showPage('rules-configuration-page'));
+
+            // Rules Configuration Page Navigation
+            document.getElementById('proceed-rules-btn').addEventListener('click', () => showPage('model-training-page'));
+
+            // Model Training Page Navigation
+            document.getElementById('proceed-training-btn').addEventListener('click', () => {
+                showPage('custom-backtest-results-page');
+                // Simulate training completion
+                simulateTrainingCompletion();
+            });
+
+            // Custom Backtest Results Page Navigation
+            document.getElementById('back-to-prebuilt-btn').addEventListener('click', () => showPage('backtest-results-page'));
+            document.getElementById('start-over-custom-btn').addEventListener('click', () => {
+                document.getElementById('model-config-form').reset();
+                document.querySelector('input[name="bureau_setup"][value="single"]').dispatchEvent(new Event('change'));
+                document.querySelector('input[name="asset_class"][value="MFI"]').dispatchEvent(new Event('change'));
+                document.getElementById('include-bank-statement').dispatchEvent(new Event('change'));
+                showPage('data-selection-page');
+            });
+
+            // Helper Functions for Custom Model Building Flow
+            function simulateFeatureGeneration() {
+                const statusItems = document.querySelectorAll('.feature-generation-status .status-item');
+                let currentIndex = 0;
+                
+                const updateStatus = () => {
+                    if (currentIndex < statusItems.length) {
+                        const statusIcon = statusItems[currentIndex].querySelector('.status-icon');
+                        statusIcon.classList.remove('processing');
+                        statusIcon.classList.add('completed');
+                        currentIndex++;
+                        setTimeout(updateStatus, 1000);
+                    }
+                };
+                
+                updateStatus();
+            }
+
+            function simulateTrainingCompletion() {
+                const progressBar = document.querySelector('.progress-fill');
+                const trainingSteps = document.querySelectorAll('.training-step');
+                let currentStep = 0;
+                
+                const updateProgress = () => {
+                    if (currentStep < trainingSteps.length) {
+                        trainingSteps[currentStep].classList.remove('pending');
+                        trainingSteps[currentStep].classList.add('completed');
+                        const progress = ((currentStep + 1) / trainingSteps.length) * 100;
+                        progressBar.style.width = progress + '%';
+                        currentStep++;
+                        setTimeout(updateProgress, 800);
+                    }
+                };
+                
+                updateProgress();
+            }
         });
     </script>
 </body>
