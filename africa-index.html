@@ -546,7 +546,7 @@
             const modelSelectorContent = doc.querySelector('body').innerHTML;
 
             // Replace current content with model selector
-            document.querySelector('.container').innerHTML = modelSelectorContent;
+            document.getElementById('main-content').innerHTML = modelSelectorContent;
 
             // Execute any scripts from the model selector
             const scripts = doc.querySelectorAll('script');
