@@ -647,50 +647,11 @@
             const modelType = document.querySelector('input[name="model-config-type"]:checked').value;
 
             if (modelType === 'prebuilt') {
-                // Load model selector content into current page
-                loadModelSelector();
+                // Open model selector in new window/tab
+                window.open('model selector.html', '_blank');
             } else {
                 // Continue with custom evaluation
                 runEvaluation();
-            }
-        }
-
-        async function loadModelSelector() {
-            try {
-                const response = await fetch('model selector.html');
-                const html = await response.text();
-
-                // Extract the body content from the model selector HTML
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                const modelSelectorContent = doc.querySelector('body').innerHTML;
-
-                // Replace current content with model selector
-                const contentArea = document.getElementById('app-content');
-                contentArea.innerHTML = modelSelectorContent;
-
-                // Execute any scripts from the model selector
-                const scripts = doc.querySelectorAll('script');
-                scripts.forEach(script => {
-                    if (script.src) {
-                        // External script
-                        const newScript = document.createElement('script');
-                        newScript.src = script.src;
-                        document.head.appendChild(newScript);
-                    } else {
-                        // Inline script
-                        const newScript = document.createElement('script');
-                        newScript.textContent = script.textContent;
-                        document.body.appendChild(newScript);
-                    }
-                });
-
-                // Scroll to top
-                window.scrollTo(0, 0);
-
-            } catch (error) {
-                console.error('Error loading model selector:', error);
-                alert('Error loading model selector. Please try again.');
             }
         }
 
