@@ -912,20 +912,28 @@
                 document.querySelectorAll('.target-option').forEach(opt => opt.classList.remove('selected'));
                 document.getElementById('target-dpd90').classList.add('selected');
             });
-            document.getElementById('proceed-to-features-btn').addEventListener('click', () => {
-                console.log('Proceed to features button clicked');
-                const selectedTarget = document.querySelector('input[name="target_variable"]:checked');
-                console.log('Selected target:', selectedTarget);
-                if (selectedTarget) {
-                    console.log('Target selected, proceeding to feature exploration page');
-                    showPage('feature-exploration-page');
-                    // Simulate feature generation progress
-                    simulateFeatureGeneration();
-                } else {
-                    console.log('No target selected, showing alert');
-                    alert('Please select a target variable (DPD 30, 60, or 90)');
-                }
-            });
+            
+            // More robust event listener for proceed-to-features-btn
+            const proceedToFeaturesBtn = document.getElementById('proceed-to-features-btn');
+            if (proceedToFeaturesBtn) {
+                console.log('Found proceed-to-features-btn, adding event listener');
+                proceedToFeaturesBtn.addEventListener('click', () => {
+                    console.log('Proceed to features button clicked');
+                    const selectedTarget = document.querySelector('input[name="target_variable"]:checked');
+                    console.log('Selected target:', selectedTarget);
+                    if (selectedTarget) {
+                        console.log('Target selected, proceeding to feature exploration page');
+                        showPage('feature-exploration-page');
+                        // Simulate feature generation progress
+                        simulateFeatureGeneration();
+                    } else {
+                        console.log('No target selected, showing alert');
+                        alert('Please select a target variable (DPD 30, 60, or 90)');
+                    }
+                });
+            } else {
+                console.log('proceed-to-features-btn not found in DOM');
+            }
 
             // Feature Exploration Page Navigation
             document.getElementById('proceed-to-algorithm-btn').addEventListener('click', () => showPage('algorithm-selection-page'));
