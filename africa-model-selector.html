@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Model Builder | Africa</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #4338CA;
+            --secondary-color: #16A34A;
+            --light-gray: #F9FAFB;
+            --medium-gray: #E5E7EB;
+            --dark-gray: #4B5563;
+            --text-color: #1F2937;
+            --white: #FFFFFF;
+            --border-radius: 0.75rem;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-gray);
+            color: var(--text-color);
+            margin: 0;
+            padding: 2rem 1rem;
+        }
+
+        .main-container {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 900px;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        .page {
+            padding: 2.5rem 3rem;
+            display: none;
+        }
+        .page.active {
+            display: block;
+        }
+
+        .header { text-align: center; margin-bottom: 2.5rem; }
+        .header h1 { font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .header p { font-size: 1rem; color: var(--dark-gray); max-width: 600px; margin: 0 auto; }
+
+        .config-section { margin-bottom: 2.5rem; }
+        .config-section h2 { font-size: 1.25rem; font-weight: 600; border-bottom: 1px solid var(--medium-gray); padding-bottom: 0.75rem; margin-bottom: 1.5rem; display: flex; align-items: center; }
+        .config-section h2 .section-number { background-color: var(--primary-color); color: var(--white); border-radius: 50%; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; font-size: 1rem; font-weight: 600; margin-right: 0.75rem; }
+
+        .input-group { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; }
+        .fieldset-group { border: 1px solid var(--medium-gray); border-radius: var(--border-radius); padding: 1.5rem; margin-top: 1.5rem; }
+        .fieldset-group legend { font-weight: 600; padding: 0 0.5rem; color: var(--primary-color); }
+
+        .custom-control { display: block; position: relative; cursor: pointer; font-size: 0.95rem; user-select: none; background-color: var(--light-gray); padding: 12px 12px 12px 40px; border-radius: 0.5rem; transition: all 0.2s; border: 1px solid var(--light-gray); }
+        .custom-control:hover { border-color: var(--primary-color); }
+        .custom-control input { position: absolute; opacity: 0; }
+        .checkmark { position: absolute; top: 50%; left: 12px; transform: translateY(-50%); height: 20px; width: 20px; background-color: #fff; border: 1px solid var(--medium-gray); transition: all 0.2s; }
+        .custom-control.radio .checkmark { border-radius: 50%; }
+        .custom-control.checkbox .checkmark { border-radius: 4px; }
+        .custom-control input:checked ~ .checkmark { background-color: var(--primary-color); border-color: var(--primary-color); }
+        .checkmark:after { content: ""; position: absolute; display: none; }
+        .custom-control input:checked ~ .checkmark:after { display: block; }
+        .custom-control.checkbox .checkmark:after { left: 6px; top: 2px; width: 5px; height: 10px; border: solid white; border-width: 0 3px 3px 0; transform: rotate(45deg); }
+        .custom-control.radio .checkmark:after { top: 6px; left: 6px; width: 8px; height: 8px; border-radius: 50%; background: white; }
+        .custom-control.disabled { cursor: not-allowed; color: var(--dark-gray); background-color: #f9fafb; opacity: 0.7; }
+
+        .waterfall-priority-list li { background-color: #F9FAFB; padding: 12px; margin-bottom: 8px; border-radius: 0.5rem; border: 1px solid var(--medium-gray); cursor: grab; display: flex; align-items: center; font-weight: 500;}
+        .waterfall-priority-list li.dragging { opacity: 0.5; }
+        .drag-handle { margin-right: 10px; color: var(--dark-gray); }
+
+        .detail-item { cursor: pointer; text-decoration: underline; color: var(--primary-color); font-weight: 500;}
+
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5); align-items: center; justify-content: center; }
+        .modal.active { display: flex; }
+        .modal-content { background-color: #fff; padding: 30px; border: none; width: 90%; max-width: 650px; border-radius: var(--border-radius); position: relative; animation: slideIn 0.3s ease-out; }
+        @keyframes slideIn { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .close-modal { color: #aaa; position: absolute; top: 15px; right: 20px; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .modal-content h3 { margin-top: 0; color: var(--primary-color); font-size: 1.5rem; margin-bottom: 1.5rem; display: flex; align-items: center; }
+        .modal-content h3 i { margin-right: 10px; }
+        .modal-content .data-list { list-style: none; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .modal-content .data-list li { background-color: var(--light-gray); padding: 12px; border-radius: 0.5rem; display: flex; align-items: center; gap: 8px;}
+        .modal-content pre { background-color: var(--dark-gray); color: var(--light-gray); padding: 1rem; border-radius: 0.5rem; white-space: pre-wrap; font-size: 0.85rem; max-height: 400px; overflow-y: auto;}
+
+        .button-group { display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; }
+        .submit-button, .back-button, .start-over-button { border: none; border-radius: 0.5rem; padding: 14px 28px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .submit-button { background-color: var(--secondary-color); color: var(--white); }
+        .submit-button:hover { background-color: #15803d; }
+        .back-button { background-color: var(--medium-gray); color: var(--dark-gray); }
+        .back-button:hover { background-color: #D1D5DB; }
+        .start-over-button { background-color: var(--primary-color); color: var(--white); }
+
+        .input-row { display: grid; grid-template-columns: 1fr 2fr; gap: 1rem; align-items: center; margin-bottom: 1rem; }
+        .input-row label, .score-bucket-row > span { font-weight: 500; }
+        .input-row input, .input-row select, .mapping-row select { width: 100%; padding: 8px; border-radius: 0.5rem; border: 1px solid var(--medium-gray); }
+        .input-row .select-wrapper { position: relative; }
+        .input-row .select-wrapper::after { content: 'Hold Ctrl/Cmd to select multiple'; font-size: 0.75rem; color: var(--dark-gray); position: absolute; right: 5px; bottom: -18px; }
+        select[multiple] { height: 150px; }
+
+        .score-bucket-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 1rem; align-items: center; margin-bottom: 0.5rem; font-weight: 600; color: var(--dark-gray); padding-bottom: 0.5rem; border-bottom: 1px solid var(--medium-gray);}
+        .score-bucket-row { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 1rem; align-items: center; margin-bottom: 1rem; }
+        .score-bucket-row input { width: 100%; padding: 8px; border-radius: 0.5rem; border: 1px solid var(--medium-gray); text-align: center; }
+        #overall-approval-rate { font-size: 1.2rem; font-weight: 700; color: var(--primary-color); }
+
+        .recommendation-card { background: var(--light-gray); border-radius: var(--border-radius); padding: 2rem; margin-bottom: 1.5rem; border-left: 5px solid var(--primary-color); }
+        .recommendation-card h3 { margin-top: 0; }
+        .performance-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; text-align: center; margin-top: 2rem; }
+        .performance-metric h4 { margin-bottom: 0.5rem; color: var(--dark-gray); }
+        .perf-value { font-size: 1.75rem; font-weight: 700; }
+        .perf-lift { color: var(--secondary-color); font-weight: 600; }
+        .perf-lift i { vertical-align: middle; }
+
+        .upload-area { border: 2px dashed var(--medium-gray); border-radius: var(--border-radius); padding: 2rem; text-align: center; background-color: var(--light-gray); }
+        .upload-slot { background-color: var(--white); border: 1px solid var(--medium-gray); border-radius: 0.5rem; padding: 1rem; margin-bottom: 1rem; text-align: left; }
+        .upload-slot label { font-weight: 600; display: block; margin-bottom: 0.5rem; }
+        .upload-slot input[type="file"] { width: 100%; }
+        .info-box { background-color: #eff6ff; color: #1e40af; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem; font-size: 0.9rem; }
+
+        .results-filter { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--medium-gray); padding-bottom: 1rem;}
+        .filter-tab { background: none; border: 1px solid var(--medium-gray); padding: 8px 16px; border-radius: 99px; cursor: pointer; font-weight: 500; }
+        .filter-tab.active { background-color: var(--primary-color); color: white; border-color: var(--primary-color); }
+        .results-table-container { max-height: 400px; overflow-y: auto; }
+        .results-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        .results-table th, .results-table td { padding: 12px; text-align: left; border-bottom: 1px solid var(--medium-gray); }
+        .results-table th { background-color: var(--light-gray); font-weight: 600; }
+        .status-badge { padding: 4px 10px; border-radius: 99px; font-weight: 600; font-size: 0.8rem; }
+        .status-approved { background-color: #dcfce7; color: #166534; }
+        .status-rejected { background-color: #fee2e2; color: #991b1b; }
+
+        .comparison-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        .comparison-table th, .comparison-table td { border: 1px solid var(--medium-gray); padding: 10px; text-align: center; }
+
+        .mapping-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem 2rem; align-items: center; }
+        .mapping-grid .grid-header { font-weight: 600; color: var(--dark-gray); padding-bottom: 0.5rem; border-bottom: 1px solid var(--medium-gray); }
+        .mapping-grid label { font-weight: 500; }
+        .mapping-grid select { font-size: 0.9rem; }
+
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+        <!-- PAGE 1: DATA SELECTION -->
+        <div id="data-selection-page" class="page active">
+            <header class="header"><h1>Custom Model Builder for Africa</h1><p>Select your asset class and available data sources to configure the optimal predictive model for your portfolio.</p></header>
+            <form id="model-config-form">
+                <section class="config-section">
+                    <h2><span class="section-number">1</span>Select Asset Class (Mandatory)</h2>
+                    <div class="input-group">
+                        <label class="custom-control radio"><input type="radio" name="asset_class" value="SME" checked> SME Loans<span class="checkmark"></span></label>
+                        <label class="custom-control radio"><input type="radio" name="asset_class" value="Consumer"> Consumer Loans<span class="checkmark"></span></label>
+                        <label class="custom-control radio"><input type="radio" name="asset_class" value="Agriculture"> Agriculture Loans<span class="checkmark"></span></label>
+                        <label class="custom-control radio"><input type="radio" name="asset_class" value="MSME"> MSME Loans<span class="checkmark"></span></label>
+                        <label class="custom-control radio"><input type="radio" name="asset_class" value="Salary"> Salary Advances<span class="checkmark"></span></label>
+                        <label class="custom-control radio"><input type="radio" name="asset_class" value="Digital"> Digital Lending<span class="checkmark"></span></label>
+                    </div>
+                </section>
+
+                <section class="config-section">
+                    <h2><span class="section-number">2</span>Configure Bureau Data (Mandatory)</h2>
+                    <fieldset class="fieldset-group"><legend>Setup Type</legend><div class="input-group">
+                        <label class="custom-control radio"><input type="radio" name="bureau_setup" value="single" checked> Single Bureau<span class="checkmark"></span></label>
+                        <label class="custom-control radio"><input type="radio" name="bureau_setup" value="multi"> Multi-Bureau<span class="checkmark"></span></label>
+                    </div></fieldset>
+                    <div id="bureau-options-container">
+                        <div id="single-bureau-options">
+                            <fieldset class="fieldset-group"><legend>Select Bureau Report</legend><div class="input-group" style="grid-template-columns: 1fr 1fr;">
+                                <label class="custom-control radio"><input type="radio" name="bureau_report_single" value="CRB Kenya" checked> CRB Kenya<span class="checkmark"></span></label>
+                                <label class="custom-control radio"><input type="radio" name="bureau_report_single" value="CRB Uganda"> CRB Uganda<span class="checkmark"></span></label>
+                                <label class="custom-control radio"><input type="radio" name="bureau_report_single" value="CRB Tanzania"> CRB Tanzania<span class="checkmark"></span></label>
+                                <label class="custom-control radio"><input type="radio" name="bureau_report_single" value="CRB Rwanda"> CRB Rwanda<span class="checkmark"></span></label>
+                                <label class="custom-control radio"><input type="radio" name="bureau_report_single" value="TransUnion Africa"> TransUnion Africa<span class="checkmark"></span></label>
+                                <label class="custom-control radio"><input type="radio" name="bureau_report_single" value="Experian Africa"> Experian Africa<span class="checkmark"></span></label>
+                                <label class="custom-control radio"><input type="radio" name="bureau_report_single" value="Dun & Bradstreet"> Dun & Bradstreet<span class="checkmark"></span></label>
+                                <label class="custom-control radio"><input type="radio" name="bureau_report_single" value="Compuscan"> Compuscan<span class="checkmark"></span></label>
+                            </div></fieldset>
+                        </div>
+                        <div id="multi-bureau-options" style="display: none;">
+                            <fieldset class="fieldset-group"><legend>Multi-Bureau Strategy</legend><div class="input-group">
+                                <label class="custom-control radio"><input type="radio" name="multi_bureau_strategy" value="waterfall" checked> Waterfall<span class="checkmark"></span></label>
+                                <label class="custom-control radio"><input type="radio" name="multi_bureau_strategy" value="merge"> Bureau-Merge<span class="checkmark"></span></label>
+                            </div></fieldset>
+                            <div id="multi-bureau-selection-container">
+                                <fieldset class="fieldset-group"><legend>Select Bureau Reports</legend>
+                                    <div class="input-group" style="grid-template-columns: 1fr 1fr;" id="multi-bureau-checkboxes">
+                                        <label class="custom-control checkbox"><input type="checkbox" name="bureau_report_multi" value="CRB Kenya"> CRB Kenya<span class="checkmark"></span></label>
+                                        <label class="custom-control checkbox"><input type="checkbox" name="bureau_report_multi" value="CRB Uganda"> CRB Uganda<span class="checkmark"></span></label>
+                                        <label class="custom-control checkbox"><input type="checkbox" name="bureau_report_multi" value="CRB Tanzania"> CRB Tanzania<span class="checkmark"></span></label>
+                                        <label class="custom-control checkbox"><input type="checkbox" name="bureau_report_multi" value="CRB Rwanda"> CRB Rwanda<span class="checkmark"></span></label>
+                                        <label class="custom-control checkbox"><input type="checkbox" name="bureau_report_multi" value="TransUnion Africa"> TransUnion Africa<span class="checkmark"></span></label>
+                                        <label class="custom-control checkbox"><input type="checkbox" name="bureau_report_multi" value="Experian Africa"> Experian Africa<span class="checkmark"></span></label>
+                                        <label class="custom-control checkbox"><input type="checkbox" name="bureau_report_multi" value="Dun & Bradstreet"> Dun & Bradstreet<span class="checkmark"></span></label>
+                                        <label class="custom-control checkbox"><input type="checkbox" name="bureau_report_multi" value="Compuscan"> Compuscan<span class="checkmark"></span></label>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div id="waterfall-priority-container">
+                                <fieldset class="fieldset-group"><legend>Set Priority (Drag to Reorder)</legend>
+                                    <ul class="waterfall-priority-list" id="waterfall-list"></ul>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="config-section">
+                    <h2><span class="section-number">3</span>Application Data</h2>
+                    <fieldset class="fieldset-group"><legend>Basic Details (Mandatory)</legend><div class="input-group">
+                        <div class="custom-control disabled"><span class="detail-item" data-modal-target="loan-data-modal">Loan Data</span><input type="checkbox" checked disabled><span class="checkmark"></span></div>
+                        <div class="custom-control disabled"><span class="detail-item" data-modal-target="customer-data-modal">Customer Data</span><input type="checkbox" checked disabled><span class="checkmark"></span></div>
+                    </div></fieldset>
+                    <fieldset class="fieldset-group"><legend>Good to Have (Optional)</legend><div class="input-group">
+                        <label class="custom-control checkbox"><span class="detail-item" data-modal-target="digital-footprint-modal">Customer Digital Footprint</span><input type="checkbox" data-source-name="Digital Footprint"><span class="checkmark"></span></label>
+                        <label class="custom-control checkbox"><span class="detail-item" data-modal-target="on-us-repayment-modal">Historical On-Us Repayments</span><input type="checkbox" data-source-name="On-Us Repayments"><span class="checkmark"></span></label>
+                        <label class="custom-control checkbox"><span class="detail-item" data-modal-target="social-graph-modal">Social Network Analysis</span><input type="checkbox" data-source-name="Social Graph"><span class="checkmark"></span></label>
+                        <label class="custom-control checkbox"><span class="detail-item" data-modal-target="location-data-modal">Geospatial Risk Data</span><input type="checkbox" data-source-name="Location Data"><span class="checkmark"></span></label>
+                    </div></fieldset>
+                    <div id="asset-specific-data-section" style="display:none;">
+                        <fieldset class="fieldset-group"><legend>Asset Class Specific (Optional)</legend><div class="input-group">
+                            <label class="custom-control checkbox" data-asset-class="SME Agriculture"><span class="detail-item" data-modal-target="business-details-modal">Business Details</span><input type="checkbox" data-source-name="Business Details"><span class="checkmark"></span></label>
+                            <label class="custom-control checkbox" data-asset-class="Agriculture"><span class="detail-item" data-modal-target="farm-details-modal">Farm Details</span><input type="checkbox" data-source-name="Farm Details"><span class="checkmark"></span></label>
+                            <label class="custom-control checkbox" data-asset-class="Agriculture"><span class="detail-item" data-modal-target="crop-details-modal">Crop Details</span><input type="checkbox" data-source-name="Crop Details"><span class="checkmark"></span></label>
+                            <label class="custom-control checkbox" data-asset-class="SME MSME"><span class="detail-item" data-modal-target="collateral-details-modal">Collateral Details</span><input type="checkbox" data-source-name="Collateral Details"><span class="checkmark"></span></label>
+                            <label class="custom-control checkbox" data-asset-class="Salary"><span class="detail-item" data-modal-target="employer-details-modal">Employer Details</span><input type="checkbox" data-source-name="Employer Details"><span class="checkmark"></span></label>
+                        </div></fieldset>
+                    </div>
+                </section>
+
+                <section class="config-section"><h2><span class="section-number">4</span>Mobile Money & Bank Data</h2><fieldset class="fieldset-group"><legend>Include Financial Data (Optional)</legend>
+                    <label class="custom-control checkbox">Yes, include mobile money and bank data in the model<input type="checkbox" id="include-bank-statement" data-source-name="Financial Data"><span class="checkmark"></span></label>
+                    <div id="bank-format-options" style="margin-top: 1rem; display: none;"><div class="input-group">
+                        <label class="custom-control radio"><span class="detail-item" data-modal-target="mobile-money-modal">Mobile Money Transactions</span><input type="radio" name="financial_data" disabled><span class="checkmark"></span></label>
+                        <label class="custom-control radio"><span class="detail-item" data-modal-target="bank-data-modal">Bank Account Data</span><input type="radio" name="financial_data" disabled><span class="checkmark"></span></label>
+                        <label class="custom-control radio"><span class="detail-item" data-modal-target="combined-financial-modal">Combined Financial Data</span><input type="radio" name="financial_data" disabled><span class="checkmark"></span></label>
+                    </div></div>
+                </fieldset></section>
+
+                <section class="config-section"><h2><span class="section-number">5</span>Proprietary Alternate Data (Optional)</h2><div class="input-group">
+                    <label class="custom-control checkbox"><span class="detail-item" data-modal-target="social-data-modal">Social & Behavioral Data</span><input type="checkbox"><span class="checkmark"></span></label>
+                    <label class="custom-control checkbox"><span class="detail-item" data-modal-target="economic-data-modal">Economic Indicators</span><input type="checkbox"><span class="checkmark"></span></label>
+                    <label class="custom-control checkbox"><span class="detail-item" data-modal-target="climate-data-modal">Climate & Environmental Data</span><input type="checkbox"><span class="checkmark"></span></label>
+                    <label class="custom-control checkbox"><span class="detail-item" data-modal-target="supply-chain-modal">Supply Chain Data</span><input type="checkbox"><span class="checkmark"></span></label>
+                </div></section>
+                <div class="button-group"><div></div><button type="button" class="submit-button" id="proceed-btn">Proceed to Institution Profile Setup</button></div>
+            </form>
+        </div>
+
+        <div id="institution-profile-page" class="page">
+            <header class="header"><h1>Institution Profile & Risk Appetite</h1><p>Define your portfolio characteristics to finalize the model recommendation.</p></header>
+            <form>
+                <section class="config-section"><h2><span class="section-number">1</span>Operational Details</h2>
+                    <div class="input-row"><label for="countries">Countries</label><div class="select-wrapper"><select id="countries" multiple>
+                        <option value="Kenya">Kenya</option>
+                        <option value="Uganda">Uganda</option>
+                        <option value="Tanzania">Tanzania</option>
+                        <option value="Rwanda">Rwanda</option>
+                        <option value="Ghana">Ghana</option>
+                        <option value="Nigeria">Nigeria</option>
+                        <option value="South Africa">South Africa</option>
+                        <option value="Ethiopia">Ethiopia</option>
+                    </select></div></div>
+                    <div class="input-row"><label for="ticket-size">Typical Loan Amount (KES/USD)</label><input type="number" id="ticket-size" placeholder="e.g., 50000"></div>
+                    <div class="input-row"><label for="tenure">Typical Tenure (Months)</label><input type="number" id="tenure" placeholder="e.g., 12"></div>
+                </section>
+                <section class="config-section"><h2><span class="section-number">2</span>Financial & Risk Profile</h2>
+                    <div class="input-row"><label for="interest">Typical Interest Rate (%)</label><input type="number" id="interest" placeholder="e.g., 24.5" step="0.1"></div>
+                    <div class="input-row"><label for="loss-rate">Current Overall Loss Rate (%)</label><input type="number" id="loss-rate" placeholder="e.g., 3.2" step="0.1"></div>
+                </section>
+                <section class="config-section"><h2><span class="section-number">3</span>Bureau Score Profile</h2>
+                    <div class="score-bucket-grid"><span>Score Bucket</span><span>Population (%)</span><span>Approval Rate (%)</span></div>
+                    <div class="score-bucket-row"><span>&lt; 550</span><input type="number" class="score-input" data-bucket="pop" value="25"><input type="number" class="score-input" data-bucket="app" value="5"></div>
+                    <div class="score-bucket-row"><span>550 - 650</span><input type="number" class="score-input" data-bucket="pop" value="35"><input type="number" class="score-input" data-bucket="app" value="25"></div>
+                    <div class="score-bucket-row"><span>650 - 750</span><input type="number" class="score-input" data-bucket="pop" value="30"><input type="number" class="score-input" data-bucket="app" value="55"></div>
+                    <div class="score-bucket-row"><span>750 - 800</span><input type="number" class="score-input" data-bucket="pop" value="8"><input type="number" class="score-input" data-bucket="app" value="75"></div>
+                    <div class="score-bucket-row"><span>&gt; 800</span><input type="number" class="score-input" data-bucket="pop" value="2"><input type="number" class="score-input" data-bucket="app" value="85"></div>
+                    <div style="text-align: right; margin-top: 1rem;"><strong>Overall Approval Rate: <span id="overall-approval-rate">32.5%</span></strong></div>
+                </section>
+                <div class="button-group"><button type="button" class="back-button" id="back-btn-1">Back to Data Selection</button><button type="button" class="submit-button" id="recommend-btn">Get Model Recommendation</button></div>
+            </form>
+        </div>
+
+        <div id="recommendation-page" class="page">
+             <header class="header"><h1>Your Custom Model Recommendation</h1><p>Based on your selections, here is the optimal model and its estimated performance.</p></header>
+             <div class="recommendation-card">
+                 <h3 id="rec-model-name"></h3>
+                 <p id="rec-model-desc"></p>
+             </div>
+             <section class="config-section"><h2>Performance Lift Estimation</h2><div class="performance-grid">
+                 <div class="performance-metric"><h4>Approval Rate</h4><p class="perf-value" id="current-approval-rate"></p></div>
+                 <div class="performance-metric"><h4>Estimated Approval Rate</h4><p class="perf-value" id="new-approval-rate"></p><p class="perf-lift"><i data-lucide="arrow-up"></i> <span id="approval-lift"></span></p></div>
+                 <div class="performance-metric"><h4>Estimated Loss Rate</h4><p class="perf-value" id="new-loss-rate"></p><p class="perf-lift" style="color: #dc2626;"><i data-lucide="arrow-down"></i> <span id="loss-reduction"></span></p></div>
+             </div></section>
+             <section class="config-section"><h2>Other Potential Models</h2>
+                <p>You can also consider these alternative models for different risk strategies.</p>
+                <div class="input-group">
+                    <div class="custom-control"><strong>Ki-Score: High Growth Africa</strong></div>
+                    <div class="custom-control"><strong>Ki-Score: Conservative Africa</strong></div>
+                    <div class="custom-control"><strong>Ki-Score: Agri-Focused</strong></div>
+                </div>
+             </section>
+             <div class="button-group"><button type="button" class="back-button" id="back-btn-2">Back to Profile Setup</button><button type="button" class="submit-button" id="backtest-btn">Backtest with Data</button></div>
+        </div>
+
+        <div id="backtest-page" class="page">
+            <header class="header"><h1>Bulk Scoring & Backtesting</h1><p>Upload your portfolio data to backtest the recommended model.</p></header>
+            <section class="config-section">
+                <h2><span class="section-number">1</span>Upload Portfolio Data File</h2>
+                <div class="upload-area">
+                    <p>Please upload a single CSV file. <span class="detail-item" data-modal-target="csv-format-modal">View required format.</span></p>
+                    <div class="upload-slot">
+                        <label for="backtest-file">Portfolio CSV File</label>
+                        <input type="file" id="backtest-file" accept=".csv">
+                    </div>
+                </div>
+            </section>
+             <div class="button-group">
+                <button type="button" class="back-button" id="back-btn-3">Back to Recommendation</button>
+                <button type="button" class="submit-button" id="run-backtest-btn">Proceed to Data Mapping</button>
+             </div>
+        </div>
+
+        <div id="mapping-page" class="page">
+            <header class="header"><h1>Data Mapping</h1><p>Map your CSV columns to our required model fields using the dropdowns.</p></header>
+            <section class="config-section">
+                <div id="mapping-grid" class="mapping-grid">
+                    <!-- JS will populate this -->
+                </div>
+            </section>
+            <div class="button-group">
+                <button type="button" class="back-button" id="back-btn-mapping">Back to Upload</button>
+                <button type="button" class="submit-button" id="validate-and-run-btn">Validate & Run Backtest</button>
+            </div>
+        </div>
+
+        <div id="backtest-results-page" class="page">
+             <header class="header"><h1>Backtest Results & Performance Analysis</h1><p>This analysis is based on the portfolio data you provided.</p></header>
+             <section class="config-section">
+                <h2><span class="section-number">1</span>Customer Scoring Results</h2>
+                <div class="results-filter">
+                    <button class="filter-tab active" data-filter="all">All (1.8 Lakhs)</button>
+                    <button class="filter-tab" data-filter="approved">Approved (1.4 Lakhs)</button>
+                    <button class="filter-tab" data-filter="rejected">Rejected (0.4 Lakhs)</button>
+                </div>
+                <div class="results-table-container">
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th>Time & Date</th>
+                                <th>Loan ID</th>
+                                <th>Customer ID</th>
+                                <th>ki score</th>
+                                <th>Risk Level</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="results-tbody">
+                            <!-- JS will populate this -->
+                        </tbody>
+                    </table>
+                </div>
+             </section>
+             <section class="config-section">
+                <h2><span class="section-number">2</span>Performance Analytics</h2>
+                <fieldset class="fieldset-group" style="margin-bottom: 2rem;"><legend>Default Capture Rate (DCR) by Score Decile</legend>
+                    <table class="comparison-table">
+                        <thead><tr><th>Score Decile (Riskiest)</th><th>ki score DCR (%)</th><th>Bureau DCR (%)</th></tr></thead>
+                        <tbody id="dcr-tbody">
+                           <!-- JS will populate this -->
+                        </tbody>
+                    </table>
+                </fieldset>
+                <fieldset class="fieldset-group"><legend>Final Performance Lift</legend>
+                    <div class="performance-grid">
+                        <div class="performance-metric"><h4>Your Approval Rate</h4><p class="perf-value" id="backtest-current-approval-rate"></p></div>
+                        <div class="performance-metric"><h4>Backtested Approval Rate</h4><p class="perf-value" id="backtest-new-approval-rate"></p><p class="perf-lift"><i data-lucide="arrow-up"></i> <span id="backtest-approval-lift"></span></p></div>
+                        <div class="performance-metric"><h4>Backtested Loss Rate</h4><p class="perf-value" id="backtest-new-loss-rate"></p><p class="perf-lift" style="color: #dc2626;"><i data-lucide="arrow-down"></i> <span id="backtest-loss-reduction"></span></p></div>
+                    </div>
+                </fieldset>
+             </section>
+             <div class="button-group">
+                <button type="button" class="back-button" id="back-btn-4">Back to Mapping</button>
+                <button type="button" class="start-over-button" id="start-over-btn-2">Start Over</button>
+             </div>
+        </div>
+
+    </div>
+
+    <!-- Modals -->
+    <div id="csv-format-modal" class="modal"><div class="modal-content"><span class="close-modal">&times;</span><h3><i data-lucide="file-spreadsheet"></i>Required CSV Format</h3><p>Your CSV file should contain individual columns for customer/loan data, and single columns for raw bureau and financial data.</p><pre><code>"loan_id","cust_id","age","gender","loan_amount","bureau_xml","mobile_json","bank_json"
+"AF7737745","KF3999955",34,"F",50000,"&lt;crb&gt;...&lt;/crb&gt;","{...}","[{...}]"
+...</code></pre><p><strong>Note:</strong> The data inside the `mobile_json` and `bank_json` columns must be valid JSON strings. The `bureau_xml` column should contain the raw XML or text from the bureau report.</p></div></div>
+    <div id="loan-data-modal" class="modal"><div class="modal-content"><span class="close-modal">&times;</span><h3><i data-lucide="file-text"></i>Loan Data Points</h3><ul class="data-list"><li><i data-lucide="coins"></i>Loan Amount Requested</li><li><i data-lucide="package"></i>Loan Product Type</li><li><i data-lucide="calendar-days"></i>Tenure (in months)</li><li><i data-lucide="percent-circle"></i>Proposed Interest Rate</li><li><i data-lucide="receipt"></i>Processing Fee</li><li><i data-lucide="building"></i>Originating Branch Code</li></ul></div></div>
+    <div id="customer-data-modal" class="modal"><div class="modal-content"><span class="close-modal">&times;</span><h3><i data-lucide="user-round"></i>Customer Data Points</h3><ul class="data-list"><li><i data-lucide="cake"></i>Age</li><li><i data-lucide="users"></i>Gender</li><li><i data-lucide="heart"></i>Marital Status</li><li><i data-lucide="graduation-cap"></i>Education Level</li><li><i data-lucide="briefcase"></i>Profession / Occupation</li><li><i data-lucide="user-check"></i>Years in Job/Business</li><li><i data-lucide="map-pin"></i>Residential Location</li><li><i data-lucide="clock"></i>Time at Address</li></ul></div></div>
+    <div id="digital-footprint-modal" class="modal"><div class="modal-content"><span class="close-modal">&times;</span><h3><i data-lucide="smartphone"></i>Digital Footprint</h3><ul class="data-list"><li><i data-lucide="phone"></i>Mobile Number</li><li><i data-lucide="at-sign"></i>Email ID</li><li><i data-lucide="smartphone-charging"></i>Mobile Money Usage</li><li><i data-lucide="thumbs-up"></i>Social Media Presence</li><li><i data-lucide="wifi"></i>Internet Connectivity</li></ul></div></div>
+    <div id="on-us-repayment-modal" class="modal"><div class="modal-content"><span class="close-modal">&times;</span><h3><i data-lucide="history"></i>Historical On-Us Repayments</h3><pre>{
+  "historical_loans": [
+    {
+      "AccountID": "KE240002295",
+      "sanctioned_amount": "35000.00",
+      "disbursement_date": "2022-11-19",
+      "repayment_frequency": "M",
+      "instalment_amount": "4200.00",
+      "number_of_instalments": "12",
+      "interest_rate": "36.00",
+      "loan_status": "Completed",
+      "loan_schedule": [...],
+      "loan_repayment": [...]
+    }
+  ]
+}</pre></div></div>
+    <div id="social-graph-modal" class="modal"><div class="modal-content"><span class="close-modal">&times;</span><h3><i data-lucide="users"></i>Social Network Analysis</h3><ul class="data-list"><li><i data-lucide="network"></i>Network Size & Density</li><li><i data-lucide="user-plus"></i>Trusted Contacts</li><li><i data-lucide="message-circle"></i>Communication Patterns</li><li><i data-lucide="trending-up"></i>Social Credit Score</li></ul></div></div>
+    <div id="location-data-modal" class="modal"><div class="modal-content"><span class="close-modal">&times;</span><h3><i data-lucide="map-pin"></i>Geospatial Risk Data</h3><ul class="data-list"><li><i data-lucide="navigation"></i>GPS Coordinates</li><li><i data-lucide="building-2"></i>Urban vs Rural Classification</li><li><i data-lucide="shield"></i>Local Crime Rate</li><li><i data-lucide="truck"></i>Logistics Accessibility</li></ul></div></div>
+    <div id="business-details-modal" class="modal"><div class="modal-content"><span class="close-modal">&times;</span><h3><i data-lucide="briefcase"></i>Business Details</h3><ul class="data-list"><li><i data-lucide="hash"></i>Business Registration No.</li><li><i data-lucide="factory"></i>Nature of Business</li><li><i data-lucide="calendar"></i>Years in Business</li><li><i data-lucide="file-badge"></i>Tax ID Number</li><li><i data-lucide="trending-up"></i>Business Revenue</li></ul></div></div>
+    <div id="farm-details-modal" class="modal"><div class="modal-content"><span class="close-modal">&times;</span><h3><i data-lucide="tractor"></i>Farm Details</h3><ul class="data-list"><li><i data-lucide="ruler"></i>Land Size (acres)</li><li><i data-lucide="cloud-drizzle"></i>Irrigation Access</li><li><i data-lucide="file-check"></i>Land Ownership Type</li><li><i data-lucide="leaf"></i>Crop History</li></ul></div></div>
+    <div id="crop-details-modal" class="modal"><div class="modal-content"><span class="close-modal">&times;</span><h3><i data-lucide="sprout"></i>Crop Details</h3><ul class="data-list"><li><i data-lucide="wheat"></i>Primary Crops</li><li><i data-lucide="recycle"></i>Cropping Cycle</li><li><i data-lucide="bar-chart-3"></i>Yield History</li><li><i data-lucide="cloud-rain"></i>Weather Dependency</li></ul></div></div>
+    <div id="collateral-details-modal" class="modal"><div class="modal-content"><span class="close-modal">&times;</span><h3><i data-lucide="gem"></i>Collateral Details</h3><ul class="data-list"><li><i data-lucide="building-2"></i>Property Type</li><li><i data-lucide="map"></i>Land Area (sq. m)</li><li><i data-lucide="home"></i>Building Value</li><li><i data-lucide="calendar-clock"></i>Property Age</li><li><i data-lucide="file-signature"></i>Title Deed Status</li><li><i data-lucide="banknote"></i>Estimated Market Value</li></ul></div></div>
+    <div id="employer-details-modal" class="modal"><div class="modal-content"><span class="close-modal">&times;</span><h3><i data-lucide="building"></i>Employer Details</h3><ul class="data-list"><li><i data-lucide="building-2"></i>Employer Name</li><li><i data-lucide="briefcase"></i>Industry Sector</li><li><i data-lucide="user-check"></i>Employment Type</li><li><i data-lucide="calendar"></i>Length of Service</li><li><i data-lucide="banknote"></i>Monthly Salary</li></ul></div></div>
+    <div id="mobile-money-modal" class="modal"><div class="modal-content"><span class="close-modal">&times;</span><h3><i data-lucide="smartphone"></i>Mobile Money Transactions</h3><pre>Date,Type,Amount,Counterparty,Balance
+2024-09-01,SEND,2500,KE3999955,18500
+2024-09-02,RECEIVE,15000,Salary,33500</pre></div></div>
+    <div id="bank-data-modal" class="modal"><div class="modal-content"><span class="close-modal">&times;</span><h3><i data-lucide="building-2"></i>Bank Account Data</h3><pre>{
+  "account_summary": {
+    "account_type": "Savings",
+    "account_age_months": 24,
+    "average_balance": 45000,
+    "total_credits": 180000,
+    "total_debits": 135000
+  },
+  "recent_transactions": [...]
+}</pre></div></div>
+    <div id="combined-financial-modal" class="modal"><div class="modal-content"><span class="close-modal">&times;</span><h3><i data-lucide="wallet"></i>Combined Financial Data</h3><ul class="data-list"><li><i data-lucide="smartphone"></i>Mobile Money Transactions</li><li><i data-lucide="building-2"></i>Bank Account Data</li><li><i data-lucide="trending-up"></i>Combined Cash Flow Analysis</li><li><i data-lucide="shield"></i>Cross-platform Risk Assessment</li></ul></div></div>
+    <div id="social-data-modal" class="modal"><div class="modal-content"><span class="close-modal">&times;</span><h3><i data-lucide="users"></i>Social & Behavioral Data</h3><ul class="data-list"><li><i data-lucide="phone"></i>Mobile Usage Patterns</li><li><i data-lucide="message-circle"></i>Communication Networks</li><li><i data-lucide="map-pin"></i>Movement Patterns</li><li><i data-lucide="clock"></i>Daily Activity Rhythms</li></ul></div></div>
+    <div id="economic-data-modal" class="modal"><div class="modal-content"><span class="close-modal">&times;</span><h3><i data-lucide="trending-up"></i>Economic Indicators</h3><ul class="data-list"><li><i data-lucide="briefcase"></i>Local Employment Rate</li><li><i data-lucide="building"></i>Business Density</li><li><i data-lucide="banknote"></i>Average Income Levels</li><li><i data-lucide="shopping-cart"></i>Consumer Spending Patterns</li></ul></div></div>
+    <div id="climate-data-modal" class="modal"><div class="modal-content"><span class="close-modal">&times;</span><h3><i data-lucide="cloud-rain"></i>Climate & Environmental Data</h3><ul class="data-list"><li><i data-lucide="thermometer"></i>Historical Rainfall Patterns</li><li><i data-lucide="cloud-hail"></i>Drought/Flood Risk</li><li><i data-lucide="leaf"></i>Crop Yield Correlations</li><li><i data-lucide="wind"></i>Climate Change Impact</li></ul></div></div>
+    <div id="supply-chain-modal" class="modal"><div class="modal-content"><span class="close-modal">&times;</span><h3><i data-lucide="truck"></i>Supply Chain Data</h3><ul class="data-list"><li><i data-lucide="route"></i>Transportation Networks</li><li><i data-lucide="package"></i>Supplier Relationships</li><li><i data-lucide="clock"></i>Delivery Timelines</li><li><i data-lucide="bar-chart-3"></i>Market Price Volatility</li></ul></div></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const pages = document.querySelectorAll('.page');
+            const showPage = (pageId) => {
+                window.scrollTo(0, 0);
+                pages.forEach(p => p.classList.remove('active'));
+                document.getElementById(pageId).classList.add('active');
+                lucide.createIcons();
+            };
+
+            // Page navigation listeners
+            document.getElementById('proceed-btn').addEventListener('click', () => showPage('institution-profile-page'));
+            document.getElementById('back-btn-1').addEventListener('click', () => showPage('data-selection-page'));
+            document.getElementById('recommend-btn').addEventListener('click', generateRecommendation);
+            document.getElementById('back-btn-2').addEventListener('click', () => showPage('institution-profile-page'));
+            document.getElementById('backtest-btn').addEventListener('click', () => showPage('backtest-page'));
+            document.getElementById('back-btn-3').addEventListener('click', () => showPage('recommendation-page'));
+            document.getElementById('run-backtest-btn').addEventListener('click', setupAndShowMappingPage);
+            document.getElementById('back-btn-mapping').addEventListener('click', () => showPage('backtest-page'));
+            document.getElementById('validate-and-run-btn').addEventListener('click', runBacktest);
+            document.getElementById('back-btn-4').addEventListener('click', () => showPage('mapping-page'));
+
+            const setupStartOver = (btnId) => {
+                 const startOverBtn = document.getElementById(btnId);
+                 if(startOverBtn) {
+                    startOverBtn.addEventListener('click', () => {
+                        document.getElementById('model-config-form').reset();
+                        document.querySelector('input[name="bureau_setup"][value="single"]').dispatchEvent(new Event('change'));
+                        document.querySelector('input[name="asset_class"][value="SME"]').dispatchEvent(new Event('change'));
+                        document.getElementById('include-bank-statement').dispatchEvent(new Event('change'));
+                        showPage('data-selection-page');
+                    });
+                 }
+            };
+            setupStartOver('start-over-btn-2');
+
+            // Asset Class Specific Logic
+            const assetClassRadios = document.querySelectorAll('input[name="asset_class"]');
+            const assetSpecificSection = document.getElementById('asset-specific-data-section');
+            assetClassRadios.forEach(radio => radio.addEventListener('change', () => {
+                const selectedAsset = document.querySelector('input[name="asset_class"]:checked').value;
+                let hasVisibleChild = false;
+                document.querySelectorAll('#asset-specific-data-section [data-asset-class]').forEach(el => {
+                    const isVisible = el.getAttribute('data-asset-class').includes(selectedAsset);
+                    el.style.display = isVisible ? 'block' : 'none';
+                    if (isVisible) hasVisibleChild = true;
+                });
+                assetSpecificSection.style.display = hasVisibleChild ? 'block' : 'none';
+            }));
+
+            // Bureau Score Profile Calculation
+            const scoreInputs = document.querySelectorAll('.score-input');
+            const overallRateEl = document.getElementById('overall-approval-rate');
+            const calculateOverallApproval = () => {
+                let totalRate = 0;
+                let totalPop = 0;
+                const rows = document.querySelectorAll('.score-bucket-row');
+                rows.forEach(row => {
+                    const pop = parseFloat(row.querySelector('[data-bucket="pop"]').value) || 0;
+                    const app = parseFloat(row.querySelector('[data-bucket="app"]').value) || 0;
+                    totalPop += pop;
+                    totalRate += (pop / 100) * (app / 100);
+                });
+                if (totalPop !== 100) {
+                     overallRateEl.textContent = 'Population must sum to 100%';
+                     overallRateEl.style.color = '#dc2626';
+                } else {
+                    overallRateEl.textContent = (totalRate * 100).toFixed(1) + '%';
+                    overallRateEl.style.color = 'var(--primary-color)';
+                }
+            };
+            scoreInputs.forEach(input => input.addEventListener('input', calculateOverallApproval));
+
+            function generateRecommendation() {
+                const assetClassDisplayNames = { 'SME': 'SME', 'Consumer': 'Consumer', 'Agriculture': 'Agriculture', 'MSME': 'MSME', 'Salary': 'Salary Advances', 'Digital': 'Digital Lending' };
+                const assetClassValue = document.querySelector('input[name="asset_class"]:checked').value;
+                const assetClassName = assetClassDisplayNames[assetClassValue];
+                const lossRate = parseFloat(document.getElementById('loss-rate').value) || 3.2;
+                const currentApprovalRate = parseFloat(overallRateEl.textContent);
+
+                let modelName = `Ki-Score ${assetClassName} Africa`;
+                let modelDesc = `An advanced predictive model tailored for African ${assetClassName} lending. It leverages core application and bureau data to provide a robust risk assessment.`;
+                let approvalLift = 1.15;
+                let lossReduction = 0.80;
+
+                if (document.getElementById('include-bank-statement').checked) {
+                    modelName += " Plus";
+                    modelDesc += " Incorporates <b>mobile money and financial data</b> for deeper insights.";
+                    approvalLift += 0.08;
+                    lossReduction -= 0.08;
+                }
+                if (document.querySelector('#data-selection-page section:nth-of-type(5) input:checked')) {
+                    modelName += " AI";
+                    modelDesc += " Further enhanced with our <b>proprietary alternate data</b>, it excels at scoring thin-file customers and identifying nuanced risk patterns."
+                    approvalLift += 0.10;
+                    lossReduction -= 0.12;
+                }
+
+                document.getElementById('rec-model-name').textContent = modelName;
+                document.getElementById('rec-model-desc').innerHTML = modelDesc;
+                const newApprovalRate = currentApprovalRate * approvalLift;
+                const newLossRate = lossRate * lossReduction;
+
+                document.getElementById('current-approval-rate').textContent = currentApprovalRate.toFixed(1) + '%';
+                document.getElementById('new-approval-rate').textContent = newApprovalRate.toFixed(1) + '%';
+                document.getElementById('approval-lift').textContent = `${((approvalLift - 1) * 100).toFixed(0)}% Lift`;
+                document.getElementById('new-loss-rate').textContent = newLossRate.toFixed(1) + '%';
+                document.getElementById('loss-reduction').textContent = `${((1 - lossReduction) * 100).toFixed(0)}% Reduction`;
+                showPage('recommendation-page');
+            }
+
+            // --- MOCK DATA FOR RESULTS ---
+            const mockResultsData = [
+                { time: '14:33 15 Sep', loanId: 'KE7737745', custId: 'AF3999955', score: 18, risk: 'Low', status: 'Approved' },
+                { time: '13:30 16 Sep', loanId: 'UG8388834', custId: 'AF3999949', score: 72, risk: 'High', status: 'Rejected' },
+                { time: '15:40 14 Sep', loanId: 'TZ882884', custId: 'AF7757758', score: 89, risk: 'High', status: 'Rejected' },
+                { time: '12:15 15 Sep', loanId: 'RW9134567', custId: 'AF4822199', score: 24, risk: 'Low', status: 'Approved' },
+                { time: '16:05 16 Sep', loanId: 'GH2345678', custId: 'AF8813455', score: 37, risk: 'Medium', status: 'Approved' },
+                { time: '18:50 17 Sep', loanId: 'NG3456789', custId: 'AF9988211', score: 78, risk: 'High', status: 'Rejected' },
+                { time: '13:00 15 Sep', loanId: 'ZA4567890', custId: 'AF7766554', score: 20, risk: 'Low', status: 'Approved' },
+                { time: '12:10 14 Sep', loanId: 'ET5678901', custId: 'AF3322111', score: 8, risk: 'Low', status: 'Approved' },
+                { time: '17:25 16 Sep', loanId: 'ZM6789012', custId: 'AF4455667', score: 85, risk: 'High', status: 'Rejected' },
+                { time: '19:30 17 Sep', loanId: 'BW7890123', custId: 'AF1122334', score: 30, risk: 'Medium', status: 'Approved' },
+                { time: '14:45 15 Sep', loanId: 'CD8901234', custId: 'AF5544332', score: 43, risk: 'Medium', status: 'Approved' },
+                { time: '15:55 14 Sep', loanId: 'EF9012345', custId: 'AF9988776', score: 93, risk: 'High', status: 'Rejected' },
+                { time: '16:00 17 Sep', loanId: 'GH0123456', custId: 'AF6655443', score: 14, risk: 'Low', status: 'Approved' },
+                { time: '17:50 14 Sep', loanId: 'IJ1234567', custId: 'AF2211334', score: 35, risk: 'Medium', status: 'Approved' },
+                { time: '18:00 16 Sep', loanId: 'KL2345678', custId: 'AF8877665', score: 67, risk: 'High', status: 'Rejected' },
+                { time: '13:05 15 Sep', loanId: 'MN3456789', custId: 'AF1133557', score: 27, risk: 'Medium', status: 'Approved' },
+                { time: '14:15 17 Sep', loanId: 'OP4567890', custId: 'AF3344668', score: 9, risk: 'Low', status: 'Approved' },
+                { time: '15:45 14 Sep', loanId: 'QR5678901', custId: 'AF5566889', score: 90, risk: 'High', status: 'Rejected' },
+                { time: '16:00 13 Sep', loanId: 'ST6789012', custId: 'AF7788990', score: 21, risk: 'Low', status: 'Approved' },
+                { time: '17:00 15 Sep', loanId: 'UV7890123', custId: 'AF9900112', score: 40, risk: 'Medium', status: 'Approved' }
+            ];
+
+            const dcrData = [
+                { decile: 10, ki: 48, bureau: 38 }, { decile: 20, ki: 67, bureau: 54 },
+                { decile: 30, ki: 79, bureau: 67 }, { decile: 40, ki: 86, bureau: 75 },
+                { decile: 50, ki: 91, bureau: 81 }, { decile: 60, ki: 94, bureau: 86 },
+                { decile: 70, ki: 96, bureau: 90 }, { decile: 80, ki: 98, bureau: 93 },
+                { decile: 90, ki: 99, bureau: 96 }, { decile: 100, ki: 100, bureau: 100 }
+            ];
+
+            const populateDcrTable = () => {
+                const tbody = document.getElementById('dcr-tbody');
+                tbody.innerHTML = '';
+                dcrData.forEach(data => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `<td>Top ${data.decile}%</td><td>${data.ki}%</td><td>${data.bureau}%</td>`;
+                    tbody.appendChild(row);
+                });
+            };
+
+            const populateResultsTable = (filter) => {
+                const tbody = document.getElementById('results-tbody');
+                tbody.innerHTML = '';
+                const filteredData = filter === 'all' ? mockResultsData : mockResultsData.filter(d => d.status.toLowerCase() === filter);
+
+                filteredData.forEach(data => {
+                    const row = document.createElement('tr');
+                    const statusClass = data.status === 'Approved' ? 'status-approved' : 'status-rejected';
+                    row.innerHTML = `
+                        <td>${data.time}</td>
+                        <td>${data.loanId}</td>
+                        <td>${data.custId}</td>
+                        <td>${data.score}</td>
+                        <td>${data.risk}</td>
+                        <td><span class="status-badge ${statusClass}">${data.status}</span></td>
+                    `;
+                    row.dataset.status = data.status.toLowerCase();
+                    tbody.appendChild(row);
+                });
+            };
+
+            const filterTabs = document.querySelectorAll('.filter-tab');
+            filterTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    filterTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    const filter = tab.dataset.filter;
+                    populateResultsTable(filter);
+                });
+            });
+
+            function runBacktest() {
+                 const currentApprovalRate = parseFloat(overallRateEl.textContent);
+                 const lossRate = parseFloat(document.getElementById('loss-rate').value) || 3.2;
+
+                 const backtestApprovalLift = 1.22; // Example: 22% lift from backtest
+                 const backtestLossReduction = 0.68; // Example: 32% reduction from backtest
+
+                 const newApprovalRate = currentApprovalRate * backtestApprovalLift;
+                 const newLossRate = lossRate * backtestLossReduction;
+
+                 document.getElementById('backtest-current-approval-rate').textContent = currentApprovalRate.toFixed(1) + '%';
+                 document.getElementById('backtest-new-approval-rate').textContent = newApprovalRate.toFixed(1) + '%';
+                 document.getElementById('backtest-approval-lift').textContent = `${((backtestApprovalLift - 1) * 100).toFixed(0)}% Lift`;
+                 document.getElementById('backtest-new-loss-rate').textContent = newLossRate.toFixed(1) + '%';
+                 document.getElementById('backtest-loss-reduction').textContent = `${((1 - backtestLossReduction) * 100).toFixed(0)}% Reduction`;
+
+                 populateResultsTable('all');
+                 populateDcrTable();
+                 showPage('backtest-results-page');
+            }
+
+            // --- BUREAU LOGIC ---
+            const bureauSetupRadios = document.querySelectorAll('input[name="bureau_setup"]');
+            const singleBureauOptions = document.getElementById('single-bureau-options');
+            const multiBureauOptions = document.getElementById('multi-bureau-options');
+            const multiStrategyRadios = document.querySelectorAll('input[name="multi_bureau_strategy"]');
+            const waterfallContainer = document.getElementById('waterfall-priority-container');
+
+            bureauSetupRadios.forEach(radio => radio.addEventListener('change', e => {
+                const isSingle = e.target.value === 'single';
+                singleBureauOptions.style.display = isSingle ? 'block' : 'none';
+                multiBureauOptions.style.display = isSingle ? 'none' : 'block';
+                if (!isSingle) {
+                    document.querySelector('input[name="multi_bureau_strategy"]:checked').dispatchEvent(new Event('change'));
+                }
+            }));
+
+            multiStrategyRadios.forEach(radio => radio.addEventListener('change', e => {
+                 waterfallContainer.style.display = e.target.value === 'waterfall' ? 'block' : 'none';
+            }));
+
+            const multiCheckboxes = document.querySelectorAll('input[name="bureau_report_multi"]');
+            const waterfallList = document.getElementById('waterfall-list');
+            multiCheckboxes.forEach(checkbox => checkbox.addEventListener('change', () => {
+                waterfallList.innerHTML = '';
+                const checkedCheckboxes = document.querySelectorAll('input[name="bureau_report_multi"]:checked');
+                checkedCheckboxes.forEach(cb => {
+                    const li = document.createElement('li');
+                    li.draggable = true;
+                    li.dataset.value = cb.value;
+                    li.innerHTML = `<i data-lucide="grip-vertical" class="drag-handle"></i>${cb.parentElement.textContent.trim()}`;
+                    addDragEvents(li);
+                    waterfallList.appendChild(li);
+                });
+                lucide.createIcons();
+            }));
+
+            function addDragEvents(item) {
+                item.addEventListener('dragstart', () => item.classList.add('dragging'));
+                item.addEventListener('dragend', () => item.classList.remove('dragging'));
+            }
+
+            waterfallList.addEventListener('dragover', e => {
+                e.preventDefault();
+                const afterElement = getDragAfterElement(waterfallList, e.clientY);
+                const dragging = document.querySelector('.dragging');
+                if (dragging) {
+                    if (afterElement == null) { waterfallList.appendChild(dragging); }
+                    else { waterfallList.insertBefore(dragging, afterElement); }
+                }
+            });
+
+            function getDragAfterElement(container, y) {
+                const draggableElements = [...container.querySelectorAll('li:not(.dragging)')];
+                return draggableElements.reduce((closest, child) => {
+                    const box = child.getBoundingClientRect();
+                    const offset = y - box.top - box.height / 2;
+                    if (offset < 0 && offset > closest.offset) { return { offset: offset, element: child }; }
+                    else { return closest; }
+                }, { offset: Number.NEGATIVE_INFINITY }).element;
+            }
+
+            // --- MAPPING LOGIC ---
+            function setupAndShowMappingPage() {
+                // In a real app, you would parse the uploaded CSV header.
+                // For this demo, we use a predefined list that simulates reading from a file.
+                const csvColumns = ["loan_application_id", "customer_reference_id", "bureau_xml_report", "mobile_money_json", "bank_json", "customer_age", "sex", "marital_status", "location", "loan_amt", "loan_tenure", "extra_col_1"];
+
+                const mappingGrid = document.getElementById('mapping-grid');
+                mappingGrid.innerHTML = '<div class="grid-header">Required Model Field</div><div class="grid-header">Your CSV Column</div>'; // Clear and add headers
+
+                const requiredFields = [
+                    { label: "Loan ID", key: "loan_id", hints: ["loan_id", "application_id", "loanid"] },
+                    { label: "Customer ID", key: "customer_id", hints: ["customer_id", "cust_id", "customerid"] },
+                    { label: "Bureau Data (XML/Text)", key: "bureau_raw", hints: ["bureau", "xml", "report"] },
+                    { label: "Mobile Money (JSON)", key: "mobile_json", hints: ["mobile", "mpesa", "json"] },
+                    { label: "Bank Data (JSON)", key: "bank_json", hints: ["bank", "json", "account"] },
+                    { label: "Age", key: "age", hints: ["age", "cust_age"] },
+                    { label: "Gender", key: "gender", hints: ["gender", "sex"] },
+                    { label: "Marital Status", key: "marital_status", hints: ["marital"] },
+                    { label: "Location", key: "location", hints: ["location", "city", "region"] },
+                    { label: "Loan Amount Requested", key: "loan_amount", hints: ["amount", "amt"] },
+                    { label: "Tenure (in months)", key: "tenure", hints: ["tenure", "term"] }
+                ];
+
+                requiredFields.forEach(field => {
+                    const labelEl = document.createElement('label');
+                    labelEl.textContent = field.label;
+
+                    const selectEl = document.createElement('select');
+                    selectEl.id = `map-${field.key}`;
+
+                    const defaultOption = document.createElement('option');
+                    defaultOption.value = "";
+                    defaultOption.textContent = "Select a column...";
+                    selectEl.appendChild(defaultOption);
+
+                    let bestMatch = '';
+                    // Simple auto-matching logic based on hints
+                    for (const hint of field.hints) {
+                        const match = csvColumns.find(col => col.toLowerCase().replace(/_/g, '').includes(hint));
+                        if (match) {
+                            bestMatch = match;
+                            break;
+                        }
+                    }
+
+                    csvColumns.forEach(col => {
+                        const option = document.createElement('option');
+                        option.value = col;
+                        option.textContent = col;
+                        if (col === bestMatch) {
+                            option.selected = true;
+                        }
+                        selectEl.appendChild(option);
+                    });
+
+                    mappingGrid.appendChild(labelEl);
+                    mappingGrid.appendChild(selectEl);
+                });
+
+                showPage('mapping-page');
+            }
+
+
+            // --- OTHER LOGIC ---
+            const includeBankCheckbox = document.getElementById('include-bank-statement');
+            const bankFormatOptions = document.getElementById('bank-format-options');
+            includeBankCheckbox.addEventListener('change', e => {
+                const isChecked = e.target.checked;
+                bankFormatOptions.style.display = isChecked ? 'block' : 'none';
+                bankFormatOptions.querySelectorAll('input').forEach(input => input.disabled = !isChecked);
+            });
+
+            document.querySelectorAll('[data-modal-target]').forEach(trigger => {
+                trigger.addEventListener('click', () => {
+                    const targetId = trigger.getAttribute('data-modal-target');
+                    document.getElementById(targetId).classList.add('active');
+                    lucide.createIcons();
+                });
+            });
+            document.querySelectorAll('.modal .close-modal').forEach(closeBtn => {
+                closeBtn.addEventListener('click', () => closeBtn.closest('.modal').classList.remove('active'));
+            });
+            window.addEventListener('click', e => {
+                if (e.target.classList.contains('modal')) e.target.classList.remove('active');
+            });
+
+            // Initial setup calls
+            document.querySelector('input[name="asset_class"]:checked').dispatchEvent(new Event('change'));
+            document.querySelector('input[name="bureau_setup"]:checked').dispatchEvent(new Event('change'));
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>
