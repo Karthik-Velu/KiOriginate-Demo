@@ -1376,8 +1376,8 @@
                 document.querySelectorAll('.target-option').forEach(opt => opt.classList.remove('selected'));
                 document.getElementById('target-dpd90').classList.add('selected');
             });
-            document.getElementById('proceed-target-btn').addEventListener('click', () => {
-                const selectedTarget = document.querySelector('.target-option.selected');
+            document.getElementById('proceed-to-features-btn').addEventListener('click', () => {
+                const selectedTarget = document.querySelector('input[name="target_variable"]:checked');
                 if (selectedTarget) {
                     showPage('feature-exploration-page');
                     // Simulate feature generation progress
@@ -1388,16 +1388,16 @@
             });
 
             // Feature Exploration Page Navigation
-            document.getElementById('proceed-features-btn').addEventListener('click', () => showPage('algorithm-selection-page'));
+            document.getElementById('proceed-to-algorithm-btn').addEventListener('click', () => showPage('algorithm-selection-page'));
 
             // Algorithm Selection Page Navigation
-            document.getElementById('proceed-algorithm-btn').addEventListener('click', () => showPage('rules-configuration-page'));
+            document.getElementById('proceed-to-rules-btn').addEventListener('click', () => showPage('rules-configuration-page'));
 
             // Rules Configuration Page Navigation
-            document.getElementById('proceed-rules-btn').addEventListener('click', () => showPage('model-training-page'));
+            document.getElementById('proceed-to-training-btn').addEventListener('click', () => showPage('model-training-page'));
 
             // Model Training Page Navigation
-            document.getElementById('proceed-training-btn').addEventListener('click', () => {
+            document.getElementById('proceed-to-custom-backtest-btn').addEventListener('click', () => {
                 showPage('custom-backtest-results-page');
                 // Simulate training completion
                 simulateTrainingCompletion();
@@ -1412,6 +1412,9 @@
                 document.getElementById('include-bank-statement').dispatchEvent(new Event('change'));
                 showPage('data-selection-page');
             });
+
+            // Back button from target selection to backtest results
+            document.getElementById('back-to-backtest-btn').addEventListener('click', () => showPage('backtest-results-page'));
 
             // Helper Functions for Custom Model Building Flow
             function simulateFeatureGeneration() {
