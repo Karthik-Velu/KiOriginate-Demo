@@ -525,8 +525,8 @@
     function selectPath(path) {
         currentPath = path;
         if (path === 'universal') {
-            // Load Africa model selector for pre-built model path
-            loadModelSelector();
+            // Redirect to Africa model selector page for pre-built model path
+            window.location.href = 'africa-model-selector.html';
         } else if (path === 'custom') {
             goToStep(1);
         } else {
@@ -534,44 +534,7 @@
         }
     }
 
-    // Model Configuration Functions
-    async function loadModelSelector() {
-        try {
-            const response = await fetch('africa-model-selector.html');
-            const html = await response.text();
 
-            // Extract the body content from the model selector HTML
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
-            const modelSelectorContent = doc.querySelector('body').innerHTML;
-
-            // Replace current content with model selector
-            document.getElementById('main-content').innerHTML = modelSelectorContent;
-
-            // Execute any scripts from the model selector
-            const scripts = doc.querySelectorAll('script');
-            scripts.forEach(script => {
-                if (script.src) {
-                    // External script
-                    const newScript = document.createElement('script');
-                    newScript.src = script.src;
-                    document.head.appendChild(newScript);
-                } else {
-                    // Inline script
-                    const newScript = document.createElement('script');
-                    newScript.textContent = script.textContent;
-                    document.body.appendChild(newScript);
-                }
-            });
-
-            // Scroll to top
-            window.scrollTo(0, 0);
-
-        } catch (error) {
-            console.error('Error loading model selector:', error);
-            alert('Error loading model selector. Please try again.');
-        }
-    }
 
     function goToStep(step) {
         if(step > 0 && step <= 5){
