@@ -896,28 +896,27 @@
             document.querySelector('input[name="bureau_setup"]:checked').dispatchEvent(new Event('change'));
             lucide.createIcons();
 
-            // Custom Model Building Flow Event Listeners
+            // Custom Model Building Flow Event Listeners - Using Event Delegation
             document.getElementById('build-new-model-btn').addEventListener('click', () => showPage('target-selection-page'));
             
-            // Target Selection Page Navigation
-            document.getElementById('target-dpd30').addEventListener('click', () => {
-                document.querySelectorAll('.target-option').forEach(opt => opt.classList.remove('selected'));
-                document.getElementById('target-dpd30').classList.add('selected');
-            });
-            document.getElementById('target-dpd60').addEventListener('click', () => {
-                document.querySelectorAll('.target-option').forEach(opt => opt.classList.remove('selected'));
-                document.getElementById('target-dpd60').classList.add('selected');
-            });
-            document.getElementById('target-dpd90').addEventListener('click', () => {
-                document.querySelectorAll('.target-option').forEach(opt => opt.classList.remove('selected'));
-                document.getElementById('target-dpd90').classList.add('selected');
-            });
-            
-            // More robust event listener for proceed-to-features-btn
-            const proceedToFeaturesBtn = document.getElementById('proceed-to-features-btn');
-            if (proceedToFeaturesBtn) {
-                console.log('Found proceed-to-features-btn, adding event listener');
-                proceedToFeaturesBtn.addEventListener('click', () => {
+            // Event delegation for custom model building buttons
+            document.addEventListener('click', (e) => {
+                // Target Selection Page Navigation
+                if (e.target.id === 'target-dpd30') {
+                    document.querySelectorAll('.target-option').forEach(opt => opt.classList.remove('selected'));
+                    document.getElementById('target-dpd30').classList.add('selected');
+                }
+                if (e.target.id === 'target-dpd60') {
+                    document.querySelectorAll('.target-option').forEach(opt => opt.classList.remove('selected'));
+                    document.getElementById('target-dpd60').classList.add('selected');
+                }
+                if (e.target.id === 'target-dpd90') {
+                    document.querySelectorAll('.target-option').forEach(opt => opt.classList.remove('selected'));
+                    document.getElementById('target-dpd90').classList.add('selected');
+                }
+                
+                // Proceed to Features Button
+                if (e.target.id === 'proceed-to-features-btn') {
                     console.log('Proceed to features button clicked');
                     const selectedTarget = document.querySelector('input[name="target_variable"]:checked');
                     console.log('Selected target:', selectedTarget);
@@ -930,39 +929,47 @@
                         console.log('No target selected, showing alert');
                         alert('Please select a target variable (DPD 30, 60, or 90)');
                     }
-                });
-            } else {
-                console.log('proceed-to-features-btn not found in DOM');
-            }
-
-            // Feature Exploration Page Navigation
-            document.getElementById('proceed-to-algorithm-btn').addEventListener('click', () => showPage('algorithm-selection-page'));
-
-            // Algorithm Selection Page Navigation
-            document.getElementById('proceed-to-rules-btn').addEventListener('click', () => showPage('rules-configuration-page'));
-
-            // Rules Configuration Page Navigation
-            document.getElementById('proceed-to-training-btn').addEventListener('click', () => showPage('model-training-page'));
-
-            // Model Training Page Navigation
-            document.getElementById('proceed-to-custom-backtest-btn').addEventListener('click', () => {
-                showPage('custom-backtest-results-page');
-                // Simulate training completion
-                simulateTrainingCompletion();
+                }
+                
+                // Feature Exploration Page Navigation
+                if (e.target.id === 'proceed-to-algorithm-btn') {
+                    showPage('algorithm-selection-page');
+                }
+                
+                // Algorithm Selection Page Navigation
+                if (e.target.id === 'proceed-to-rules-btn') {
+                    showPage('rules-configuration-page');
+                }
+                
+                // Rules Configuration Page Navigation
+                if (e.target.id === 'proceed-to-training-btn') {
+                    showPage('model-training-page');
+                }
+                
+                // Model Training Page Navigation
+                if (e.target.id === 'proceed-to-custom-backtest-btn') {
+                    showPage('custom-backtest-results-page');
+                    // Simulate training completion
+                    simulateTrainingCompletion();
+                }
+                
+                // Custom Backtest Results Page Navigation
+                if (e.target.id === 'back-to-prebuilt-btn') {
+                    showPage('backtest-results-page');
+                }
+                if (e.target.id === 'start-over-custom-btn') {
+                    document.getElementById('model-config-form').reset();
+                    document.querySelector('input[name="bureau_setup"][value="single"]').dispatchEvent(new Event('change'));
+                    document.querySelector('input[name="asset_class"][value="SME"]').dispatchEvent(new Event('change'));
+                    document.getElementById('include-bank-statement').dispatchEvent(new Event('change'));
+                    showPage('data-selection-page');
+                }
+                
+                // Back button from target selection to backtest results
+                if (e.target.id === 'back-to-backtest-btn') {
+                    showPage('backtest-results-page');
+                }
             });
-
-            // Custom Backtest Results Page Navigation
-            document.getElementById('back-to-prebuilt-btn').addEventListener('click', () => showPage('backtest-results-page'));
-            document.getElementById('start-over-custom-btn').addEventListener('click', () => {
-                document.getElementById('model-config-form').reset();
-                document.querySelector('input[name="bureau_setup"][value="single"]').dispatchEvent(new Event('change'));
-                document.querySelector('input[name="asset_class"][value="SME"]').dispatchEvent(new Event('change'));
-                document.getElementById('include-bank-statement').dispatchEvent(new Event('change'));
-                showPage('data-selection-page');
-            });
-
-            // Back button from target selection to backtest results
-            document.getElementById('back-to-backtest-btn').addEventListener('click', () => showPage('backtest-results-page'));
 
             // Helper Functions for Custom Model Building Flow
             function simulateFeatureGeneration() {
