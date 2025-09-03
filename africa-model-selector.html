@@ -913,12 +913,16 @@
                 document.getElementById('target-dpd90').classList.add('selected');
             });
             document.getElementById('proceed-to-features-btn').addEventListener('click', () => {
+                console.log('Proceed to features button clicked');
                 const selectedTarget = document.querySelector('input[name="target_variable"]:checked');
+                console.log('Selected target:', selectedTarget);
                 if (selectedTarget) {
+                    console.log('Target selected, proceeding to feature exploration page');
                     showPage('feature-exploration-page');
                     // Simulate feature generation progress
                     simulateFeatureGeneration();
                 } else {
+                    console.log('No target selected, showing alert');
                     alert('Please select a target variable (DPD 30, 60, or 90)');
                 }
             });
