@@ -490,6 +490,15 @@
             }
             if (templateId === 'new-application-page') {
                 updateAssetFields();
+
+                // Attach event listeners for model configuration radio buttons
+                const modelConfigRadios = document.querySelectorAll('input[name="model-config-type"]');
+                modelConfigRadios.forEach(radio => {
+                    radio.addEventListener('change', updateModelConfigurationUI);
+                });
+
+                // Initialize UI state
+                updateModelConfigurationUI();
             }
             if (templateId === 'decision-screen-page' && appId) {
                 const appData = mockApplicationDetails[appId];
@@ -659,15 +668,6 @@
         
         window.onload = () => {
             showPage('app-shell', true);
-
-            // Add event listeners for model configuration radio buttons
-            const modelConfigRadios = document.querySelectorAll('input[name="model-config-type"]');
-            modelConfigRadios.forEach(radio => {
-                radio.addEventListener('change', updateModelConfigurationUI);
-            });
-
-            // Initialize UI state
-            updateModelConfigurationUI();
         };
     </script>
 </body>
