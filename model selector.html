@@ -1066,25 +1066,11 @@
                     </div>
                 </div>
             </section>
-            <section class="config-section">
+            <section class="config-section" id="cutoff-adjustment-section" style="display: none;">
                 <h2><span class="section-number">3</span>Adjust Cutoffs & Regenerate</h2>
                 <div class="cutoff-adjustment">
-                    <div class="cutoff-controls">
-                        <div class="cutoff-item">
-                            <label for="ki-score-threshold">Ki Score Threshold:</label>
-                            <input type="range" id="ki-score-slider" min="300" max="900" value="650" step="10" class="cutoff-slider">
-                            <span class="cutoff-value" id="ki-score-display">650</span>
-                        </div>
-                        <div class="cutoff-item">
-                            <label for="ltv-threshold">LTV Ratio Threshold (%):</label>
-                            <input type="range" id="ltv-slider" min="50" max="95" value="85" step="5" class="cutoff-slider">
-                            <span class="cutoff-value" id="ltv-display">85%</span>
-                        </div>
-                        <div class="cutoff-item">
-                            <label for="age-threshold">Applicant Age Threshold (years):</label>
-                            <input type="range" id="age-slider" min="18" max="65" value="21" step="1" class="cutoff-slider">
-                            <span class="cutoff-value" id="age-display">21 years</span>
-                        </div>
+                    <div class="cutoff-controls" id="dynamic-cutoff-controls">
+                        <!-- Dynamic cutoff controls will be generated here -->
                     </div>
                     <div class="button-group" style="justify-content: center; margin: 1rem 0;">
                         <button type="button" class="submit-button" id="regenerate-tree-btn" onclick="regenerateDecisionTree()">Simulate & Rebuild Tree</button>
@@ -1916,14 +1902,20 @@
                 const updateStatus = () => {
                     if (currentIndex < statusItems.length) {
                         const statusIcon = statusItems[currentIndex].querySelector('.status-icon');
-                        statusIcon.classList.remove('processing');
-                        statusIcon.classList.add('completed');
+                        if (statusIcon) {
+                            statusIcon.classList.remove('processing');
+                            statusIcon.classList.add('completed');
+                        }
                         currentIndex++;
-                        setTimeout(updateStatus, 1000);
+                        if (currentIndex < statusItems.length) {
+                            setTimeout(updateStatus, 1000);
+                        }
                     }
                 };
                 
-                updateStatus();
+                if (statusItems.length > 0) {
+                    updateStatus();
+                }
             }
 
             function showFeatureDetails(category) {
@@ -1966,20 +1958,32 @@
                     ]
                 };
 
-                const card = document.querySelector(`[onclick*="showFeatureDetails('${category}')"]`).closest('.feature-card');
-                const featureList = card.querySelector('.feature-list');
+                const card = document.querySelector(`[onclick*="showFeatureDetails('${category}')"]`);
+                if (!card) return;
+                
+                const featureCard = card.closest('.feature-card');
+                if (!featureCard) return;
+                
+                const featureList = featureCard.querySelector('.feature-list');
+                if (!featureList) return;
 
                 if (featureList.dataset.expanded) {
                     // Collapse back to original
                     const initialFeatures = allFeatures[category].slice(0, 5);
                     featureList.innerHTML = initialFeatures.map(feature => `<div class="feature-item">${feature}</div>`).join('') + `<div class="feature-item">+ ${allFeatures[category].length - 5} more features</div>`;
                     delete featureList.dataset.expanded;
-                    card.querySelector('.see-more-btn').textContent = 'See More';
+                    const seeMoreBtn = featureCard.querySelector('.see-more-btn');
+                    if (seeMoreBtn) {
+                        seeMoreBtn.textContent = 'See More';
+                    }
                 } else {
                     // Expand to show all features
                     featureList.innerHTML = allFeatures[category].map(feature => `<div class="feature-item">${feature}</div>`).join('');
                     featureList.dataset.expanded = 'true';
-                    card.querySelector('.see-more-btn').textContent = 'See Less';
+                    const seeMoreBtn = featureCard.querySelector('.see-more-btn');
+                    if (seeMoreBtn) {
+                        seeMoreBtn.textContent = 'See Less';
+                    }
                 }
             }
 
@@ -1988,9 +1992,11 @@
         // Global function for generating decision tree
         function generateDecisionTree() {
             const selectedVariables = Array.from(document.querySelectorAll('input[name="rule_variables"]:checked')).map(cb => cb.value);
-            const kiScoreThreshold = document.getElementById('ki-score-threshold').value;
-            const ltvThreshold = document.getElementById('ltv-threshold').value;
-            const ageThreshold = document.getElementById('age-threshold').value;
+            
+            // Get threshold values with fallbacks
+            const kiScoreThreshold = document.getElementById('ki-score-threshold')?.value || '650';
+            const ltvThreshold = document.getElementById('ltv-threshold')?.value || '85';
+            const ageThreshold = document.getElementById('age-threshold')?.value || '21';
 
             let treeHTML = '';
 
@@ -2060,16 +2066,182 @@
                 </div>
             `;
 
-            document.getElementById('decision-tree-container').innerHTML = treeHTML;
-            lucide.createIcons(); // Reinitialize icons for new content
+            const treeContainer = document.getElementById('decision-tree-container');
+            if (treeContainer) {
+                treeContainer.innerHTML = treeHTML;
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons(); // Reinitialize icons for new content
+                }
+            }
+
+            // Generate dynamic cutoff controls based on selected variables
+            generateDynamicCutoffControls(selectedVariables);
+            
+            // Show the cutoff adjustment section
+            const cutoffSection = document.getElementById('cutoff-adjustment-section');
+            if (cutoffSection) {
+                cutoffSection.style.display = 'block';
+            }
+        }
+
+        // Function to generate dynamic cutoff controls
+        function generateDynamicCutoffControls(selectedVariables) {
+            const controlsContainer = document.getElementById('dynamic-cutoff-controls');
+            if (!controlsContainer) return;
+
+            let controlsHTML = '';
+
+            // Define variable configurations
+            const variableConfigs = {
+                ki_score: {
+                    label: 'Ki Score',
+                    condition: '<',
+                    min: 300,
+                    max: 900,
+                    step: 10,
+                    defaultValue: 650,
+                    unit: ''
+                },
+                ltv: {
+                    label: 'LTV Ratio',
+                    condition: '<',
+                    min: 50,
+                    max: 95,
+                    step: 5,
+                    defaultValue: 85,
+                    unit: '%'
+                },
+                foir: {
+                    label: 'FOIR (Fixed Obligation to Income Ratio)',
+                    condition: '<',
+                    min: 10,
+                    max: 200,
+                    step: 10,
+                    defaultValue: 60,
+                    unit: '%'
+                },
+                min_income: {
+                    label: 'Minimum Income',
+                    condition: '>',
+                    min: 10000,
+                    max: 100000,
+                    step: 1000,
+                    defaultValue: 25000,
+                    unit: '₹'
+                },
+                current_dpd_30: {
+                    label: 'Current DPD 30+',
+                    condition: '<',
+                    min: 0,
+                    max: 12,
+                    step: 1,
+                    defaultValue: 0,
+                    unit: ''
+                },
+                dpd_6months_90: {
+                    label: 'DPD Last 6 Months 90+',
+                    condition: '<',
+                    min: 0,
+                    max: 6,
+                    step: 1,
+                    defaultValue: 0,
+                    unit: ''
+                },
+                open_loans: {
+                    label: 'Number of Open Loans',
+                    condition: '<',
+                    min: 0,
+                    max: 10,
+                    step: 1,
+                    defaultValue: 3,
+                    unit: ''
+                },
+                credit_enquiries: {
+                    label: 'Credit Enquiries (Last 6 Months)',
+                    condition: '<',
+                    min: 0,
+                    max: 20,
+                    step: 1,
+                    defaultValue: 3,
+                    unit: ''
+                }
+            };
+
+            // Generate controls for each selected variable
+            selectedVariables.forEach((variable, index) => {
+                const config = variableConfigs[variable];
+                if (!config) return;
+
+                const currentValue = document.getElementById(`${variable}-threshold`)?.value || config.defaultValue;
+                const sliderId = `${variable}-slider`;
+                const displayId = `${variable}-display`;
+
+                controlsHTML += `
+                    <div class="cutoff-item">
+                        <label for="${sliderId}">${config.label} ${config.condition} Threshold:</label>
+                        <input type="range" id="${sliderId}" 
+                               min="${config.min}" max="${config.max}" 
+                               value="${currentValue}" step="${config.step}" 
+                               class="cutoff-slider" 
+                               data-variable="${variable}"
+                               data-condition="${config.condition}">
+                        <span class="cutoff-value" id="${displayId}">${currentValue}${config.unit}</span>
+                    </div>
+                `;
+            });
+
+            controlsContainer.innerHTML = controlsHTML;
+
+            // Initialize sliders for the new controls
+            initializeDynamicSliders();
+        }
+
+        // Initialize dynamic sliders
+        function initializeDynamicSliders() {
+            const sliders = document.querySelectorAll('.cutoff-slider');
+            
+            sliders.forEach(slider => {
+                const variable = slider.dataset.variable;
+                const condition = slider.dataset.condition;
+                const displayId = `${variable}-display`;
+                const display = document.getElementById(displayId);
+                
+                if (display) {
+                    // Get the unit from the variable config
+                    const units = {
+                        ki_score: '',
+                        ltv: '%',
+                        foir: '%',
+                        min_income: '₹',
+                        current_dpd_30: '',
+                        dpd_6months_90: '',
+                        open_loans: '',
+                        credit_enquiries: ''
+                    };
+                    
+                    const unit = units[variable] || '';
+                    
+                    slider.addEventListener('input', function() {
+                        display.textContent = this.value + unit;
+                    });
+                }
+            });
         }
 
         // Function to regenerate decision tree with new cutoffs
         function regenerateDecisionTree() {
+            // Get all dynamic sliders
+            const sliders = document.querySelectorAll('.cutoff-slider');
+            
             // Update threshold inputs with slider values
-            document.getElementById('ki-score-threshold').value = document.getElementById('ki-score-slider').value;
-            document.getElementById('ltv-threshold').value = document.getElementById('ltv-slider').value;
-            document.getElementById('age-threshold').value = document.getElementById('age-slider').value;
+            sliders.forEach(slider => {
+                const variable = slider.dataset.variable;
+                const thresholdInput = document.getElementById(`${variable}-threshold`);
+                
+                if (thresholdInput) {
+                    thresholdInput.value = slider.value;
+                }
+            });
             
             // Generate new tree
             generateDecisionTree();
@@ -2077,32 +2249,9 @@
 
         // Initialize slider functionality
         function initializeSliders() {
-            // Ki Score slider
-            const kiScoreSlider = document.getElementById('ki-score-slider');
-            const kiScoreDisplay = document.getElementById('ki-score-display');
-            if (kiScoreSlider && kiScoreDisplay) {
-                kiScoreSlider.addEventListener('input', function() {
-                    kiScoreDisplay.textContent = this.value;
-                });
-            }
-
-            // LTV slider
-            const ltvSlider = document.getElementById('ltv-slider');
-            const ltvDisplay = document.getElementById('ltv-display');
-            if (ltvSlider && ltvDisplay) {
-                ltvSlider.addEventListener('input', function() {
-                    ltvDisplay.textContent = this.value + '%';
-                });
-            }
-
-            // Age slider
-            const ageSlider = document.getElementById('age-slider');
-            const ageDisplay = document.getElementById('age-display');
-            if (ageSlider && ageDisplay) {
-                ageSlider.addEventListener('input', function() {
-                    ageDisplay.textContent = this.value + ' years';
-                });
-            }
+            // This function is now replaced by initializeDynamicSliders()
+            // Keeping for backward compatibility
+            initializeDynamicSliders();
         }
 
         function simulateTrainingCompletion() {
