@@ -34,22 +34,46 @@
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
             width: 100%;
-            max-width: 900px;
+            max-width: 1400px;
             margin: auto;
             overflow: hidden;
         }
-
+        
         .page {
-            padding: 2.5rem 3rem;
+            padding: 1rem 2rem;
             display: none;
         }
         .page.active {
             display: block;
         }
 
-        .header { text-align: center; margin-bottom: 2.5rem; }
+        .header { text-align: center; margin-bottom: 1.5rem; }
         .header h1 { font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; }
         .header p { font-size: 1rem; color: var(--dark-gray); max-width: 600px; margin: 0 auto; }
+
+        .header-container {
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--medium-gray);
+            padding-bottom: 1rem;
+        }
+        
+        .header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+        
+        .page-title {
+            flex: 1;
+        }
+        
+        .inline-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 0;
+        }
 
         .kaleidofin-logo {
             display: inline-block;
@@ -68,7 +92,7 @@
             height: auto;
         }
 
-        .config-section { margin-bottom: 2.5rem; }
+        .config-section { margin-bottom: 1.5rem; }
         .config-section h2 { font-size: 1.25rem; font-weight: 600; border-bottom: 1px solid var(--medium-gray); padding-bottom: 0.75rem; margin-bottom: 1.5rem; display: flex; align-items: center; }
         .config-section h2 .section-number { background-color: var(--primary-color); color: var(--white); border-radius: 50%; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; font-size: 1rem; font-weight: 600; margin-right: 0.75rem; }
 
@@ -600,7 +624,8 @@
              </section>
              <div class="button-group">
                 <button type="button" class="back-button" id="back-btn-4">Back to Mapping</button>
-                <button type="button" class="start-over-button" id="start-over-btn-2">Start Over</button>
+                <button type="button" class="secondary-button" id="build-new-model-btn">Build New Model</button>
+                <button type="button" class="submit-button" id="deploy-prebuilt-btn">Deploy Pre-built Model</button>
              </div>
         </div>
 
@@ -1314,6 +1339,10 @@
 
             // Custom Model Building Flow Event Listeners - Using Event Delegation
             document.getElementById('build-new-model-btn').addEventListener('click', () => showPage('target-selection-page'));
+            document.getElementById('deploy-prebuilt-btn').addEventListener('click', () => {
+                alert('Pre-built model deployed successfully! Redirecting to main application.');
+                window.location.href = 'africa-index.html';
+            });
             
             // Event delegation for custom model building buttons
             document.addEventListener('click', (e) => {
