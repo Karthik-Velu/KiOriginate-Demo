@@ -88,8 +88,8 @@
             transform: scale(1.02);
         }
         .kaleidofin-logo svg {
-            width: 200px;
-            height: auto;
+            width: 164px;
+            height: 30px;
         }
 
         .config-section { margin-bottom: 1.5rem; }
@@ -1009,7 +1009,7 @@
                                 <input type="checkbox" name="rule_variables" value="foir">
                                 <span class="checkmark"></span>
                                 FOIR (Fixed Obligation to Income Ratio)
-                                <input type="number" id="foir-threshold" value="0.6" min="0.1" max="2.0" step="0.1" class="threshold-input">
+                                <input type="number" id="foir-threshold" value="60" min="10" max="200" step="10" class="threshold-input">
                             </label>
                             <label class="custom-control checkbox">
                                 <input type="checkbox" name="rule_variables" value="min_income">
@@ -1021,7 +1021,7 @@
                                 <input type="checkbox" name="rule_variables" value="ltv">
                                 <span class="checkmark"></span>
                                 LTV (Loan to Value)
-                                <input type="number" id="ltv-threshold" value="0.8" min="0.1" max="1.0" step="0.05" class="threshold-input">
+                                <input type="number" id="ltv-threshold" value="80" min="50" max="95" step="5" class="threshold-input">
                             </label>
                             <label class="custom-control checkbox">
                                 <input type="checkbox" name="rule_variables" value="current_dpd_30">
@@ -1911,75 +1911,6 @@
                 
                 if (statusItems.length > 0) {
                     updateStatus();
-                }
-            }
-
-            function showFeatureDetails(category) {
-                const allFeatures = {
-                    bureau: [
-                        'credit_utilization_ratio', 'payment_history_score', 'days_since_last_inquiry',
-                        'avg_credit_per_account', 'credit_history_length', 'num_open_accounts',
-                        'total_credit_limit', 'credit_score', 'inquiry_frequency',
-                        'payment_pattern_score', 'credit_mix_score', 'credit_age_score',
-                        'delinquency_score', 'credit_inquiries_score', 'credit_age_weighted',
-                        'installment_loan_ratio', 'revolving_credit_ratio', 'credit_limit_utilization',
-                        'payment_to_income_ratio', 'debt_to_credit_limit', 'account_age_score'
-                    ],
-                    bank: [
-                        'debt_to_income_ratio', 'monthly_income_stability', 'avg_balance_3months',
-                        'transaction_frequency', 'cash_flow_pattern', 'income_volatility',
-                        'savings_rate', 'expense_pattern', 'banking_relationship_length',
-                        'account_type_score', 'transaction_amount_distribution',
-                        'balance_volatility', 'income_expense_ratio', 'transaction_patterns',
-                        'cash_flow_stability', 'account_activity_score', 'spending_patterns',
-                        'transaction_consistency', 'balance_trend_analysis', 'withdrawal_patterns'
-                    ],
-                    application: [
-                        'loan_to_income_ratio', 'employment_stability_index', 'home_ownership_flag',
-                        'education_level_score', 'loan_purpose_risk', 'age_group_score',
-                        'marital_status_score', 'residence_stability', 'employment_type_score',
-                        'industry_risk_score', 'location_risk_factor',
-                        'employment_duration_score', 'income_stability_score', 'age_risk_profile',
-                        'education_qualification_score', 'residence_duration_score', 'occupation_risk',
-                        'employment_sector_score', 'income_qualification_ratio', 'age_employment_index'
-                    ],
-                    alternative: [
-                        'digital_footprint_score', 'social_media_presence', 'device_usage_pattern',
-                        'location_stability_index', 'behavioral_risk_score', 'online_activity_score',
-                        'app_usage_pattern', 'browsing_behavior', 'social_connections',
-                        'digital_payment_history', 'ecommerce_activity',
-                        'device_switching_pattern', 'location_consistency', 'online_presence_score',
-                        'social_network_analysis', 'digital_behavior_score', 'app_engagement_rate',
-                        'online_purchase_pattern', 'digital_identity_score', 'behavioral_consistency'
-                    ]
-                };
-
-                const card = document.querySelector(`[onclick*="showFeatureDetails('${category}')"]`);
-                if (!card) return;
-                
-                const featureCard = card.closest('.feature-card');
-                if (!featureCard) return;
-                
-                const featureList = featureCard.querySelector('.feature-list');
-                if (!featureList) return;
-
-                if (featureList.dataset.expanded) {
-                    // Collapse back to original
-                    const initialFeatures = allFeatures[category].slice(0, 5);
-                    featureList.innerHTML = initialFeatures.map(feature => `<div class="feature-item">${feature}</div>`).join('') + `<div class="feature-item">+ ${allFeatures[category].length - 5} more features</div>`;
-                    delete featureList.dataset.expanded;
-                    const seeMoreBtn = featureCard.querySelector('.see-more-btn');
-                    if (seeMoreBtn) {
-                        seeMoreBtn.textContent = 'See More';
-                    }
-                } else {
-                    // Expand to show all features
-                    featureList.innerHTML = allFeatures[category].map(feature => `<div class="feature-item">${feature}</div>`).join('');
-                    featureList.dataset.expanded = 'true';
-                    const seeMoreBtn = featureCard.querySelector('.see-more-btn');
-                    if (seeMoreBtn) {
-                        seeMoreBtn.textContent = 'See Less';
-                    }
                 }
             }
 
