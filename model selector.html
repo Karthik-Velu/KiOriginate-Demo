@@ -186,11 +186,20 @@
         .decision-tree-container { background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem; margin: 1rem 0; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
         .decision-tree-container h3 { color: var(--primary-color); margin-bottom: 1rem; }
         .decision-tree { display: flex; flex-direction: column; align-items: center; }
-        .tree-node { background: #f8fafc; border: 2px solid #cbd5e1; border-radius: 0.5rem; padding: 0.75rem 1rem; margin: 0.5rem; text-align: center; min-width: 150px; }
-        .tree-node.start { background: #dbeafe; border-color: #3b82f6; }
-        .tree-node.decision { background: #fef3c7; border-color: #f59e0b; }
-        .tree-node.result { background: #dcfce7; border-color: #10b981; }
-        .tree-connector { width: 2px; height: 20px; background: #cbd5e1; margin: 0.25rem 0; }
+        .tree-node { display: flex; flex-direction: column; align-items: center; margin: 1rem 0; }
+        .root-node { margin-top: 0; }
+        .node-content { background: var(--primary-color); color: white; padding: 1rem 1.5rem; border-radius: 0.5rem; text-align: center; min-width: 200px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .node-content strong { display: block; margin-bottom: 0.5rem; font-size: 1rem; }
+        .node-rates { font-size: 0.85rem; opacity: 0.9; }
+        .tree-branches { display: flex; justify-content: center; gap: 2rem; margin-top: 1rem; position: relative; }
+        .branch { display: flex; flex-direction: column; align-items: center; position: relative; }
+        .branch::before { content: ''; position: absolute; top: -1rem; left: 50%; width: 2px; height: 1rem; background: var(--medium-gray); transform: translateX(-50%); }
+        .branch::after { content: attr(data-label); position: absolute; top: -2rem; left: 50%; transform: translateX(-50%); background: var(--light-gray); padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; color: var(--dark-gray); white-space: nowrap; }
+        .true-branch::after { content: 'True'; }
+        .false-branch::after { content: 'False'; }
+        .leaf-node { margin: 0; }
+        .leaf-node.approved .node-content { background: var(--secondary-color); }
+        .leaf-node.rejected .node-content { background: #dc2626; }
 
         .training-progress { background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem; margin: 1rem 0; }
         .training-progress h3 { color: var(--primary-color); margin-bottom: 1rem; }
@@ -303,7 +312,7 @@
     <div class="main-container">
         <!-- HEADER WITH LOGO AS BACK BUTTON -->
         <div class="text-center mb-4">
-            <a href="india-index.html" class="kaleidofin-logo" title="Back to Engine Setup">
+                            <a href="india-home.html" class="kaleidofin-logo" title="Back to Home">
                 <svg width="264" height="69" viewBox="0 0 264 69" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M0 28.6165L29.6939 14.0607V25.7053L0 40.2611V28.6165Z" fill="#0F547E"/>
                     <path d="M0 40.5523L29.6939 55.1081V43.4634L0 28.9076V40.5523Z" fill="#28B2B6"/>
@@ -868,13 +877,19 @@
                         <h4>Select Variables for Decision Tree</h4>
                         <div class="input-group">
                             <label class="custom-control checkbox">
-                                <input type="checkbox" name="rule_variables" value="foir" checked>
+                                <input type="checkbox" name="rule_variables" value="ki_score" checked disabled>
+                                <span class="checkmark"></span>
+                                <strong>Ki Score (Always First Variable)</strong>
+                                <input type="number" id="ki-score-threshold" value="650" min="300" max="900" step="10" class="threshold-input" readonly>
+                            </label>
+                            <label class="custom-control checkbox">
+                                <input type="checkbox" name="rule_variables" value="foir">
                                 <span class="checkmark"></span>
                                 FOIR (Fixed Obligation to Income Ratio)
                                 <input type="number" id="foir-threshold" value="0.6" min="0.1" max="2.0" step="0.1" class="threshold-input">
                             </label>
                             <label class="custom-control checkbox">
-                                <input type="checkbox" name="rule_variables" value="min_income" checked>
+                                <input type="checkbox" name="rule_variables" value="min_income">
                                 <span class="checkmark"></span>
                                 Minimum Income
                                 <input type="number" id="min-income-threshold" value="25000" min="10000" max="100000" step="1000" class="threshold-input">
@@ -1809,6 +1824,7 @@
 
             function generateDecisionTree() {
                 const selectedVariables = Array.from(document.querySelectorAll('input[name="rule_variables"]:checked')).map(cb => cb.value);
+                const kiScoreThreshold = document.getElementById('ki-score-threshold').value;
 
                 let treeHTML = '';
 
@@ -1817,44 +1833,59 @@
                     <div class="decision-tree-container">
                         <div class="tree-node root-node">
                             <div class="node-content">
-                                <strong>Ki Score Cutoff</strong>
-                                <div class="node-threshold">≥ 650</div>
-                                <div class="node-rates">Approval Rate: 82.5% | Default Rate: 3.2%</div>
+                                <strong>Ki Score < ${kiScoreThreshold}</strong>
+                                <div class="node-rates">61.7% Appr. ▲ 1.7% Def.</div>
                             </div>
                             <div class="tree-branches">
-                                <div class="branch yes-branch">
+                                <div class="branch true-branch">
                                     <div class="tree-node">
                                         <div class="node-content">
-                                            <strong>FOIR (Fixed Obligation to Income Ratio)</strong>
-                                            <div class="node-threshold">≤ 0.6</div>
-                                            <div class="node-rates">Approval Rate: 85.7% | Default Rate: 2.8%</div>
+                                            <strong>LTV Ratio < 85%</strong>
+                                            <div class="node-rates">59.2% Appr. ▲ 1.3% Def.</div>
                                         </div>
                                         <div class="tree-branches">
-                                            <div class="branch yes-branch">
-                                                <div class="tree-node leaf-node approved">
+                                            <div class="branch true-branch">
+                                                <div class="tree-node">
                                                     <div class="node-content">
-                                                        <strong>APPROVED</strong>
-                                                        <div class="node-confidence">Confidence: 94.2%</div>
+                                                        <strong>Applicant Age > 21yrs</strong>
+                                                        <div class="node-rates">57.2% Appr. ▲ 0.9% Def.</div>
+                                                    </div>
+                                                    <div class="tree-branches">
+                                                        <div class="branch true-branch">
+                                                            <div class="tree-node leaf-node approved">
+                                                                <div class="node-content">
+                                                                    <strong>Result</strong>
+                                                                    <div class="node-rates">57.2% Appr. ▲ 0.9% Def.</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="branch false-branch">
+                                                            <div class="tree-node leaf-node rejected">
+                                                                <div class="node-content">
+                                                                    <strong>Reject</strong>
+                                                                    <div class="node-rates">45.1% Appr. ▲ 2.1% Def.</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="branch no-branch">
+                                            <div class="branch false-branch">
                                                 <div class="tree-node leaf-node rejected">
                                                     <div class="node-content">
-                                                        <strong>REJECTED</strong>
-                                                        <div class="node-confidence">Confidence: 78.3%</div>
+                                                        <strong>Reject Bureau Score</strong>
+                                                        <div class="node-rates">38.3% Appr. ▲ 3.2% Def.</div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="branch no-branch">
+                                <div class="branch false-branch">
                                     <div class="tree-node leaf-node rejected">
                                         <div class="node-content">
-                                            <strong>REJECTED</strong>
-                                            <div class="node-confidence">Confidence: 91.5%</div>
-                                            <div class="node-rates">Approval Rate: 15.3% | Default Rate: 4.7%</div>
+                                            <strong>Reject</strong>
+                                            <div class="node-rates">25.4% Appr. ▲ 4.7% Def.</div>
                                         </div>
                                     </div>
                                 </div>
