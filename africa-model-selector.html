@@ -811,22 +811,82 @@
                 const mappingGrid = document.getElementById('mapping-grid');
                 mappingGrid.innerHTML = '<div class="grid-header">Required Model Field</div><div class="grid-header">Your CSV Column</div>'; // Clear and add headers
 
-                const requiredFields = [
+                // Base required fields (always needed)
+                const baseFields = [
                     { label: "Loan ID", key: "loan_id", hints: ["loan_id", "application_id", "loanid"] },
                     { label: "Customer ID", key: "customer_id", hints: ["customer_id", "cust_id", "customerid"] },
-                    { label: "Bureau Data (XML/Text)", key: "bureau_raw", hints: ["bureau", "xml", "report"] },
-                    { label: "Mobile Money (JSON)", key: "mobile_json", hints: ["mobile", "mpesa", "json"] },
-                    { label: "Bank Data (JSON)", key: "bank_json", hints: ["bank", "json", "account"] },
                     { label: "Age", key: "age", hints: ["age", "cust_age"] },
                     { label: "Gender", key: "gender", hints: ["gender", "sex"] },
                     { label: "Marital Status", key: "marital_status", hints: ["marital"] },
                     { label: "Location", key: "location", hints: ["location", "city", "region"] },
                     { label: "Loan Amount Requested", key: "loan_amount", hints: ["amount", "amt"] },
-                    { label: "Tenure (in months)", key: "tenure", hints: ["tenure", "term"] },
+                    { label: "Tenure (in months)", key: "tenure", hints: ["tenure", "term"] }
+                ];
+
+                // Bureau data fields (if bureau data is selected)
+                const bureauFields = [
+                    { label: "Bureau Data (XML/Text)", key: "bureau_raw", hints: ["bureau", "xml", "report"] },
+                    { label: "Credit Score", key: "credit_score", hints: ["credit_score", "score", "bureau_score"] },
+                    { label: "Number of Open Accounts", key: "open_accounts", hints: ["open_accounts", "accounts", "num_accounts"] },
+                    { label: "Total Credit Limit", key: "total_limit", hints: ["total_limit", "credit_limit", "limit"] },
+                    { label: "Days Since Last Inquiry", key: "last_inquiry", hints: ["last_inquiry", "inquiry_date", "days_inquiry"] }
+                ];
+
+                // Mobile money fields (if mobile money is selected)
+                const mobileFields = [
+                    { label: "Mobile Money (JSON)", key: "mobile_json", hints: ["mobile", "mpesa", "json"] },
+                    { label: "Monthly Mobile Money Volume", key: "mobile_volume", hints: ["mobile_volume", "mpesa_volume", "volume"] },
+                    { label: "Transaction Frequency", key: "mobile_frequency", hints: ["mobile_frequency", "mpesa_frequency", "frequency"] },
+                    { label: "Average Transaction Amount", key: "mobile_avg_amount", hints: ["mobile_avg_amount", "avg_amount", "amount"] }
+                ];
+
+                // Bank statement fields (if bank statement is selected)
+                const bankFields = [
+                    { label: "Bank Data (JSON)", key: "bank_json", hints: ["bank", "json", "account"] },
+                    { label: "Monthly Income", key: "monthly_income", hints: ["monthly_income", "income", "salary"] },
+                    { label: "Average Balance", key: "avg_balance", hints: ["avg_balance", "balance", "account_balance"] },
+                    { label: "Transaction Count", key: "transaction_count", hints: ["transaction_count", "transactions", "txn_count"] }
+                ];
+
+                // Application data fields (if additional app data is selected)
+                const appDataFields = [
+                    { label: "Employment Years", key: "employment_years", hints: ["employment_years", "work_years", "job_years"] },
+                    { label: "Home Ownership", key: "home_ownership", hints: ["home_ownership", "home_owner", "ownership"] },
+                    { label: "Loan Purpose", key: "loan_purpose", hints: ["loan_purpose", "purpose", "loan_type"] },
+                    { label: "Education Level", key: "education", hints: ["education", "education_level", "qualification"] }
+                ];
+
+                // Performance metrics (for custom model training)
+                const performanceFields = [
                     { label: "DPD 30 Performance", key: "dpd_30", hints: ["dpd_30", "dpd30", "performance_30"] },
                     { label: "DPD 60 Performance", key: "dpd_60", hints: ["dpd_60", "dpd60", "performance_60"] },
                     { label: "DPD 90 Performance", key: "dpd_90", hints: ["dpd_90", "dpd90", "performance_90"] }
                 ];
+
+                // Combine all required fields based on selections
+                let requiredFields = [...baseFields];
+
+                // Add bureau fields if bureau data is selected (it's always selected by default)
+                requiredFields = requiredFields.concat(bureauFields);
+
+                // Add mobile money fields if selected
+                if (document.getElementById('include-mobile-money').checked) {
+                    requiredFields = requiredFields.concat(mobileFields);
+                }
+
+                // Add bank statement fields if selected
+                if (document.getElementById('include-bank-statement').checked) {
+                    requiredFields = requiredFields.concat(bankFields);
+                }
+
+                // Add application data fields if any are selected
+                const selectedAppData = document.querySelectorAll('input[data-source-name]:checked');
+                if (selectedAppData.length > 0) {
+                    requiredFields = requiredFields.concat(appDataFields);
+                }
+
+                // Add performance metrics for custom model building
+                requiredFields = requiredFields.concat(performanceFields);
 
                 requiredFields.forEach(field => {
                     const labelEl = document.createElement('label');

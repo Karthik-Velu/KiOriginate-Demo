@@ -227,6 +227,16 @@
         .target-option h4 { color: var(--primary-color); margin-bottom: 0.5rem; }
         .target-option p { color: var(--dark-gray); font-size: 0.9rem; margin: 0; }
 
+        /* AutoML Process Styles */
+        .automl-process { display: flex; flex-direction: column; gap: 1rem; margin: 1rem 0; }
+        .process-step { background: white; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 1rem; }
+        .process-step h4 { color: var(--primary-color); margin-bottom: 0.5rem; font-size: 0.9rem; }
+        .process-status { display: flex; align-items: center; gap: 0.5rem; color: var(--dark-gray); font-size: 0.85rem; }
+        .final-model-selection { background: white; border: 2px solid var(--secondary-color); border-radius: 0.75rem; padding: 1.5rem; margin: 1rem 0; }
+        .selected-model h4 { color: var(--secondary-color); margin-bottom: 1rem; font-size: 1.1rem; }
+        .model-details { margin-bottom: 1rem; }
+        .model-details p { margin: 0.25rem 0; font-size: 0.9rem; color: var(--dark-gray); }
+
     </style>
 </head>
 <body>
@@ -1509,6 +1519,39 @@
                 };
                 
                 updateStatus();
+            }
+
+            function showFeatureDetails(category) {
+                const featureDetails = {
+                    bureau: [
+                        'credit_utilization_ratio', 'payment_history_score', 'days_since_last_inquiry',
+                        'avg_credit_per_account', 'credit_history_length', 'num_open_accounts',
+                        'total_credit_limit', 'credit_score', 'inquiry_frequency',
+                        'payment_pattern_score', 'credit_mix_score', 'credit_age_score'
+                    ],
+                    bank: [
+                        'debt_to_income_ratio', 'monthly_income_stability', 'avg_balance_3months',
+                        'transaction_frequency', 'cash_flow_pattern', 'income_volatility',
+                        'savings_rate', 'expense_pattern', 'banking_relationship_length',
+                        'account_type_score', 'transaction_amount_distribution'
+                    ],
+                    application: [
+                        'loan_to_income_ratio', 'employment_stability_index', 'home_ownership_flag',
+                        'education_level_score', 'loan_purpose_risk', 'age_group_score',
+                        'marital_status_score', 'residence_stability', 'employment_type_score',
+                        'industry_risk_score', 'location_risk_factor'
+                    ],
+                    alternative: [
+                        'digital_footprint_score', 'social_media_presence', 'device_usage_pattern',
+                        'location_stability_index', 'behavioral_risk_score', 'online_activity_score',
+                        'app_usage_pattern', 'browsing_behavior', 'social_connections',
+                        'digital_payment_history', 'ecommerce_activity'
+                    ]
+                };
+                
+                const details = featureDetails[category];
+                const message = `Sample features from ${category} category:\n\n${details.join('\n')}`;
+                alert(message);
             }
 
             function simulateTrainingCompletion() {
