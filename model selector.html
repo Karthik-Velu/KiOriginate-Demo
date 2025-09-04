@@ -34,7 +34,7 @@
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
             width: 100%;
-            max-width: 900px;
+            max-width: 1400px;
             margin: auto;
             overflow: hidden;
         }
@@ -291,6 +291,11 @@
         .deployment-actions { display: flex; gap: 1rem; margin-top: 1rem; flex-wrap: wrap; }
         .deployment-actions button { flex: 1; min-width: 140px; }
 
+        /* Info Icon Styles */
+        .info-icon { cursor: pointer; color: var(--secondary-color); margin-left: 0.5rem; }
+        .model-details-summary { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0; }
+        .model-details-summary p { margin: 0.25rem 0; font-size: 0.85rem; color: var(--dark-gray); }
+
     </style>
 </head>
 <body>
@@ -540,7 +545,7 @@
              <div class="button-group">
                 <button type="button" class="back-button" id="back-btn-4">Back to Mapping</button>
                 <button type="button" class="secondary-button" id="build-new-model-btn">Build New Model</button>
-                <button type="button" class="start-over-button" id="start-over-btn-2">Start Over</button>
+                <button type="button" class="submit-button" id="deploy-prebuilt-btn">Deploy Pre-built Model</button>
              </div>
         </div>
 
@@ -682,7 +687,7 @@
                 <p>Compare different algorithms with their key features and performance metrics.</p>
             </header>
             <section class="config-section">
-                <h2><span class="section-number">1</span>Model Performance Comparison</h2>
+                <h2><span class="section-number">2</span>Model Details <i class="info-icon" data-lucide="info" title="Click for model details"></i></h2>
                 <div class="model-comparison-grid">
                     <div class="model-card">
                         <h4>🏆 XGBoost (Winner)</h4>
@@ -705,32 +710,36 @@
                             </div>
                         </div>
                         <div class="feature-importance">
-                            <h5>Top 5 Features</h5>
+                            <h5>Top 5 Features (SHAP Values)</h5>
                             <div class="feature-weight">
                                 <span>credit_score</span>
                                 <div class="weight-bar" style="width: 95%"></div>
-                                <span>95%</span>
+                                <span>0.095</span>
                             </div>
                             <div class="feature-weight">
                                 <span>loan_to_income_ratio</span>
                                 <div class="weight-bar" style="width: 87%"></div>
-                                <span>87%</span>
+                                <span>0.087</span>
                             </div>
                             <div class="feature-weight">
                                 <span>debt_to_income_ratio</span>
                                 <div class="weight-bar" style="width: 82%"></div>
-                                <span>82%</span>
+                                <span>0.082</span>
                             </div>
                             <div class="feature-weight">
                                 <span>credit_history_length</span>
                                 <div class="weight-bar" style="width: 78%"></div>
-                                <span>78%</span>
+                                <span>0.078</span>
                             </div>
                             <div class="feature-weight">
                                 <span>employment_stability_index</span>
                                 <div class="weight-bar" style="width: 74%"></div>
-                                <span>74%</span>
+                                <span>0.074</span>
                             </div>
+                        </div>
+                        <div class="model-details-summary">
+                            <p><strong>Features Used:</strong> 22 (Bureau: 8, Bank: 6, App: 5, Alt: 3)</p>
+                            <p><strong>Hyperparameters:</strong> learning_rate=0.1, max_depth=8, n_estimators=150</p>
                         </div>
                     </div>
                     <div class="model-card">
@@ -754,32 +763,36 @@
                             </div>
                         </div>
                         <div class="feature-importance">
-                            <h5>Top 5 Features</h5>
+                            <h5>Top 5 Features (SHAP Values)</h5>
                             <div class="feature-weight">
                                 <span>credit_score</span>
                                 <div class="weight-bar" style="width: 92%"></div>
-                                <span>92%</span>
+                                <span>0.092</span>
                             </div>
                             <div class="feature-weight">
                                 <span>loan_to_income_ratio</span>
                                 <div class="weight-bar" style="width: 85%"></div>
-                                <span>85%</span>
+                                <span>0.085</span>
                             </div>
                             <div class="feature-weight">
                                 <span>credit_history_length</span>
                                 <div class="weight-bar" style="width: 81%"></div>
-                                <span>81%</span>
+                                <span>0.081</span>
                             </div>
                             <div class="feature-weight">
                                 <span>debt_to_income_ratio</span>
                                 <div class="weight-bar" style="width: 76%"></div>
-                                <span>76%</span>
+                                <span>0.076</span>
                             </div>
                             <div class="feature-weight">
                                 <span>employment_stability_index</span>
                                 <div class="weight-bar" style="width: 72%"></div>
-                                <span>72%</span>
+                                <span>0.072</span>
                             </div>
+                        </div>
+                        <div class="model-details-summary">
+                            <p><strong>Features Used:</strong> 18 (Bureau: 7, Bank: 5, App: 4, Alt: 2)</p>
+                            <p><strong>Hyperparameters:</strong> n_estimators=200, max_depth=15</p>
                         </div>
                     </div>
                     <div class="model-card">
@@ -803,66 +816,36 @@
                             </div>
                         </div>
                         <div class="feature-importance">
-                            <h5>Top 5 Features</h5>
+                            <h5>Top 5 Features (SHAP Values)</h5>
                             <div class="feature-weight">
                                 <span>loan_to_income_ratio</span>
                                 <div class="weight-bar" style="width: 89%"></div>
-                                <span>89%</span>
+                                <span>0.089</span>
                             </div>
                             <div class="feature-weight">
                                 <span>debt_to_income_ratio</span>
                                 <div class="weight-bar" style="width: 86%"></div>
-                                <span>86%</span>
+                                <span>0.086</span>
                             </div>
                             <div class="feature-weight">
                                 <span>credit_score</span>
                                 <div class="weight-bar" style="width: 84%"></div>
-                                <span>84%</span>
+                                <span>0.084</span>
                             </div>
                             <div class="feature-weight">
                                 <span>employment_stability_index</span>
                                 <div class="weight-bar" style="width: 79%"></div>
-                                <span>79%</span>
+                                <span>0.079</span>
                             </div>
                             <div class="feature-weight">
                                 <span>credit_history_length</span>
                                 <div class="weight-bar" style="width: 75%"></div>
-                                <span>75%</span>
+                                <span>0.075</span>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </section>
-            <section class="config-section">
-                <h2><span class="section-number">2</span>Selected Model Details</h2>
-                <div class="selected-model-details">
-                    <div class="model-summary">
-                        <h4>🎯 Final Selection: XGBoost Classifier</h4>
-                        <div class="model-specs">
-                            <p><strong>Why XGBoost?</strong> Superior performance with 88.7% AUC, excellent feature importance analysis, and robust handling of complex feature interactions.</p>
-                            <p><strong>Feature Set:</strong> 42 features selected from original 1,675 (top 2.5%)</p>
-                            <p><strong>Hyperparameters:</strong> learning_rate=0.1, max_depth=8, n_estimators=150, subsample=0.8</p>
-                        </div>
-                    </div>
-                    <div class="feature-breakdown">
-                        <h5>Feature Distribution by Category</h5>
-                        <div class="feature-category-breakdown">
-                            <div class="category-item">
-                                <span>Bureau Features</span>
-                                <span>18 features</span>
-                            </div>
-                            <div class="category-item">
-                                <span>Bank Statement Features</span>
-                                <span>12 features</span>
-                            </div>
-                            <div class="category-item">
-                                <span>Application Data Features</span>
-                                <span>8 features</span>
-                            </div>
-                            <div class="category-item">
-                                <span>Alternative Data Features</span>
-                                <span>4 features</span>
-                            </div>
+                        <div class="model-details-summary">
+                            <p><strong>Features Used:</strong> 25 (Bureau: 9, Bank: 7, App: 6, Alt: 3)</p>
+                            <p><strong>Hyperparameters:</strong> layers=[64,32,16], dropout=0.2</p>
                         </div>
                     </div>
                 </div>
@@ -882,38 +865,49 @@
                 <h2><span class="section-number">1</span>Variable Selection</h2>
                 <div class="variable-selection">
                     <div class="variable-group">
-                        <h4>Primary Variable (Always Included)</h4>
-                        <div class="selected-variable">
-                            <span>🔹 Ki Score</span>
-                            <input type="number" id="ki-score-cutoff" value="650" min="300" max="900" step="10">
-                        </div>
-                    </div>
-                    <div class="variable-group">
-                        <h4>Select Additional Variables</h4>
+                        <h4>Select Variables for Decision Tree</h4>
                         <div class="input-group">
                             <label class="custom-control checkbox">
-                                <input type="checkbox" name="rule_variables" value="loan_to_income_ratio" checked>
+                                <input type="checkbox" name="rule_variables" value="foir" checked>
                                 <span class="checkmark"></span>
-                                Loan to Income Ratio
-                                <input type="number" id="loan-income-threshold" value="0.4" min="0.1" max="1.0" step="0.05" class="threshold-input">
+                                FOIR (Fixed Obligation to Income Ratio)
+                                <input type="number" id="foir-threshold" value="0.6" min="0.1" max="2.0" step="0.1" class="threshold-input">
                             </label>
                             <label class="custom-control checkbox">
-                                <input type="checkbox" name="rule_variables" value="employment_stability" checked>
+                                <input type="checkbox" name="rule_variables" value="min_income" checked>
                                 <span class="checkmark"></span>
-                                Employment Stability Index
-                                <input type="number" id="employment-threshold" value="0.7" min="0.1" max="1.0" step="0.1" class="threshold-input">
+                                Minimum Income
+                                <input type="number" id="min-income-threshold" value="25000" min="10000" max="100000" step="1000" class="threshold-input">
                             </label>
                             <label class="custom-control checkbox">
-                                <input type="checkbox" name="rule_variables" value="credit_history_length">
+                                <input type="checkbox" name="rule_variables" value="ltv">
                                 <span class="checkmark"></span>
-                                Credit History Length (months)
-                                <input type="number" id="credit-history-threshold" value="24" min="1" max="120" step="1" class="threshold-input">
+                                LTV (Loan to Value)
+                                <input type="number" id="ltv-threshold" value="0.8" min="0.1" max="1.0" step="0.05" class="threshold-input">
                             </label>
                             <label class="custom-control checkbox">
-                                <input type="checkbox" name="rule_variables" value="debt_to_income_ratio">
+                                <input type="checkbox" name="rule_variables" value="current_dpd_30">
                                 <span class="checkmark"></span>
-                                Debt to Income Ratio
-                                <input type="number" id="debt-income-threshold" value="0.6" min="0.1" max="2.0" step="0.1" class="threshold-input">
+                                Current DPD 30+
+                                <input type="number" id="current-dpd-threshold" value="0" min="0" max="12" step="1" class="threshold-input">
+                            </label>
+                            <label class="custom-control checkbox">
+                                <input type="checkbox" name="rule_variables" value="dpd_6months_90">
+                                <span class="checkmark"></span>
+                                DPD Last 6 Months 90+
+                                <input type="number" id="dpd-6months-threshold" value="0" min="0" max="6" step="1" class="threshold-input">
+                            </label>
+                            <label class="custom-control checkbox">
+                                <input type="checkbox" name="rule_variables" value="open_loans">
+                                <span class="checkmark"></span>
+                                Number of Open Loans
+                                <input type="number" id="open-loans-threshold" value="3" min="0" max="10" step="1" class="threshold-input">
+                            </label>
+                            <label class="custom-control checkbox">
+                                <input type="checkbox" name="rule_variables" value="credit_enquiries">
+                                <span class="checkmark"></span>
+                                Credit Enquiries (Last 6 Months)
+                                <input type="number" id="credit-enquiries-threshold" value="3" min="0" max="20" step="1" class="threshold-input">
                             </label>
                         </div>
                     </div>
@@ -1085,7 +1079,6 @@
             <div class="button-group">
                 <button type="button" class="back-button" id="back-to-training-btn">Back to Training</button>
                 <button type="button" class="secondary-button" id="deploy-model-btn">Deploy Custom Model</button>
-                <button type="button" class="start-over-button" id="start-over-custom-btn">Start Over</button>
             </div>
         </div>
 
@@ -1101,24 +1094,24 @@
                         <h3>Custom XGBoost Model</h3>
                         <div class="model-badge">Production Ready</div>
                     </div>
-                    <div class="summary-details">
-                        <div class="summary-item">
-                            <span class="label">Algorithm:</span>
-                            <span class="value">XGBoost Classifier</span>
+                                            <div class="summary-details">
+                            <div class="summary-item">
+                                <span class="label">Algorithm:</span>
+                                <span class="value">XGBoost Classifier</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="label">Features Used:</span>
+                                <span class="value">22 (top 1.3% of 1,675)</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="label">Training Data:</span>
+                                <span class="value">2.3 lakh applications</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="label">Performance:</span>
+                                <span class="value">AUC-ROC: 88.7%</span>
+                            </div>
                         </div>
-                        <div class="summary-item">
-                            <span class="label">Features Used:</span>
-                            <span class="value">42 (top 2.5% of 1,675)</span>
-                        </div>
-                        <div class="summary-item">
-                            <span class="label">Training Data:</span>
-                            <span class="value">2.3 lakh applications</span>
-                        </div>
-                        <div class="summary-item">
-                            <span class="label">Performance:</span>
-                            <span class="value">AUC-ROC: 88.7%</span>
-                        </div>
-                    </div>
                 </div>
             </section>
             <section class="config-section">
@@ -1157,30 +1150,21 @@
                         <h4>📋 Final Strategy Configuration</h4>
                         <div class="strategy-details">
                             <div class="strategy-item">
-                                <span>Primary Cutoff:</span>
-                                <span>Ki Score ≥ 650</span>
+                                <span>Primary Variable:</span>
+                                <span>FOIR ≤ 0.6</span>
                             </div>
                             <div class="strategy-item">
                                 <span>Secondary Rules:</span>
-                                <span>Loan-to-Income ≤ 0.4, Employment Stability ≥ 0.7</span>
+                                <span>Min Income ≥ 25,000, DPD 30+ = 0</span>
                             </div>
                             <div class="strategy-item">
                                 <span>Estimated Approval:</span>
-                                <span>68.2% of applications</span>
+                                <span>82.5% of applications</span>
                             </div>
                             <div class="strategy-item">
                                 <span>Estimated Default:</span>
-                                <span>12.1% of approved applications</span>
+                                <span>3.2% of approved applications</span>
                             </div>
-                        </div>
-                    </div>
-                    <div class="deployment-status">
-                        <h4>🚀 Ready for Deployment</h4>
-                        <p>Your custom model has been validated and is ready to be integrated into your credit underwriting workflow.</p>
-                        <div class="deployment-actions">
-                            <button class="primary-button">Download Model Package</button>
-                            <button class="secondary-button">Schedule Deployment</button>
-                            <button class="outline-button">View Detailed Report</button>
                         </div>
                     </div>
                 </div>
@@ -1661,6 +1645,10 @@
 
             // Custom Model Building Flow Event Listeners - Using Event Delegation
             document.getElementById('build-new-model-btn').addEventListener('click', () => showPage('target-selection-page'));
+            document.getElementById('deploy-prebuilt-btn').addEventListener('click', () => {
+                alert('Pre-built model deployed successfully! Redirecting to main application.');
+                window.location.href = 'india-index.html';
+            });
             
             // Event delegation for custom model building buttons
             document.addEventListener('click', (e) => {
@@ -1820,117 +1808,60 @@
             }
 
             function generateDecisionTree() {
-                const kiScoreCutoff = document.getElementById('ki-score-cutoff').value;
                 const selectedVariables = Array.from(document.querySelectorAll('input[name="rule_variables"]:checked')).map(cb => cb.value);
 
                 let treeHTML = '';
 
-                // Build the tree based on selected variables
-                if (selectedVariables.includes('loan_to_income_ratio') && selectedVariables.includes('employment_stability')) {
-                    const loanIncomeThreshold = document.getElementById('loan-income-threshold').value;
-                    const employmentThreshold = document.getElementById('employment-threshold').value;
-
-                    treeHTML = `
-                        <div class="decision-tree-container">
-                            <div class="tree-node root-node">
-                                <div class="node-content">
-                                    <strong>Ki Score Cutoff</strong>
-                                    <div class="node-threshold">≥ ${kiScoreCutoff}</div>
-                                    <div class="node-rates">Approval Rate: 68.2% | Default Rate: 12.1%</div>
-                                </div>
-                                <div class="tree-branches">
-                                    <div class="branch yes-branch">
-                                        <div class="tree-node">
-                                            <div class="node-content">
-                                                <strong>Loan to Income Ratio</strong>
-                                                <div class="node-threshold">≤ ${loanIncomeThreshold}</div>
-                                                <div class="node-rates">Approval Rate: 82.5% | Default Rate: 8.3%</div>
-                                            </div>
-                                            <div class="tree-branches">
-                                                <div class="branch yes-branch">
-                                                    <div class="tree-node leaf-node approved">
-                                                        <div class="node-content">
-                                                            <strong>APPROVED</strong>
-                                                            <div class="node-confidence">Confidence: 94.2%</div>
-                                                        </div>
+                // Always start with Ki Score as primary rule
+                treeHTML = `
+                    <div class="decision-tree-container">
+                        <div class="tree-node root-node">
+                            <div class="node-content">
+                                <strong>Ki Score Cutoff</strong>
+                                <div class="node-threshold">≥ 650</div>
+                                <div class="node-rates">Approval Rate: 82.5% | Default Rate: 3.2%</div>
+                            </div>
+                            <div class="tree-branches">
+                                <div class="branch yes-branch">
+                                    <div class="tree-node">
+                                        <div class="node-content">
+                                            <strong>FOIR (Fixed Obligation to Income Ratio)</strong>
+                                            <div class="node-threshold">≤ 0.6</div>
+                                            <div class="node-rates">Approval Rate: 85.7% | Default Rate: 2.8%</div>
+                                        </div>
+                                        <div class="tree-branches">
+                                            <div class="branch yes-branch">
+                                                <div class="tree-node leaf-node approved">
+                                                    <div class="node-content">
+                                                        <strong>APPROVED</strong>
+                                                        <div class="node-confidence">Confidence: 94.2%</div>
                                                     </div>
                                                 </div>
-                                                <div class="branch no-branch">
-                                                    <div class="tree-node">
-                                                        <div class="node-content">
-                                                            <strong>Employment Stability</strong>
-                                                            <div class="node-threshold">≥ ${employmentThreshold}</div>
-                                                            <div class="node-rates">Approval Rate: 71.8% | Default Rate: 15.2%</div>
-                                                        </div>
-                                                        <div class="tree-branches">
-                                                            <div class="branch yes-branch">
-                                                                <div class="tree-node leaf-node approved">
-                                                                    <div class="node-content">
-                                                                        <strong>APPROVED</strong>
-                                                                        <div class="node-confidence">Confidence: 87.1%</div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="branch no-branch">
-                                                                <div class="tree-node leaf-node rejected">
-                                                                    <div class="node-content">
-                                                                        <strong>REJECTED</strong>
-                                                                        <div class="node-confidence">Confidence: 78.3%</div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                            </div>
+                                            <div class="branch no-branch">
+                                                <div class="tree-node leaf-node rejected">
+                                                    <div class="node-content">
+                                                        <strong>REJECTED</strong>
+                                                        <div class="node-confidence">Confidence: 78.3%</div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="branch no-branch">
-                                        <div class="tree-node leaf-node rejected">
-                                            <div class="node-content">
-                                                <strong>REJECTED</strong>
-                                                <div class="node-confidence">Confidence: 91.5%</div>
-                                                <div class="node-rates">Approval Rate: 15.3% | Default Rate: 45.7%</div>
-                                            </div>
+                                </div>
+                                <div class="branch no-branch">
+                                    <div class="tree-node leaf-node rejected">
+                                        <div class="node-content">
+                                            <strong>REJECTED</strong>
+                                            <div class="node-confidence">Confidence: 91.5%</div>
+                                            <div class="node-rates">Approval Rate: 15.3% | Default Rate: 4.7%</div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    `;
-                } else {
-                    // Simple tree with just Ki Score
-                    treeHTML = `
-                        <div class="decision-tree-container">
-                            <div class="tree-node root-node">
-                                <div class="node-content">
-                                    <strong>Ki Score Cutoff</strong>
-                                    <div class="node-threshold">≥ ${kiScoreCutoff}</div>
-                                    <div class="node-rates">Approval Rate: 68.2% | Default Rate: 12.1%</div>
-                                </div>
-                                <div class="tree-branches">
-                                    <div class="branch yes-branch">
-                                        <div class="tree-node leaf-node approved">
-                                            <div class="node-content">
-                                                <strong>APPROVED</strong>
-                                                <div class="node-confidence">Confidence: 91.3%</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="branch no-branch">
-                                        <div class="tree-node leaf-node rejected">
-                                            <div class="node-content">
-                                                <strong>REJECTED</strong>
-                                                <div class="node-confidence">Confidence: 89.7%</div>
-                                                <div class="node-rates">Approval Rate: 15.3% | Default Rate: 45.7%</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                }
+                    </div>
+                `;
 
                 document.getElementById('decision-tree-container').innerHTML = treeHTML;
                 lucide.createIcons(); // Reinitialize icons for new content
