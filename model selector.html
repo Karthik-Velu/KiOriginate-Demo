@@ -2000,58 +2000,100 @@
             const openLoansThreshold = document.getElementById('open_loans-threshold')?.value || '3';
             const creditEnquiriesThreshold = document.getElementById('credit_enquiries-threshold')?.value || '5';
 
-            // Calculate progressive rates based on selected variables
+            // Calculate dynamic rates based on cutoff values
             let baseApprovalRate = 85;
             let baseDefaultRate = 2.5;
-            const rateReductionPerRule = 3; // Each rule reduces approval rate by 3%
-            const defaultRateReductionPerRule = 0.4; // Each rule reduces default rate by 0.4%
 
             let treeHTML = '<div class="decision-tree-container">';
             treeHTML += '<div class="tree-flow">';
 
             selectedVariables.forEach((variable, index) => {
-                const currentApprovalRate = baseApprovalRate - (index * rateReductionPerRule);
-                const currentDefaultRate = baseDefaultRate - (index * defaultRateReductionPerRule);
+                // Calculate rates based on the specific cutoff value and variable type
+                let currentApprovalRate, currentDefaultRate;
+                
+                switch(variable) {
+                    case 'ki_score':
+                        // Higher Ki Score threshold = stricter = lower approval, lower default
+                        const kiScoreNum = parseFloat(kiScoreThreshold);
+                        currentApprovalRate = Math.max(60, baseApprovalRate - (kiScoreNum - 650) * 0.1);
+                        currentDefaultRate = Math.max(0.5, baseDefaultRate - (kiScoreNum - 650) * 0.02);
+                        break;
+                    case 'ltv':
+                        // Lower LTV threshold = stricter = lower approval, lower default
+                        const ltvNum = parseFloat(ltvThreshold);
+                        currentApprovalRate = Math.max(65, baseApprovalRate - (85 - ltvNum) * 0.8);
+                        currentDefaultRate = Math.max(0.8, baseDefaultRate - (85 - ltvNum) * 0.15);
+                        break;
+                    case 'foir':
+                        // Lower FOIR threshold = stricter = lower approval, lower default
+                        const foirNum = parseFloat(foirThreshold);
+                        currentApprovalRate = Math.max(70, baseApprovalRate - (60 - foirNum) * 0.5);
+                        currentDefaultRate = Math.max(1.0, baseDefaultRate - (60 - foirNum) * 0.1);
+                        break;
+                    case 'min_income':
+                        // Higher income threshold = stricter = lower approval, lower default
+                        const incomeNum = parseFloat(minIncomeThreshold);
+                        currentApprovalRate = Math.max(55, baseApprovalRate - (incomeNum - 25000) * 0.0003);
+                        currentDefaultRate = Math.max(0.3, baseDefaultRate - (incomeNum - 25000) * 0.00005);
+                        break;
+                    case 'dpd_30':
+                        // Lower DPD threshold = stricter = lower approval, lower default
+                        const dpd30Num = parseFloat(dpd30Threshold);
+                        currentApprovalRate = Math.max(75, baseApprovalRate - dpd30Num * 2);
+                        currentDefaultRate = Math.max(0.5, baseDefaultRate - dpd30Num * 0.3);
+                        break;
+                    case 'dpd_90':
+                        // Lower DPD threshold = stricter = lower approval, lower default
+                        const dpd90Num = parseFloat(dpd90Threshold);
+                        currentApprovalRate = Math.max(70, baseApprovalRate - dpd90Num * 1.5);
+                        currentDefaultRate = Math.max(0.8, baseDefaultRate - dpd90Num * 0.2);
+                        break;
+                    case 'open_loans':
+                        // Lower open loans threshold = stricter = lower approval, lower default
+                        const openLoansNum = parseFloat(openLoansThreshold);
+                        currentApprovalRate = Math.max(60, baseApprovalRate - (3 - openLoansNum) * 5);
+                        currentDefaultRate = Math.max(0.5, baseDefaultRate - (3 - openLoansNum) * 0.8);
+                        break;
+                    case 'credit_enquiries':
+                        // Lower enquiries threshold = stricter = lower approval, lower default
+                        const enquiriesNum = parseFloat(creditEnquiriesThreshold);
+                        currentApprovalRate = Math.max(65, baseApprovalRate - (5 - enquiriesNum) * 3);
+                        currentDefaultRate = Math.max(0.6, baseDefaultRate - (5 - enquiriesNum) * 0.4);
+                        break;
+                    default:
+                        currentApprovalRate = baseApprovalRate - (index * 3);
+                        currentDefaultRate = baseDefaultRate - (index * 0.4);
+                }
                 
                 let condition = '';
-                let threshold = '';
                 
                 switch(variable) {
                     case 'ki_score':
                         condition = `Ki Score < ${kiScoreThreshold}`;
-                        threshold = kiScoreThreshold;
                         break;
                     case 'ltv':
                         condition = `LTV Ratio < ${ltvThreshold}%`;
-                        threshold = ltvThreshold;
                         break;
                     case 'foir':
                         condition = `FOIR < ${foirThreshold}%`;
-                        threshold = foirThreshold;
                         break;
                     case 'min_income':
                         condition = `Min Income > ${minIncomeThreshold} ₹`;
-                        threshold = minIncomeThreshold;
                         break;
                     case 'dpd_30':
                         condition = `Current DPD 30+ < ${dpd30Threshold}`;
-                        threshold = dpd30Threshold;
                         break;
                     case 'dpd_90':
                         condition = `DPD Last 6 Months 90+ < ${dpd90Threshold}`;
-                        threshold = dpd90Threshold;
                         break;
                     case 'open_loans':
                         condition = `No. of Open Loans < ${openLoansThreshold}`;
-                        threshold = openLoansThreshold;
                         break;
                     case 'credit_enquiries':
                         condition = `Credit Enquiries (Last 6 Months) < ${creditEnquiriesThreshold}`;
-                        threshold = creditEnquiriesThreshold;
                         break;
                     default:
                         condition = `${variable} < threshold`;
-                        threshold = 'N/A';
                 }
 
                 treeHTML += `
@@ -2072,9 +2114,44 @@
                 }
             });
 
-            // Add final APPROVE node
-            const finalApprovalRate = baseApprovalRate - (selectedVariables.length * rateReductionPerRule);
-            const finalDefaultRate = baseDefaultRate - (selectedVariables.length * defaultRateReductionPerRule);
+            // Calculate final rates based on the most restrictive rule
+            let finalApprovalRate = baseApprovalRate;
+            let finalDefaultRate = baseDefaultRate;
+            
+            // Apply the most restrictive rule's impact
+            selectedVariables.forEach((variable, index) => {
+                const kiScoreNum = parseFloat(kiScoreThreshold);
+                const ltvNum = parseFloat(ltvThreshold);
+                const foirNum = parseFloat(foirThreshold);
+                const incomeNum = parseFloat(minIncomeThreshold);
+                const dpd30Num = parseFloat(dpd30Threshold);
+                const dpd90Num = parseFloat(dpd90Threshold);
+                const openLoansNum = parseFloat(openLoansThreshold);
+                const enquiriesNum = parseFloat(creditEnquiriesThreshold);
+                
+                // Apply cumulative effects of all rules
+                finalApprovalRate -= (kiScoreNum - 650) * 0.05;
+                finalApprovalRate -= (85 - ltvNum) * 0.4;
+                finalApprovalRate -= (60 - foirNum) * 0.25;
+                finalApprovalRate -= (incomeNum - 25000) * 0.00015;
+                finalApprovalRate -= dpd30Num * 1;
+                finalApprovalRate -= dpd90Num * 0.75;
+                finalApprovalRate -= (3 - openLoansNum) * 2.5;
+                finalApprovalRate -= (5 - enquiriesNum) * 1.5;
+                
+                finalDefaultRate -= (kiScoreNum - 650) * 0.01;
+                finalDefaultRate -= (85 - ltvNum) * 0.075;
+                finalDefaultRate -= (60 - foirNum) * 0.05;
+                finalDefaultRate -= (incomeNum - 25000) * 0.000025;
+                finalDefaultRate -= dpd30Num * 0.15;
+                finalDefaultRate -= dpd90Num * 0.1;
+                finalDefaultRate -= (3 - openLoansNum) * 0.4;
+                finalDefaultRate -= (5 - enquiriesNum) * 0.2;
+            });
+            
+            // Ensure rates are within reasonable bounds
+            finalApprovalRate = Math.max(40, Math.min(85, finalApprovalRate));
+            finalDefaultRate = Math.max(0.2, Math.min(5, finalDefaultRate));
             
             treeHTML += `
                 <div class="tree-node approve-node">
