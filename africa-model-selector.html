@@ -825,27 +825,17 @@
 
                 // Bureau data fields (if bureau data is selected)
                 const bureauFields = [
-                    { label: "Bureau Data (XML/Text)", key: "bureau_raw", hints: ["bureau", "xml", "report"] },
-                    { label: "Credit Score", key: "credit_score", hints: ["credit_score", "score", "bureau_score"] },
-                    { label: "Number of Open Accounts", key: "open_accounts", hints: ["open_accounts", "accounts", "num_accounts"] },
-                    { label: "Total Credit Limit", key: "total_limit", hints: ["total_limit", "credit_limit", "limit"] },
-                    { label: "Days Since Last Inquiry", key: "last_inquiry", hints: ["last_inquiry", "inquiry_date", "days_inquiry"] }
+                    { label: "Bureau Data (XML)", key: "bureau_raw", hints: ["bureau", "xml", "report"] }
                 ];
 
                 // Mobile money fields (if mobile money is selected)
                 const mobileFields = [
-                    { label: "Mobile Money (JSON)", key: "mobile_json", hints: ["mobile", "mpesa", "json"] },
-                    { label: "Monthly Mobile Money Volume", key: "mobile_volume", hints: ["mobile_volume", "mpesa_volume", "volume"] },
-                    { label: "Transaction Frequency", key: "mobile_frequency", hints: ["mobile_frequency", "mpesa_frequency", "frequency"] },
-                    { label: "Average Transaction Amount", key: "mobile_avg_amount", hints: ["mobile_avg_amount", "avg_amount", "amount"] }
+                    { label: "Mobile Money (XML)", key: "mobile_json", hints: ["mobile", "mpesa", "xml"] }
                 ];
 
                 // Bank statement fields (if bank statement is selected)
                 const bankFields = [
-                    { label: "Bank Data (JSON)", key: "bank_json", hints: ["bank", "json", "account"] },
-                    { label: "Monthly Income", key: "monthly_income", hints: ["monthly_income", "income", "salary"] },
-                    { label: "Average Balance", key: "avg_balance", hints: ["avg_balance", "balance", "account_balance"] },
-                    { label: "Transaction Count", key: "transaction_count", hints: ["transaction_count", "transactions", "txn_count"] }
+                    { label: "Bank Statement (XML)", key: "bank_json", hints: ["bank", "xml", "statement"] }
                 ];
 
                 // Application data fields (if additional app data is selected)

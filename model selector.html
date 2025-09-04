@@ -237,13 +237,67 @@
         .model-details { margin-bottom: 1rem; }
         .model-details p { margin: 0.25rem 0; font-size: 0.9rem; color: var(--dark-gray); }
 
+        /* Model Comparison Styles */
+        .model-comparison-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin: 1rem 0; }
+        .model-card { background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .model-card h4 { color: var(--primary-color); margin-bottom: 1rem; font-size: 1.1rem; }
+        .feature-importance { margin-top: 1.5rem; }
+        .feature-importance h5 { color: var(--dark-gray); margin-bottom: 0.75rem; font-size: 0.9rem; }
+        .feature-weight { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; font-size: 0.85rem; }
+        .feature-weight span:first-child { min-width: 150px; }
+        .weight-bar { height: 8px; background: var(--secondary-color); border-radius: 4px; transition: width 0.3s ease; }
+        .selected-model-details { display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; margin: 1rem 0; }
+        .model-summary { background: white; border: 2px solid var(--secondary-color); border-radius: 0.75rem; padding: 1.5rem; }
+        .model-summary h4 { color: var(--secondary-color); margin-bottom: 1rem; }
+        .feature-breakdown { background: white; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 1.5rem; }
+        .feature-breakdown h5 { margin-bottom: 1rem; color: var(--dark-gray); }
+        .feature-category-breakdown { display: flex; flex-direction: column; gap: 0.5rem; }
+        .category-item { display: flex; justify-content: space-between; padding: 0.5rem; background: #f8fafc; border-radius: 0.25rem; font-size: 0.9rem; }
+
+        /* Rules Configuration Styles */
+        .variable-selection { margin: 1rem 0; }
+        .variable-group { margin-bottom: 2rem; }
+        .variable-group h4 { color: var(--primary-color); margin-bottom: 1rem; }
+        .selected-variable { display: flex; align-items: center; gap: 1rem; padding: 1rem; background: #f0f9ff; border: 1px solid var(--primary-color); border-radius: 0.5rem; }
+        .selected-variable span { font-weight: 600; color: var(--primary-color); }
+        .selected-variable input { width: 100px; padding: 0.25rem; border: 1px solid #d1d5db; border-radius: 0.25rem; }
+        .threshold-input { width: 100px; margin-left: auto; padding: 0.25rem; border: 1px solid #d1d5db; border-radius: 0.25rem; }
+        .tree-placeholder { text-align: center; padding: 3rem; color: var(--dark-gray); font-style: italic; }
+        .node-rates { font-size: 0.8rem; color: var(--dark-gray); margin-top: 0.25rem; }
+
+        /* Final Model Summary Styles */
+        .model-summary-card { background: white; border: 2px solid var(--secondary-color); border-radius: 0.75rem; padding: 1.5rem; margin: 1rem 0; }
+        .summary-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+        .summary-header h3 { color: var(--primary-color); margin: 0; }
+        .model-badge { background: var(--secondary-color); color: white; padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.8rem; font-weight: 600; }
+        .summary-details { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .summary-item { display: flex; justify-content: space-between; padding: 0.75rem; background: #f8fafc; border-radius: 0.5rem; }
+        .summary-item .label { font-weight: 600; color: var(--dark-gray); }
+        .summary-item .value { color: var(--primary-color); font-weight: 600; }
+        .impact-metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 1rem 0; }
+        .impact-card { background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .impact-icon { font-size: 2rem; margin-bottom: 1rem; }
+        .impact-content h4 { color: var(--primary-color); margin-bottom: 0.5rem; }
+        .impact-value { font-size: 1.5rem; font-weight: 700; color: var(--secondary-color); margin-bottom: 0.25rem; }
+        .impact-change { font-size: 0.9rem; font-weight: 600; }
+        .impact-change.positive { color: #16a34a; }
+        .strategy-overview { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 1rem 0; }
+        .strategy-summary { background: white; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 1.5rem; }
+        .strategy-summary h4 { color: var(--primary-color); margin-bottom: 1rem; }
+        .strategy-details { display: flex; flex-direction: column; gap: 0.75rem; }
+        .strategy-item { display: flex; justify-content: space-between; padding: 0.5rem; background: #f8fafc; border-radius: 0.25rem; font-size: 0.9rem; }
+        .deployment-status { background: white; border: 2px solid var(--secondary-color); border-radius: 0.5rem; padding: 1.5rem; }
+        .deployment-status h4 { color: var(--secondary-color); margin-bottom: 0.5rem; }
+        .deployment-actions { display: flex; gap: 1rem; margin-top: 1rem; flex-wrap: wrap; }
+        .deployment-actions button { flex: 1; min-width: 140px; }
+
     </style>
 </head>
 <body>
 
     <div class="main-container">
         <!-- HEADER WITH LOGO AS BACK BUTTON -->
-        <div class="text-center mb-8">
+        <div class="text-center mb-4">
             <a href="india-index.html" class="kaleidofin-logo" title="Back to Engine Setup">
                 <svg width="264" height="69" viewBox="0 0 264 69" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M0 28.6165L29.6939 14.0607V25.7053L0 40.2611V28.6165Z" fill="#0F547E"/>
@@ -624,60 +678,66 @@
 
         <div id="algorithm-selection-page" class="page">
             <header class="header">
-                <h1>Automated Algorithm Selection & Hyperparameter Tuning</h1>
-                <p>Our system is automatically selecting the best algorithm and optimizing hyperparameters for your data.</p>
+                <h1>Model Comparison & Feature Importance Analysis</h1>
+                <p>Compare different algorithms with their key features and performance metrics.</p>
             </header>
             <section class="config-section">
-                <h2><span class="section-number">1</span>Algorithm Evaluation Progress</h2>
-                <div class="algorithm-evaluation">
-                    <div class="evaluation-item">
-                        <div class="algorithm-name">Random Forest</div>
-                        <div class="evaluation-status">
-                            <i data-lucide="check-circle" style="color: var(--secondary-color);"></i>
-                            <span>Best Performance: 87.3% AUC</span>
-                        </div>
-                    </div>
-                    <div class="evaluation-item">
-                        <div class="algorithm-name">XGBoost</div>
-                        <div class="evaluation-status">
-                            <i data-lucide="check-circle" style="color: var(--secondary-color);"></i>
-                            <span>Performance: 86.1% AUC</span>
-                        </div>
-                    </div>
-                    <div class="evaluation-item">
-                        <div class="algorithm-name">LightGBM</div>
-                        <div class="evaluation-status">
-                            <i data-lucide="check-circle" style="color: var(--secondary-color);"></i>
-                            <span>Performance: 85.8% AUC</span>
-                        </div>
-                    </div>
-                    <div class="evaluation-item">
-                        <div class="algorithm-name">Neural Network</div>
-                        <div class="evaluation-status">
-                            <i data-lucide="check-circle" style="color: var(--secondary-color);"></i>
-                            <span>Performance: 84.2% AUC</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section class="config-section">
-                <h2><span class="section-number">2</span>Selected Algorithm: Random Forest</h2>
-                <div class="selected-algorithm-details">
-                    <div class="algorithm-info">
-                        <h4>Optimized Hyperparameters:</h4>
-                        <ul>
-                            <li>n_estimators: 200</li>
-                            <li>max_depth: 15</li>
-                            <li>min_samples_split: 10</li>
-                            <li>min_samples_leaf: 5</li>
-                            <li>random_state: 42</li>
-                        </ul>
-                    </div>
-                    <div class="performance-metrics">
-                        <h4>Cross-Validation Performance:</h4>
-                        <div class="metric-grid">
+                <h2><span class="section-number">1</span>Model Performance Comparison</h2>
+                <div class="model-comparison-grid">
+                    <div class="model-card">
+                        <h4>🏆 XGBoost (Winner)</h4>
+                        <div class="performance-metrics">
                             <div class="metric-item">
-                                <span class="metric-label">AUC Score</span>
+                                <span class="metric-label">AUC-ROC</span>
+                                <span class="metric-value">88.7%</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">Precision</span>
+                                <span class="metric-value">84.2%</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">Recall</span>
+                                <span class="metric-value">87.1%</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">F1-Score</span>
+                                <span class="metric-value">85.6%</span>
+                            </div>
+                        </div>
+                        <div class="feature-importance">
+                            <h5>Top 5 Features</h5>
+                            <div class="feature-weight">
+                                <span>credit_score</span>
+                                <div class="weight-bar" style="width: 95%"></div>
+                                <span>95%</span>
+                            </div>
+                            <div class="feature-weight">
+                                <span>loan_to_income_ratio</span>
+                                <div class="weight-bar" style="width: 87%"></div>
+                                <span>87%</span>
+                            </div>
+                            <div class="feature-weight">
+                                <span>debt_to_income_ratio</span>
+                                <div class="weight-bar" style="width: 82%"></div>
+                                <span>82%</span>
+                            </div>
+                            <div class="feature-weight">
+                                <span>credit_history_length</span>
+                                <div class="weight-bar" style="width: 78%"></div>
+                                <span>78%</span>
+                            </div>
+                            <div class="feature-weight">
+                                <span>employment_stability_index</span>
+                                <div class="weight-bar" style="width: 74%"></div>
+                                <span>74%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="model-card">
+                        <h4>🌲 Random Forest</h4>
+                        <div class="performance-metrics">
+                            <div class="metric-item">
+                                <span class="metric-label">AUC-ROC</span>
                                 <span class="metric-value">87.3%</span>
                             </div>
                             <div class="metric-item">
@@ -689,8 +749,119 @@
                                 <span class="metric-value">85.7%</span>
                             </div>
                             <div class="metric-item">
-                                <span class="metric-label">F1 Score</span>
+                                <span class="metric-label">F1-Score</span>
                                 <span class="metric-value">83.9%</span>
+                            </div>
+                        </div>
+                        <div class="feature-importance">
+                            <h5>Top 5 Features</h5>
+                            <div class="feature-weight">
+                                <span>credit_score</span>
+                                <div class="weight-bar" style="width: 92%"></div>
+                                <span>92%</span>
+                            </div>
+                            <div class="feature-weight">
+                                <span>loan_to_income_ratio</span>
+                                <div class="weight-bar" style="width: 85%"></div>
+                                <span>85%</span>
+                            </div>
+                            <div class="feature-weight">
+                                <span>credit_history_length</span>
+                                <div class="weight-bar" style="width: 81%"></div>
+                                <span>81%</span>
+                            </div>
+                            <div class="feature-weight">
+                                <span>debt_to_income_ratio</span>
+                                <div class="weight-bar" style="width: 76%"></div>
+                                <span>76%</span>
+                            </div>
+                            <div class="feature-weight">
+                                <span>employment_stability_index</span>
+                                <div class="weight-bar" style="width: 72%"></div>
+                                <span>72%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="model-card">
+                        <h4>🧠 Neural Network</h4>
+                        <div class="performance-metrics">
+                            <div class="metric-item">
+                                <span class="metric-label">AUC-ROC</span>
+                                <span class="metric-value">86.1%</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">Precision</span>
+                                <span class="metric-value">81.3%</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">Recall</span>
+                                <span class="metric-value">84.2%</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">F1-Score</span>
+                                <span class="metric-value">82.7%</span>
+                            </div>
+                        </div>
+                        <div class="feature-importance">
+                            <h5>Top 5 Features</h5>
+                            <div class="feature-weight">
+                                <span>loan_to_income_ratio</span>
+                                <div class="weight-bar" style="width: 89%"></div>
+                                <span>89%</span>
+                            </div>
+                            <div class="feature-weight">
+                                <span>debt_to_income_ratio</span>
+                                <div class="weight-bar" style="width: 86%"></div>
+                                <span>86%</span>
+                            </div>
+                            <div class="feature-weight">
+                                <span>credit_score</span>
+                                <div class="weight-bar" style="width: 84%"></div>
+                                <span>84%</span>
+                            </div>
+                            <div class="feature-weight">
+                                <span>employment_stability_index</span>
+                                <div class="weight-bar" style="width: 79%"></div>
+                                <span>79%</span>
+                            </div>
+                            <div class="feature-weight">
+                                <span>credit_history_length</span>
+                                <div class="weight-bar" style="width: 75%"></div>
+                                <span>75%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="config-section">
+                <h2><span class="section-number">2</span>Selected Model Details</h2>
+                <div class="selected-model-details">
+                    <div class="model-summary">
+                        <h4>🎯 Final Selection: XGBoost Classifier</h4>
+                        <div class="model-specs">
+                            <p><strong>Why XGBoost?</strong> Superior performance with 88.7% AUC, excellent feature importance analysis, and robust handling of complex feature interactions.</p>
+                            <p><strong>Feature Set:</strong> 42 features selected from original 1,675 (top 2.5%)</p>
+                            <p><strong>Hyperparameters:</strong> learning_rate=0.1, max_depth=8, n_estimators=150, subsample=0.8</p>
+                        </div>
+                    </div>
+                    <div class="feature-breakdown">
+                        <h5>Feature Distribution by Category</h5>
+                        <div class="feature-category-breakdown">
+                            <div class="category-item">
+                                <span>Bureau Features</span>
+                                <span>18 features</span>
+                            </div>
+                            <div class="category-item">
+                                <span>Bank Statement Features</span>
+                                <span>12 features</span>
+                            </div>
+                            <div class="category-item">
+                                <span>Application Data Features</span>
+                                <span>8 features</span>
+                            </div>
+                            <div class="category-item">
+                                <span>Alternative Data Features</span>
+                                <span>4 features</span>
                             </div>
                         </div>
                     </div>
@@ -705,105 +876,63 @@
         <div id="rules-configuration-page" class="page">
             <header class="header">
                 <h1>Rules Configuration & Decision Tree</h1>
-                <p>Configure decision rules based on the trained model. The Ki Score cutoff is always the starting point.</p>
+                <p>Select variables and configure cutoffs to build your custom decision tree.</p>
             </header>
             <section class="config-section">
-                <h2><span class="section-number">1</span>Decision Tree Structure</h2>
-                <div class="decision-tree-container">
-                    <div class="tree-node root-node">
-                        <div class="node-content">
-                            <strong>Ki Score Cutoff</strong>
-                            <div class="node-threshold">≥ 650</div>
+                <h2><span class="section-number">1</span>Variable Selection</h2>
+                <div class="variable-selection">
+                    <div class="variable-group">
+                        <h4>Primary Variable (Always Included)</h4>
+                        <div class="selected-variable">
+                            <span>🔹 Ki Score</span>
+                            <input type="number" id="ki-score-cutoff" value="650" min="300" max="900" step="10">
                         </div>
-                        <div class="tree-branches">
-                            <div class="branch yes-branch">
-                                <div class="tree-node">
-                                    <div class="node-content">
-                                        <strong>Loan to Income Ratio</strong>
-                                        <div class="node-threshold">≤ 0.4</div>
-                                    </div>
-                                    <div class="tree-branches">
-                                        <div class="branch yes-branch">
-                                            <div class="tree-node leaf-node approved">
-                                                <div class="node-content">
-                                                    <strong>APPROVED</strong>
-                                                    <div class="node-confidence">Confidence: 94.2%</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="branch no-branch">
-                                            <div class="tree-node">
-                                                <div class="node-content">
-                                                    <strong>Employment Stability</strong>
-                                                    <div class="node-threshold">≥ 0.7</div>
-                                                </div>
-                                                <div class="tree-branches">
-                                                    <div class="branch yes-branch">
-                                                        <div class="tree-node leaf-node approved">
-                                                            <div class="node-content">
-                                                                <strong>APPROVED</strong>
-                                                                <div class="node-confidence">Confidence: 87.1%</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="branch no-branch">
-                                                        <div class="tree-node leaf-node rejected">
-                                                            <div class="node-content">
-                                                                <strong>REJECTED</strong>
-                                                                <div class="node-confidence">Confidence: 78.3%</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="branch no-branch">
-                                <div class="tree-node leaf-node rejected">
-                                    <div class="node-content">
-                                        <strong>REJECTED</strong>
-                                        <div class="node-confidence">Confidence: 91.5%</div>
-                                    </div>
-                                </div>
-                            </div>
+                    </div>
+                    <div class="variable-group">
+                        <h4>Select Additional Variables</h4>
+                        <div class="input-group">
+                            <label class="custom-control checkbox">
+                                <input type="checkbox" name="rule_variables" value="loan_to_income_ratio" checked>
+                                <span class="checkmark"></span>
+                                Loan to Income Ratio
+                                <input type="number" id="loan-income-threshold" value="0.4" min="0.1" max="1.0" step="0.05" class="threshold-input">
+                            </label>
+                            <label class="custom-control checkbox">
+                                <input type="checkbox" name="rule_variables" value="employment_stability" checked>
+                                <span class="checkmark"></span>
+                                Employment Stability Index
+                                <input type="number" id="employment-threshold" value="0.7" min="0.1" max="1.0" step="0.1" class="threshold-input">
+                            </label>
+                            <label class="custom-control checkbox">
+                                <input type="checkbox" name="rule_variables" value="credit_history_length">
+                                <span class="checkmark"></span>
+                                Credit History Length (months)
+                                <input type="number" id="credit-history-threshold" value="24" min="1" max="120" step="1" class="threshold-input">
+                            </label>
+                            <label class="custom-control checkbox">
+                                <input type="checkbox" name="rule_variables" value="debt_to_income_ratio">
+                                <span class="checkmark"></span>
+                                Debt to Income Ratio
+                                <input type="number" id="debt-income-threshold" value="0.6" min="0.1" max="2.0" step="0.1" class="threshold-input">
+                            </label>
                         </div>
                     </div>
                 </div>
+                <div class="button-group" style="justify-content: center; margin: 2rem 0;">
+                    <button type="button" class="submit-button" id="generate-tree-btn" onclick="generateDecisionTree()">Generate Decision Tree</button>
+                </div>
             </section>
             <section class="config-section">
-                <h2><span class="section-number">2</span>Additional Rule Variables</h2>
-                <p>Select additional variables to include in the decision tree (optional):</p>
-                <div class="input-group">
-                    <label class="custom-control checkbox">
-                        <input type="checkbox" name="additional_rules" value="employment_stability">
-                        <span class="checkmark"></span>
-                        Employment Stability Index
-                    </label>
-                    <label class="custom-control checkbox">
-                        <input type="checkbox" name="additional_rules" value="credit_history_length" checked>
-                        <span class="checkmark"></span>
-                        Credit History Length
-                    </label>
-                    <label class="custom-control checkbox">
-                        <input type="checkbox" name="additional_rules" value="zip_code_risk">
-                        <span class="checkmark"></span>
-                        Zip Code Risk Factor
-                    </label>
-                    <label class="custom-control checkbox">
-                        <input type="checkbox" name="additional_rules" value="loan_purpose">
-                        <span class="checkmark"></span>
-                        Loan Purpose Category
-                    </label>
-                </div>
-                <div class="info-box">
-                    <p><strong>Note:</strong> The decision tree will automatically determine the optimal thresholds and branching logic for the selected variables.</p>
+                <h2><span class="section-number">2</span>Decision Tree Structure</h2>
+                <div id="decision-tree-container">
+                    <div class="tree-placeholder">
+                        <p>🪄 Click "Generate Decision Tree" to create the decision tree with your selected variables and cutoffs.</p>
+                    </div>
                 </div>
             </section>
             <div class="button-group">
                 <button type="button" class="back-button" id="back-to-algorithm-btn">Back to Algorithm Selection</button>
-                <button type="button" class="submit-button" id="proceed-to-training-btn">Proceed to Model Training</button>
+                <button type="button" class="submit-button" id="proceed-to-final-btn">Complete Model Setup</button>
             </div>
         </div>
 
@@ -957,6 +1086,108 @@
                 <button type="button" class="back-button" id="back-to-training-btn">Back to Training</button>
                 <button type="button" class="secondary-button" id="deploy-model-btn">Deploy Custom Model</button>
                 <button type="button" class="start-over-button" id="start-over-custom-btn">Start Over</button>
+            </div>
+        </div>
+
+        <div id="final-model-summary-page" class="page">
+            <header class="header">
+                <h1>🎉 Custom Model Complete!</h1>
+                <p>Your personalized credit scoring model is ready for deployment.</p>
+            </header>
+            <section class="config-section">
+                <h2><span class="section-number">1</span>Model Summary</h2>
+                <div class="model-summary-card">
+                    <div class="summary-header">
+                        <h3>Custom XGBoost Model</h3>
+                        <div class="model-badge">Production Ready</div>
+                    </div>
+                    <div class="summary-details">
+                        <div class="summary-item">
+                            <span class="label">Algorithm:</span>
+                            <span class="value">XGBoost Classifier</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="label">Features Used:</span>
+                            <span class="value">42 (top 2.5% of 1,675)</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="label">Training Data:</span>
+                            <span class="value">2.3 lakh applications</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="label">Performance:</span>
+                            <span class="value">AUC-ROC: 88.7%</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="config-section">
+                <h2><span class="section-number">2</span>Expected Business Impact</h2>
+                <div class="impact-metrics">
+                    <div class="impact-card">
+                        <div class="impact-icon">📈</div>
+                        <div class="impact-content">
+                            <h4>Approval Rate</h4>
+                            <div class="impact-value">72.1%</div>
+                            <div class="impact-change positive">+3.6% improvement</div>
+                        </div>
+                    </div>
+                    <div class="impact-card">
+                        <div class="impact-icon">🛡️</div>
+                        <div class="impact-content">
+                            <h4>Risk Reduction</h4>
+                            <div class="impact-value">3.1%</div>
+                            <div class="impact-change positive">-1.1% loss rate</div>
+                        </div>
+                    </div>
+                    <div class="impact-card">
+                        <div class="impact-icon">💰</div>
+                        <div class="impact-content">
+                            <h4>Portfolio Quality</h4>
+                            <div class="impact-value">88.7%</div>
+                            <div class="impact-change positive">AUC-ROC score</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="config-section">
+                <h2><span class="section-number">3</span>Decision Strategy</h2>
+                <div class="strategy-overview">
+                    <div class="strategy-summary">
+                        <h4>📋 Final Strategy Configuration</h4>
+                        <div class="strategy-details">
+                            <div class="strategy-item">
+                                <span>Primary Cutoff:</span>
+                                <span>Ki Score ≥ 650</span>
+                            </div>
+                            <div class="strategy-item">
+                                <span>Secondary Rules:</span>
+                                <span>Loan-to-Income ≤ 0.4, Employment Stability ≥ 0.7</span>
+                            </div>
+                            <div class="strategy-item">
+                                <span>Estimated Approval:</span>
+                                <span>68.2% of applications</span>
+                            </div>
+                            <div class="strategy-item">
+                                <span>Estimated Default:</span>
+                                <span>12.1% of approved applications</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="deployment-status">
+                        <h4>🚀 Ready for Deployment</h4>
+                        <p>Your custom model has been validated and is ready to be integrated into your credit underwriting workflow.</p>
+                        <div class="deployment-actions">
+                            <button class="primary-button">Download Model Package</button>
+                            <button class="secondary-button">Schedule Deployment</button>
+                            <button class="outline-button">View Detailed Report</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="button-group">
+                <button type="button" class="back-button" id="back-to-rules-btn">Back to Rules Configuration</button>
+                <button type="button" class="primary-button" id="finish-setup-btn">Finish Setup</button>
             </div>
         </div>
     </div>
@@ -1296,37 +1527,37 @@
                 const mappingGrid = document.getElementById('mapping-grid');
                 mappingGrid.innerHTML = '<div class="grid-header">Required Model Field</div><div class="grid-header">Your CSV Column</div>'; // Clear and add headers
 
-                // Base required fields (always needed)
+                // Base required fields (always needed) - Loan ID and Customer ID first
                 const baseFields = [
                     { label: "Loan ID", key: "loan_id", hints: ["loan_id", "application_id", "loanid"] },
-                    { label: "Customer ID", key: "customer_id", hints: ["customer_id", "cust_id", "customerid"] },
-                    { label: "Age", key: "age", hints: ["age", "cust_age"] },
-                    { label: "Gender", key: "gender", hints: ["gender", "sex"] },
-                    { label: "Marital Status", key: "marital_status", hints: ["marital"] },
-                    { label: "Residential Pincode", key: "pincode", hints: ["pincode", "zip"] },
-                    { label: "Loan Amount Requested", key: "loan_amount", hints: ["amount", "amt"] },
-                    { label: "Tenure (in months)", key: "tenure", hints: ["tenure", "term"] }
+                    { label: "Customer ID", key: "customer_id", hints: ["customer_id", "cust_id", "customerid"] }
                 ];
 
-                // Bureau data fields (if bureau data is selected)
+                // Bureau data fields (RIGHT AFTER CUSTOMER ID)
                 const bureauFields = [
-                    { label: "Bureau Data (XML/Text)", key: "bureau_raw", hints: ["bureau", "xml", "report"] },
+                    { label: "Bureau Data (XML)", key: "bureau_raw", hints: ["bureau", "xml", "report"] },
                     { label: "Credit Score", key: "credit_score", hints: ["credit_score", "score", "bureau_score"] },
                     { label: "Number of Open Accounts", key: "open_accounts", hints: ["open_accounts", "accounts", "num_accounts"] },
                     { label: "Total Credit Limit", key: "total_limit", hints: ["total_limit", "credit_limit", "limit"] },
                     { label: "Days Since Last Inquiry", key: "last_inquiry", hints: ["last_inquiry", "inquiry_date", "days_inquiry"] }
                 ];
 
-                // Bank statement fields (if bank statement is selected)
+                // Bank statement fields (NEXT AFTER BUREAU)
                 const bankFields = [
-                    { label: "Bank Statement (JSON)", key: "bank_json", hints: ["bank", "json", "statement"] },
+                    { label: "Bank Statement (XML)", key: "bank_json", hints: ["bank", "xml", "statement"] },
                     { label: "Monthly Income", key: "monthly_income", hints: ["monthly_income", "income", "salary"] },
                     { label: "Average Balance", key: "avg_balance", hints: ["avg_balance", "balance", "account_balance"] },
                     { label: "Transaction Count", key: "transaction_count", hints: ["transaction_count", "transactions", "txn_count"] }
                 ];
 
-                // Application data fields (if additional app data is selected)
+                // Application data fields (REST OF THE COLUMNS)
                 const appDataFields = [
+                    { label: "Age", key: "age", hints: ["age", "cust_age"] },
+                    { label: "Gender", key: "gender", hints: ["gender", "sex"] },
+                    { label: "Marital Status", key: "marital_status", hints: ["marital"] },
+                    { label: "Residential Pincode", key: "pincode", hints: ["pincode", "zip"] },
+                    { label: "Loan Amount Requested", key: "loan_amount", hints: ["amount", "amt"] },
+                    { label: "Tenure (in months)", key: "tenure", hints: ["tenure", "term"] },
                     { label: "Employment Years", key: "employment_years", hints: ["employment_years", "work_years", "job_years"] },
                     { label: "Home Ownership", key: "home_ownership", hints: ["home_ownership", "home_owner", "ownership"] },
                     { label: "Loan Purpose", key: "loan_purpose", hints: ["loan_purpose", "purpose", "loan_type"] },
@@ -1474,8 +1705,8 @@
                 }
                 
                 // Rules Configuration Page Navigation
-                if (e.target.id === 'proceed-to-training-btn') {
-                    showPage('model-training-page');
+                if (e.target.id === 'proceed-to-final-btn') {
+                    showPage('final-model-summary-page');
                 }
                 
                 // Model Training Page Navigation
@@ -1485,6 +1716,16 @@
                     simulateTrainingCompletion();
                 }
                 
+                // Final Model Summary Navigation
+                if (e.target.id === 'back-to-rules-btn') {
+                    showPage('rules-configuration-page');
+                }
+                if (e.target.id === 'finish-setup-btn') {
+                    // Redirect to main application or show completion message
+                    alert('Custom model setup complete! Model is ready for deployment.');
+                    window.location.href = 'india-index.html';
+                }
+
                 // Custom Backtest Results Page Navigation
                 if (e.target.id === 'back-to-prebuilt-btn') {
                     showPage('backtest-results-page');
@@ -1522,36 +1763,177 @@
             }
 
             function showFeatureDetails(category) {
-                const featureDetails = {
+                const allFeatures = {
                     bureau: [
                         'credit_utilization_ratio', 'payment_history_score', 'days_since_last_inquiry',
                         'avg_credit_per_account', 'credit_history_length', 'num_open_accounts',
                         'total_credit_limit', 'credit_score', 'inquiry_frequency',
-                        'payment_pattern_score', 'credit_mix_score', 'credit_age_score'
+                        'payment_pattern_score', 'credit_mix_score', 'credit_age_score',
+                        'delinquency_score', 'credit_inquiries_score', 'credit_age_weighted',
+                        'installment_loan_ratio', 'revolving_credit_ratio', 'credit_limit_utilization',
+                        'payment_to_income_ratio', 'debt_to_credit_limit', 'account_age_score'
                     ],
                     bank: [
                         'debt_to_income_ratio', 'monthly_income_stability', 'avg_balance_3months',
                         'transaction_frequency', 'cash_flow_pattern', 'income_volatility',
                         'savings_rate', 'expense_pattern', 'banking_relationship_length',
-                        'account_type_score', 'transaction_amount_distribution'
+                        'account_type_score', 'transaction_amount_distribution',
+                        'balance_volatility', 'income_expense_ratio', 'transaction_patterns',
+                        'cash_flow_stability', 'account_activity_score', 'spending_patterns',
+                        'transaction_consistency', 'balance_trend_analysis', 'withdrawal_patterns'
                     ],
                     application: [
                         'loan_to_income_ratio', 'employment_stability_index', 'home_ownership_flag',
                         'education_level_score', 'loan_purpose_risk', 'age_group_score',
                         'marital_status_score', 'residence_stability', 'employment_type_score',
-                        'industry_risk_score', 'location_risk_factor'
+                        'industry_risk_score', 'location_risk_factor',
+                        'employment_duration_score', 'income_stability_score', 'age_risk_profile',
+                        'education_qualification_score', 'residence_duration_score', 'occupation_risk',
+                        'employment_sector_score', 'income_qualification_ratio', 'age_employment_index'
                     ],
                     alternative: [
                         'digital_footprint_score', 'social_media_presence', 'device_usage_pattern',
                         'location_stability_index', 'behavioral_risk_score', 'online_activity_score',
                         'app_usage_pattern', 'browsing_behavior', 'social_connections',
-                        'digital_payment_history', 'ecommerce_activity'
+                        'digital_payment_history', 'ecommerce_activity',
+                        'device_switching_pattern', 'location_consistency', 'online_presence_score',
+                        'social_network_analysis', 'digital_behavior_score', 'app_engagement_rate',
+                        'online_purchase_pattern', 'digital_identity_score', 'behavioral_consistency'
                     ]
                 };
-                
-                const details = featureDetails[category];
-                const message = `Sample features from ${category} category:\n\n${details.join('\n')}`;
-                alert(message);
+
+                const card = document.querySelector(`[onclick*="showFeatureDetails('${category}')"]`).closest('.feature-card');
+                const featureList = card.querySelector('.feature-list');
+
+                if (featureList.dataset.expanded) {
+                    // Collapse back to original
+                    const initialFeatures = allFeatures[category].slice(0, 5);
+                    featureList.innerHTML = initialFeatures.map(feature => `<div class="feature-item">${feature}</div>`).join('') + `<div class="feature-item">+ ${allFeatures[category].length - 5} more features</div>`;
+                    delete featureList.dataset.expanded;
+                    card.querySelector('.see-more-btn').textContent = 'See More';
+                } else {
+                    // Expand to show all features
+                    featureList.innerHTML = allFeatures[category].map(feature => `<div class="feature-item">${feature}</div>`).join('');
+                    featureList.dataset.expanded = 'true';
+                    card.querySelector('.see-more-btn').textContent = 'See Less';
+                }
+            }
+
+            function generateDecisionTree() {
+                const kiScoreCutoff = document.getElementById('ki-score-cutoff').value;
+                const selectedVariables = Array.from(document.querySelectorAll('input[name="rule_variables"]:checked')).map(cb => cb.value);
+
+                let treeHTML = '';
+
+                // Build the tree based on selected variables
+                if (selectedVariables.includes('loan_to_income_ratio') && selectedVariables.includes('employment_stability')) {
+                    const loanIncomeThreshold = document.getElementById('loan-income-threshold').value;
+                    const employmentThreshold = document.getElementById('employment-threshold').value;
+
+                    treeHTML = `
+                        <div class="decision-tree-container">
+                            <div class="tree-node root-node">
+                                <div class="node-content">
+                                    <strong>Ki Score Cutoff</strong>
+                                    <div class="node-threshold">≥ ${kiScoreCutoff}</div>
+                                    <div class="node-rates">Approval Rate: 68.2% | Default Rate: 12.1%</div>
+                                </div>
+                                <div class="tree-branches">
+                                    <div class="branch yes-branch">
+                                        <div class="tree-node">
+                                            <div class="node-content">
+                                                <strong>Loan to Income Ratio</strong>
+                                                <div class="node-threshold">≤ ${loanIncomeThreshold}</div>
+                                                <div class="node-rates">Approval Rate: 82.5% | Default Rate: 8.3%</div>
+                                            </div>
+                                            <div class="tree-branches">
+                                                <div class="branch yes-branch">
+                                                    <div class="tree-node leaf-node approved">
+                                                        <div class="node-content">
+                                                            <strong>APPROVED</strong>
+                                                            <div class="node-confidence">Confidence: 94.2%</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="branch no-branch">
+                                                    <div class="tree-node">
+                                                        <div class="node-content">
+                                                            <strong>Employment Stability</strong>
+                                                            <div class="node-threshold">≥ ${employmentThreshold}</div>
+                                                            <div class="node-rates">Approval Rate: 71.8% | Default Rate: 15.2%</div>
+                                                        </div>
+                                                        <div class="tree-branches">
+                                                            <div class="branch yes-branch">
+                                                                <div class="tree-node leaf-node approved">
+                                                                    <div class="node-content">
+                                                                        <strong>APPROVED</strong>
+                                                                        <div class="node-confidence">Confidence: 87.1%</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="branch no-branch">
+                                                                <div class="tree-node leaf-node rejected">
+                                                                    <div class="node-content">
+                                                                        <strong>REJECTED</strong>
+                                                                        <div class="node-confidence">Confidence: 78.3%</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="branch no-branch">
+                                        <div class="tree-node leaf-node rejected">
+                                            <div class="node-content">
+                                                <strong>REJECTED</strong>
+                                                <div class="node-confidence">Confidence: 91.5%</div>
+                                                <div class="node-rates">Approval Rate: 15.3% | Default Rate: 45.7%</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    // Simple tree with just Ki Score
+                    treeHTML = `
+                        <div class="decision-tree-container">
+                            <div class="tree-node root-node">
+                                <div class="node-content">
+                                    <strong>Ki Score Cutoff</strong>
+                                    <div class="node-threshold">≥ ${kiScoreCutoff}</div>
+                                    <div class="node-rates">Approval Rate: 68.2% | Default Rate: 12.1%</div>
+                                </div>
+                                <div class="tree-branches">
+                                    <div class="branch yes-branch">
+                                        <div class="tree-node leaf-node approved">
+                                            <div class="node-content">
+                                                <strong>APPROVED</strong>
+                                                <div class="node-confidence">Confidence: 91.3%</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="branch no-branch">
+                                        <div class="tree-node leaf-node rejected">
+                                            <div class="node-content">
+                                                <strong>REJECTED</strong>
+                                                <div class="node-confidence">Confidence: 89.7%</div>
+                                                <div class="node-rates">Approval Rate: 15.3% | Default Rate: 45.7%</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                document.getElementById('decision-tree-container').innerHTML = treeHTML;
+                lucide.createIcons(); // Reinitialize icons for new content
             }
 
             function simulateTrainingCompletion() {
