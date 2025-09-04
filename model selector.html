@@ -225,6 +225,71 @@
         .leaf-node.approved .node-content { background: var(--secondary-color); }
         .leaf-node.rejected .node-content { background: #dc2626; }
 
+        /* Cutoff Adjustment Styles */
+        .cutoff-adjustment {
+            background: #f8fafc;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .cutoff-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .cutoff-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 0.5rem;
+            border: 1px solid #e2e8f0;
+        }
+
+        .cutoff-item label {
+            min-width: 200px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .cutoff-slider {
+            flex: 1;
+            height: 6px;
+            border-radius: 3px;
+            background: #e2e8f0;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .cutoff-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+        }
+
+        .cutoff-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+            border: none;
+        }
+
+        .cutoff-value {
+            min-width: 80px;
+            font-weight: 700;
+            color: var(--secondary-color);
+            text-align: center;
+        }
+
         .training-progress { background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem; margin: 1rem 0; }
         .training-progress h3 { color: var(--primary-color); margin-bottom: 1rem; }
         .progress-bar { width: 100%; height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; margin: 0.5rem 0; }
@@ -998,6 +1063,31 @@
                 <div id="decision-tree-container">
                     <div class="tree-placeholder">
                         <p>🪄 Click "Generate Decision Tree" to create the decision tree with your selected variables and cutoffs.</p>
+                    </div>
+                </div>
+            </section>
+            <section class="config-section">
+                <h2><span class="section-number">3</span>Adjust Cutoffs & Regenerate</h2>
+                <div class="cutoff-adjustment">
+                    <div class="cutoff-controls">
+                        <div class="cutoff-item">
+                            <label for="ki-score-threshold">Ki Score Threshold:</label>
+                            <input type="range" id="ki-score-slider" min="300" max="900" value="650" step="10" class="cutoff-slider">
+                            <span class="cutoff-value" id="ki-score-display">650</span>
+                        </div>
+                        <div class="cutoff-item">
+                            <label for="ltv-threshold">LTV Ratio Threshold (%):</label>
+                            <input type="range" id="ltv-slider" min="50" max="95" value="85" step="5" class="cutoff-slider">
+                            <span class="cutoff-value" id="ltv-display">85%</span>
+                        </div>
+                        <div class="cutoff-item">
+                            <label for="age-threshold">Applicant Age Threshold (years):</label>
+                            <input type="range" id="age-slider" min="18" max="65" value="21" step="1" class="cutoff-slider">
+                            <span class="cutoff-value" id="age-display">21 years</span>
+                        </div>
+                    </div>
+                    <div class="button-group" style="justify-content: center; margin: 1rem 0;">
+                        <button type="button" class="submit-button" id="regenerate-tree-btn" onclick="regenerateDecisionTree()">Simulate & Rebuild Tree</button>
                     </div>
                 </div>
             </section>
@@ -1775,6 +1865,7 @@
                 // Algorithm Selection Page Navigation
                 if (e.target.id === 'proceed-to-rules-btn') {
                     showPage('rules-configuration-page');
+                    setTimeout(initializeSliders, 100); // Initialize sliders after page is shown
                 }
                 
                 // Rules Configuration Page Navigation
@@ -1898,6 +1989,8 @@
         function generateDecisionTree() {
             const selectedVariables = Array.from(document.querySelectorAll('input[name="rule_variables"]:checked')).map(cb => cb.value);
             const kiScoreThreshold = document.getElementById('ki-score-threshold').value;
+            const ltvThreshold = document.getElementById('ltv-threshold').value;
+            const ageThreshold = document.getElementById('age-threshold').value;
 
             let treeHTML = '';
 
@@ -1906,28 +1999,28 @@
                 <div class="decision-tree-container">
                     <div class="tree-node root-node">
                         <div class="node-content">
-                            <strong>Ki Score < ${kiScoreThreshold}</strong>
+                            <strong>ki score < ${kiScoreThreshold}</strong>
                             <div class="node-rates">61.7% Appr. ▲ 1.7% Def.</div>
                         </div>
                         <div class="tree-branches">
                             <div class="branch true-branch">
                                 <div class="tree-node">
                                     <div class="node-content">
-                                        <strong>LTV Ratio < 85%</strong>
+                                        <strong>LTV Ratio < ${ltvThreshold}%</strong>
                                         <div class="node-rates">59.2% Appr. ▲ 1.3% Def.</div>
                                     </div>
                                     <div class="tree-branches">
                                         <div class="branch true-branch">
                                             <div class="tree-node">
                                                 <div class="node-content">
-                                                    <strong>Applicant Age > 21yrs</strong>
+                                                    <strong>Applicant Age > ${ageThreshold}yrs</strong>
                                                     <div class="node-rates">57.2% Appr. ▲ 0.9% Def.</div>
                                                 </div>
                                                 <div class="tree-branches">
                                                     <div class="branch true-branch">
                                                         <div class="tree-node leaf-node approved">
                                                             <div class="node-content">
-                                                                <strong>Result</strong>
+                                                                <strong>APPROVE</strong>
                                                                 <div class="node-rates">57.2% Appr. ▲ 0.9% Def.</div>
                                                             </div>
                                                         </div>
@@ -1935,7 +2028,7 @@
                                                     <div class="branch false-branch">
                                                         <div class="tree-node leaf-node rejected">
                                                             <div class="node-content">
-                                                                <strong>Reject</strong>
+                                                                <strong>REJECT</strong>
                                                                 <div class="node-rates">45.1% Appr. ▲ 2.1% Def.</div>
                                                             </div>
                                                         </div>
@@ -1946,7 +2039,7 @@
                                         <div class="branch false-branch">
                                             <div class="tree-node leaf-node rejected">
                                                 <div class="node-content">
-                                                    <strong>Reject Bureau Score</strong>
+                                                    <strong>REJECT</strong>
                                                     <div class="node-rates">38.3% Appr. ▲ 3.2% Def.</div>
                                                 </div>
                                             </div>
@@ -1957,7 +2050,7 @@
                             <div class="branch false-branch">
                                 <div class="tree-node leaf-node rejected">
                                     <div class="node-content">
-                                        <strong>Reject</strong>
+                                        <strong>REJECT</strong>
                                         <div class="node-rates">25.4% Appr. ▲ 4.7% Def.</div>
                                     </div>
                                 </div>
@@ -1969,6 +2062,47 @@
 
             document.getElementById('decision-tree-container').innerHTML = treeHTML;
             lucide.createIcons(); // Reinitialize icons for new content
+        }
+
+        // Function to regenerate decision tree with new cutoffs
+        function regenerateDecisionTree() {
+            // Update threshold inputs with slider values
+            document.getElementById('ki-score-threshold').value = document.getElementById('ki-score-slider').value;
+            document.getElementById('ltv-threshold').value = document.getElementById('ltv-slider').value;
+            document.getElementById('age-threshold').value = document.getElementById('age-slider').value;
+            
+            // Generate new tree
+            generateDecisionTree();
+        }
+
+        // Initialize slider functionality
+        function initializeSliders() {
+            // Ki Score slider
+            const kiScoreSlider = document.getElementById('ki-score-slider');
+            const kiScoreDisplay = document.getElementById('ki-score-display');
+            if (kiScoreSlider && kiScoreDisplay) {
+                kiScoreSlider.addEventListener('input', function() {
+                    kiScoreDisplay.textContent = this.value;
+                });
+            }
+
+            // LTV slider
+            const ltvSlider = document.getElementById('ltv-slider');
+            const ltvDisplay = document.getElementById('ltv-display');
+            if (ltvSlider && ltvDisplay) {
+                ltvSlider.addEventListener('input', function() {
+                    ltvDisplay.textContent = this.value + '%';
+                });
+            }
+
+            // Age slider
+            const ageSlider = document.getElementById('age-slider');
+            const ageDisplay = document.getElementById('age-display');
+            if (ageSlider && ageDisplay) {
+                ageSlider.addEventListener('input', function() {
+                    ageDisplay.textContent = this.value + ' years';
+                });
+            }
         }
 
         function simulateTrainingCompletion() {
