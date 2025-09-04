@@ -180,6 +180,8 @@
         .feature-card h5 { color: var(--primary-color); margin-bottom: 0.5rem; font-size: 0.9rem; }
         .feature-card .feature-count { font-size: 1.2rem; font-weight: 600; color: var(--secondary-color); }
         .feature-card .feature-list { font-size: 0.8rem; color: var(--dark-gray); margin-top: 0.5rem; }
+        .see-more-btn { background: var(--primary-color); color: white; border: none; border-radius: 0.25rem; padding: 0.5rem 1rem; font-size: 0.8rem; cursor: pointer; margin-top: 0.5rem; transition: background-color 0.2s; }
+        .see-more-btn:hover { background: #3730a3; }
 
         .decision-tree-container { background: white; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem; margin: 1rem 0; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
         .decision-tree-container h3 { color: var(--primary-color); margin-bottom: 1rem; }
@@ -245,7 +247,7 @@
         <!-- PAGE 1: DATA SELECTION -->
         <div id="data-selection-page" class="page active">
             <header class="header">
-                <h1>Custom Model Builder for India</h1>
+                <h1>Custom Model Builder</h1>
                 <p>Select your asset class and available data sources to configure the optimal predictive model for your portfolio.</p>
             </header>
             <form id="model-config-form">
@@ -516,7 +518,7 @@
 
         <div id="feature-exploration-page" class="page">
             <header class="header">
-                <h1>Feature Exploration & Engineering</h1>
+                <h1>Automated Feature Engineering</h1>
                 <p>Our engine is analyzing your data and creating powerful new features to improve model accuracy.</p>
             </header>
             <section class="config-section">
@@ -536,69 +538,77 @@
                     </div>
                     <div class="status-item">
                         <i data-lucide="check-circle" style="color: var(--secondary-color);"></i>
+                        <span>Alternative Data Processing Complete</span>
+                    </div>
+                    <div class="status-item">
+                        <i data-lucide="check-circle" style="color: var(--secondary-color);"></i>
                         <span>Feature Engineering Complete</span>
                     </div>
                 </div>
             </section>
             <section class="config-section">
-                <h2><span class="section-number">2</span>Feature Overview</h2>
+                <h2><span class="section-number">2</span>Feature Categories Overview</h2>
                 <div class="feature-overview-grid">
-                    <div class="feature-section">
-                        <h3>Initial Dataset Features (15)</h3>
+                    <div class="feature-card">
+                        <h5>Bureau Features</h5>
+                        <div class="feature-count">1,247 features</div>
                         <div class="feature-list">
-                            <div class="feature-item">loan_amount</div>
-                            <div class="feature-item">customer_age</div>
-                            <div class="feature-item">income_monthly</div>
-                            <div class="feature-item">credit_score</div>
-                            <div class="feature-item">employment_years</div>
-                            <div class="feature-item">num_open_accounts</div>
-                            <div class="feature-item">last_inquiry_date</div>
-                            <div class="feature-item">home_ownership</div>
-                            <div class="feature-item">loan_purpose</div>
-                            <div class="feature-item">zip_code</div>
-                            <div class="feature-item">+ 5 more features</div>
-                        </div>
-                    </div>
-                    <div class="feature-section">
-                        <h3>All Generated Features (187)</h3>
-                        <div class="feature-list">
-                            <div class="feature-item">income_per_age</div>
-                            <div class="feature-item">loan_to_income_ratio</div>
+                            <div class="feature-item">credit_utilization_ratio</div>
+                            <div class="feature-item">payment_history_score</div>
                             <div class="feature-item">days_since_last_inquiry</div>
-                            <div class="feature-item">is_home_owner_flag</div>
                             <div class="feature-item">avg_credit_per_account</div>
-                            <div class="feature-item">employment_stability_index</div>
-                            <div class="feature-item">month_of_inquiry</div>
-                            <div class="feature-item">zip_code_risk_factor</div>
-                            <div class="feature-item">loan_purpose_business_flag</div>
                             <div class="feature-item">credit_history_length</div>
-                            <div class="feature-item">+ 177 more features</div>
+                            <div class="feature-item">+ 1,242 more features</div>
                         </div>
+                        <button class="see-more-btn" onclick="showFeatureDetails('bureau')">See More</button>
                     </div>
-                    <div class="feature-section">
-                        <h3>Top Selected Features (20)</h3>
+                    <div class="feature-card">
+                        <h5>Bank Statement Features</h5>
+                        <div class="feature-count">234 features</div>
                         <div class="feature-list">
-                            <div class="feature-item">bureau_score_x_loan_amt</div>
-                            <div class="feature-item">avg_followup_lead_tm</div>
-                            <div class="feature-item">stdev_credibility</div>
-                            <div class="feature-item">tm_since_months</div>
-                            <div class="feature-item">inquiry_tm_last_info</div>
-                            <div class="feature-item">loan_to_income_ratio</div>
-                            <div class="feature-item">credit_history_length</div>
-                            <div class="feature-item">employment_stability_index</div>
-                            <div class="feature-item">customer_age</div>
-                            <div class="feature-item">num_open_accounts</div>
-                            <div class="feature-item">+ 10 more features</div>
+                            <div class="feature-item">debt_to_income_ratio</div>
+                            <div class="feature-item">monthly_income_stability</div>
+                            <div class="feature-item">avg_balance_3months</div>
+                            <div class="feature-item">transaction_frequency</div>
+                            <div class="feature-item">cash_flow_pattern</div>
+                            <div class="feature-item">+ 229 more features</div>
                         </div>
+                        <button class="see-more-btn" onclick="showFeatureDetails('bank')">See More</button>
+                    </div>
+                    <div class="feature-card">
+                        <h5>Application Data Features</h5>
+                        <div class="feature-count">38 features</div>
+                        <div class="feature-list">
+                            <div class="feature-item">loan_to_income_ratio</div>
+                            <div class="feature-item">employment_stability_index</div>
+                            <div class="feature-item">home_ownership_flag</div>
+                            <div class="feature-item">education_level_score</div>
+                            <div class="feature-item">loan_purpose_risk</div>
+                            <div class="feature-item">+ 33 more features</div>
+                        </div>
+                        <button class="see-more-btn" onclick="showFeatureDetails('application')">See More</button>
+                    </div>
+                    <div class="feature-card">
+                        <h5>Alternative Data Features</h5>
+                        <div class="feature-count">156 features</div>
+                        <div class="feature-list">
+                            <div class="feature-item">digital_footprint_score</div>
+                            <div class="feature-item">social_media_presence</div>
+                            <div class="feature-item">device_usage_pattern</div>
+                            <div class="feature-item">location_stability_index</div>
+                            <div class="feature-item">behavioral_risk_score</div>
+                            <div class="feature-item">+ 151 more features</div>
+                        </div>
+                        <button class="see-more-btn" onclick="showFeatureDetails('alternative')">See More</button>
                     </div>
                 </div>
                 <div class="info-box">
-                    <p><strong>Automated Feature Selection:</strong> Our algorithm has automatically selected the 20 most predictive features from the 187 generated features to optimize model performance.</p>
+                    <p><strong>Total Features Generated:</strong> 1,675 features across all data sources. These features will be automatically evaluated and selected in the next step.</p>
                 </div>
             </section>
             <div class="button-group">
                 <button type="button" class="back-button" id="back-to-target-btn">Back to Target Selection</button>
-                <button type="button" class="submit-button" id="proceed-to-algorithm-btn">Proceed to Algorithm Selection</button>
+                <button type="button" class="submit-button" id="proceed-to-algorithm-btn">Proceed to Feature & Algorithm Selection</button>
             </div>
         </div>
 
@@ -1276,21 +1286,69 @@
                 const mappingGrid = document.getElementById('mapping-grid');
                 mappingGrid.innerHTML = '<div class="grid-header">Required Model Field</div><div class="grid-header">Your CSV Column</div>'; // Clear and add headers
 
-                const requiredFields = [
+                // Base required fields (always needed)
+                const baseFields = [
                     { label: "Loan ID", key: "loan_id", hints: ["loan_id", "application_id", "loanid"] },
                     { label: "Customer ID", key: "customer_id", hints: ["customer_id", "cust_id", "customerid"] },
-                    { label: "Bureau Data (XML/Text)", key: "bureau_raw", hints: ["bureau", "xml", "report"] },
-                    { label: "Bank Statement (JSON)", key: "bank_json", hints: ["bank", "json", "statement"] },
                     { label: "Age", key: "age", hints: ["age", "cust_age"] },
                     { label: "Gender", key: "gender", hints: ["gender", "sex"] },
                     { label: "Marital Status", key: "marital_status", hints: ["marital"] },
                     { label: "Residential Pincode", key: "pincode", hints: ["pincode", "zip"] },
                     { label: "Loan Amount Requested", key: "loan_amount", hints: ["amount", "amt"] },
-                    { label: "Tenure (in months)", key: "tenure", hints: ["tenure", "term"] },
+                    { label: "Tenure (in months)", key: "tenure", hints: ["tenure", "term"] }
+                ];
+
+                // Bureau data fields (if bureau data is selected)
+                const bureauFields = [
+                    { label: "Bureau Data (XML/Text)", key: "bureau_raw", hints: ["bureau", "xml", "report"] },
+                    { label: "Credit Score", key: "credit_score", hints: ["credit_score", "score", "bureau_score"] },
+                    { label: "Number of Open Accounts", key: "open_accounts", hints: ["open_accounts", "accounts", "num_accounts"] },
+                    { label: "Total Credit Limit", key: "total_limit", hints: ["total_limit", "credit_limit", "limit"] },
+                    { label: "Days Since Last Inquiry", key: "last_inquiry", hints: ["last_inquiry", "inquiry_date", "days_inquiry"] }
+                ];
+
+                // Bank statement fields (if bank statement is selected)
+                const bankFields = [
+                    { label: "Bank Statement (JSON)", key: "bank_json", hints: ["bank", "json", "statement"] },
+                    { label: "Monthly Income", key: "monthly_income", hints: ["monthly_income", "income", "salary"] },
+                    { label: "Average Balance", key: "avg_balance", hints: ["avg_balance", "balance", "account_balance"] },
+                    { label: "Transaction Count", key: "transaction_count", hints: ["transaction_count", "transactions", "txn_count"] }
+                ];
+
+                // Application data fields (if additional app data is selected)
+                const appDataFields = [
+                    { label: "Employment Years", key: "employment_years", hints: ["employment_years", "work_years", "job_years"] },
+                    { label: "Home Ownership", key: "home_ownership", hints: ["home_ownership", "home_owner", "ownership"] },
+                    { label: "Loan Purpose", key: "loan_purpose", hints: ["loan_purpose", "purpose", "loan_type"] },
+                    { label: "Education Level", key: "education", hints: ["education", "education_level", "qualification"] }
+                ];
+
+                // Performance metrics (for custom model training)
+                const performanceFields = [
                     { label: "DPD 30 Performance", key: "dpd_30", hints: ["dpd_30", "dpd30", "performance_30"] },
                     { label: "DPD 60 Performance", key: "dpd_60", hints: ["dpd_60", "dpd60", "performance_60"] },
                     { label: "DPD 90 Performance", key: "dpd_90", hints: ["dpd_90", "dpd90", "performance_90"] }
                 ];
+
+                // Combine all required fields based on selections
+                let requiredFields = [...baseFields];
+
+                // Add bureau fields if bureau data is selected (it's always selected by default)
+                requiredFields = requiredFields.concat(bureauFields);
+
+                // Add bank statement fields if selected
+                if (document.getElementById('include-bank-statement').checked) {
+                    requiredFields = requiredFields.concat(bankFields);
+                }
+
+                // Add application data fields if any are selected
+                const selectedAppData = document.querySelectorAll('input[data-source-name]:checked');
+                if (selectedAppData.length > 0) {
+                    requiredFields = requiredFields.concat(appDataFields);
+                }
+
+                // Add performance metrics for custom model building
+                requiredFields = requiredFields.concat(performanceFields);
 
                 requiredFields.forEach(field => {
                     const labelEl = document.createElement('label');
