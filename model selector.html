@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Custom Model Builder | India</title>
+    <title>Model Advisor | India</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -40,20 +40,20 @@
         }
         
         .page {
-            padding: 2.5rem 3rem;
+            padding: 1rem 2rem;
             display: none;
         }
         .page.active {
             display: block;
         }
 
-        .header { text-align: center; margin-bottom: 2.5rem; }
+        .header { text-align: center; margin-bottom: 1.5rem; }
         .header h1 { font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; }
         .header p { font-size: 1rem; color: var(--dark-gray); max-width: 600px; margin: 0 auto; }
 
         .kaleidofin-logo {
             display: inline-block;
-            margin-bottom: 2rem;
+            margin-bottom: 1rem;
             cursor: pointer;
             transition: all 0.2s ease;
             border-radius: 0.5rem;
@@ -68,7 +68,7 @@
             height: auto;
         }
 
-        .config-section { margin-bottom: 2.5rem; }
+        .config-section { margin-bottom: 1.5rem; }
         .config-section h2 { font-size: 1.25rem; font-weight: 600; border-bottom: 1px solid var(--medium-gray); padding-bottom: 0.75rem; margin-bottom: 1.5rem; display: flex; align-items: center; }
         .config-section h2 .section-number { background-color: var(--primary-color); color: var(--white); border-radius: 50%; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; font-size: 1rem; font-weight: 600; margin-right: 0.75rem; }
         
@@ -103,7 +103,7 @@
         .modal-content h3 { margin-top: 0; color: var(--primary-color); font-size: 1.5rem; margin-bottom: 1.5rem; display: flex; align-items: center; }
         .modal-content h3 i { margin-right: 10px; }
         .modal-content .data-list { list-style: none; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-        .modal-content .data-list li { background-color: var(--light-gray); padding: 12px; border-radius: 0.5rem; display: flex; align-items: center; gap: 8px;}
+        .modal-content .data-list li { background-color: var(--light-gray); padding: 12px; border-radius: 0.5rem; display: flex; align-items: center; gap: 8px; justify-content: space-between; }
         .modal-content pre { background-color: var(--dark-gray); color: var(--light-gray); padding: 1rem; border-radius: 0.5rem; white-space: pre-wrap; font-size: 0.85rem; max-height: 400px; overflow-y: auto;}
 
         .button-group { display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; }
@@ -316,7 +316,7 @@
         <!-- PAGE 1: DATA SELECTION -->
         <div id="data-selection-page" class="page active">
             <header class="header">
-                <h1>Custom Model Builder</h1>
+                <h1>Model Advisor</h1>
                 <p>Select your asset class and available data sources to configure the optimal predictive model for your portfolio.</p>
             </header>
             <form id="model-config-form">
