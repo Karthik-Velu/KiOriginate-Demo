@@ -902,31 +902,8 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-        // Initial setup
-        const chartOptions = { chart: { type: 'bar', height: 300, toolbar: { show: false } }, plotOptions: { bar: { horizontal: false, columnWidth: '55%', endingShape: 'rounded' } }, dataLabels: { enabled: false }, stroke: { show: true, width: 2, colors: ['transparent'] }, xaxis: { categories: ['Approval Rate', 'Default Rate', 'Gini'] }, yaxis: { title: { text: 'Value' } }, fill: { opacity: 1 }, tooltip: { y: { formatter: (val) => val } }, colors: ['#a855f7', '#6366f1'] };
-        perfChart = new ApexCharts(document.querySelector("#performance-chart"), { ...chartOptions, series: [ { name: 'Legacy Strategy', data: [45, 4.5, 0.55] }, { name: 'Ki Originate', data: [58, 3.2, 0.78] } ] });
-        perfChart.render();
-        
-        const multiselectDropdown = document.getElementById('multiselect-dropdown');
-        allRuleVariables.forEach(variable => {
-            const label = document.createElement('label');
-            const checkbox = document.createElement('input');
-            checkbox.type = 'checkbox'; checkbox.value = variable; checkbox.className = 'mr-2';
-            if (['DTI / FOIR', 'LTV Ratio', 'Bureau Score'].includes(variable)) checkbox.checked = true;
-            label.appendChild(checkbox);
-            label.appendChild(document.createTextNode(variable));
-            multiselectDropdown.appendChild(label);
-        });
-        const multiselectInput = document.getElementById('multiselect-input');
-        multiselectInput.addEventListener('click', () => { multiselectDropdown.style.display = multiselectDropdown.style.display === 'block' ? 'none' : 'block'; });
-        multiselectDropdown.addEventListener('change', () => {
-            const selected = Array.from(multiselectDropdown.querySelectorAll('input:checked')).map(cb => cb.value);
-            document.getElementById('multiselect-text').textContent = selected.length > 0 ? `${selected.length} variables selected` : 'Select variables...';
-        });
-        document.addEventListener('click', (e) => { if (multiselectInput && !multiselectInput.contains(e.target) && multiselectDropdown && !multiselectDropdown.contains(e.target)) multiselectDropdown.style.display = 'none'; });
-        document.getElementById('multiselect-text').textContent = `3 variables selected`;
-
-        initListeners();
+        // Auto-redirect to pre-built model flow (same as India)
+        selectPath('universal');
     });
 </script>
 </body>
