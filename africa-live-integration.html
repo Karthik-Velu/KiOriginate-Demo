@@ -124,19 +124,17 @@
                 <h1 class="text-3xl font-bold text-slate-800">Applications</h1>
                 <button onclick="showAppPage('new-application-page')" class="bg-sky-500 text-white font-bold py-2 px-4 rounded-lg shadow-sm hover:bg-sky-600 transition">New Application</button>
             </div>
-            <div class="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
-                <table class="min-w-full divide-y divide-slate-200">
+            <div class="bg-white rounded-lg shadow-sm border border-slate-200 overflow-x-auto">
+                <table class="min-w-full divide-y divide-slate-200" style="min-width: 1000px;">
                     <thead class="bg-slate-50">
                         <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Application ID</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Applicant Name</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Asset Class</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Ki Score</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Bureau Profile</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Cashflow Profile</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Alt Data Profile</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Decision</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Submitted At</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider" style="min-width: 120px;">Application ID</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider" style="min-width: 140px;">Applicant Name</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider" style="min-width: 100px;">Asset Class</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider" style="min-width: 80px;">Ki Score</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider" style="min-width: 100px;">Bureau Profile</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider" style="min-width: 120px;">Alt Data Profile</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider" style="min-width: 90px;">Decision</th>
                         </tr>
                     </thead>
                     <tbody id="applications-table-body" class="bg-white divide-y divide-slate-200"></tbody>
@@ -226,10 +224,10 @@
                     </div>
                 </div>
                 
-                <div class="section-card" id="collateral-section"><div class="section-header"><h2 class="text-xl font-bold text-slate-800">Collateral Details</h2></div><ul class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm" id="collateral-details-list"></ul></div>
+                <div class="section-card" id="collateral-section"><div class="section-header"><h2 class="text-xl font-bold text-slate-800">Collateral Details</h2><span class="text-sm font-medium px-3 py-1 rounded-full" id="collateral-profile-badge"></span></div><ul class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm" id="collateral-details-list"></ul></div>
                 <div class="section-card" id="bureau-section"><div class="section-header"><h2 class="text-xl font-bold text-slate-800">Bureau Details</h2><span class="text-sm font-medium px-3 py-1 rounded-full" id="bureau-profile-badge"></span></div><ul class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm" id="bureau-details-list"></ul></div>
-                <div class="section-card" id="cashflow-section"><div class="section-header"><h2 class="text-xl font-bold text-slate-800">Cashflow Analysis (M-PESA)</h2><span class="text-sm font-medium px-3 py-1 rounded-full" id="cashflow-profile-badge"></span></div><ul class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm" id="cashflow-details-list"></ul></div>
                 <div class="section-card" id="alternate-section"><div class="section-header"><h2 class="text-xl font-bold text-slate-800">Alternate Data Analysis</h2><span class="text-sm font-medium px-3 py-1 rounded-full" id="alternate-profile-badge"></span></div><div class="space-y-4 mt-4" id="alternate-details-content"></div></div>
+                <div class="section-card" id="cashflow-section"><div class="section-header"><h2 class="text-xl font-bold text-slate-800 flex items-center">M-PESA Statement Analysis <span class="text-sm text-slate-500 font-normal ml-2">(Optional)</span><button onclick="toggleBankStatement()" class="ml-auto text-sky-600 hover:text-sky-800 text-sm flex items-center" id="bank-statement-toggle"><span id="toggle-text">Expand</span><svg class="w-4 h-4 ml-1 transition-transform" id="toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button></h2><span class="text-sm font-medium px-3 py-1 rounded-full" id="cashflow-profile-badge"></span></div><div id="cashflow-details" style="display: none;"><ul class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm" id="cashflow-details-list"></ul></div></div>
                 <div class="section-card" id="affordability-section"><div class="section-header"><h2 class="text-xl font-bold text-slate-800">Affordability Analysis</h2></div><div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center" id="affordability-details-grid"></div></div>
             </div>
         </div>
@@ -484,15 +482,13 @@
 
                 const row = `
                     <tr class="clickable-row" onclick="showAppPage('decision-screen-page', null, '${app.id}')">
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">${app.id}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">${app.name}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">${app.assetClass}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-bold ${scoreClass}">${app.score}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold ${getProfileClass(app.bureauProfile)}">${app.bureauProfile}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold ${getProfileClass(app.cashflowProfile)}">${app.cashflowProfile}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold ${getProfileClass(app.altDataProfile)}">${app.altDataProfile}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${decisionClass}">${app.decision}</span></td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">${app.date}</td>
+                        <td class="px-4 py-4 whitespace-nowrap text-sm font-medium text-slate-900">${app.id}</td>
+                        <td class="px-4 py-4 whitespace-nowrap text-sm text-slate-500">${app.name}</td>
+                        <td class="px-4 py-4 whitespace-nowrap text-sm text-slate-500">${app.assetClass}</td>
+                        <td class="px-4 py-4 whitespace-nowrap text-sm font-bold ${scoreClass}">${app.score}</td>
+                        <td class="px-4 py-4 whitespace-nowrap text-sm font-semibold ${getProfileClass(app.bureauProfile)}">${app.bureauProfile}</td>
+                        <td class="px-4 py-4 whitespace-nowrap text-sm font-semibold ${getProfileClass(app.altDataProfile)}">${app.altDataProfile}</td>
+                        <td class="px-4 py-4 whitespace-nowrap text-sm"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${decisionClass}">${app.decision}</span></td>
                     </tr>`;
                 tableBody.innerHTML += row;
             });
@@ -525,10 +521,22 @@
             document.getElementById('explain-good').innerHTML = app.explainability.good.map(i => `<li>${i}</li>`).join('');
             document.getElementById('explain-improvement').innerHTML = app.explainability.improvement.map(i => `<li>${i}</li>`).join('');
             document.getElementById('explain-bad').innerHTML = app.explainability.bad.map(i => `<li>${i}</li>`).join('');
-            populateSection('collateral', app.collateral, (data, el) => { el.innerHTML = `<li><span class="text-slate-500 block">Type</span><p class="font-semibold text-slate-800">${data.type}</p></li> <li><span class="text-slate-500 block">Ownership</span><p class="font-semibold text-slate-800">${data.ownership}</p></li> <li><span class="text-slate-500 block">Value (KES)</span><p class="font-semibold text-slate-800">${data.value.toLocaleString()}</p></li>`; });
+            if (app.collateralDetails) {
+                // For Affordable Housing with detailed collateral info
+                populateSection('collateral', app.collateralDetails, (data, listEl, badgeEl) => {
+                    badgeEl.textContent = data.profile;
+                    badgeEl.className = `text-sm font-medium px-3 py-1 rounded-full ${data.class}`;
+                    listEl.innerHTML = data.details.map(i => `<li><span class="text-slate-500 block">${i.label}</span><p class="font-semibold ${i.class || 'text-slate-800'}">${i.value}</p></li>`).join('');
+                });
+            } else {
+                // For other asset classes with basic collateral info
+                populateSection('collateral', app.collateral, (data, el) => {
+                    el.innerHTML = `<li><span class="text-slate-500 block">Type</span><p class="font-semibold text-slate-800">${data.type}</p></li> <li><span class="text-slate-500 block">Ownership</span><p class="font-semibold text-slate-800">${data.ownership}</p></li> <li><span class="text-slate-500 block">Value (KES)</span><p class="font-semibold text-slate-800">KES ${data.value.toLocaleString()}</p></li>`;
+                });
+            }
             populateSection('bureau', app.bureau, (data, listEl, badgeEl) => { badgeEl.textContent = data.profile; badgeEl.className = `text-sm font-medium px-3 py-1 rounded-full ${data.class}`; listEl.innerHTML = data.details.map(i => `<li><span class="text-slate-500 block">${i.label}</span><p class="font-semibold text-slate-800 ${i.class || ''}">${i.value}</p></li>`).join(''); });
             populateSection('cashflow', app.cashflow, (data, listEl, badgeEl) => { badgeEl.textContent = data.profile; badgeEl.className = `text-sm font-medium px-3 py-1 rounded-full ${data.class}`; listEl.innerHTML = data.details.map(i => `<li><span class="text-slate-500 block">${i.label}</span><p class="font-semibold ${i.class || 'text-slate-800'}">${i.value}</p></li>`).join(''); });
-            populateSection('alternate', app.alternate, (data, contentEl, badgeEl) => { badgeEl.textContent = data.profile; badgeEl.className = `text-sm font-medium px-3 py-1 rounded-full ${data.class}`; let html = ''; if (data.points.agri.length > 0) html += `<div><h3 class="font-semibold text-slate-700 mb-2">1. Agricultural & Climate Data</h3><ul class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">${data.points.agri.map(i => `<li><span class="text-slate-500 block">${i.label}</span><p class="font-semibold ${i.class || 'text-slate-800'}">${i.value}</p></li>`).join('')}</ul></div>`; if (data.points.socio.length > 0) html += `<div><h3 class="font-semibold text-slate-700 mb-2">2. Socioeconomic & Digital Data</h3><ul class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">${data.points.socio.map(i => `<li><span class="text-slate-500 block">${i.label}</span><p class="font-semibold ${i.class || 'text-slate-800'}">${i.value}</p></li>`).join('')}</ul></div>`; contentEl.innerHTML = html; });
+            populateSection('alternate', app.alternate, (data, contentEl, badgeEl) => { badgeEl.textContent = data.profile; badgeEl.className = `text-sm font-medium px-3 py-1 rounded-full ${data.class}`; let html = '<div class="grid grid-cols-1 md:grid-cols-2 gap-6">'; if (data.points.socio.length > 0) html += `<div class="bg-slate-50 p-4 rounded-lg border"><h3 class="font-semibold text-slate-700 mb-3">Socioeconomic Infrastructure</h3><ul class="grid grid-cols-1 gap-3 text-sm">${data.points.socio.map(i => `<li class="flex justify-between"><span class="text-slate-500">${i.label}</span><span class="font-semibold ${i.class || 'text-slate-800'}">${i.value}</span></li>`).join('')}</ul></div>`; if (data.points.climate.length > 0) html += `<div class="bg-slate-50 p-4 rounded-lg border"><h3 class="font-semibold text-slate-700 mb-3">Climate Risk Factor</h3><ul class="grid grid-cols-1 gap-3 text-sm">${data.points.climate.map(i => `<li class="flex justify-between"><span class="text-slate-500">${i.label}</span><span class="font-semibold ${i.class || 'text-slate-800'}">${i.value}</span></li>`).join('')}</ul></div>`; if (data.points.digital.length > 0) html += `<div class="bg-slate-50 p-4 rounded-lg border"><h3 class="font-semibold text-slate-700 mb-3">Digital Footprint</h3><ul class="grid grid-cols-1 gap-3 text-sm">${data.points.digital.map(i => `<li class="flex justify-between"><span class="text-slate-500">${i.label}</span><span class="font-semibold ${i.class || 'text-slate-800'}">${i.value}</span></li>`).join('')}</ul></div>`; if (data.points.income.length > 0) html += `<div class="bg-slate-50 p-4 rounded-lg border"><h3 class="font-semibold text-slate-700 mb-3">Income Estimates</h3><ul class="grid grid-cols-1 gap-3 text-sm">${data.points.income.map(i => `<li class="flex justify-between"><span class="text-slate-500">${i.label}</span><span class="font-semibold ${i.class || 'text-slate-800'}">${i.value}</span></li>`).join('')}</ul></div>`; html += '</div>'; contentEl.innerHTML = html; });
             populateSection('affordability', app.affordability, (data, gridEl) => { gridEl.innerHTML = ` <div class="bg-slate-50 p-4 rounded-lg"><p class="text-sm text-slate-500">DTI (Pre-Loan)</p><p class="text-2xl font-bold text-slate-800">${data.preDTI}</p></div> <div class="bg-sky-50 p-4 rounded-lg"><p class="text-sm text-sky-700">DTI (Post-Loan)</p><p class="text-2xl font-bold text-sky-800">${data.postDTI}</p></div> <div class="bg-slate-50 p-4 rounded-lg"><p class="text-sm text-slate-500">Proposed EMI</p><p class="text-2xl font-bold text-slate-800">${data.emi}</p></div> <div class="p-4 rounded-lg ${data.verdictClass}"><p class="text-sm">Verdict</p><p class="text-2xl font-bold">${data.verdict}</p></div> `; });
         }
 
@@ -536,7 +544,7 @@
             const sectionEl = document.getElementById(`${name}-section`);
             if (!data) { if(sectionEl) sectionEl.style.display = 'none'; return; }
             if(sectionEl) sectionEl.style.display = 'block';
-            if (name === 'bureau' || name === 'cashflow' || name === 'alternate') { renderer(data, document.getElementById(`${name}-details-list`) || document.getElementById(`${name}-details-content`), document.getElementById(`${name}-profile-badge`)); } 
+            if (name === 'bureau' || name === 'cashflow' || name === 'alternate' || name === 'collateral') { renderer(data, document.getElementById(`${name}-details-list`) || document.getElementById(`${name}-details-content`), document.getElementById(`${name}-profile-badge`)); } 
             else { renderer(data, document.getElementById(`${name}-details-list`) || document.getElementById(`${name}-details-grid`)); }
         }
         
@@ -566,7 +574,7 @@
         function runEvaluation() {
             showPage('evaluation-spinner-page');
             const statusEl = document.getElementById('spinner-status');
-            const steps = ['Pulling Bureau Report...', 'Analyzing M-PESA Statements...', 'Assessing Alternate Data...'];
+            const steps = ['Pulling Bureau Report...', 'Assessing Alternate Data...'];
             let currentStep = 0;
             statusEl.textContent = steps[currentStep];
             const interval = setInterval(() => {
@@ -579,6 +587,22 @@
                     showAppPage('decision-screen-page', null, '664793'); 
                 }
             }, 1200);
+        }
+
+        function toggleBankStatement() {
+            const details = document.getElementById('cashflow-details');
+            const toggleText = document.getElementById('toggle-text');
+            const toggleIcon = document.getElementById('toggle-icon');
+            
+            if (details.style.display === 'none') {
+                details.style.display = 'block';
+                toggleText.textContent = 'Collapse';
+                toggleIcon.style.transform = 'rotate(180deg)';
+            } else {
+                details.style.display = 'none';
+                toggleText.textContent = 'Expand';
+                toggleIcon.style.transform = 'rotate(0deg)';
+            }
         }
 
         function setKiGaugeValue(elementId, value, min, max) {
