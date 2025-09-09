@@ -504,17 +504,31 @@
 
                 <section class="config-section"><h2><span class="section-number">4</span>Bank Statement Data</h2><fieldset class="fieldset-group"><legend>Include Bank Statement (Optional)</legend>
                     <label class="custom-control checkbox">Yes, include bank statement data in the model<input type="checkbox" id="include-bank-statement" data-source-name="Bank Statements"><span class="checkmark"></span></label>
-                    <div id="bank-format-options" style="margin-top: 1rem; display: none;"><div class="input-group">
-                        <label class="custom-control radio"><span class="detail-item" data-modal-target="txn-data-modal">Transaction Level Data</span><input type="radio" name="bank_statement" disabled><span class="checkmark"></span></label>
-                        <label class="custom-control radio"><span class="detail-item" data-modal-target="summ-data-modal">Summarised Account Level Data</span><input type="radio" name="bank_statement" disabled><span class="checkmark"></span></label>
-                    </div></div>
+                    <div id="bank-format-options" style="margin-top: 1rem; display: none;">
+                        <div class="input-group" style="margin-bottom: 1.5rem;">
+                            <label class="custom-control radio"><span class="detail-item" data-modal-target="txn-data-modal">Transaction Level Data</span><input type="radio" name="bank_statement" id="txn-data-radio" disabled><span class="checkmark"></span></label>
+                            <label class="custom-control radio"><span class="detail-item" data-modal-target="summ-data-modal">Summarised Account Level Data</span><input type="radio" name="bank_statement" id="summ-data-radio" disabled><span class="checkmark"></span></label>
+                        </div>
+                        <div id="account-aggregator-section" style="margin-top: 1.5rem; display: none;">
+                            <h4 style="font-weight: 600; margin-bottom: 1rem; color: var(--primary-color);">Select Account Aggregator</h4>
+                            <div class="input-group">
+                                <label class="custom-control radio">CRIF Connect<input type="radio" name="account_aggregator" value="crif"><span class="checkmark"></span></label>
+                                <label class="custom-control radio">CAMSfinserv<input type="radio" name="account_aggregator" value="cams"><span class="checkmark"></span></label>
+                                <label class="custom-control radio">Perfios Account Aggregation Services (Anumati)<input type="radio" name="account_aggregator" value="perfios"><span class="checkmark"></span></label>
+                                <label class="custom-control radio">Finvu (Cookiejar Technologies)<input type="radio" name="account_aggregator" value="finvu"><span class="checkmark"></span></label>
+                                <label class="custom-control radio">OneMoney (FinSec AA Solutions)<input type="radio" name="account_aggregator" value="onemoney"><span class="checkmark"></span></label>
+                                <label class="custom-control radio">Setu (Agya Technologies)<input type="radio" name="account_aggregator" value="setu"><span class="checkmark"></span></label>
+                                <label class="custom-control radio">NESL Asset Data Limited (NADL)<input type="radio" name="account_aggregator" value="nadl"><span class="checkmark"></span></label>
+                            </div>
+                        </div>
+                    </div>
                 </fieldset></section>
                 
                 <section class="config-section"><h2><span class="section-number">5</span>Proprietary Alternate Data (Optional)</h2><div class="input-group">
                     <label class="custom-control checkbox"><span class="detail-item" data-modal-target="socio-data-modal">Socioeconomic Infrastructure</span><input type="checkbox"><span class="checkmark"></span></label>
-                    <label class="custom-control checkbox"><span class="detail-item" data-modal-target="risk-data-modal">Location-Level Risk Factors</span><input type="checkbox"><span class="checkmark"></span></label>
-                    <label class="custom-control checkbox"><span class="detail-item" data-modal-target="demo-data-modal">Demographic Patterns</span><input type="checkbox"><span class="checkmark"></span></label>
-                    <label class="custom-control checkbox"><span class="detail-item" data-modal-target="econ-data-modal">Economic & Livelihood Indicators</span><input type="checkbox"><span class="checkmark"></span></label>
+                    <label class="custom-control checkbox"><span class="detail-item" data-modal-target="climate-risk-modal">Climate Risk Factor</span><input type="checkbox"><span class="checkmark"></span></label>
+                    <label class="custom-control checkbox"><span class="detail-item" data-modal-target="digital-footprint-modal">Digital Footprint</span><input type="checkbox"><span class="checkmark"></span></label>
+                    <label class="custom-control checkbox"><span class="detail-item" data-modal-target="income-estimates-modal">Income estimates</span><input type="checkbox"><span class="checkmark"></span></label>
                 </div></section>
                 <div class="button-group"><div></div><button type="button" class="submit-button" id="proceed-btn">Proceed to Institution Profile Set up</button></div>
             </form>
@@ -807,6 +821,28 @@
                         <input type="radio" name="target_variable" value="dpd90">
                         <span class="checkmark"></span>
                         <strong>DPD 90+</strong> - Days Past Due 90 or more days
+                    </label>
+                </div>
+            </section>
+            
+            <section class="config-section">
+                <h2><span class="section-number">2</span>Select Time Period</h2>
+                <p>Choose the observation period for the target variable:</p>
+                <div class="input-group">
+                    <label class="custom-control radio">
+                        <input type="radio" name="time_period" value="6months" checked>
+                        <span class="checkmark"></span>
+                        <strong>6 Months</strong> - Observe performance over 6 months
+                    </label>
+                    <label class="custom-control radio">
+                        <input type="radio" name="time_period" value="12months">
+                        <span class="checkmark"></span>
+                        <strong>12 Months</strong> - Observe performance over 12 months
+                    </label>
+                    <label class="custom-control radio">
+                        <input type="radio" name="time_period" value="18months">
+                        <span class="checkmark"></span>
+                        <strong>18 Months</strong> - Observe performance over 18 months
                     </label>
                 </div>
                 <div class="info-box">
@@ -1559,7 +1595,7 @@
 ...</code></pre><p><strong>Note:</strong> The data inside the `bank_json` column must be a valid JSON string. The `bureau_xml` column should contain the raw XML or text from the bureau report.</p></div></div>
     <div id="loan-data-modal" class="modal"><div class="modal-content"><span class="close-modal">&times;</span><h3><i data-lucide="file-text"></i>Loan Data Points</h3><ul class="data-list"><li><i data-lucide="coins"></i>Loan Amount Requested</li><li><i data-lucide="package"></i>Loan Product Type</li><li><i data-lucide="calendar-days"></i>Tenure (in months)</li><li><i data-lucide="percent-circle"></i>Proposed Interest Rate</li><li><i data-lucide="receipt"></i>Processing Fee</li><li><i data-lucide="building"></i>Originating Branch Code</li></ul></div></div>
     <div id="customer-data-modal" class="modal"><div class="modal-content"><span class="close-modal">&times;</span><h3><i data-lucide="user-round"></i>Customer Data Points</h3><ul class="data-list"><li><i data-lucide="cake"></i>Age</li><li><i data-lucide="users"></i>Gender</li><li><i data-lucide="heart"></i>Marital Status</li><li><i data-lucide="graduation-cap"></i>Education Level</li><li><i data-lucide="briefcase"></i>Profession / Occupation</li><li><i data-lucide="user-check"></i>Years in Job/Business</li><li><i data-lucide="map-pin"></i>Residential Pincode</li><li><i data-lucide="clock"></i>Time at Address</li></ul></div></div>
-    <div id="digital-footprint-modal" class="modal"><div class="modal-content"><span class="close-modal">&times;</span><h3><i data-lucide="smartphone"></i>Digital Footprint</h3><ul class="data-list"><li><i data-lucide="phone"></i>Mobile Number</li><li><i data-lucide="at-sign"></i>Email ID</li><li><i data-lucide="smartphone-charging"></i>Smartphone User (Y/N)</li><li><i data-lucide="thumbs-up"></i>Social Media Presence</li></ul></div></div>
+    <div id="digital-footprint-modal" class="modal"><div class="modal-content"><span class="close-modal">&times;</span><h3><i data-lucide="smartphone"></i>Digital Footprint</h3><ul class="data-list"><li><i data-lucide="phone"></i>Mobile Number</li><li><i data-lucide="at-sign"></i>Email ID</li></ul></div></div>
     <div id="on-us-repayment-modal" class="modal"><div class="modal-content"><span class="close-modal">&times;</span><h3><i data-lucide="history"></i>Sample: Historical On-Us Repayments API</h3><pre>{
   "historical_loans": [
     {
@@ -1597,10 +1633,10 @@
     <div id="txn-data-modal" class="modal"><div class="modal-content"><span class="close-modal">&times;</span><h3><i data-lucide="check-circle-2"></i>Sample: Transaction Level Data</h3><pre>Date,Description,Debit,Credit,Balance
 01-08-2025,SALARY DEPOSIT, ,50000.00,75000.00
 02-08-2025,ATM WDL-ANYTOWN,2000.00, ,73000.00</pre></div></div>
-    <div id="socio-data-modal" class="modal"><div class="modal-content"><span class="close-modal">&times;</span><h3><i data-lucide="building-2"></i>Socioeconomic Variables</h3><ul class="data-list"><li><i data-lucide="school"></i>Number of schools nearby</li><li><i data-lucide="hospital"></i>Number of hospitals nearby</li><li><i data-lucide="home"></i>% households with RCC roofs</li><li><i data-lucide="car"></i>Car ownership % in area</li><li><i data-lucide="landmark"></i>Bank branches per 1000 people</li></ul></div></div>
-    <div id="risk-data-modal" class="modal"><div class="modal-content"><span class="close-modal">&times;</span><h3><i data-lucide="map-pin"></i>Location-Level Risk Variables</h3><ul class="data-list"><li><i data-lucide="utensils"></i>Average meal prices</li><li><i data-lucide="cloud-hail"></i>Historical disaster events</li><li><i data-lucide="thermometer-sun"></i>Climate vulnerability scores</li><li><i data-lucide="cloud-drizzle"></i>Drought/flood-prone zone</li><li><i data-lucide="shield-alert"></i>Local Crime Rate</li></ul></div></div>
-    <div id="demo-data-modal" class="modal"><div class="modal-content"><span class="close-modal">&times;</span><h3><i data-lucide="users"></i>Demographic Pattern Variables</h3><ul class="data-list"><li><i data-lucide="home"></i>Household size & density</li><li><i data-lucide="baby"></i>Youth vs. elderly population</li><li><i data-lucide="building"></i>Urban vs. rural classification</li><li><i data-lucide="venus-mars"></i>Local Gender ratios</li></ul></div></div>
-    <div id="econ-data-modal" class="modal"><div class="modal-content"><span class="close-modal">&times;</span><h3><i data-lucide="trending-up"></i>Economic Indicator Variables</h3><ul class="data-list"><li><i data-lucide="briefcase"></i>Formal employment density</li><li><i data-lucide="award"></i>Udyam-registered MSMEs</li><li><i data-lucide="factory"></i>Nearby MSME clusters</li><li><i data-lucide="tractor"></i>Agricultural productivity</li></ul></div></div>
+    <div id="socio-data-modal" class="modal"><div class="modal-content"><span class="close-modal">&times;</span><h3><i data-lucide="building-2"></i>Socioeconomic Variables</h3><ul class="data-list"><li><i data-lucide="school"></i>Number of schools nearby</li><li><i data-lucide="hospital"></i>Number of hospitals nearby</li><li><i data-lucide="home"></i>% households with RCC roofs</li><li><i data-lucide="car"></i>Car ownership % in area</li><li><i data-lucide="landmark"></i>Bank branches per 1000 people</li><li><i data-lucide="shield-alert"></i>Local Crime Rate</li></ul></div></div>
+    <div id="climate-risk-modal" class="modal"><div class="modal-content"><span class="close-modal">&times;</span><h3><i data-lucide="cloud-rain"></i>Climate Risk Factor</h3><ul class="data-list"><li><i data-lucide="cloud-drizzle"></i>Rainfall patterns</li><li><i data-lucide="sun"></i>Drought risk indicators</li><li><i data-lucide="waves"></i>Flood risk assessment</li><li><i data-lucide="thermometer-sun"></i>Climate vulnerability score</li></ul></div></div>
+    <div id="digital-footprint-modal" class="modal"><div class="modal-content"><span class="close-modal">&times;</span><h3><i data-lucide="smartphone"></i>Digital Footprint</h3><p style="margin-bottom: 1.5rem; color: var(--dark-gray);">Digital stability indicators that demonstrate customer reliability and longevity.</p><div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;"><div style="background-color: var(--light-gray); border-radius: 8px; padding: 1.25rem;"><h4 style="margin: 0 0 1rem 0; color: var(--primary-color);">Mobile Number Stability</h4><ul class="data-list" style="margin: 0;"><li style="padding: 0.5rem 0; border-bottom: 1px solid #e5e7eb;"><i data-lucide="calendar"></i>Years of mobile phone usage</li><li style="padding: 0.5rem 0; border-bottom: 1px solid #e5e7eb;"><i data-lucide="phone"></i>Mobile number length validation</li><li style="padding: 0.5rem 0; border-bottom: none;"><i data-lucide="signal"></i>Telecom provider stability</li></ul></div><div style="background-color: var(--light-gray); border-radius: 8px; padding: 1.25rem;"><h4 style="margin: 0 0 1rem 0; color: var(--primary-color);">Email Stability</h4><ul class="data-list" style="margin: 0;"><li style="padding: 0.5rem 0; border-bottom: 1px solid #e5e7eb;"><i data-lucide="clock"></i>Email ID active since (years)</li><li style="padding: 0.5rem 0; border-bottom: 1px solid #e5e7eb;"><i data-lucide="type"></i>Email length and format</li><li style="padding: 0.5rem 0; border-bottom: none;"><i data-lucide="at-sign"></i>Email provider reliability</li></ul></div></div><div style="background-color: #f0f9ff; border: 1px solid #0ea5e9; border-radius: 8px; padding: 1rem; margin-top: 1.5rem;"><p style="margin: 0; color: #0c4a6e; font-size: 0.9rem;"><i data-lucide="info" style="width: 16px; height: 16px; margin-right: 0.5rem;"></i>Longer usage periods indicate customer stability and lower likelihood of default.</p></div></div></div>
+    <div id="income-estimates-modal" class="modal"><div class="modal-content" style="max-width: 600px;"><span class="close-modal">&times;</span><h3><i data-lucide="trending-up"></i>Income Estimates</h3><p style="margin-bottom: 1.5rem; color: var(--dark-gray); font-size: 1rem; line-height: 1.5;">Income estimates are calculated based on the following data:</p><div style="background-color: #fef3c7; border: 1px solid #f59e0b; border-radius: 8px; padding: 1rem; margin-bottom: 1.5rem;"><p style="margin: 0; color: #92400e; font-weight: 500; font-size: 0.9rem;"><i data-lucide="info" style="width: 16px; height: 16px; margin-right: 0.5rem;"></i>Note: These are sample data points. Additional indicators may be used based on data availability.</p></div><div style="background-color: var(--light-gray); border-radius: 8px; padding: 1.25rem; margin-bottom: 1.5rem;"><h4 style="margin: 0 0 1rem 0; color: var(--primary-color); font-size: 1rem;">Primary Indicator:</h4><ul class="data-list" style="margin: 0;"><li style="padding: 0.5rem 0; border-bottom: none;"><i data-lucide="credit-card"></i>Monthly debt repayments</li></ul></div><div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;"><div style="background-color: var(--white); border: 1px solid var(--medium-gray); border-radius: 8px; padding: 1.25rem;"><h4 style="margin: 0 0 1rem 0; color: var(--primary-color); font-size: 1rem;">Access to Amenities</h4><div style="font-size: 0.9rem; color: var(--dark-gray); margin-bottom: 0.75rem;">Examples:</div><ul class="data-list" style="margin: 0;"><li style="padding: 0.4rem 0; border-bottom: 1px solid #f3f4f6; font-size: 0.9rem;"><i data-lucide="droplets" style="width: 16px; height: 16px;"></i>Access to drinking water within the premises</li><li style="padding: 0.4rem 0; border-bottom: 1px solid #f3f4f6; font-size: 0.9rem;"><i data-lucide="home" style="width: 16px; height: 16px;"></i>Access to toilet within the premises</li><li style="padding: 0.4rem 0; border-bottom: none; font-size: 0.9rem;"><i data-lucide="flame" style="width: 16px; height: 16px;"></i>Access to LPG for cooking</li></ul></div><div style="background-color: var(--white); border: 1px solid var(--medium-gray); border-radius: 8px; padding: 1.25rem;"><h4 style="margin: 0 0 1rem 0; color: var(--primary-color); font-size: 1rem;">Ownership of Assets</h4><div style="font-size: 0.9rem; color: var(--dark-gray); margin-bottom: 0.75rem;">Examples:</div><ul class="data-list" style="margin: 0;"><li style="padding: 0.4rem 0; border-bottom: 1px solid #f3f4f6; font-size: 0.9rem;"><i data-lucide="bike" style="width: 16px; height: 16px;"></i>Ownership of scooter</li><li style="padding: 0.4rem 0; border-bottom: 1px solid #f3f4f6; font-size: 0.9rem;"><i data-lucide="monitor" style="width: 16px; height: 16px;"></i>Ownership of computer</li><li style="padding: 0.4rem 0; border-bottom: none; font-size: 0.9rem;"><i data-lucide="refrigerator" style="width: 16px; height: 16px;"></i>Ownership of refrigerator</li></ul></div></div></div></div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -1995,10 +2031,28 @@
             // --- OTHER LOGIC ---
             const includeBankCheckbox = document.getElementById('include-bank-statement');
             const bankFormatOptions = document.getElementById('bank-format-options');
+            const accountAggregatorSection = document.getElementById('account-aggregator-section');
+            const summDataRadio = document.getElementById('summ-data-radio');
+            const txnDataRadio = document.getElementById('txn-data-radio');
+            
             includeBankCheckbox.addEventListener('change', e => {
                 const isChecked = e.target.checked;
                 bankFormatOptions.style.display = isChecked ? 'block' : 'none';
                 bankFormatOptions.querySelectorAll('input').forEach(input => input.disabled = !isChecked);
+                
+                // Reset subsequent sections when bank statement is unchecked
+                if (!isChecked) {
+                    accountAggregatorSection.style.display = 'none';
+                }
+            });
+
+            // Show account aggregator section when either transaction or summarised data is selected
+            [summDataRadio, txnDataRadio].forEach(radio => {
+                radio.addEventListener('change', e => {
+                    if (e.target.checked) {
+                        accountAggregatorSection.style.display = 'block';
+                    }
+                });
             });
 
             document.querySelectorAll('[data-modal-target]').forEach(trigger => {

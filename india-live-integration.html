@@ -133,7 +133,7 @@
                             <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider" style="min-width: 100px;">Asset Class</th>
                             <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider" style="min-width: 80px;">Ki Score</th>
                             <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider" style="min-width: 100px;">Bureau Profile</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider" style="min-width: 120px;">Cashflow Profile</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider" style="min-width: 120px;">Alt Data Profile</th>
                             <th class="px-4 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider" style="min-width: 90px;">Decision</th>
                         </tr>
                     </thead>
@@ -226,8 +226,8 @@
                 
                 <div class="section-card" id="collateral-section"><div class="section-header"><h2 class="text-xl font-bold text-slate-800">Collateral Details</h2><span class="text-sm font-medium px-3 py-1 rounded-full" id="collateral-profile-badge"></span></div><ul class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm" id="collateral-details-list"></ul></div>
                 <div class="section-card" id="bureau-section"><div class="section-header"><h2 class="text-xl font-bold text-slate-800">Bureau Details</h2><span class="text-sm font-medium px-3 py-1 rounded-full" id="bureau-profile-badge"></span></div><ul class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm" id="bureau-details-list"></ul></div>
-                <div class="section-card" id="cashflow-section"><div class="section-header"><h2 class="text-xl font-bold text-slate-800">Cashflow Analysis</h2><span class="text-sm font-medium px-3 py-1 rounded-full" id="cashflow-profile-badge"></span></div><ul class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm" id="cashflow-details-list"></ul></div>
                 <div class="section-card" id="alternate-section"><div class="section-header"><h2 class="text-xl font-bold text-slate-800">Alternate Data Analysis</h2><span class="text-sm font-medium px-3 py-1 rounded-full" id="alternate-profile-badge"></span></div><div class="space-y-4 mt-4" id="alternate-details-content"></div></div>
+                <div class="section-card" id="cashflow-section"><div class="section-header"><h2 class="text-xl font-bold text-slate-800 flex items-center">Bank Statement Analysis <span class="text-sm text-slate-500 font-normal ml-2">(Optional)</span><button onclick="toggleBankStatement()" class="ml-auto text-sky-600 hover:text-sky-800 text-sm flex items-center" id="bank-statement-toggle"><span id="toggle-text">Expand</span><svg class="w-4 h-4 ml-1 transition-transform" id="toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button></h2><span class="text-sm font-medium px-3 py-1 rounded-full" id="cashflow-profile-badge"></span></div><div id="cashflow-details" style="display: none;"><ul class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm" id="cashflow-details-list"></ul></div></div>
                 <div class="section-card" id="affordability-section"><div class="section-header"><h2 class="text-xl font-bold text-slate-800">Affordability Analysis</h2></div><div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center" id="affordability-details-grid"></div></div>
             </div>
         </div>
@@ -236,9 +236,9 @@
     <script>
         // --- DATA ---
         const mockApplications = [
-            { id: '664793', name: 'Rajesh Kumar Sharma', assetClass: 'MFI', score: 35, decision: 'Approved', date: '2025-09-02', bureauProfile: 'Fair', cashflowProfile: 'Excellent', altDataProfile: 'Positive' },
-            { id: '664794', name: 'Priya Patel', assetClass: 'MSME', score: 12, decision: 'Approved', date: '2025-09-01', bureauProfile: 'Excellent', cashflowProfile: 'Excellent', altDataProfile: 'Positive' },
-            { id: '664795', name: 'Amit Singh', assetClass: 'Agri Loan', score: 28, decision: 'Approved', date: '2025-08-30', bureauProfile: 'No History', cashflowProfile: 'Excellent', altDataProfile: 'Average' },
+            { id: '664793', name: 'Rajesh Kumar Sharma', assetClass: 'MFI', score: 35, decision: 'Approved', date: '2025-09-02', bureauProfile: 'Average', cashflowProfile: 'V Good', altDataProfile: 'Good' },
+            { id: '664794', name: 'Priya Patel', assetClass: 'MSME', score: 12, decision: 'Approved', date: '2025-09-01', bureauProfile: 'V Good', cashflowProfile: 'V Good', altDataProfile: 'V Good' },
+            { id: '664795', name: 'Amit Singh', assetClass: 'Agri Loan', score: 28, decision: 'Approved', date: '2025-08-30', bureauProfile: 'No History', cashflowProfile: 'V Good', altDataProfile: 'V Good' },
             { id: '664796', name: 'Vikram Reddy', assetClass: 'Affordable Housing', score: 75, decision: 'Review', date: '2025-08-29', bureauProfile: 'Good', cashflowProfile: 'Poor', altDataProfile: 'Average' },
         ];
 
@@ -248,13 +248,13 @@
                 ...mockApplications[0],
                 summary: { kiScore: 35, grade: 'Good', requestedAmount: 50000, eligibleAmount: 50000, term: 12, apr: 28, },
                 explainability: {
-                    good: ['Strong bank statement surplus', 'Positive alternate data signals', 'Consistent business inflows'],
-                    improvement: ['Multiple recent credit inquiries', 'No formal collateral offered'],
+                    good: ['Good credit history length (1.5 years)', 'Manageable credit utilization (75%)', 'High on-time payment rate (92%)', 'Strong alternate data signals', 'Consistent business inflows'],
+                    improvement: ['Multiple recent credit inquiries', 'Increasing indebtedness (15% rise over last year)'],
                     bad: ['One instance of 30 DPD (12m ago)'],
                 },
                 collateral: { type: 'Chattel (Business Stock)', ownership: 'Owned', value: 80000 },
                 bureau: { 
-                    profile: 'Fair', class: 'text-yellow-700 bg-yellow-100', 
+                    profile: 'Average', class: 'text-yellow-600 bg-yellow-100', 
                     details: [ 
                         {label: 'Credit History', value: '1.5 years'}, {label: 'Active Accounts', value: '1'}, 
                         {label: 'Inquiries (180d)', value: '6', class: 'text-yellow-600'}, {label: 'Worst DPD (12m)', value: '1-30 DPD'},
@@ -265,7 +265,7 @@
                     ] 
                 },
                 cashflow: { 
-                    profile: 'Excellent', class: 'text-green-700 bg-green-100', 
+                    profile: 'V Good', class: 'text-green-800 bg-green-100', 
                     details: [ 
                         {label: 'Avg Net Surplus', value: '₹8,500', class: 'text-green-600'}, {label: 'Avg Monthly Inflow', value: '₹36,500'},
                         {label: 'Avg Monthly Outflow', value: '₹28,000'}, {label: 'Income Volatility', value: 'Low (20%)'}, 
@@ -276,30 +276,40 @@
                     ] 
                 },
                 alternate: { 
-                    profile: 'Positive', class: 'text-green-700 bg-green-100', 
+                    profile: 'Good', class: 'text-green-600 bg-green-100', 
                     points: { 
-                        agri: [], 
                         socio: [
-                            {label: 'Income Estimate', value: '₹42,000/month'}, {label: 'Housing Quality Index', value: 'Good'},
-                            {label: 'Livelihood Zone', value: 'Urban Trade'}, {label: 'SIM Tenure', value: '6 years', class: 'text-green-600'},
-                            {label: 'Access to Drinking Water', value: 'Yes'}, {label: 'Access to Toilet', value: 'Yes'},
-                            {label: 'Access to LPG Cooking', value: 'Yes'}, {label: 'Ownership of Scooter', value: 'Yes'},
-                            {label: 'Ownership of Computer', value: 'No'}, {label: 'Ownership of Refrigerator', value: 'No'}
-                        ] 
+                            {label: 'Number of schools nearby', value: '8'}, {label: 'Number of hospitals nearby', value: '3'},
+                            {label: '% households with RCC roofs', value: '65%'}, {label: 'Car ownership % in area', value: '12%'},
+                            {label: 'Bank branches per 1000 people', value: '2.1'}, {label: 'Local Crime Rate', value: 'Low', class: 'text-green-600'}
+                        ],
+                        climate: [
+                            {label: 'Rainfall patterns', value: 'Normal'}, {label: 'Drought risk indicators', value: 'Low', class: 'text-green-600'},
+                            {label: 'Flood risk assessment', value: 'Moderate'}, {label: 'Climate vulnerability score', value: '3.2/10'}
+                        ],
+                        digital: [
+                            {label: 'Mobile phone tenure', value: '6 years', class: 'text-green-600'}, {label: 'Email tenure', value: '4 years'}
+                        ],
+                        income: [
+                            {label: 'Monthly debt repayments', value: '₹8,500'}, {label: 'Access to drinking water within premises', value: 'Yes'},
+                            {label: 'Access to toilet within premises', value: 'Yes'}, {label: 'Access to LPG for cooking', value: 'Yes'},
+                            {label: 'Ownership of scooter', value: 'Yes'}, {label: 'Ownership of computer', value: 'No'},
+                            {label: 'Ownership of refrigerator', value: 'No'}
+                        ]
                     } 
                 },
-                affordability: { preDTI: '20%', postDTI: '45%', emi: '₹4,800', verdict: 'Comfortable', verdictClass: 'text-green-800 bg-green-50' },
+                affordability: { preFOIR: '20%', postFOIR: '45%', emi: '₹4,800', verdict: 'Comfortable', verdictClass: 'text-green-800 bg-green-50' },
             },
             '664794': { /* Priya Patel - Use Case 2: Excellent Profile Upsell */
                 ...mockApplications[1],
                 summary: { kiScore: 12, grade: 'Excellent', requestedAmount: 250000, eligibleAmount: 350000, term: 24, apr: 18, },
                 explainability: {
-                    good: ['Pristine credit history', 'Very high, stable income', 'Strong collateral', 'Excellent alternate data'],
+                    good: ['Pristine credit history (10+ years)', 'Zero DPD in last 24 months', 'Low credit utilization (25%)', 'Multiple secured loans with good track record', 'V Good alternate data', 'Very high, stable income'],
                     improvement: [], bad: [],
                 },
                 collateral: { type: 'Land Title Deed', ownership: 'Owned', value: 1500000 },
                 bureau: { 
-                    profile: 'Excellent', class: 'text-green-700 bg-green-100', 
+                    profile: 'V Good', class: 'text-green-800 bg-green-100', 
                     details: [ 
                         {label: 'Credit History', value: '8 years'}, {label: 'Active Accounts', value: '3'}, 
                         {label: 'Inquiries (180d)', value: '1'}, {label: 'Worst DPD (12m)', value: 'No delinquency', class: 'text-green-600'},
@@ -310,7 +320,7 @@
                     ] 
                 },
                 cashflow: { 
-                    profile: 'Excellent', class: 'text-green-700 bg-green-100', 
+                    profile: 'V Good', class: 'text-green-800 bg-green-100', 
                     details: [ 
                         {label: 'Avg Net Surplus', value: '₹45,000', class: 'text-green-600'}, {label: 'Avg Monthly Inflow', value: '₹1,50,000'},
                         {label: 'Avg Monthly Outflow', value: '₹1,05,000'}, {label: 'Income Volatility', value: 'Very Low (10%)'},
@@ -323,23 +333,33 @@
                 alternate: { 
                     profile: 'Positive', class: 'text-green-700 bg-green-100', 
                     points: { 
-                        agri: [], 
                         socio: [
-                            {label: 'Income Estimate', value: '₹1,50,000/month'}, {label: 'Housing Quality Index', value: 'Excellent'},
-                            {label: 'Livelihood Zone', value: 'Formal Employment'}, {label: 'SIM Tenure', value: '10+ years', class: 'text-green-600'},
-                            {label: 'Access to Drinking Water', value: 'Yes'}, {label: 'Access to Toilet', value: 'Yes'},
-                            {label: 'Access to LPG Cooking', value: 'Yes'}, {label: 'Ownership of Scooter', value: 'No'},
-                            {label: 'Ownership of Computer', value: 'Yes'}, {label: 'Ownership of Refrigerator', value: 'Yes'}
-                        ] 
+                            {label: 'Number of schools nearby', value: '15'}, {label: 'Number of hospitals nearby', value: '7'},
+                            {label: '% households with RCC roofs', value: '95%'}, {label: 'Car ownership % in area', value: '45%'},
+                            {label: 'Bank branches per 1000 people', value: '4.2'}, {label: 'Local Crime Rate', value: 'Very Low', class: 'text-green-600'}
+                        ],
+                        climate: [
+                            {label: 'Rainfall patterns', value: 'Adequate'}, {label: 'Drought risk indicators', value: 'Very Low', class: 'text-green-600'},
+                            {label: 'Flood risk assessment', value: 'Low'}, {label: 'Climate vulnerability score', value: '1.8/10'}
+                        ],
+                        digital: [
+                            {label: 'Mobile phone tenure', value: '10+ years', class: 'text-green-600'}, {label: 'Email tenure', value: '7 years'}
+                        ],
+                        income: [
+                            {label: 'Monthly debt repayments', value: '₹35,000'}, {label: 'Access to drinking water within premises', value: 'Yes'},
+                            {label: 'Access to toilet within premises', value: 'Yes'}, {label: 'Access to LPG for cooking', value: 'Yes'},
+                            {label: 'Ownership of scooter', value: 'No'}, {label: 'Ownership of computer', value: 'Yes'},
+                            {label: 'Ownership of refrigerator', value: 'Yes'}
+                        ]
                     } 
                 },
-                affordability: { preDTI: '10%', postDTI: '25%', emi: '₹17,250', verdict: 'Very Strong', verdictClass: 'text-green-800 bg-green-50' },
+                affordability: { preFOIR: '10%', postFOIR: '25%', emi: '₹17,250', verdict: 'Very Strong', verdictClass: 'text-green-800 bg-green-50' },
             },
             '664795': { /* Amit Singh - Use Case 3: No Bureau, Cashflow Approval */
                 ...mockApplications[2],
                 summary: { kiScore: 28, grade: 'Good', requestedAmount: 5000, eligibleAmount: 5000, term: 1, apr: 15, },
                 explainability: {
-                    good: ['Excellent bank statement history', 'Good agricultural indicators', 'Adequate groundwater and rainfall'],
+                    good: ['V Good bank statement history', 'Strong cash surplus trends', 'Good agricultural indicators', 'Adequate groundwater and rainfall'],
                     improvement: ['Build formal credit history'], bad: ['No bureau data available'],
                 },
                 collateral: { type: 'Agricultural Land', ownership: 'Owned', value: 150000 },
@@ -355,7 +375,7 @@
                     ] 
                 },
                 cashflow: { 
-                    profile: 'Excellent', class: 'text-green-700 bg-green-100', 
+                    profile: 'V Good', class: 'text-green-800 bg-green-100',
                     details: [ 
                         {label: 'Avg Net Surplus', value: '₹7,500', class: 'text-green-600'}, {label: 'Avg Monthly Inflow', value: '₹25,000'},
                         {label: 'Avg Monthly Outflow', value: '₹17,500'}, {label: 'Income Volatility', value: 'Low (25%)'}, 
@@ -366,7 +386,7 @@
                     ] 
                 },
                 alternate: {
-                    profile: 'Average', class: 'text-slate-700 bg-slate-100',
+                    profile: 'Very Good', class: 'text-green-700 bg-green-100',
                     points: {
                         agri: [
                             {label: 'Groundwater Thickness', value: '12m (Good)', class: 'text-green-600'},
@@ -383,7 +403,7 @@
                         ]
                     }
                 },
-                affordability: { preDTI: '0%', postDTI: '20%', emi: '₹5,100', verdict: 'Comfortable', verdictClass: 'text-green-800 bg-green-50' },
+                affordability: { preFOIR: '0%', postFOIR: '20%', emi: '₹5,100', verdict: 'Comfortable', verdictClass: 'text-green-800 bg-green-50' },
             },
              '664796': { /* Vikram Reddy - Use Case 4: Fraud Signals */
                 ...mockApplications[3],
@@ -484,9 +504,13 @@
 
             const getProfileClass = (profile) => {
                 switch (profile) {
-                    case 'Excellent': case 'Positive': case 'Good': return 'text-green-700';
-                    case 'Fair': case 'Average': return 'text-yellow-700';
-                    case 'Poor': return 'text-red-700';
+                    case 'V Good': case 'Very Good': return 'text-green-800';
+                    case 'Good': return 'text-green-600';
+                    case 'Average': return 'text-yellow-600';
+                    case 'Poor': return 'text-red-600';
+                    case 'V Poor': case 'Very Poor': return 'text-red-800';
+                    case 'Fair': return 'text-yellow-600'; // Legacy support
+                    case 'Excellent': return 'text-green-800'; // Legacy support
                     default: return 'text-slate-600';
                 }
             };
@@ -509,7 +533,7 @@
                         <td class="px-4 py-4 whitespace-nowrap text-sm text-slate-500">${app.assetClass}</td>
                         <td class="px-4 py-4 whitespace-nowrap text-sm font-bold ${scoreClass}">${app.score}</td>
                         <td class="px-4 py-4 whitespace-nowrap text-sm font-semibold ${getProfileClass(app.bureauProfile)}">${app.bureauProfile}</td>
-                        <td class="px-4 py-4 whitespace-nowrap text-sm font-semibold ${getProfileClass(app.cashflowProfile)}">${app.cashflowProfile}</td>
+                        <td class="px-4 py-4 whitespace-nowrap text-sm font-semibold ${getProfileClass(app.altDataProfile)}">${app.altDataProfile}</td>
                         <td class="px-4 py-4 whitespace-nowrap text-sm"><span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${decisionClass}">${app.decision}</span></td>
                     </tr>`;
                 tableBody.innerHTML += row;
@@ -558,8 +582,8 @@
             }
             populateSection('bureau', app.bureau, (data, listEl, badgeEl) => { badgeEl.textContent = data.profile; badgeEl.className = `text-sm font-medium px-3 py-1 rounded-full ${data.class}`; listEl.innerHTML = data.details.map(i => `<li><span class="text-slate-500 block">${i.label}</span><p class="font-semibold text-slate-800 ${i.class || ''}">${i.value}</p></li>`).join(''); });
             populateSection('cashflow', app.cashflow, (data, listEl, badgeEl) => { badgeEl.textContent = data.profile; badgeEl.className = `text-sm font-medium px-3 py-1 rounded-full ${data.class}`; listEl.innerHTML = data.details.map(i => `<li><span class="text-slate-500 block">${i.label}</span><p class="font-semibold ${i.class || 'text-slate-800'}">${i.value}</p></li>`).join(''); });
-            populateSection('alternate', app.alternate, (data, contentEl, badgeEl) => { badgeEl.textContent = data.profile; badgeEl.className = `text-sm font-medium px-3 py-1 rounded-full ${data.class}`; let html = ''; if (data.points.agri.length > 0) html += `<div><h3 class="font-semibold text-slate-700 mb-2">1. Agricultural & Climate Data</h3><ul class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">${data.points.agri.map(i => `<li><span class="text-slate-500 block">${i.label}</span><p class="font-semibold ${i.class || 'text-slate-800'}">${i.value}</p></li>`).join('')}</ul></div>`; if (data.points.socio.length > 0) html += `<div><h3 class="font-semibold text-slate-700 mb-2">2. Socioeconomic & Digital Data</h3><ul class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">${data.points.socio.map(i => `<li><span class="text-slate-500 block">${i.label}</span><p class="font-semibold ${i.class || 'text-slate-800'}">${i.value}</p></li>`).join('')}</ul></div>`; contentEl.innerHTML = html; });
-            populateSection('affordability', app.affordability, (data, gridEl) => { gridEl.innerHTML = ` <div class="bg-slate-50 p-4 rounded-lg"><p class="text-sm text-slate-500">DTI (Pre-Loan)</p><p class="text-2xl font-bold text-slate-800">${data.preDTI}</p></div> <div class="bg-sky-50 p-4 rounded-lg"><p class="text-sm text-sky-700">DTI (Post-Loan)</p><p class="text-2xl font-bold text-sky-800">${data.postDTI}</p></div> <div class="bg-slate-50 p-4 rounded-lg"><p class="text-sm text-slate-500">Proposed EMI</p><p class="text-2xl font-bold text-slate-800">${data.emi}</p></div> <div class="p-4 rounded-lg ${data.verdictClass}"><p class="text-sm">Verdict</p><p class="text-2xl font-bold">${data.verdict}</p></div> `; });
+            populateSection('alternate', app.alternate, (data, contentEl, badgeEl) => { badgeEl.textContent = data.profile; badgeEl.className = `text-sm font-medium px-3 py-1 rounded-full ${data.class}`; let html = '<div class="grid grid-cols-1 md:grid-cols-2 gap-6">'; if (data.points.socio.length > 0) html += `<div class="bg-slate-50 p-4 rounded-lg border"><h3 class="font-semibold text-slate-700 mb-3">Socioeconomic Infrastructure</h3><ul class="grid grid-cols-1 gap-3 text-sm">${data.points.socio.map(i => `<li class="flex justify-between"><span class="text-slate-500">${i.label}</span><span class="font-semibold ${i.class || 'text-slate-800'}">${i.value}</span></li>`).join('')}</ul></div>`; if (data.points.climate.length > 0) html += `<div class="bg-slate-50 p-4 rounded-lg border"><h3 class="font-semibold text-slate-700 mb-3">Climate Risk Factor</h3><ul class="grid grid-cols-1 gap-3 text-sm">${data.points.climate.map(i => `<li class="flex justify-between"><span class="text-slate-500">${i.label}</span><span class="font-semibold ${i.class || 'text-slate-800'}">${i.value}</span></li>`).join('')}</ul></div>`; if (data.points.digital.length > 0) html += `<div class="bg-slate-50 p-4 rounded-lg border"><h3 class="font-semibold text-slate-700 mb-3">Digital Footprint</h3><ul class="grid grid-cols-1 gap-3 text-sm">${data.points.digital.map(i => `<li class="flex justify-between"><span class="text-slate-500">${i.label}</span><span class="font-semibold ${i.class || 'text-slate-800'}">${i.value}</span></li>`).join('')}</ul></div>`; if (data.points.income.length > 0) html += `<div class="bg-slate-50 p-4 rounded-lg border"><h3 class="font-semibold text-slate-700 mb-3">Income Estimates</h3><ul class="grid grid-cols-1 gap-3 text-sm">${data.points.income.map(i => `<li class="flex justify-between"><span class="text-slate-500">${i.label}</span><span class="font-semibold ${i.class || 'text-slate-800'}">${i.value}</span></li>`).join('')}</ul></div>`; html += '</div>'; contentEl.innerHTML = html; });
+            populateSection('affordability', app.affordability, (data, gridEl) => { gridEl.innerHTML = ` <div class="bg-slate-50 p-4 rounded-lg"><p class="text-sm text-slate-500">FOIR (Pre-Loan)</p><p class="text-2xl font-bold text-slate-800">${data.preFOIR}</p></div> <div class="bg-sky-50 p-4 rounded-lg"><p class="text-sm text-sky-700">FOIR (Post-Loan)</p><p class="text-2xl font-bold text-sky-800">${data.postFOIR}</p></div> <div class="bg-slate-50 p-4 rounded-lg"><p class="text-sm text-slate-500">Proposed EMI</p><p class="text-2xl font-bold text-slate-800">${data.emi}</p></div> <div class="p-4 rounded-lg ${data.verdictClass}"><p class="text-sm">Verdict</p><p class="text-2xl font-bold">${data.verdict}</p></div> `; });
         }
 
         function populateSection(name, data, renderer) {
@@ -575,12 +599,12 @@
             _createField(label, id, type = 'text', options = [], value = '') { let fieldHtml = ''; const fieldClasses = "mt-1 block w-full rounded-lg border-slate-200 bg-slate-50 py-2.5 px-4 shadow-sm focus:border-sky-400 focus:ring focus:ring-sky-200 focus:ring-opacity-50 transition"; if (type === 'select') { const optionsHtml = options.map(opt => `<option>${opt}</option>`).join(''); fieldHtml = `<select id="${id}" class="${fieldClasses}">${optionsHtml}</select>`; } else { fieldHtml = `<input type="${type}" id="${id}" value="${value}" class="${fieldClasses}">`; } return `<div><label for="${id}" class="font-semibold text-slate-700">${label}</label>${fieldHtml}</div>`; },
             _createSection(title, content) { return ` <div> <h3 class="text-lg font-bold text-slate-700 mb-4">${title}</h3> <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5"> ${content} </div> </div> `; },
             _createWrapper(sections) { return `<div class="space-y-8">${sections}</div>`; },
-            Agriculture: function() { const loanDetails = this._createField('Requested Amount (KES)', 'req-amount', 'number', [], '18000') + this._createField('Tenure (months)', 'req-tenure', 'number', [], '6'); const applicantDetails = this._createField('Applicant Name', 'app-name', 'text', [], 'Faith Mwangi') + this._createField('National ID', 'app-id', 'text', [], '87654321') + this._createField('Pincode', 'app-pincode', 'text', [], '20117'); const collateralDetails = this._createField('Collateral Type', 'col-type', 'select', ['Land', 'Livestock', 'Equipment']) + this._createField('Ownership', 'col-owner', 'select', ['Communal', 'Owned', 'Leased']); return this._createWrapper(this._createSection('Loan Details', loanDetails) + this._createSection('Applicant Details', applicantDetails) + this._createSection('Collateral', collateralDetails)); },
-            SmallBusiness: function() { const loanDetails = this._createField('Requested Amount (KES)', 'req-amount', 'number', [], '40000') + this._createField('Tenure (months)', 'req-tenure', 'number', [], '12'); const businessDetails = this._createField('Business Name', 'biz-name', 'text', [], 'Kazi Njema Store') + this._createField('Years in Business', 'biz-years', 'number', [], '3') + this._createField('Avg Monthly Revenue', 'biz-rev', 'number', [], '150000'); return this._createWrapper(this._createSection('Loan Details', loanDetails) + this._createSection('Business Details', businessDetails)); },
-            Personal: function() { const loanDetails = this._createField('Requested Amount (KES)', 'req-amount', 'number', [], '50000') + this._createField('Tenure (months)', 'req-tenure', 'number', [], '24'); const applicantDetails = this._createField('Applicant Name', 'app-name', 'text', [], 'John Doe') + this._createField('Employer', 'app-employer', 'text', [], 'ABC Company') + this._createField('Net Monthly Salary', 'app-salary', 'number', [], '70000'); return this._createWrapper(this._createSection('Loan Details', loanDetails) + this._createSection('Applicant Details', applicantDetails)); },
-            Digital: function() { const loanDetails = this._createField('Requested Amount (KES)', 'req-amount', 'number', [], '5000'); const applicantDetails = this._createField('Full Name', 'app-name', 'text', [], 'Jane Akinyi') + this._createField('Phone Number', 'app-phone', 'text', [], '254722123456'); return this._createWrapper(this._createSection('Loan Details', loanDetails) + this._createSection('Applicant Details', applicantDetails)); },
-            Microfinance: function() { const loanDetails = this._createField('Loan per Member (KES)', 'req-amount', 'number', [], '10000') + this._createField('Tenure (weeks)', 'req-tenure', 'number', [], '16'); const groupDetails = this._createField('Group Name', 'group-name', 'text', [], 'Upendo Women Group') + this._createField('Number of Members', 'group-members', 'number', [], '15'); return this._createWrapper(this._createSection('Loan Details', loanDetails) + this._createSection('Group Details', groupDetails)); },
-            MSME: function() { const loanDetails = this._createField('Requested Amount (KES)', 'req-amount', 'number', [], '250000') + this._createField('Tenure (months)', 'req-tenure', 'number', [], '18'); const businessDetails = this._createField('Business Name', 'biz-name', 'text', [], 'Coastal Traders Ltd') + this._createField('Business Reg. No', 'biz-reg', 'text', [], 'BN-XYZ123') + this._createField('Avg Monthly Turnover', 'biz-turnover', 'number', [], '800000'); return this._createWrapper(this._createSection('Loan Details', loanDetails) + this._createSection('Business Details', businessDetails)); },
+            Agriculture: function() { const loanDetails = this._createField('Requested Amount (₹)', 'req-amount', 'number', [], '50000') + this._createField('Tenure (months)', 'req-tenure', 'number', [], '12'); const applicantDetails = this._createField('Applicant Name', 'app-name', 'text', [], 'Rajesh Kumar Sharma') + this._createField('National ID', 'app-id', 'text', [], '123456789012') + this._createField('Pincode', 'app-pincode', 'text', [], '110001'); const collateralDetails = this._createField('Collateral Type', 'col-type', 'select', ['Land', 'Livestock', 'Equipment']) + this._createField('Ownership', 'col-owner', 'select', ['Owned', 'Leased', 'Communal']); return this._createWrapper(this._createSection('Loan Details', loanDetails) + this._createSection('Applicant Details', applicantDetails) + this._createSection('Collateral', collateralDetails)); },
+            SmallBusiness: function() { const loanDetails = this._createField('Requested Amount (₹)', 'req-amount', 'number', [], '250000') + this._createField('Tenure (months)', 'req-tenure', 'number', [], '18'); const businessDetails = this._createField('Business Name', 'biz-name', 'text', [], 'Sharma Enterprises') + this._createField('Years in Business', 'biz-years', 'number', [], '5') + this._createField('Avg Monthly Revenue', 'biz-rev', 'number', [], '800000'); return this._createWrapper(this._createSection('Loan Details', loanDetails) + this._createSection('Business Details', businessDetails)); },
+            Personal: function() { const loanDetails = this._createField('Requested Amount (₹)', 'req-amount', 'number', [], '500000') + this._createField('Tenure (months)', 'req-tenure', 'number', [], '24'); const applicantDetails = this._createField('Applicant Name', 'app-name', 'text', [], 'Priya Patel') + this._createField('Employer', 'app-employer', 'text', [], 'Tech Solutions India') + this._createField('Net Monthly Salary', 'app-salary', 'number', [], '125000'); return this._createWrapper(this._createSection('Loan Details', loanDetails) + this._createSection('Applicant Details', applicantDetails)); },
+            Digital: function() { const loanDetails = this._createField('Requested Amount (₹)', 'req-amount', 'number', [], '25000'); const applicantDetails = this._createField('Full Name', 'app-name', 'text', [], 'Amit Singh') + this._createField('Phone Number', 'app-phone', 'text', [], '919876543210'); return this._createWrapper(this._createSection('Loan Details', loanDetails) + this._createSection('Applicant Details', applicantDetails)); },
+            Microfinance: function() { const loanDetails = this._createField('Loan per Member (₹)', 'req-amount', 'number', [], '50000') + this._createField('Tenure (months)', 'req-tenure', 'number', [], '12'); const groupDetails = this._createField('Group Name', 'group-name', 'text', [], 'Mahila Samiti Group') + this._createField('Number of Members', 'group-members', 'number', [], '12'); return this._createWrapper(this._createSection('Loan Details', loanDetails) + this._createSection('Group Details', groupDetails)); },
+            MSME: function() { const loanDetails = this._createField('Requested Amount (₹)', 'req-amount', 'number', [], '1500000') + this._createField('Tenure (months)', 'req-tenure', 'number', [], '36'); const businessDetails = this._createField('Business Name', 'biz-name', 'text', [], 'Mumbai Traders Pvt Ltd') + this._createField('Business Reg. No', 'biz-reg', 'text', [], 'CIN-U12345MH2020PTC123456') + this._createField('Avg Monthly Turnover', 'biz-turnover', 'number', [], '2500000'); return this._createWrapper(this._createSection('Loan Details', loanDetails) + this._createSection('Business Details', businessDetails)); },
         };
 
         function updateAssetFields() {
@@ -596,7 +620,7 @@
         function runEvaluation() {
             showPage('evaluation-spinner-page');
             const statusEl = document.getElementById('spinner-status');
-            const steps = ['Pulling Bureau Report...', 'Analyzing M-PESA Statements...', 'Assessing Alternate Data...'];
+            const steps = ['Pulling Bureau Report...', 'Assessing Alternate Data...'];
             let currentStep = 0;
             statusEl.textContent = steps[currentStep];
             const interval = setInterval(() => {
@@ -618,6 +642,22 @@
             const percentage = (value - min) / range;
             const angle = -90 + (percentage * 180);
             pointerContainer.style.transform = `rotate(${angle}deg)`;
+        }
+
+        function toggleBankStatement() {
+            const details = document.getElementById('cashflow-details');
+            const toggleText = document.getElementById('toggle-text');
+            const toggleIcon = document.getElementById('toggle-icon');
+            
+            if (details.style.display === 'none') {
+                details.style.display = 'block';
+                toggleText.textContent = 'Collapse';
+                toggleIcon.style.transform = 'rotate(180deg)';
+            } else {
+                details.style.display = 'none';
+                toggleText.textContent = 'Expand';
+                toggleIcon.style.transform = 'rotate(0deg)';
+            }
         }
         
         window.onload = () => showPage('app-shell', true);
