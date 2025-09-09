@@ -227,7 +227,7 @@
                 <div class="section-card" id="collateral-section"><div class="section-header"><h2 class="text-xl font-bold text-slate-800">Collateral Details</h2><span class="text-sm font-medium px-3 py-1 rounded-full" id="collateral-profile-badge"></span></div><ul class="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm" id="collateral-details-list"></ul></div>
                 <div class="section-card" id="bureau-section"><div class="section-header"><h2 class="text-xl font-bold text-slate-800">Bureau Details</h2><span class="text-sm font-medium px-3 py-1 rounded-full" id="bureau-profile-badge"></span></div><ul class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm" id="bureau-details-list"></ul></div>
                 <div class="section-card" id="alternate-section"><div class="section-header"><h2 class="text-xl font-bold text-slate-800">Alternate Data Analysis</h2><span class="text-sm font-medium px-3 py-1 rounded-full" id="alternate-profile-badge"></span></div><div class="space-y-4 mt-4" id="alternate-details-content"></div></div>
-                <div class="section-card" id="cashflow-section"><div class="section-header"><h2 class="text-xl font-bold text-slate-800 flex items-center">M-PESA Statement Analysis <span class="text-sm text-slate-500 font-normal ml-2">(Optional)</span><button onclick="toggleBankStatement()" class="ml-auto text-sky-600 hover:text-sky-800 text-sm flex items-center" id="bank-statement-toggle"><span id="toggle-text">Expand</span><svg class="w-4 h-4 ml-1 transition-transform" id="toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button></h2><span class="text-sm font-medium px-3 py-1 rounded-full" id="cashflow-profile-badge"></span></div><div id="cashflow-details" style="display: none;"><ul class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm" id="cashflow-details-list"></ul></div></div>
+                <div class="section-card" id="cashflow-section"><div class="section-header"><h2 class="text-xl font-bold text-slate-800 flex items-center">Mobile Wallet Analysis <span class="text-sm text-slate-500 font-normal ml-2">(Optional)</span><button onclick="toggleBankStatement()" class="ml-auto text-sky-600 hover:text-sky-800 text-sm flex items-center" id="bank-statement-toggle"><span id="toggle-text">Expand</span><svg class="w-4 h-4 ml-1 transition-transform" id="toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button></h2><span class="text-sm font-medium px-3 py-1 rounded-full" id="cashflow-profile-badge"></span></div><div id="cashflow-details" style="display: none;"><ul class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm" id="cashflow-details-list"></ul></div></div></div>
                 <div class="section-card" id="affordability-section"><div class="section-header"><h2 class="text-xl font-bold text-slate-800">Affordability Analysis</h2></div><div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center" id="affordability-details-grid"></div></div>
             </div>
         </div>
@@ -248,7 +248,7 @@
                 ...mockApplications[0],
                 summary: { kiScore: 35, grade: 'Good', requestedAmount: 50000, eligibleAmount: 50000, term: 12, apr: 28, },
                 explainability: {
-                    good: ['Strong M-PESA surplus', 'Positive alternate data signals', 'Consistent business inflows'],
+                    good: ['Strong mobile wallet surplus', 'Positive alternate data signals', 'Consistent business inflows'],
                     improvement: ['Multiple recent credit inquiries', 'No formal collateral offered'],
                     bad: ['One instance of 30 DPD (12m ago)'],
                 },
@@ -335,7 +335,7 @@
                 ...mockApplications[2],
                 summary: { kiScore: 28, grade: 'Good', requestedAmount: 5000, eligibleAmount: 5000, term: 1, apr: 15, },
                 explainability: {
-                    good: ['Excellent M-PESA history', 'Stable digital footprint'],
+                    good: ['Excellent mobile wallet history', 'Stable digital footprint'],
                     improvement: ['Build formal credit history'], bad: ['No bureau data available'],
                 },
                 collateral: null,
