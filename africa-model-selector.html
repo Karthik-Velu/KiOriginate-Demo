@@ -426,12 +426,12 @@
                 <section class="config-section">
                     <h2><span class="section-number">1</span>Select Asset Class (Mandatory)</h2>
                     <div class="input-group">
-                        <label class="custom-control radio"><input type="radio" name="asset_class" value="MFI" checked> MFI<span class="checkmark"></span></label>
-                        <label class="custom-control radio"><input type="radio" name="asset_class" value="MSME_S"> MSME (Secured)<span class="checkmark"></span></label>
-                        <label class="custom-control radio"><input type="radio" name="asset_class" value="MSME_U"> MSME (Unsecured)<span class="checkmark"></span></label>
-                        <label class="custom-control radio"><input type="radio" name="asset_class" value="Agri"> Agri Loans<span class="checkmark"></span></label>
-                        <label class="custom-control radio"><input type="radio" name="asset_class" value="Housing"> Affordable Housing<span class="checkmark"></span></label>
-                        <label class="custom-control radio"><input type="radio" name="asset_class" value="2W"> Two Wheeler<span class="checkmark"></span></label>
+                        <label class="custom-control radio"><input type="radio" name="asset_class" value="Agriculture" checked> Agriculture<span class="checkmark"></span></label>
+                        <label class="custom-control radio"><input type="radio" name="asset_class" value="SmallBusiness"> Small Business<span class="checkmark"></span></label>
+                        <label class="custom-control radio"><input type="radio" name="asset_class" value="Personal"> Personal Loan<span class="checkmark"></span></label>
+                        <label class="custom-control radio"><input type="radio" name="asset_class" value="Digital"> Digital Loan<span class="checkmark"></span></label>
+                        <label class="custom-control radio"><input type="radio" name="asset_class" value="Microfinance"> Microfinance (JLG)<span class="checkmark"></span></label>
+                        <label class="custom-control radio"><input type="radio" name="asset_class" value="MSME"> MSME<span class="checkmark"></span></label>
                     </div>
                 </section>
 
@@ -444,13 +444,12 @@
                     <div id="bureau-options-container">
                         <div id="single-bureau-options">
                             <fieldset class="fieldset-group"><legend>Select Bureau Report</legend><div class="input-group" style="grid-template-columns: 1fr 1fr;">
-                                <label class="custom-control radio"><input type="radio" name="bureau_report_single" value="CIBIL Standard" checked> CIBIL Standard Credit Report<span class="checkmark"></span></label>
-                                <label class="custom-control radio"><input type="radio" name="bureau_report_single" value="Equifax Standard"> Equifax Standard Credit Report<span class="checkmark"></span></label>
-                                <label class="custom-control radio"><input type="radio" name="bureau_report_single" value="Equifax Micro"> Equifax Micro-Credit Report<span class="checkmark"></span></label>
-                                <label class="custom-control radio"><input type="radio" name="bureau_report_single" value="Equifax Household"> Equifax Household Report<span class="checkmark"></span></label>
-                                <label class="custom-control radio"><input type="radio" name="bureau_report_single" value="CRIF Standard"> CRIF High Mark Standard Credit Report<span class="checkmark"></span></label>
-                                <label class="custom-control radio"><input type="radio" name="bureau_report_single" value="CRIF Micro"> CRIF High Mark Micro-Credit Report<span class="checkmark"></span></label>
-                                <label class="custom-control radio"><input type="radio" name="bureau_report_single" value="CRIF Household"> CRIF High Mark Household Report<span class="checkmark"></span></label>
+                                <label class="custom-control radio"><input type="radio" name="bureau_report_single" value="CRB Standard" checked> CRB Kenya Standard Credit Report<span class="checkmark"></span></label>
+                                <label class="custom-control radio"><input type="radio" name="bureau_report_single" value="Metropol Standard"> Metropol Corporation Standard Report<span class="checkmark"></span></label>
+                                <label class="custom-control radio"><input type="radio" name="bureau_report_single" value="Metropol Micro"> Metropol Micro-Credit Report<span class="checkmark"></span></label>
+                                <label class="custom-control radio"><input type="radio" name="bureau_report_single" value="TransUnion Kenya"> TransUnion Kenya Credit Report<span class="checkmark"></span></label>
+                                <label class="custom-control radio"><input type="radio" name="bureau_report_single" value="Creditinfo Standard"> Creditinfo Kenya Standard Report<span class="checkmark"></span></label>
+                                <label class="custom-control radio"><input type="radio" name="bureau_report_single" value="Creditinfo Micro"> Creditinfo Kenya Micro-Credit Report<span class="checkmark"></span></label>
                             </div></fieldset>
                         </div>
                         <div id="multi-bureau-options" style="display: none;">
@@ -461,13 +460,12 @@
                             <div id="multi-bureau-selection-container">
                                 <fieldset class="fieldset-group"><legend>Select Bureau Reports</legend>
                                     <div class="input-group" style="grid-template-columns: 1fr 1fr;" id="multi-bureau-checkboxes">
-                                        <label class="custom-control checkbox"><input type="checkbox" name="bureau_report_multi" value="CIBIL Standard"> CIBIL Standard Credit Report<span class="checkmark"></span></label>
-                                        <label class="custom-control checkbox"><input type="checkbox" name="bureau_report_multi" value="Equifax Standard"> Equifax Standard Credit Report<span class="checkmark"></span></label>
-                                        <label class="custom-control checkbox"><input type="checkbox" name="bureau_report_multi" value="Equifax Micro"> Equifax Micro-Credit Report<span class="checkmark"></span></label>
-                                        <label class="custom-control checkbox"><input type="checkbox" name="bureau_report_multi" value="Equifax Household"> Equifax Household Report<span class="checkmark"></span></label>
-                                        <label class="custom-control checkbox"><input type="checkbox" name="bureau_report_multi" value="CRIF Standard"> CRIF High Mark Standard Credit Report<span class="checkmark"></span></label>
-                                        <label class="custom-control checkbox"><input type="checkbox" name="bureau_report_multi" value="CRIF Micro"> CRIF High Mark Micro-Credit Report<span class="checkmark"></span></label>
-                                        <label class="custom-control checkbox"><input type="checkbox" name="bureau_report_multi" value="CRIF Household"> CRIF High Mark Household Report<span class="checkmark"></span></label>
+                                        <label class="custom-control checkbox"><input type="checkbox" name="bureau_report_multi" value="CRB Standard"> CRB Kenya Standard Credit Report<span class="checkmark"></span></label>
+                                        <label class="custom-control checkbox"><input type="checkbox" name="bureau_report_multi" value="Metropol Standard"> Metropol Corporation Standard Report<span class="checkmark"></span></label>
+                                        <label class="custom-control checkbox"><input type="checkbox" name="bureau_report_multi" value="Metropol Micro"> Metropol Micro-Credit Report<span class="checkmark"></span></label>
+                                        <label class="custom-control checkbox"><input type="checkbox" name="bureau_report_multi" value="TransUnion Kenya"> TransUnion Kenya Credit Report<span class="checkmark"></span></label>
+                                        <label class="custom-control checkbox"><input type="checkbox" name="bureau_report_multi" value="Creditinfo Standard"> Creditinfo Kenya Standard Report<span class="checkmark"></span></label>
+                                        <label class="custom-control checkbox"><input type="checkbox" name="bureau_report_multi" value="Creditinfo Micro"> Creditinfo Kenya Micro-Credit Report<span class="checkmark"></span></label>
                                     </div>
                                 </fieldset>
                             </div>
@@ -492,11 +490,11 @@
                     </div></fieldset>
                     <div id="asset-specific-data-section" style="display:none;">
                         <fieldset class="fieldset-group"><legend>Asset Class Specific (Optional)</legend><div class="input-group">
-                            <label class="custom-control checkbox" data-asset-class="MSME_S MSME_U"><span class="detail-item" data-modal-target="business-details-modal">Business Details</span><input type="checkbox" data-source-name="Business Details"><span class="checkmark"></span></label>
-                            <label class="custom-control checkbox" data-asset-class="Agri"><span class="detail-item" data-modal-target="land-details-modal">Landholding Details</span><input type="checkbox" data-source-name="Landholding Details"><span class="checkmark"></span></label>
-                            <label class="custom-control checkbox" data-asset-class="Agri"><span class="detail-item" data-modal-target="crop-details-modal">Crop Details</span><input type="checkbox" data-source-name="Crop Details"><span class="checkmark"></span></label>
-                            <label class="custom-control checkbox" data-asset-class="MSME_S Housing"><span class="detail-item" data-modal-target="collateral-details-modal">Collateral Details</span><input type="checkbox" data-source-name="Collateral Details"><span class="checkmark"></span></label>
-                            <label class="custom-control checkbox" data-asset-class="2W"><span class="detail-item" data-modal-target="vehicle-details-modal">Vehicle Details</span><input type="checkbox" data-source-name="Vehicle Details"><span class="checkmark"></span></label>
+                            <label class="custom-control checkbox" data-asset-class="SmallBusiness MSME"><span class="detail-item" data-modal-target="business-details-modal">Business Details</span><input type="checkbox" data-source-name="Business Details"><span class="checkmark"></span></label>
+                            <label class="custom-control checkbox" data-asset-class="Agriculture"><span class="detail-item" data-modal-target="land-details-modal">Landholding Details</span><input type="checkbox" data-source-name="Landholding Details"><span class="checkmark"></span></label>
+                            <label class="custom-control checkbox" data-asset-class="Agriculture"><span class="detail-item" data-modal-target="crop-details-modal">Crop Details</span><input type="checkbox" data-source-name="Crop Details"><span class="checkmark"></span></label>
+                            <label class="custom-control checkbox" data-asset-class="MSME"><span class="detail-item" data-modal-target="collateral-details-modal">Collateral Details</span><input type="checkbox" data-source-name="Collateral Details"><span class="checkmark"></span></label>
+                            <label class="custom-control checkbox" data-asset-class="Microfinance"><span class="detail-item" data-modal-target="group-details-modal">Group Details</span><input type="checkbox" data-source-name="Group Details"><span class="checkmark"></span></label>
                         </div></fieldset>
                     </div>
                 </section>
@@ -1653,7 +1651,7 @@
                     startOverBtn.addEventListener('click', () => {
                         document.getElementById('model-config-form').reset();
                         document.querySelector('input[name="bureau_setup"][value="single"]').dispatchEvent(new Event('change'));
-                        document.querySelector('input[name="asset_class"][value="MFI"]').dispatchEvent(new Event('change'));
+                        document.querySelector('input[name="asset_class"][value="Agriculture"]').dispatchEvent(new Event('change'));
                         document.getElementById('include-bank-statement').dispatchEvent(new Event('change'));
                         showPage('data-selection-page');
                     });

@@ -498,13 +498,13 @@
         'LTV Ratio': { op: '>', value: 85, unit: '%' },
         'Bureau Score': { op: '<', value: 680, unit: '' },
         'Applicant Age': { op: '<', value: 21, unit: 'yrs' },
-        'Loan Amount': { op: '>', value: 2500000, unit: '₹' },
+        'Loan Amount': { op: '>', value: 2500000, unit: 'KES' },
         'DPD 90+ Count (Ever)': { op: '>', value: 0, unit: '' },
         'Number of Inquiries (Last 3M)': { op: '>', value: 5, unit: '' },
     };
 
     const mockData = {
-        bureau: { headers: ['customer_id', 'cibil_score', 'dpd_90_plus', 'active_loans', 'default_status'] },
+        bureau: { headers: ['customer_id', 'bureau_score', 'dpd_90_plus', 'active_loans', 'default_status'] },
         bank: { headers: ['cust_id', 'avg_monthly_inflow', 'avg_monthly_outflow', 'salary_credits'] },
         alt: { headers: ['phone_number', 'sim_tenure', 'avg_upi_txn_amt'] }
     };
