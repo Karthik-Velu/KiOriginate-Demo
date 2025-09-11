@@ -444,12 +444,12 @@
                     <div id="bureau-options-container">
                         <div id="single-bureau-options">
                             <fieldset class="fieldset-group"><legend>Select Bureau Report</legend><div class="input-group" style="grid-template-columns: 1fr 1fr;">
-                                <label class="custom-control radio"><input type="radio" name="bureau_report_single" value="CRB Standard" checked> CRB Kenya Standard Credit Report<span class="checkmark"></span></label>
-                                <label class="custom-control radio"><input type="radio" name="bureau_report_single" value="Metropol Standard"> Metropol Corporation Standard Report<span class="checkmark"></span></label>
-                                <label class="custom-control radio"><input type="radio" name="bureau_report_single" value="Metropol Micro"> Metropol Micro-Credit Report<span class="checkmark"></span></label>
-                                <label class="custom-control radio"><input type="radio" name="bureau_report_single" value="TransUnion Kenya"> TransUnion Kenya Credit Report<span class="checkmark"></span></label>
-                                <label class="custom-control radio"><input type="radio" name="bureau_report_single" value="Creditinfo Standard"> Creditinfo Kenya Standard Report<span class="checkmark"></span></label>
-                                <label class="custom-control radio"><input type="radio" name="bureau_report_single" value="Creditinfo Micro"> Creditinfo Kenya Micro-Credit Report<span class="checkmark"></span></label>
+                                <label class="custom-control radio"><input type="radio" name="bureau_report_single" value="TransUnion Standard" checked> TransUnion CRB Standard Credit Report<span class="checkmark"></span></label>
+                                <label class="custom-control radio"><input type="radio" name="bureau_report_single" value="TransUnion Micro"> TransUnion CRB Micro-Credit Report<span class="checkmark"></span></label>
+                                <label class="custom-control radio"><input type="radio" name="bureau_report_single" value="Metropol Standard"> Metropol Credit Reference Bureau Standard Report<span class="checkmark"></span></label>
+                                <label class="custom-control radio"><input type="radio" name="bureau_report_single" value="Metropol Micro"> Metropol Credit Reference Bureau Micro Report<span class="checkmark"></span></label>
+                                <label class="custom-control radio"><input type="radio" name="bureau_report_single" value="Creditinfo Standard"> Creditinfo Credit Reference Bureau Standard Report<span class="checkmark"></span></label>
+                                <label class="custom-control radio"><input type="radio" name="bureau_report_single" value="Creditinfo Micro"> Creditinfo Credit Reference Bureau Micro Report<span class="checkmark"></span></label>
                             </div></fieldset>
                         </div>
                         <div id="multi-bureau-options" style="display: none;">
@@ -460,12 +460,12 @@
                             <div id="multi-bureau-selection-container">
                                 <fieldset class="fieldset-group"><legend>Select Bureau Reports</legend>
                                     <div class="input-group" style="grid-template-columns: 1fr 1fr;" id="multi-bureau-checkboxes">
-                                        <label class="custom-control checkbox"><input type="checkbox" name="bureau_report_multi" value="CRB Standard"> CRB Kenya Standard Credit Report<span class="checkmark"></span></label>
-                                        <label class="custom-control checkbox"><input type="checkbox" name="bureau_report_multi" value="Metropol Standard"> Metropol Corporation Standard Report<span class="checkmark"></span></label>
-                                        <label class="custom-control checkbox"><input type="checkbox" name="bureau_report_multi" value="Metropol Micro"> Metropol Micro-Credit Report<span class="checkmark"></span></label>
-                                        <label class="custom-control checkbox"><input type="checkbox" name="bureau_report_multi" value="TransUnion Kenya"> TransUnion Kenya Credit Report<span class="checkmark"></span></label>
-                                        <label class="custom-control checkbox"><input type="checkbox" name="bureau_report_multi" value="Creditinfo Standard"> Creditinfo Kenya Standard Report<span class="checkmark"></span></label>
-                                        <label class="custom-control checkbox"><input type="checkbox" name="bureau_report_multi" value="Creditinfo Micro"> Creditinfo Kenya Micro-Credit Report<span class="checkmark"></span></label>
+                                        <label class="custom-control checkbox"><input type="checkbox" name="bureau_report_multi" value="TransUnion Standard"> TransUnion CRB Standard Credit Report<span class="checkmark"></span></label>
+                                        <label class="custom-control checkbox"><input type="checkbox" name="bureau_report_multi" value="TransUnion Micro"> TransUnion CRB Micro-Credit Report<span class="checkmark"></span></label>
+                                        <label class="custom-control checkbox"><input type="checkbox" name="bureau_report_multi" value="Metropol Standard"> Metropol Credit Reference Bureau Standard Report<span class="checkmark"></span></label>
+                                        <label class="custom-control checkbox"><input type="checkbox" name="bureau_report_multi" value="Metropol Micro"> Metropol Credit Reference Bureau Micro Report<span class="checkmark"></span></label>
+                                        <label class="custom-control checkbox"><input type="checkbox" name="bureau_report_multi" value="Creditinfo Standard"> Creditinfo Credit Reference Bureau Standard Report<span class="checkmark"></span></label>
+                                        <label class="custom-control checkbox"><input type="checkbox" name="bureau_report_multi" value="Creditinfo Micro"> Creditinfo Credit Reference Bureau Micro Report<span class="checkmark"></span></label>
                                     </div>
                                 </fieldset>
                             </div>
@@ -1188,7 +1188,7 @@
                             <label class="custom-control checkbox">
                                 <input type="checkbox" name="rule_variables" value="foir" checked disabled>
                                 <span class="checkmark"></span>
-                                <strong>FOIR (Always First Variable)</strong>
+                                <strong>Ki Score (Always First Variable)</strong>
                                 <input type="number" id="foir-threshold" value="55" min="30" max="80" step="5" class="threshold-input" readonly>
                             </label>
                             <label class="custom-control checkbox">

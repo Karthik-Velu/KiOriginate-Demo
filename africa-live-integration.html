@@ -278,12 +278,23 @@
                 alternate: { 
                     profile: 'Positive', class: 'text-green-700 bg-green-100', 
                     points: { 
-                        agri: [], 
+                        agri: [
+                            {label: 'Business Type', value: 'Retail Shop + Small Farm'}, 
+                            {label: 'Land Size', value: '0.5 acres (kitchen garden)'}, 
+                            {label: 'Crop Diversification', value: 'Vegetables + Poultry'}, 
+                            {label: 'Market Access', value: 'Local market (2km)'}
+                        ],
                         socio: [ 
                             {label: 'Housing Quality Index', value: 'Good'}, {label: 'Livelihood Zone', value: 'Urban Trade'}, 
                             {label: 'SIM Tenure', value: '6 years', class: 'text-green-600'}, {label: 'Access to Water', value: 'Piped'},
-                            {label: 'Asset Ownership', value: 'Motorcycle'}, {label: 'Education Level', value: 'Secondary'}
-                        ] 
+                            {label: 'Asset Ownership', value: 'Motorcycle + Shop Equipment'}, {label: 'Education Level', value: 'Secondary'},
+                            {label: 'Cooperative Member', value: 'Yes - Kazi Njema SACCO'}, {label: 'Market Reputation', value: 'Well-established'}
+                        ],
+                        climate: [
+                            {label: 'Business Location Risk', value: 'Low flood risk', class: 'text-green-600'}, 
+                            {label: 'Seasonal Impact', value: 'Minimal - diversified income'}, 
+                            {label: 'Infrastructure Access', value: 'Good road connectivity'}
+                        ]
                     } 
                 },
                 affordability: { preDTI: '20%', postDTI: '45%', emi: 'KES 4,820', verdict: 'Comfortable', verdictClass: 'text-green-800 bg-green-50' },
@@ -319,14 +330,33 @@
                     ] 
                 },
                 alternate: { 
-                    profile: 'Positive', class: 'text-green-700 bg-green-100', 
+                    profile: 'Excellent', class: 'text-green-700 bg-green-100', 
                     points: { 
-                        agri: [], 
+                        agri: [
+                            {label: 'Land Size', value: '15 acres', class: 'text-green-600'}, 
+                            {label: 'Primary Crop', value: 'Coffee (Arabica)'}, 
+                            {label: 'Secondary Crops', value: 'Maize, Beans, Bananas'}, 
+                            {label: 'Average Yield', value: '1,200 kg/acre (coffee)', class: 'text-green-600'}, 
+                            {label: 'Crop Cash Cycle', value: '6 months (coffee), 4 months (maize)'}, 
+                            {label: 'Irrigation Access', value: 'Drip irrigation system', class: 'text-green-600'}, 
+                            {label: 'Soil Quality', value: 'Excellent (pH 6.5, high organic matter)'}, 
+                            {label: 'Farming Experience', value: '15+ years'}, 
+                            {label: 'Cooperative Member', value: 'Coastal Coffee Cooperative'}, 
+                            {label: 'Certification', value: 'Organic & Fair Trade certified', class: 'text-green-600'}
+                        ],
                         socio: [ 
-                            {label: 'Housing Quality Index', value: 'Excellent'}, {label: 'Livelihood Zone', value: 'Formal Employment'}, 
-                            {label: 'SIM Tenure', value: '10+ years', class: 'text-green-600'}, {label: 'Access to Water', value: 'Piped'},
-                            {label: 'Asset Ownership', value: 'Vehicle'}, {label: 'Education Level', value: 'University'}
-                        ] 
+                            {label: 'Housing Quality Index', value: 'Excellent'}, {label: 'Livelihood Zone', value: 'Commercial Agriculture'}, 
+                            {label: 'SIM Tenure', value: '10+ years', class: 'text-green-600'}, {label: 'Access to Water', value: 'Piped + Borehole'},
+                            {label: 'Asset Ownership', value: 'Vehicle + Farm Equipment'}, {label: 'Education Level', value: 'University'},
+                            {label: 'Leadership Role', value: 'Cooperative Chairman'}, {label: 'Extension Services', value: 'Regular access'}
+                        ],
+                        climate: [
+                            {label: 'Rainfall Pattern', value: 'Excellent (1,200mm/year)', class: 'text-green-600'}, 
+                            {label: 'Climate Risk Score', value: 'Very Low', class: 'text-green-600'}, 
+                            {label: 'Altitude', value: '1,800m - Ideal for coffee'}, 
+                            {label: 'Weather Monitoring', value: 'Digital weather station access'},
+                            {label: 'Drought Resilience', value: 'High - irrigation backup'}
+                        ]
                     } 
                 },
                 affordability: { preDTI: '10%', postDTI: '25%', emi: 'KES 17,250', verdict: 'Very Strong', verdictClass: 'text-green-800 bg-green-50' },
@@ -362,14 +392,27 @@
                     ] 
                 },
                 alternate: { 
-                    profile: 'Average', class: 'text-slate-700 bg-slate-100', 
+                    profile: 'Good', class: 'text-green-700 bg-green-100', 
                     points: { 
-                        agri: [], 
+                        agri: [
+                            {label: 'Business Type', value: 'Urban Farming (Vertical)'}, 
+                            {label: 'Crop Type', value: 'Leafy vegetables (Kale, Spinach)'}, 
+                            {label: 'Production Cycle', value: '6 weeks per harvest'}, 
+                            {label: 'Market Channel', value: 'Direct to restaurants'}, 
+                            {label: 'Technology Use', value: 'Mobile-based market info', class: 'text-green-600'}
+                        ],
                         socio: [ 
-                            {label: 'Housing Quality Index', value: 'Average'}, {label: 'SIM Tenure', value: '3 years'},
-                            {label: 'Access to Water', value: 'Borehole'}, {label: 'Asset Ownership', value: 'Smartphone'},
-                            {label: 'Education Level', value: 'Secondary'}
-                        ] 
+                            {label: 'Housing Quality Index', value: 'Average'}, {label: 'Livelihood Zone', value: 'Urban Agriculture'},
+                            {label: 'SIM Tenure', value: '3 years'}, {label: 'Access to Water', value: 'Borehole'},
+                            {label: 'Asset Ownership', value: 'Smartphone + Farming tools'}, {label: 'Education Level', value: 'Secondary'},
+                            {label: 'Digital Literacy', value: 'High - mobile banking user', class: 'text-green-600'}, 
+                            {label: 'Market Network', value: '5 regular restaurant clients'}
+                        ],
+                        climate: [
+                            {label: 'Location Risk', value: 'Urban - climate controlled'}, 
+                            {label: 'Water Security', value: 'Reliable borehole access'}, 
+                            {label: 'Market Resilience', value: 'High - urban demand stable', class: 'text-green-600'}
+                        ]
                     } 
                 },
                 affordability: { preDTI: '0%', postDTI: '20%', emi: 'KES 5,100', verdict: 'Comfortable', verdictClass: 'text-green-800 bg-green-50' },
@@ -405,14 +448,25 @@
                     ] 
                 },
                 alternate: { 
-                    profile: 'Average', class: 'text-slate-700 bg-slate-100', 
+                    profile: 'Poor', class: 'text-red-700 bg-red-100', 
                     points: { 
-                        agri: [], 
+                        agri: [
+                            {label: 'Land Access', value: 'None - landless', class: 'text-red-600'}, 
+                            {label: 'Agricultural Activity', value: 'Occasional farm labor'}, 
+                            {label: 'Seasonal Work', value: 'Irregular income patterns', class: 'text-red-600'}
+                        ],
                         socio: [ 
                             {label: 'SIM Tenure', value: '5 years'}, {label: 'Livelihood Zone', value: 'Informal Trade'},
-                            {label: 'Housing Quality', value: 'Average'}, {label: 'Access to Sanitation', value: 'Shared'},
-                            {label: 'Asset Ownership', value: 'None Reported'}
-                        ] 
+                            {label: 'Housing Quality', value: 'Poor - rental'}, {label: 'Access to Sanitation', value: 'Shared'},
+                            {label: 'Asset Ownership', value: 'None Reported', class: 'text-red-600'}, 
+                            {label: 'Social Network', value: 'Limited - high mobility'}, 
+                            {label: 'Financial Inclusion', value: 'Mobile money only'}
+                        ],
+                        climate: [
+                            {label: 'Vulnerability', value: 'High - no agricultural assets', class: 'text-red-600'}, 
+                            {label: 'Income Stability', value: 'Weather dependent', class: 'text-red-600'}, 
+                            {label: 'Risk Mitigation', value: 'None - no safety nets', class: 'text-red-600'}
+                        ]
                     } 
                 },
                 affordability: { preDTI: '30%', postDTI: 'N/A', emi: 'N/A', verdict: 'Rejected', verdictClass: 'text-red-800 bg-red-50' },
@@ -536,7 +590,7 @@
             }
             populateSection('bureau', app.bureau, (data, listEl, badgeEl) => { badgeEl.textContent = data.profile; badgeEl.className = `text-sm font-medium px-3 py-1 rounded-full ${data.class}`; listEl.innerHTML = data.details.map(i => `<li><span class="text-slate-500 block">${i.label}</span><p class="font-semibold text-slate-800 ${i.class || ''}">${i.value}</p></li>`).join(''); });
             populateSection('cashflow', app.cashflow, (data, listEl, badgeEl) => { badgeEl.textContent = data.profile; badgeEl.className = `text-sm font-medium px-3 py-1 rounded-full ${data.class}`; listEl.innerHTML = data.details.map(i => `<li><span class="text-slate-500 block">${i.label}</span><p class="font-semibold ${i.class || 'text-slate-800'}">${i.value}</p></li>`).join(''); });
-            populateSection('alternate', app.alternate, (data, contentEl, badgeEl) => { badgeEl.textContent = data.profile; badgeEl.className = `text-sm font-medium px-3 py-1 rounded-full ${data.class}`; let html = '<div class="grid grid-cols-1 md:grid-cols-2 gap-6">'; if (data.points.socio.length > 0) html += `<div class="bg-slate-50 p-4 rounded-lg border"><h3 class="font-semibold text-slate-700 mb-3">Socioeconomic Infrastructure</h3><ul class="grid grid-cols-1 gap-3 text-sm">${data.points.socio.map(i => `<li class="flex justify-between"><span class="text-slate-500">${i.label}</span><span class="font-semibold ${i.class || 'text-slate-800'}">${i.value}</span></li>`).join('')}</ul></div>`; if (data.points.climate.length > 0) html += `<div class="bg-slate-50 p-4 rounded-lg border"><h3 class="font-semibold text-slate-700 mb-3">Climate Risk Factor</h3><ul class="grid grid-cols-1 gap-3 text-sm">${data.points.climate.map(i => `<li class="flex justify-between"><span class="text-slate-500">${i.label}</span><span class="font-semibold ${i.class || 'text-slate-800'}">${i.value}</span></li>`).join('')}</ul></div>`; if (data.points.digital.length > 0) html += `<div class="bg-slate-50 p-4 rounded-lg border"><h3 class="font-semibold text-slate-700 mb-3">Digital Footprint</h3><ul class="grid grid-cols-1 gap-3 text-sm">${data.points.digital.map(i => `<li class="flex justify-between"><span class="text-slate-500">${i.label}</span><span class="font-semibold ${i.class || 'text-slate-800'}">${i.value}</span></li>`).join('')}</ul></div>`; if (data.points.income.length > 0) html += `<div class="bg-slate-50 p-4 rounded-lg border"><h3 class="font-semibold text-slate-700 mb-3">Income Estimates</h3><ul class="grid grid-cols-1 gap-3 text-sm">${data.points.income.map(i => `<li class="flex justify-between"><span class="text-slate-500">${i.label}</span><span class="font-semibold ${i.class || 'text-slate-800'}">${i.value}</span></li>`).join('')}</ul></div>`; html += '</div>'; contentEl.innerHTML = html; });
+            populateSection('alternate', app.alternate, (data, contentEl, badgeEl) => { badgeEl.textContent = data.profile; badgeEl.className = `text-sm font-medium px-3 py-1 rounded-full ${data.class}`; let html = '<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">'; if (data.points.agri && data.points.agri.length > 0) html += `<div class="bg-green-50 p-4 rounded-lg border border-green-200"><h3 class="font-semibold text-green-800 mb-3 flex items-center"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707"></path></svg>Agricultural Data</h3><ul class="grid grid-cols-1 gap-3 text-sm">${data.points.agri.map(i => `<li class="flex justify-between"><span class="text-slate-600">${i.label}</span><span class="font-semibold ${i.class || 'text-slate-800'}">${i.value}</span></li>`).join('')}</ul></div>`; if (data.points.socio.length > 0) html += `<div class="bg-slate-50 p-4 rounded-lg border"><h3 class="font-semibold text-slate-700 mb-3 flex items-center"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>Socioeconomic Data</h3><ul class="grid grid-cols-1 gap-3 text-sm">${data.points.socio.map(i => `<li class="flex justify-between"><span class="text-slate-500">${i.label}</span><span class="font-semibold ${i.class || 'text-slate-800'}">${i.value}</span></li>`).join('')}</ul></div>`; if (data.points.climate && data.points.climate.length > 0) html += `<div class="bg-blue-50 p-4 rounded-lg border border-blue-200"><h3 class="font-semibold text-blue-800 mb-3 flex items-center"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path></svg>Climate & Risk Data</h3><ul class="grid grid-cols-1 gap-3 text-sm">${data.points.climate.map(i => `<li class="flex justify-between"><span class="text-slate-600">${i.label}</span><span class="font-semibold ${i.class || 'text-slate-800'}">${i.value}</span></li>`).join('')}</ul></div>`; html += '</div>'; contentEl.innerHTML = html; });
             populateSection('affordability', app.affordability, (data, gridEl) => { gridEl.innerHTML = ` <div class="bg-slate-50 p-4 rounded-lg"><p class="text-sm text-slate-500">DTI (Pre-Loan)</p><p class="text-2xl font-bold text-slate-800">${data.preDTI}</p></div> <div class="bg-sky-50 p-4 rounded-lg"><p class="text-sm text-sky-700">DTI (Post-Loan)</p><p class="text-2xl font-bold text-sky-800">${data.postDTI}</p></div> <div class="bg-slate-50 p-4 rounded-lg"><p class="text-sm text-slate-500">Proposed EMI</p><p class="text-2xl font-bold text-slate-800">${data.emi}</p></div> <div class="p-4 rounded-lg ${data.verdictClass}"><p class="text-sm">Verdict</p><p class="text-2xl font-bold">${data.verdict}</p></div> `; });
         }
 
