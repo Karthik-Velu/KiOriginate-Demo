@@ -508,18 +508,6 @@
                             <label class="custom-control radio"><span class="detail-item" data-modal-target="txn-data-modal">Transaction Level Data</span><input type="radio" name="bank_statement" id="txn-data-radio" disabled><span class="checkmark"></span></label>
                             <label class="custom-control radio"><span class="detail-item" data-modal-target="summ-data-modal">Summarised Account Level Data</span><input type="radio" name="bank_statement" id="summ-data-radio" disabled><span class="checkmark"></span></label>
                         </div>
-                        <div id="account-aggregator-section" style="margin-top: 1.5rem; display: none;">
-                            <h4 style="font-weight: 600; margin-bottom: 1rem; color: var(--primary-color);">Select Account Aggregator</h4>
-                            <div class="input-group">
-                                <label class="custom-control radio">CRIF Connect<input type="radio" name="account_aggregator" value="crif"><span class="checkmark"></span></label>
-                                <label class="custom-control radio">CAMSfinserv<input type="radio" name="account_aggregator" value="cams"><span class="checkmark"></span></label>
-                                <label class="custom-control radio">Perfios Account Aggregation Services (Anumati)<input type="radio" name="account_aggregator" value="perfios"><span class="checkmark"></span></label>
-                                <label class="custom-control radio">Finvu (Cookiejar Technologies)<input type="radio" name="account_aggregator" value="finvu"><span class="checkmark"></span></label>
-                                <label class="custom-control radio">OneMoney (FinSec AA Solutions)<input type="radio" name="account_aggregator" value="onemoney"><span class="checkmark"></span></label>
-                                <label class="custom-control radio">Setu (Agya Technologies)<input type="radio" name="account_aggregator" value="setu"><span class="checkmark"></span></label>
-                                <label class="custom-control radio">NESL Asset Data Limited (NADL)<input type="radio" name="account_aggregator" value="nadl"><span class="checkmark"></span></label>
-                            </div>
-                        </div>
                     </div>
                 </fieldset></section>
                 
@@ -2026,7 +2014,6 @@
             // --- OTHER LOGIC ---
             const includeBankCheckbox = document.getElementById('include-bank-statement');
             const bankFormatOptions = document.getElementById('bank-format-options');
-            const accountAggregatorSection = document.getElementById('account-aggregator-section');
             const summDataRadio = document.getElementById('summ-data-radio');
             const txnDataRadio = document.getElementById('txn-data-radio');
             
@@ -2034,20 +2021,6 @@
                 const isChecked = e.target.checked;
                 bankFormatOptions.style.display = isChecked ? 'block' : 'none';
                 bankFormatOptions.querySelectorAll('input').forEach(input => input.disabled = !isChecked);
-                
-                // Reset subsequent sections when bank statement is unchecked
-                if (!isChecked) {
-                    accountAggregatorSection.style.display = 'none';
-                }
-            });
-
-            // Show account aggregator section when either transaction or summarised data is selected
-            [summDataRadio, txnDataRadio].forEach(radio => {
-                radio.addEventListener('change', e => {
-                    if (e.target.checked) {
-                        accountAggregatorSection.style.display = 'block';
-                    }
-                });
             });
 
             document.querySelectorAll('[data-modal-target]').forEach(trigger => {
