@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ki originate - model tuning flow</title>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary-color: #10b981;
+            --accent-color: #f59e0b;
+            --danger-color: #ef4444;
+            --dark-gray: #374151;
+            --medium-gray: #9ca3af;
+            --light-gray: #f3f4f6;
+            --white: #ffffff;
+            --border-radius: 12px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 3rem;
+        }
+
+        .step {
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .step.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .step-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark-gray);
+        }
+
+        .feature-summary {
+            background: var(--white);
+            border: 2px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .feature-stats {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            display: block;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--medium-gray);
+        }
+
+        .feature-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-add {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-remove {
+            background: var(--danger-color);
+            color: white;
+        }
+
+        .btn-view {
+            background: var(--light-gray);
+            color: var(--dark-gray);
+        }
+
+        .btn-small:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        .feature-weights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .feature-card {
+            background: var(--light-gray);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .active-feature {
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        .feature-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .feature-name {
+            font-weight: 600;
+            color: var(--dark-gray);
+        }
+
+        .feature-rank {
+            background: var(--primary-color);
+            color: white;
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+        }
+
+        .additional-features {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .features-note {
+            margin: 0;
+            color: var(--dark-gray);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .weight-slider {
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        .weight-display {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .weight-value {
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .weight-change {
+            font-size: 0.9rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .weight-increase {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--secondary-color);
+        }
+
+        .weight-decrease {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger-color);
+        }
+
+        .metrics-comparison {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .metric-card {
+            background: var(--white);
+            border: 2px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .metric-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .metric-title {
+            font-size: 1rem;
+            color: var(--medium-gray);
+            margin-bottom: 1rem;
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--dark-gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-change {
+            font-size: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .metric-improvement {
+            color: var(--secondary-color);
+        }
+
+        .metric-reduction {
+            color: var(--danger-color);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--light-gray);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 2rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transition: width 2s ease;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 3rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+        }
+
+        .btn-secondary {
+            background: var(--light-gray);
+            color: var(--dark-gray);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .loading-text {
+            text-align: center;
+            color: var(--medium-gray);
+            font-size: 1.1rem;
+            margin: 1rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 1rem;
+            }
+
+            .content {
+                padding: 2rem;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .feature-weights {
+                grid-template-columns: 1fr;
+            }
+
+            .metrics-comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i data-lucide="zap"></i>
+                </div>
+                <div class="logo-text">ki originate</div>
+            </div>
+            <h1>XGBoost Model Parameter Tuning</h1>
+            <p>Optimizing 24 features and model parameters for better performance</p>
+        </div>
+
+        <div class="content">
+            <!-- Step 1: Feature Weight Adjustment -->
+            <div class="step" id="step1">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Feature Selection & Weight Optimization</div>
+                </div>
+
+                <div class="feature-summary">
+                    <div class="feature-stats">
+                        <div class="stat-item">
+                            <span class="stat-value">24</span>
+                            <span class="stat-label">Total Features</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">18</span>
+                            <span class="stat-label">Currently Active</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">6</span>
+                            <span class="stat-label">Top Features Shown</span>
+                        </div>
+                    </div>
+                    <div class="feature-actions">
+                        <button class="btn-small btn-add" onclick="showAddFeature()">
+                            <i data-lucide="plus"></i> Add Feature
+                        </button>
+                        <button class="btn-small btn-remove" onclick="showRemoveFeature()">
+                            <i data-lucide="minus"></i> Remove Feature
+                        </button>
+                        <button class="btn-small btn-view" onclick="showAllFeatures()">
+                            <i data-lucide="list"></i> View All 24
+                        </button>
+                    </div>
+                </div>
+
+                <div class="feature-weights">
+                    <div class="feature-card active-feature">
+                        <div class="feature-header">
+                            <div class="feature-name">Credit Utilization Ratio</div>
+                            <div class="feature-rank">#1</div>
+                        </div>
+                        <div class="weight-display">
+                            <span>Weight</span>
+                            <span class="weight-value" id="credit-util-weight">0.24</span>
+                        </div>
+                        <input type="range" class="weight-slider" min="0.1" max="0.35" step="0.01" value="0.24" id="credit-util-slider">
+                        <div class="weight-change weight-increase">+18% from baseline</div>
+                    </div>
+
+                    <div class="feature-card active-feature">
+                        <div class="feature-header">
+                            <div class="feature-name">Recent Delinquency 30D</div>
+                            <div class="feature-rank">#2</div>
+                        </div>
+                        <div class="weight-display">
+                            <span>Weight</span>
+                            <span class="weight-value" id="delinq-weight">0.21</span>
+                        </div>
+                        <input type="range" class="weight-slider" min="0.1" max="0.3" step="0.01" value="0.21" id="delinq-slider">
+                        <div class="weight-change weight-increase">+15% from baseline</div>
+                    </div>
+
+                    <div class="feature-card active-feature">
+                        <div class="feature-header">
+                            <div class="feature-name">Payment History Score</div>
+                            <div class="feature-rank">#3</div>
+                        </div>
+                        <div class="weight-display">
+                            <span>Weight</span>
+                            <span class="weight-value" id="payment-weight">0.19</span>
+                        </div>
+                        <input type="range" class="weight-slider" min="0.08" max="0.28" step="0.01" value="0.19" id="payment-slider">
+                        <div class="weight-change weight-increase">+12% from baseline</div>
+                    </div>
+
+                    <div class="feature-card active-feature">
+                        <div class="feature-header">
+                            <div class="feature-name">Monthly Income</div>
+                            <div class="feature-rank">#4</div>
+                        </div>
+                        <div class="weight-display">
+                            <span>Weight</span>
+                            <span class="weight-value" id="income-weight">0.14</span>
+                        </div>
+                        <input type="range" class="weight-slider" min="0.05" max="0.25" step="0.01" value="0.14" id="income-slider">
+                        <div class="weight-change weight-decrease">-8% from baseline</div>
+                    </div>
+
+                    <div class="feature-card active-feature">
+                        <div class="feature-header">
+                            <div class="feature-name">Mobile Phone Tenure</div>
+                            <div class="feature-rank">#5</div>
+                        </div>
+                        <div class="weight-display">
+                            <span>Weight</span>
+                            <span class="weight-value" id="mobile-weight">0.13</span>
+                        </div>
+                        <input type="range" class="weight-slider" min="0.05" max="0.2" step="0.01" value="0.13" id="mobile-slider">
+                        <div class="weight-change weight-increase">+5% from baseline</div>
+                    </div>
+
+                    <div class="feature-card active-feature">
+                        <div class="feature-header">
+                            <div class="feature-name">Credit Inquiries 6M</div>
+                            <div class="feature-rank">#6</div>
+                        </div>
+                        <div class="weight-display">
+                            <span>Weight</span>
+                            <span class="weight-value" id="inquiries-weight">0.09</span>
+                        </div>
+                        <input type="range" class="weight-slider" min="0.03" max="0.15" step="0.01" value="0.09" id="inquiries-slider">
+                        <div class="weight-change weight-increase">+2% from baseline</div>
+                    </div>
+                </div>
+
+                <div class="additional-features">
+                    <p class="features-note">
+                        <i data-lucide="info"></i>
+                        Showing top 6 features. <strong>12 additional features</strong> are active in the model with lower importance scores.
+                    </p>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress1" style="width: 0%"></div>
+                </div>
+                <div class="loading-text" id="loading1">Optimizing feature weights...</div>
+            </div>
+
+            <!-- Step 2: Model Retraining -->
+            <div class="step" id="step2" style="display: none;">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Retraining Model</div>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress2" style="width: 0%"></div>
+                </div>
+                <div class="loading-text" id="loading2">Training model with optimized parameters...</div>
+            </div>
+
+            <!-- Step 3: Performance Results -->
+            <div class="step" id="step3" style="display: none;">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Improved Performance Metrics</div>
+                </div>
+
+                <div class="metrics-comparison">
+                    <div class="metric-card">
+                        <div class="metric-title">Approval Rate</div>
+                        <div class="metric-value">58.4%</div>
+                        <div class="metric-change metric-improvement">
+                            <i data-lucide="trending-up"></i>
+                            +5.3% improvement
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-title">Loss Rate</div>
+                        <div class="metric-value">1.2%</div>
+                        <div class="metric-change metric-reduction">
+                            <i data-lucide="trending-down"></i>
+                            -0.6% reduction
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-title">AUC Score</div>
+                        <div class="metric-value">0.891</div>
+                        <div class="metric-change metric-improvement">
+                            <i data-lucide="trending-up"></i>
+                            +0.034 improvement
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-secondary" onclick="goBack()">Back to Results</button>
+                    <button class="btn btn-primary" onclick="deployTunedModel()">Deploy Tuned Model</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        let currentStep = 1;
+
+        // Show first step immediately
+        document.getElementById('step1').classList.add('visible');
+
+        // Simulate tuning process
+        setTimeout(() => {
+            startTuningProcess();
+        }, 2000);
+
+        function startTuningProcess() {
+            // Step 1: Feature weight adjustment animation
+            animateProgress('progress1', 100, 3000);
+            
+            setTimeout(() => {
+                document.getElementById('loading1').textContent = 'Feature weights optimized!';
+                
+                // Move to step 2
+                setTimeout(() => {
+                    document.getElementById('step2').style.display = 'block';
+                    setTimeout(() => {
+                        document.getElementById('step2').classList.add('visible');
+                        animateProgress('progress2', 100, 4000);
+                        
+                        setTimeout(() => {
+                            document.getElementById('loading2').textContent = 'Model retraining complete!';
+                            
+                            // Move to step 3
+                            setTimeout(() => {
+                                document.getElementById('step3').style.display = 'block';
+                                setTimeout(() => {
+                                    document.getElementById('step3').classList.add('visible');
+                                    lucide.createIcons(); // Refresh icons for new elements
+                                }, 100);
+                            }, 1000);
+                        }, 4000);
+                    }, 100);
+                }, 1000);
+            }, 3000);
+        }
+
+        function animateProgress(elementId, targetWidth, duration) {
+            const element = document.getElementById(elementId);
+            const startTime = Date.now();
+            
+            function updateProgress() {
+                const elapsed = Date.now() - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const currentWidth = progress * targetWidth;
+                
+                element.style.width = currentWidth + '%';
+                
+                if (progress < 1) {
+                    requestAnimationFrame(updateProgress);
+                }
+            }
+            
+            requestAnimationFrame(updateProgress);
+        }
+
+        // Interactive sliders
+        document.querySelectorAll('.weight-slider').forEach(slider => {
+            slider.addEventListener('input', function() {
+                const weightDisplay = this.parentElement.querySelector('.weight-value');
+                weightDisplay.textContent = parseFloat(this.value).toFixed(2);
+            });
+        });
+
+        function goBack() {
+            const referrer = document.referrer;
+            if (referrer.includes('africa-model-selector.html')) {
+                window.location.href = 'africa-model-selector.html';
+            } else {
+                window.location.href = 'model selector.html';
+            }
+        }
+
+        function deployTunedModel() {
+            alert('Tuned model deployed successfully! The optimized model is now active with improved performance metrics.');
+            const referrer = document.referrer;
+            if (referrer.includes('africa-model-selector.html')) {
+                window.location.href = 'africa-index.html';
+            } else {
+                window.location.href = 'india-index.html';
+            }
+        }
+
+        function showAddFeature() {
+            const availableFeatures = [
+                'Employment Stability Score',
+                'Bank Account Age',
+                'Transaction Frequency',
+                'Average Monthly Balance',
+                'Debt-to-Income Ratio',
+                'Credit Mix Score',
+                'Payment Consistency',
+                'Geographic Risk Score',
+                'Device Fingerprint Score',
+                'Behavioral Pattern Score'
+            ];
+            
+            const randomFeature = availableFeatures[Math.floor(Math.random() * availableFeatures.length)];
+            alert(`Adding "${randomFeature}" to the model. This feature will be included in the next retraining cycle.`);
+        }
+
+        function showRemoveFeature() {
+            const features = ['Credit Inquiries 6M', 'Mobile Phone Tenure', 'Monthly Income'];
+            const randomFeature = features[Math.floor(Math.random() * features.length)];
+            alert(`Removing "${randomFeature}" from the model. This feature will be excluded from the next retraining cycle.`);
+        }
+
+        function showAllFeatures() {
+            const allFeatures = [
+                'Credit Utilization Ratio', 'Recent Delinquency 30D', 'Payment History Score',
+                'Monthly Income', 'Mobile Phone Tenure', 'Credit Inquiries 6M',
+                'Employment Stability Score', 'Bank Account Age', 'Transaction Frequency',
+                'Average Monthly Balance', 'Debt-to-Income Ratio', 'Credit Mix Score',
+                'Payment Consistency', 'Geographic Risk Score', 'Device Fingerprint Score',
+                'Behavioral Pattern Score', 'Loan-to-Value Ratio', 'Age of Credit History',
+                'Number of Credit Accounts', 'Recent Credit Applications', 'Income Stability',
+                'Residence Stability', 'Employment Type', 'Credit Limit Utilization'
+            ];
+            
+            alert(`All 24 features in the XGBoost model:\n\n${allFeatures.join('\n')}\n\nCurrently showing top 6 features by importance.`);
+        }
+    </script>
+</body>
+</html>

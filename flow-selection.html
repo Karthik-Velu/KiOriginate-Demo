@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ki originate - model flow selection</title>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary-color: #10b981;
+            --accent-color: #f59e0b;
+            --danger-color: #ef4444;
+            --dark-gray: #374151;
+            --medium-gray: #9ca3af;
+            --light-gray: #f3f4f6;
+            --white: #ffffff;
+            --border-radius: 12px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .container {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            padding: 3rem;
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .header {
+            margin-bottom: 3rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark-gray);
+        }
+
+        .title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--dark-gray);
+            margin-bottom: 1rem;
+        }
+
+        .flow-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .flow-card {
+            background: var(--white);
+            border: 2px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            padding: 3rem 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 280px;
+        }
+
+        .flow-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .flow-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .flow-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .flow-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 2rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+        }
+
+        .prebuilt-icon {
+            background: linear-gradient(135deg, var(--secondary-color), #059669);
+        }
+
+        .custom-icon {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+        }
+
+        .flow-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark-gray);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .flow-button {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 1.2rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            max-width: 200px;
+        }
+
+        .prebuilt-button {
+            background: linear-gradient(135deg, var(--secondary-color), #059669);
+        }
+
+        .flow-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .back-button {
+            background: var(--light-gray);
+            color: var(--dark-gray);
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 0.75rem 1.5rem;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 2rem;
+        }
+
+        .back-button:hover {
+            background: var(--medium-gray);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem;
+                margin: 1rem;
+            }
+
+            .title {
+                font-size: 2rem;
+            }
+
+            .flow-options {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .flow-card {
+                padding: 2.5rem 1.5rem;
+                min-height: 250px;
+            }
+
+            .flow-icon {
+                width: 80px;
+                height: 80px;
+                font-size: 2rem;
+            }
+
+            .flow-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i data-lucide="zap"></i>
+                </div>
+                <div class="logo-text">ki originate</div>
+            </div>
+            <h1 class="title">Choose Your Model Path</h1>
+        </div>
+
+        <div class="flow-options">
+            <!-- Pre-built Model Card -->
+            <div class="flow-card" onclick="selectFlow('prebuilt')">
+                <div class="flow-icon prebuilt-icon">
+                    <i data-lucide="rocket"></i>
+                </div>
+                <h2 class="flow-title">Pre-built Model</h2>
+                <button class="flow-button prebuilt-button">
+                    Deploy
+                </button>
+            </div>
+
+            <!-- Custom Model Card -->
+            <div class="flow-card" onclick="selectFlow('custom')">
+                <div class="flow-icon custom-icon">
+                    <i data-lucide="settings"></i>
+                </div>
+                <h2 class="flow-title">Custom Model</h2>
+                <button class="flow-button">
+                    Build
+                </button>
+            </div>
+        </div>
+
+        <button class="back-button" onclick="goBack()">
+            <i data-lucide="arrow-left"></i> Back to Home
+        </button>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        function selectFlow(flowType) {
+            // Determine which market we're in based on referrer
+            const referrer = document.referrer;
+            const isAfrica = referrer.includes('africa-home.html');
+            
+            if (flowType === 'prebuilt') {
+                // Redirect to market-specific model advisor page
+                if (isAfrica) {
+                    window.location.href = 'africa-model-selector.html';
+                } else {
+                    window.location.href = 'model selector.html';
+                }
+            } else if (flowType === 'custom') {
+                // Redirect to market-specific custom model flow
+                if (isAfrica) {
+                    window.location.href = 'africa-custom-model-builder.html';
+                } else {
+                    window.location.href = 'custom-model-builder.html';
+                }
+            }
+        }
+
+        function goBack() {
+            // Determine which home page to go back to based on current context
+            const referrer = document.referrer;
+            if (referrer.includes('africa-home.html')) {
+                window.location.href = 'africa-home.html';
+            } else {
+                window.location.href = 'india-home.html';
+            }
+        }
+
+        // Add subtle animations on load
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.flow-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 200 + 300);
+            });
+        });
+    </script>
+</body>
+</html>

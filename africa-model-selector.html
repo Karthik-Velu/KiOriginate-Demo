@@ -13,9 +13,9 @@
             --primary-color: #4338CA;
             --secondary-color: #16A34A;
             --light-gray: #F9FAFB;
-            --medium-gray: #E5E7EB;
-            --dark-gray: #4B5563;
-            --text-color: #1F2937;
+            --medium-gray: #D1D5DB;
+            --dark-gray: #1F2937;
+            --text-color: #111827;
             --white: #FFFFFF;
             --border-radius: 0.75rem;
             --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
@@ -756,7 +756,7 @@
              </section>
              <div class="button-group">
                 <button type="button" class="back-button" id="back-btn-4">Back to Mapping</button>
-                <button type="button" class="secondary-button" id="build-new-model-btn">Build New Model</button>
+                <button type="button" class="secondary-button" id="build-new-model-btn">Tune Model Parameters</button>
                 <button type="button" class="submit-button" id="deploy-prebuilt-btn">Deploy Pre-built Model</button>
              </div>
         </div>
@@ -899,56 +899,56 @@
                         <div class="feature-count">1,247 features</div>
                         <div class="feature-list">
                             <div class="feature-item">credit_utilization_ratio</div>
-                            <div class="feature-item">payment_history_score</div>
-                            <div class="feature-item">days_since_last_inquiry</div>
-                            <div class="feature-item">avg_credit_per_account</div>
-                            <div class="feature-item">credit_history_length</div>
+                            <div class="feature-item">recent_delinquency_30d</div>
+                            <div class="feature-item">credit_enquiries_180d</div>
+                            <div class="feature-item">on_time_payment_rate</div>
+                            <div class="feature-item">worst_dpd_12m</div>
                             <div class="feature-item">+ 1,242 more features</div>
                         </div>
                         <button class="see-more-btn" onclick="showFeatureDetails('bureau')">See More</button>
                     </div>
                     <div class="feature-card">
                         <h5>Bank Statement Features</h5>
-                        <div class="feature-count">234 features</div>
+                        <div class="feature-count">342 features</div>
                         <div class="feature-list">
-                            <div class="feature-item">debt_to_income_ratio</div>
-                            <div class="feature-item">monthly_income_stability</div>
-                            <div class="feature-item">avg_balance_3months</div>
-                            <div class="feature-item">transaction_frequency</div>
-                            <div class="feature-item">cash_flow_pattern</div>
-                            <div class="feature-item">+ 229 more features</div>
+                            <div class="feature-item">monthly_debt_repayments</div>
+                            <div class="feature-item">avg_net_surplus</div>
+                            <div class="feature-item">income_volatility</div>
+                            <div class="feature-item">betting_activity_flag</div>
+                            <div class="feature-item">days_with_zero_balance</div>
+                            <div class="feature-item">+ 337 more features</div>
                         </div>
                         <button class="see-more-btn" onclick="showFeatureDetails('bank')">See More</button>
                     </div>
                     <div class="feature-card">
                         <h5>Application Data Features</h5>
-                        <div class="feature-count">38 features</div>
+                        <div class="feature-count">156 features</div>
                         <div class="feature-list">
-                            <div class="feature-item">loan_to_income_ratio</div>
-                            <div class="feature-item">employment_stability_index</div>
-                            <div class="feature-item">home_ownership_flag</div>
-                            <div class="feature-item">education_level_score</div>
-                            <div class="feature-item">loan_purpose_risk</div>
-                            <div class="feature-item">+ 33 more features</div>
+                            <div class="feature-item">loan_amount_requested</div>
+                            <div class="feature-item">loan_purpose_category</div>
+                            <div class="feature-item">employment_type</div>
+                            <div class="feature-item">business_tenure</div>
+                            <div class="feature-item">collateral_type</div>
+                            <div class="feature-item">+ 7 more features</div>
                         </div>
                         <button class="see-more-btn" onclick="showFeatureDetails('application')">See More</button>
                     </div>
                     <div class="feature-card">
                         <h5>Alternative Data Features</h5>
-                        <div class="feature-count">156 features</div>
+                        <div class="feature-count">489 features</div>
                         <div class="feature-list">
-                            <div class="feature-item">digital_footprint_score</div>
-                            <div class="feature-item">social_media_presence</div>
-                            <div class="feature-item">device_usage_pattern</div>
-                            <div class="feature-item">location_stability_index</div>
-                            <div class="feature-item">behavioral_risk_score</div>
-                            <div class="feature-item">+ 151 more features</div>
+                            <div class="feature-item">mobile_phone_tenure</div>
+                            <div class="feature-item">access_to_toilet_premises</div>
+                            <div class="feature-item">ownership_of_scooter</div>
+                            <div class="feature-item">access_to_lpg_cooking</div>
+                            <div class="feature-item">bank_branches_per_1000</div>
+                            <div class="feature-item">+ 33 more features</div>
                         </div>
                         <button class="see-more-btn" onclick="showFeatureDetails('alternative')">See More</button>
                     </div>
                 </div>
                 <div class="info-box">
-                    <p><strong>Total Features Generated:</strong> 1,675 features across all data sources. These features will be automatically evaluated and selected in the next step.</p>
+                    <p><strong>Total Features Generated:</strong> 2,234 features across all data sources. These features will be automatically evaluated and selected in the next step.</p>
                 </div>
             </section>
             <div class="button-group">
@@ -1009,7 +1009,7 @@
                         <div class="feature-importance">
                             <h5>Top 5 Features (SHAP Values)</h5>
                             <div class="feature-weight">
-                                <span>FOIR</span>
+                                <span>DTI</span>
                                 <div class="weight-bar" style="width: 95%"></div>
                                 <span>0.095</span>
                             </div>
@@ -1019,12 +1019,12 @@
                                 <span>0.087</span>
                             </div>
                             <div class="feature-weight">
-                                <span>Mobile Money Volume</span>
+                                <span>Credit Enquiries</span>
                                 <div class="weight-bar" style="width: 82%"></div>
                                 <span>0.082</span>
                             </div>
                             <div class="feature-weight">
-                                <span>Min Income</span>
+                                <span>Unsecured Loan to Total Debt Ratio</span>
                                 <div class="weight-bar" style="width: 78%"></div>
                                 <span>0.078</span>
                             </div>
@@ -1062,12 +1062,12 @@
                         <div class="feature-importance">
                             <h5>Top 5 Features (SHAP Values)</h5>
                             <div class="feature-weight">
-                                <span>credit_score</span>
+                                <span>on_time_payment_rate</span>
                                 <div class="weight-bar" style="width: 92%"></div>
                                 <span>0.092</span>
                             </div>
                             <div class="feature-weight">
-                                <span>loan_to_income_ratio</span>
+                                <span>worst_dpd_12m</span>
                                 <div class="weight-bar" style="width: 85%"></div>
                                 <span>0.085</span>
                             </div>
@@ -1077,12 +1077,12 @@
                                 <span>0.081</span>
                             </div>
                             <div class="feature-weight">
-                                <span>debt_to_income_ratio</span>
+                                <span>access_to_toilet_premises</span>
                                 <div class="weight-bar" style="width: 76%"></div>
                                 <span>0.076</span>
                             </div>
                             <div class="feature-weight">
-                                <span>employment_stability_index</span>
+                                <span>ownership_of_scooter</span>
                                 <div class="weight-bar" style="width: 72%"></div>
                                 <span>0.072</span>
                             </div>
@@ -1125,7 +1125,7 @@
                                 <span>0.086</span>
                             </div>
                             <div class="feature-weight">
-                                <span>credit_score</span>
+                                <span>DPD 60 in Last 24 Months</span>
                                 <div class="weight-bar" style="width: 84%"></div>
                                 <span>0.084</span>
                             </div>
@@ -1186,10 +1186,10 @@
                         <h4>Select Variables for Decision Tree</h4>
                         <div class="input-group">
                             <label class="custom-control checkbox">
-                                <input type="checkbox" name="rule_variables" value="foir" checked disabled>
+                                <input type="checkbox" name="rule_variables" value="ki_score" checked disabled>
                                 <span class="checkmark"></span>
                                 <strong>Ki Score (Always First Variable)</strong>
-                                <input type="number" id="foir-threshold" value="55" min="30" max="80" step="5" class="threshold-input" readonly>
+                                <input type="number" id="ki-score-threshold" value="65" min="1" max="100" step="1" class="threshold-input" readonly>
                             </label>
                             <label class="custom-control checkbox">
                                 <input type="checkbox" name="rule_variables" value="foir">
@@ -2035,13 +2035,19 @@
                 if (e.target.classList.contains('modal')) e.target.classList.remove('active');
             });
             
+            // Check if we should start with custom model flow
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('flow') === 'custom') {
+                showPage('target-selection-page');
+            }
+
             // Initial setup calls
             document.querySelector('input[name="asset_class"]:checked').dispatchEvent(new Event('change'));
             document.querySelector('input[name="bureau_setup"]:checked').dispatchEvent(new Event('change'));
             lucide.createIcons();
 
             // Custom Model Building Flow Event Listeners - Using Event Delegation
-            document.getElementById('build-new-model-btn').addEventListener('click', () => showPage('target-selection-page'));
+            document.getElementById('build-new-model-btn').addEventListener('click', () => window.location.href = 'model-tuning-flow.html');
             document.getElementById('deploy-prebuilt-btn').addEventListener('click', () => {
                 alert('Pre-built model deployed successfully! Redirecting to main application.');
                 window.location.href = 'africa-index.html';
@@ -2124,9 +2130,15 @@
                     showPage('data-selection-page');
                 }
                 
-                // Back button from target selection to backtest results
+                // Back button from target selection
                 if (e.target.id === 'back-to-backtest-btn') {
-                    showPage('backtest-results-page');
+                    // Check if we came from custom flow, go back to flow selection
+                    const urlParams = new URLSearchParams(window.location.search);
+                    if (urlParams.get('flow') === 'custom') {
+                        window.location.href = 'flow-selection.html';
+                    } else {
+                        showPage('backtest-results-page');
+                    }
                 }
             });
 
@@ -2160,8 +2172,22 @@
         function generateDecisionTree() {
             const selectedVariables = Array.from(document.querySelectorAll('input[name="rule_variables"]:checked')).map(cb => cb.value);
             
+            // Ensure Ki Score is always first if it's selected
+            const sortedVariables = [];
+            if (selectedVariables.includes('ki_score')) {
+                sortedVariables.push('ki_score');
+                // Add other variables in their original order
+                selectedVariables.forEach(variable => {
+                    if (variable !== 'ki_score') {
+                        sortedVariables.push(variable);
+                    }
+                });
+            } else {
+                sortedVariables.push(...selectedVariables);
+            }
+            
             // Get threshold values with fallbacks
-            const kiScoreThreshold = document.getElementById('ki-score-threshold')?.value || '650';
+            const kiScoreThreshold = document.getElementById('ki-score-threshold')?.value || '65';
             const ltvThreshold = document.getElementById('ltv-threshold')?.value || '85';
             const ageThreshold = document.getElementById('age-threshold')?.value || '21';
             const foirThreshold = document.getElementById('foir-threshold')?.value || '60';
@@ -2178,16 +2204,16 @@
             let treeHTML = '<div class="decision-tree-container">';
             treeHTML += '<div class="tree-flow">';
 
-            selectedVariables.forEach((variable, index) => {
+            sortedVariables.forEach((variable, index) => {
                 // Calculate rates based on the specific cutoff value and variable type
                 let currentApprovalRate, currentDefaultRate;
                 
                 switch(variable) {
                     case 'ki_score':
-                        // Higher FOIR threshold = stricter = lower approval, lower default
+                        // Higher Ki Score threshold = stricter = lower approval, lower default
                         const kiScoreNum = parseFloat(kiScoreThreshold);
-                        currentApprovalRate = Math.max(60, baseApprovalRate - (kiScoreNum - 650) * 0.1);
-                        currentDefaultRate = Math.max(0.5, baseDefaultRate - (kiScoreNum - 650) * 0.02);
+                        currentApprovalRate = Math.max(60, baseApprovalRate - (kiScoreNum - 65) * 0.3);
+                        currentDefaultRate = Math.max(0.5, baseDefaultRate - (kiScoreNum - 65) * 0.05);
                         break;
                     case 'ltv':
                         // Lower LTV threshold = stricter = lower approval, lower default
@@ -2280,7 +2306,7 @@
                 `;
 
                 // Add arrow connector if not the last node
-                if (index < selectedVariables.length - 1) {
+                if (index < sortedVariables.length - 1) {
                     treeHTML += '<div class="tree-arrow"><i data-lucide="arrow-right"></i></div>';
                 }
             });
@@ -2290,7 +2316,7 @@
             let finalDefaultRate = baseDefaultRate;
             
             // Apply the most restrictive rule's impact
-            selectedVariables.forEach((variable, index) => {
+            sortedVariables.forEach((variable, index) => {
                 const kiScoreNum = parseFloat(kiScoreThreshold);
                 const ltvNum = parseFloat(ltvThreshold);
                 const foirNum = parseFloat(foirThreshold);
@@ -2301,7 +2327,7 @@
                 const enquiriesNum = parseFloat(creditEnquiriesThreshold);
                 
                 // Apply cumulative effects of all rules
-                finalApprovalRate -= (kiScoreNum - 650) * 0.05;
+                finalApprovalRate -= (kiScoreNum - 65) * 0.3;
                 finalApprovalRate -= (85 - ltvNum) * 0.4;
                 finalApprovalRate -= (60 - foirNum) * 0.25;
                 finalApprovalRate -= (incomeNum - 25000) * 0.00015;
@@ -2310,7 +2336,7 @@
                 finalApprovalRate -= (3 - openLoansNum) * 2.5;
                 finalApprovalRate -= (5 - enquiriesNum) * 1.5;
                 
-                finalDefaultRate -= (kiScoreNum - 650) * 0.01;
+                finalDefaultRate -= (kiScoreNum - 65) * 0.05;
                 finalDefaultRate -= (85 - ltvNum) * 0.075;
                 finalDefaultRate -= (60 - foirNum) * 0.05;
                 finalDefaultRate -= (incomeNum - 25000) * 0.000025;
@@ -2346,7 +2372,7 @@
                 }
             }
             
-            generateDynamicCutoffControls(selectedVariables);
+            generateDynamicCutoffControls(sortedVariables);
             const cutoffSection = document.getElementById('cutoff-adjustment-section');
             if (cutoffSection) {
                 cutoffSection.style.display = 'block';
@@ -2363,12 +2389,12 @@
             // Define variable configurations
             const variableConfigs = {
                 ki_score: {
-                    label: 'FOIR',
+                    label: 'Ki Score',
                     condition: '<',
-                    min: 300,
-                    max: 900,
-                    step: 10,
-                    defaultValue: 650,
+                    min: 1,
+                    max: 100,
+                    step: 1,
+                    defaultValue: 65,
                     unit: ''
                 },
                 ltv: {
